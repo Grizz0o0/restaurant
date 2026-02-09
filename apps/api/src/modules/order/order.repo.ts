@@ -79,6 +79,9 @@ export class OrderRepo {
     return this.prisma.order.update({
       where: { id },
       data: { status, updatedById },
+      include: {
+        items: true,
+      },
     })
   }
 }

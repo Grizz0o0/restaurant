@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { Loader2, Package, ChevronDown, ChevronUp } from 'lucide-react';
-import { useSocket } from '@/hooks/use-socket';
+import { useSocket } from '@/providers/socket-provider';
 import { toast } from 'sonner';
 
 import {
@@ -61,7 +61,7 @@ export function OrderHistory() {
     });
 
     // Real-time updates
-    const socket = useSocket();
+    const { socket } = useSocket();
 
     useEffect(() => {
         if (!socket) return;

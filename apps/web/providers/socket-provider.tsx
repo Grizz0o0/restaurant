@@ -26,9 +26,19 @@ export const SocketProvider = ({
     const [isConnected, setIsConnected] = useState(false);
 
     useEffect(() => {
-        const socketInstance = io('http://localhost:3052', {
+        const storedToken = localStorage.getItem('accessToken');
+        const activeToken = token || storedToken;
+
+        if (!activeToken) return;
+
+        // Ensure we connect to the root/base URL by removing /v1/api if present
+        const baseUrl = (
+            process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3052'
+        ).replace(/\/v1\/api\/?$/, '');
+
+        const socketInstance = io(baseUrl, {
             auth: {
-                token: token,
+                token: activeToken,
             },
         });
 

@@ -1,7 +1,8 @@
 export const RoleName = {
     Admin: 'ADMIN',
-    Client: 'CLIENT',
-    Seller: 'SELLER',
+    Client: 'CUSTOMER',
+    Manager: 'MANAGER',
+    Staff: 'STAFF',
     Guest: 'GUEST',
 } as const;
 

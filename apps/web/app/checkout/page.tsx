@@ -79,22 +79,31 @@ export default function CheckoutPage() {
         });
     };
 
-    if (isAuthLoading || isCartLoading) {
+    // Handle redirects
+    useEffect(() => {
+        if (!isAuthLoading && !isAuthenticated) {
+            router.push('/auth/login?redirect=/checkout');
+        }
+    }, [isAuthLoading, isAuthenticated, router]);
+
+    useEffect(() => {
+        if (!isCartLoading && cartData && cartData.items.length === 0) {
+            router.push('/cart');
+        }
+    }, [isCartLoading, cartData, router]);
+
+    if (
+        isAuthLoading ||
+        isCartLoading ||
+        !isAuthenticated ||
+        !cartData ||
+        cartData.items.length === 0
+    ) {
         return (
             <div className="flex h-screen items-center justify-center">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
         );
-    }
-
-    if (!isAuthenticated) {
-        router.push('/auth/login?redirect=/checkout');
-        return null;
-    }
-
-    if (!cartData || cartData.items.length === 0) {
-        router.push('/cart');
-        return null;
     }
 
     const subtotal = cartData.total || 0;

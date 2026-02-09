@@ -69,7 +69,7 @@ const MenuSection = () => {
                 </div>
 
                 {/* Search & Filter */}
-                <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8 max-w-4xl mx-auto">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8 mx-auto">
                     <div className="relative w-full md:w-96">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input

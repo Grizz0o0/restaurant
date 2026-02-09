@@ -8,13 +8,7 @@ import { RoleRepo } from './role.repo'
 import { CreateRoleBodyType, UpdateRoleBodyType } from '@repo/schema'
 import { isUniqueConstraintPrismaError } from '@/shared/utils'
 
-// Define constants locally if not available globally, or import from constants package
-// Assuming standard role names for protection
-const RoleName = {
-  Admin: 'ADMIN',
-  Client: 'CLIENT',
-  Seller: 'SELLER',
-} as const
+import { RoleName } from '@repo/constants'
 
 @Injectable()
 export class RoleService {
@@ -25,7 +19,7 @@ export class RoleService {
     if (!role) {
       throw new NotFoundException('Role not found')
     }
-    const baseRoles: string[] = [RoleName.Admin, RoleName.Client, RoleName.Seller]
+    const baseRoles: string[] = [RoleName.Admin, RoleName.Client, RoleName.Manager, RoleName.Staff]
 
     if (baseRoles.includes(role.name)) {
       throw new ForbiddenException('Role is protected')

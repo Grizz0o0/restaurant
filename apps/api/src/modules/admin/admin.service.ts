@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { UserStatus } from '@repo/constants'
+import { RoleName, UserStatus } from '@repo/constants'
 import { AuthRepository } from '@/modules/auth/auth.repo'
 import { SharedUserRepository } from '@/shared/repositories/shared-user.repo'
 import { PrismaService } from '@/shared/prisma/prisma.service'
@@ -48,7 +48,7 @@ export class AdminService {
       }),
       // 5. Total Customers
       this.prisma.user.count({
-        where: { role: { name: 'USER' } },
+        where: { role: { name: RoleName.Client } },
       }),
       // 6. Active Dishes
       this.prisma.dish.count({
