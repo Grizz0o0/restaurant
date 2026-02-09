@@ -5,6 +5,21 @@ import { EmailService } from '@/shared/services/email.service'
 import { PrismaService } from '@/shared/prisma/prisma.service'
 import { OnEvent } from '@nestjs/event-emitter'
 import envConfig from '@/shared/config'
+
+// Helper to translate order status to Vietnamese
+function getOrderStatusDisplay(status: string): string {
+  const statusMap: Record<string, string> = {
+    PENDING: 'Chờ xác nhận',
+    CONFIRMED: 'Đã xác nhận',
+    PREPARING: 'Đang chuẩn bị',
+    READY: 'Sẵn sàng',
+    DELIVERING: 'Đang giao hàng',
+    COMPLETED: 'Hoàn thành',
+    CANCELLED: 'Đã hủy',
+  }
+  return statusMap[status] || status
+}
+
 @Injectable()
 export class NotificationService implements OnModuleInit {
   private readonly logger = new Logger(NotificationService.name)
@@ -96,7 +111,38 @@ export class NotificationService implements OnModuleInit {
     // Fetch user email if not passed
     const user = await this.prisma.user.findUnique({ where: { id: userId } })
     if (user && user.email) {
-      await this.emailService.sendNotification(user.email, title, body)
+      if (type === 'ORDER_UPDATE' && data?.orderId) {
+        try {
+          const order = await this.prisma.order.findUnique({
+            where: { id: data.orderId },
+            include: { items: true },
+          })
+
+          if (order) {
+            await this.emailService.sendOrderNotification(user.email, {
+              orderId: order.id,
+              customerName: user.name || 'Quý khách',
+              items: order.items.map((item) => ({
+                name: item.dishName,
+                quantity: item.quantity,
+                price: Number(item.price),
+              })),
+              total: Number(order.totalAmount),
+              status: getOrderStatusDisplay(order.status),
+              orderUrl: `${envConfig.FRONTEND_URL}/profile/orders/${order.id}`,
+            })
+            return
+          }
+        } catch (error) {
+          this.logger.error(`Failed to send order email to ${user.email}`, error)
+        }
+      }
+
+      try {
+        await this.emailService.sendNotification(user.email, title, body)
+      } catch (error) {
+        this.logger.error(`Failed to send notification email to ${user.email}`, error)
+      }
     }
   }
 
@@ -112,15 +158,68 @@ export class NotificationService implements OnModuleInit {
   }
 
   @OnEvent('promotion.created') // Example event
-  async handlePromotionCreated(payload: { code: string; description: string; userIds?: string[] }) {
-    if (payload.userIds) {
-      for (const userId of payload.userIds) {
-        await this.send(
-          userId,
-          'Mã khuyến mãi mới!',
-          `Nhập mã ${payload.code} để nhận ưu đãi: ${payload.description}`,
-          'PROMOTION',
-        )
+  async handlePromotionCreated(payload: {
+    promotionId: string
+    code: string
+    description: string
+    userIds?: string[]
+  }) {
+    if (payload.userIds && payload.userIds.length > 0) {
+      // Fetch full promotion details
+      const promotion = await this.prisma.promotion.findUnique({
+        where: { id: payload.promotionId },
+      })
+
+      if (!promotion) {
+        this.logger.error(`Promotion ${payload.promotionId} not found`)
+        return
+      }
+
+      // Batch fetch all users to avoid N+1 query
+      const users = await this.prisma.user.findMany({
+        where: { id: { in: payload.userIds } },
+        select: { id: true, email: true, name: true },
+      })
+
+      for (const user of users) {
+        // Send notification to app/socket
+        try {
+          await this.send(
+            user.id,
+            'Mã khuyến mãi mới!',
+            `Nhập mã ${payload.code} để nhận ưu đãi: ${payload.description}`,
+            'PROMOTION',
+          )
+        } catch (error) {
+          this.logger.error(`Failed to send promotion notification to user ${user.id}`, error)
+        }
+
+        // Send rich email
+        if (user.email) {
+          try {
+            let discount = ''
+            if (promotion.percentage) {
+              discount = `Giảm ${Number(promotion.percentage)}%`
+            } else if (promotion.amount) {
+              discount = new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+              }).format(Number(promotion.amount))
+            }
+
+            await this.emailService.sendPromotionNotification(user.email, {
+              code: promotion.code,
+              description: payload.description,
+              validFrom: promotion.validFrom,
+              validTo: promotion.validTo,
+              minOrderValue: promotion.minOrderValue ? Number(promotion.minOrderValue) : undefined,
+              discount,
+              unsubscribeToken: Buffer.from(user.id).toString('base64'),
+            })
+          } catch (error) {
+            this.logger.error(`Failed to send promotion email to ${user.email}`, error)
+          }
+        }
       }
     }
   }
@@ -136,9 +235,17 @@ export class NotificationService implements OnModuleInit {
       `Low stock alert for ${payload.itemName}: ${payload.currentStock} (Threshold: ${payload.threshold})`,
     )
 
+    // Fetch inventory details for unit
+    const inventory = await this.prisma.inventory.findUnique({
+      where: { id: payload.inventoryId },
+    })
+
+    if (!inventory) {
+      this.logger.error(`Inventory ${payload.inventoryId} not found`)
+      return
+    }
+
     // Find Admins/Managers to notify
-    // Assuming 'ADMIN' and 'MANAGER' roles exist.
-    // Optimized: Fetch users where role.name in ['ADMIN', 'MANAGER']
     const admins = await this.prisma.user.findMany({
       where: {
         role: {
@@ -146,10 +253,11 @@ export class NotificationService implements OnModuleInit {
         },
         status: 'ACTIVE',
       },
-      select: { id: true },
+      select: { id: true, email: true },
     })
 
     for (const admin of admins) {
+      // Send notification to app/socket
       await this.send(
         admin.id,
         'Cảnh báo tồn kho!',
@@ -157,6 +265,21 @@ export class NotificationService implements OnModuleInit {
         'LOW_STOCK',
         { inventoryId: payload.inventoryId },
       )
+
+      // Send rich email
+      if (admin.email) {
+        try {
+          await this.emailService.sendLowStockAlert(admin.email, {
+            itemName: payload.itemName,
+            currentStock: Number(inventory.quantity),
+            threshold: Number(inventory.threshold),
+            unit: inventory.unit,
+            inventoryUrl: `${envConfig.FRONTEND_URL}/admin/inventory`,
+          })
+        } catch (error) {
+          this.logger.error(`Failed to send low stock email to ${admin.email}`, error)
+        }
+      }
     }
   }
 

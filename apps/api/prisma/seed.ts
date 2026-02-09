@@ -1,5 +1,13 @@
 import * as bcrypt from 'bcrypt'
-import { PrismaClient, UserStatus, HTTPMethod, StaffPosition } from '../src/generated/prisma/client'
+import {
+  PrismaClient,
+  UserStatus,
+  HTTPMethod,
+  StaffPosition,
+  ReservationStatus,
+  Channel,
+  Prisma,
+} from '../src/generated/prisma/client'
 import envConfig from '../src/shared/config'
 import { PrismaPg } from '@prisma/adapter-pg'
 
@@ -15,35 +23,34 @@ async function main() {
   // =================================================================================================
   console.log('Cleaning up old data...')
   try {
-    // Delete dependents first
-    await prisma.cartItem.deleteMany({})
-    await prisma.userInteraction.deleteMany({})
-    await prisma.review.deleteMany({})
-    await prisma.inventoryDish.deleteMany({})
-    await prisma.inventoryTransaction.deleteMany({})
-    await prisma.inventory.deleteMany({})
+    // await prisma.cartItem.deleteMany({})
+    // await prisma.userInteraction.deleteMany({})
+    // await prisma.review.deleteMany({})
+    // await prisma.inventoryDish.deleteMany({})
+    // await prisma.inventoryTransaction.deleteMany({})
+    // await prisma.inventory.deleteMany({})
 
-    await prisma.promotion.deleteMany({})
+    // await prisma.promotion.deleteMany({})
 
     // Dishes & SKUs
-    await prisma.sKU.deleteMany({})
-    await prisma.variantOption.deleteMany({})
-    await prisma.variant.deleteMany({})
-    await prisma.dishTranslation.deleteMany({})
-    await prisma.dish.deleteMany({})
+    // await prisma.sKU.deleteMany({})
+    // await prisma.variantOption.deleteMany({})
+    // await prisma.variant.deleteMany({})
+    // await prisma.dishTranslation.deleteMany({})
+    // await prisma.dish.deleteMany({})
 
     // Categories
-    await prisma.dishCategoryTranslation.deleteMany({})
-    await prisma.dishCategory.deleteMany({})
+    // await prisma.dishCategoryTranslation.deleteMany({})
+    // await prisma.dishCategory.deleteMany({})
 
     // Restaurant & Tables
-    await prisma.restaurantStaff.deleteMany({})
-    await prisma.restaurantTable.deleteMany({})
-    await prisma.restaurant.deleteMany({})
+    // await prisma.restaurantStaff.deleteMany({})
+    // await prisma.restaurantTable.deleteMany({})
+    // await prisma.restaurant.deleteMany({})
 
     // Suppliers
-    await prisma.supplierTranslation.deleteMany({})
-    await prisma.supplier.deleteMany({})
+    // await prisma.supplierTranslation.deleteMany({})
+    // await prisma.supplier.deleteMany({})
 
     console.log('✓ Old data cleaned')
   } catch (e) {
@@ -224,7 +231,7 @@ async function main() {
   })
 
   const clientEmail = 'client@example.com'
-  await prisma.user.upsert({
+  const clientUser = await prisma.user.upsert({
     where: { email: clientEmail },
     update: {},
     create: {
@@ -236,6 +243,48 @@ async function main() {
       status: UserStatus.ACTIVE,
     },
   })
+
+  // Seed Addresses
+  const existingAddresses = await prisma.userAddress.count({ where: { userId: clientUser.id } })
+  if (existingAddresses === 0) {
+    await prisma.userAddress.createMany({
+      data: [
+        {
+          userId: clientUser.id,
+          label: 'Nhà riêng',
+          recipientName: 'Nguyen Van A',
+          phoneNumber: '0987654321',
+          address: '123 Đường Láng, Đống Đa, Hà Nội',
+          isDefault: true,
+        },
+        {
+          userId: clientUser.id,
+          label: 'Công ty',
+          recipientName: 'Nguyen Van A',
+          phoneNumber: '0987654321',
+          address: 'Tòa nhà Tech, Cầu Giấy, Hà Nội',
+          isDefault: false,
+        },
+      ],
+    })
+    console.log('✓ User addresses created')
+  }
+
+  // Seed Preferences
+  const existingPref = await prisma.userPreference.findFirst({ where: { userId: clientUser.id } })
+  if (!existingPref) {
+    await prisma.userPreference.create({
+      data: {
+        userId: clientUser.id,
+        preferences: {
+          allergies: ['Đậu phộng', 'Hải sản'],
+          spicinessLevel: 2, // 0-3
+          favoriteCuisines: ['Vietnamese', 'Japanese'],
+        },
+      },
+    })
+    console.log('✓ User preferences created')
+  }
 
   const managerEmail = 'manager@example.com'
   await prisma.user.upsert({
@@ -270,57 +319,120 @@ async function main() {
   // 4. RESTAURANT & TABLES
   // =================================================================================================
   console.log('Creating restaurant data...')
-  const restaurant = await prisma.restaurant.create({
-    data: {
-      name: 'Bamixo Food & Tea',
-      address: 'Hoang Cong, Ha Dong, Hanoi',
-      phone: '0363290475',
-      tables: {
-        create: [
-          ...Array.from({ length: 12 }, (_, i) => ({
-            tableNumber: `T-${(i + 1).toString().padStart(2, '0')}`,
-            capacity: 4,
-            qrCode: `QR-T${(i + 1).toString().padStart(2, '0')}`,
-          })),
-          { tableNumber: 'VIP-01', capacity: 10, qrCode: 'QR-VIP01' },
-          { tableNumber: 'VIP-02', capacity: 10, qrCode: 'QR-VIP02' },
-          { tableNumber: 'VIP-03', capacity: 10, qrCode: 'QR-VIP03' },
-        ],
+
+  // Try to find existing restaurant first to avoid hard reset
+  let restaurant = await prisma.restaurant.findFirst()
+
+  if (!restaurant) {
+    restaurant = await prisma.restaurant.create({
+      data: {
+        name: 'Bamixo Food & Tea',
+        address: 'Hoang Cong, Ha Dong, Hanoi',
+        phone: '0363290475',
       },
+    })
+    console.log('✓ Restaurant created')
+  } else {
+    console.log(`✓ Using existing restaurant: ${restaurant.name}`)
+  }
+
+  // Seed Tables (T-01 to T-12 + VIP)
+  const tableTargets = [
+    ...Array.from({ length: 12 }, (_, i) => {
+      const num = (i + 1).toString().padStart(2, '0')
+      return {
+        tableNumber: `T-${num}`,
+        capacity: 4,
+        qrCode: `QR-T${num}`,
+      }
+    }),
+    { tableNumber: 'VIP-01', capacity: 10, qrCode: 'QR-VIP01' },
+    { tableNumber: 'VIP-02', capacity: 10, qrCode: 'QR-VIP02' },
+    { tableNumber: 'VIP-03', capacity: 10, qrCode: 'QR-VIP03' },
+  ]
+
+  for (const t of tableTargets) {
+    // Check if table exists
+    const existingTable = await prisma.restaurantTable.findFirst({
+      where: {
+        tableNumber: t.tableNumber,
+        restaurantId: restaurant.id,
+      },
+    })
+
+    if (existingTable) {
+      console.log(`Skipped ${t.tableNumber} (Exists)`)
+    } else {
+      await prisma.restaurantTable.create({
+        data: {
+          tableNumber: t.tableNumber,
+          capacity: t.capacity,
+          qrCode: t.qrCode,
+          status: 'AVAILABLE',
+          restaurantId: restaurant.id,
+        },
+      })
+      console.log(`Created ${t.tableNumber}`)
+    }
+  }
+
+  // Seed Restaurant Manager
+  const existingManager = await prisma.restaurantStaff.findFirst({
+    where: {
+      userId: adminUser.id,
+      restaurantId: restaurant.id,
     },
   })
 
-  await prisma.restaurantStaff.create({
-    data: {
-      restaurantId: restaurant.id,
-      userId: adminUser.id,
-      position: StaffPosition.MANAGER,
-    },
-  })
-  console.log('✓ Restaurant & Tables created')
+  if (!existingManager) {
+    await prisma.restaurantStaff.create({
+      data: {
+        restaurantId: restaurant.id,
+        userId: adminUser.id,
+        position: StaffPosition.MANAGER,
+      },
+    })
+    console.log('✓ Restaurant Manager assigned')
+  } else {
+    console.log('✓ Restaurant Manager already assigned')
+  }
+  console.log('✓ Restaurant & Tables created/updated')
 
   // =================================================================================================
   // 5. SUPPLIERS
   // =================================================================================================
   console.log('Creating suppliers...')
-  const supplier = await prisma.supplier.create({
-    data: {
-      name: 'Bamicha Supplies',
-      contactName: 'Mr. Supplier',
-      rating: 4.5,
-      supplierTranslations: {
-        create: [
-          {
-            languageId: viLang.id,
-            name: 'Bamicha Supplies',
-            description: 'Nhà cung cấp thực phẩm uy tín',
-          },
-          { languageId: enLang.id, name: 'Bamicha Supplies', description: 'Premium food supplier' },
-        ],
-      },
-    },
+
+  let supplier = await prisma.supplier.findFirst({
+    where: { name: 'Bamicha Supplies' },
   })
-  console.log('✓ Supplier created')
+
+  if (!supplier) {
+    supplier = await prisma.supplier.create({
+      data: {
+        name: 'Bamicha Supplies',
+        contactName: 'Mr. Supplier',
+        rating: 4.5,
+        supplierTranslations: {
+          create: [
+            {
+              languageId: viLang.id,
+              name: 'Bamicha Supplies',
+              description: 'Nhà cung cấp thực phẩm uy tín',
+            },
+            {
+              languageId: enLang.id,
+              name: 'Bamicha Supplies',
+              description: 'Premium food supplier',
+            },
+          ],
+        },
+      },
+    })
+    console.log('✓ Supplier created')
+  } else {
+    console.log('✓ Supplier already exists')
+  }
 
   // =================================================================================================
   // 6. INVENTORY
@@ -343,89 +455,97 @@ async function main() {
   const inventoryMap = new Map<string, string>() // Name -> ID
 
   for (const item of inventoryItemsData) {
-    const inv = await prisma.inventory.create({
-      data: {
+    // Check if item exists in this restaurant
+    const existingInv = await prisma.inventory.findFirst({
+      where: {
         restaurantId: restaurant.id,
-        supplierId: supplier.id,
         itemName: item.name,
-        unit: item.unit,
-        quantity: item.quantity,
-        threshold: item.threshold,
       },
     })
-    inventoryMap.set(item.name, inv.id)
+
+    if (!existingInv) {
+      const inv = await prisma.inventory.create({
+        data: {
+          restaurantId: restaurant.id,
+          supplierId: supplier.id,
+          itemName: item.name,
+          unit: item.unit,
+          quantity: item.quantity,
+          threshold: item.threshold,
+        },
+      })
+      inventoryMap.set(item.name, inv.id)
+      console.log(`Created inventory: ${item.name}`)
+    } else {
+      inventoryMap.set(item.name, existingInv.id)
+      // console.log(`Skipped inventory: ${item.name}`)
+    }
   }
-  console.log('✓ Inventory created')
+  console.log('✓ Inventory created/checked')
 
   // =================================================================================================
   // 7. CATEGORIES
   // =================================================================================================
   console.log('Creating categories...')
-  const banhMiCat = await prisma.dishCategory.create({
-    data: {
-      dishCategoryTranslations: {
-        create: [
-          { languageId: viLang.id, name: 'Bánh Mì', description: 'Bánh mì nóng giòn' },
-          { languageId: enLang.id, name: 'Banh Mi', description: 'Vietnamese Baguette' },
-        ],
-      },
-    },
-  })
-  const xoiCat = await prisma.dishCategory.create({
-    data: {
-      dishCategoryTranslations: {
-        create: [
-          { languageId: viLang.id, name: 'Xôi', description: 'Xôi các loại' },
-          { languageId: enLang.id, name: 'Sticky Rice', description: 'Sticky Rice' },
-        ],
-      },
-    },
-  })
-  const drinkCat = await prisma.dishCategory.create({
-    data: {
-      dishCategoryTranslations: {
-        create: [
-          { languageId: viLang.id, name: 'Đồ Uống', description: 'Giải khát' },
-          { languageId: enLang.id, name: 'Drinks', description: 'Beverages' },
-        ],
-      },
-    },
-  })
-  const snackCat = await prisma.dishCategory.create({
-    data: {
-      dishCategoryTranslations: {
-        create: [
-          { languageId: viLang.id, name: 'Ăn Vặt', description: 'Đồ ăn nhẹ' },
-          { languageId: enLang.id, name: 'Snacks', description: 'Light snacks' },
-        ],
-      },
-    },
-  })
-  const nemNuongCat = await prisma.dishCategory.create({
-    data: {
-      dishCategoryTranslations: {
-        create: [
-          { languageId: viLang.id, name: 'Nem Nướng', description: 'Nem nướng Nha Trang' },
-          {
+
+  // Helper to get or create category
+  const getOrCreateCategory = async (
+    viName: string,
+    enName: string,
+    viDesc: string,
+    enDesc: string,
+  ) => {
+    // Check by EN name translation
+    // We can't easy query deep relation with exact match easily in standard prisma without some overhead or raw query
+    // BUT we can search: findFirst where categoryTranslations some (languageId='en' AND name=enName)
+    const existing = await prisma.dishCategory.findFirst({
+      where: {
+        dishCategoryTranslations: {
+          some: {
             languageId: enLang.id,
-            name: 'Grilled Pork Sausage',
-            description: 'Grilled Pork Sausage',
+            name: enName,
           },
-        ],
+        },
       },
-    },
-  })
-  const banhCaCat = await prisma.dishCategory.create({
-    data: {
-      dishCategoryTranslations: {
-        create: [
-          { languageId: viLang.id, name: 'Bánh Cá', description: 'Bánh cá Taiyaki' },
-          { languageId: enLang.id, name: 'Taiyaki', description: 'Fish-shaped cake' },
-        ],
+    })
+
+    if (existing) return existing
+
+    return await prisma.dishCategory.create({
+      data: {
+        dishCategoryTranslations: {
+          create: [
+            { languageId: viLang.id, name: viName, description: viDesc },
+            { languageId: enLang.id, name: enName, description: enDesc },
+          ],
+        },
       },
-    },
-  })
-  console.log('✓ Categories created')
+    })
+  }
+
+  const banhMiCat = await getOrCreateCategory(
+    'Bánh Mì',
+    'Banh Mi',
+    'Bánh mì nóng giòn',
+    'Vietnamese Baguette',
+  )
+  const xoiCat = await getOrCreateCategory('Xôi', 'Sticky Rice', 'Xôi các loại', 'Sticky Rice')
+  const drinkCat = await getOrCreateCategory('Đồ Uống', 'Drinks', 'Giải khát', 'Beverages')
+  const snackCat = await getOrCreateCategory('Ăn Vặt', 'Snacks', 'Đồ ăn nhẹ', 'Light snacks')
+  const nemNuongCat = await getOrCreateCategory(
+    'Nem Nướng',
+    'Grilled Pork Sausage',
+    'Nem nướng Nha Trang',
+    'Grilled Pork Sausage',
+  )
+  const banhCaCat = await getOrCreateCategory(
+    'Bánh Cá',
+    'Taiyaki',
+    'Bánh cá Taiyaki',
+    'Fish-shaped cake',
+  )
+
+  console.log('✓ Categories created/checked')
 
   // =================================================================================================
   // 8. DISHES & RECIPES
@@ -930,11 +1050,30 @@ async function main() {
   ]
 
   for (const dishData of dishes) {
+    // Check existence by EN name
+    const existingDish = await prisma.dish.findFirst({
+      where: {
+        dishTranslations: {
+          some: {
+            languageId: enLang.id,
+            name: dishData.en.name,
+          },
+        },
+      },
+    })
+
+    if (existingDish) {
+      // console.log(`Skipped dish: ${dishData.en.name}`)
+      continue
+    }
+
     const dish = await prisma.dish.create({
       data: {
         basePrice: dishData.price,
         supplierId: supplier.id,
         categories: { connect: { id: dishData.catId } },
+        isActive: true, // Ensuring default active
+
         dishTranslations: {
           create: [
             { languageId: viLang.id, name: dishData.vi.name, description: dishData.vi.desc },
@@ -1014,65 +1153,237 @@ async function main() {
         }
       }
     }
+    console.log(`Created dish: ${dishData.en.name}`)
   }
-  console.log('✓ Dishes created')
+  console.log('✓ Dishes created/checked')
 
   // =================================================================================================
   // 9. PROMOTIONS
   // =================================================================================================
   console.log('Creating promotions...')
-  const today = new Date()
-  const nextMonth = new Date(today)
-  nextMonth.setMonth(today.getMonth() + 1)
-  const lastMonth = new Date(today)
-  lastMonth.setMonth(today.getMonth() - 1)
 
-  // Active Type Definitions needs to be imported or hardcoded using the enum values if imports fail
-  // We imported 'PromotionType' but strictly checks might fail if I didn't add it to lines 2-8.
-  // Actually, I didn't import PromotionType. I should add it or use string/enum access.
-  // I will check imports at the top. The existing imports are:
-  // PrismaClient, UserStatus, HTTPMethod, StaffPosition, Channel.
-  // I need to make sure I use string literals if I didn't import the enum, or just import it.
-  // For safety in this big block replace, I'll use the 'PromotionType' from the PrismaClient (which is a type, but the values are usually available on the client instance or exported).
-  // Actually, let's just stick to strings if Prisma allows, or better:
-  // I'll assume they are exported from generated runtime or I can just use string 'FIXED' | 'PERCENTAGE'.
-  // Prisma enums in TS are usually objects.
+  const promo1 = await prisma.promotion.findFirst({ where: { code: 'WELCOME50' } })
+  if (!promo1) {
+    const today = new Date()
+    const nextMonth = new Date(today)
+    nextMonth.setMonth(today.getMonth() + 1)
 
-  await prisma.promotion.create({
-    data: {
-      code: 'WELCOME50',
-      type: 'PERCENTAGE', // Enums can often be passed as strings in Prisma
-      amount: 0,
-      percentage: 50,
-      minOrderValue: 100000,
-      validFrom: today,
-      validTo: nextMonth,
-      usageLimit: 100,
-    },
+    await prisma.promotion.create({
+      data: {
+        code: 'WELCOME50',
+        type: 'PERCENTAGE',
+        amount: 0,
+        percentage: 50,
+        minOrderValue: 100000,
+        validFrom: today,
+        validTo: nextMonth,
+        usageLimit: 100,
+      },
+    })
+    console.log('✓ Promotion WELCOME50 created')
+  }
+
+  const promo2 = await prisma.promotion.findFirst({ where: { code: 'SUMMER_SALE' } })
+  if (!promo2) {
+    const today = new Date()
+    const nextMonth = new Date(today)
+    nextMonth.setMonth(today.getMonth() + 1)
+
+    await prisma.promotion.create({
+      data: {
+        code: 'SUMMER_SALE',
+        type: 'FIXED',
+        amount: 20000,
+        percentage: 0,
+        validFrom: today,
+        validTo: nextMonth,
+        minOrderValue: 50000,
+      },
+    })
+    console.log('✓ Promotion SUMMER_SALE created')
+  }
+  console.log('✓ Promotions created/checked')
+
+  // =================================================================================================
+  // 10. RESERVATIONS
+  // =================================================================================================
+  console.log('Creating reservations...')
+
+  const tables = await prisma.restaurantTable.findMany({
+    where: { restaurantId: restaurant.id },
+    take: 3,
   })
 
-  await prisma.promotion.create({
-    data: {
-      code: 'SUMMER_SALE',
-      type: 'FIXED',
-      amount: 20000,
-      validFrom: today,
-      validTo: nextMonth,
-      minOrderValue: 50000,
-    },
-  })
+  if (tables.length > 0) {
+    const today = new Date()
+    // 1. Pending (Tomorrow 19:00)
+    const tomorrow = new Date(today)
+    tomorrow.setDate(today.getDate() + 1)
+    tomorrow.setHours(19, 0, 0, 0)
 
-  await prisma.promotion.create({
-    data: {
-      code: 'EXPIRED_DEAL',
-      type: 'PERCENTAGE',
-      amount: 0,
-      percentage: 10,
-      validFrom: lastMonth,
-      validTo: lastMonth, // Already expired
-    },
-  })
-  console.log('✓ Promotions created')
+    // 2. Confirmed (Next week 20:00)
+    const nextWeek = new Date(today)
+    nextWeek.setDate(today.getDate() + 7)
+    nextWeek.setHours(20, 0, 0, 0)
+
+    // 3. Completed (Yesterday 18:30)
+    const yesterday = new Date(today)
+    yesterday.setDate(today.getDate() - 1)
+    yesterday.setHours(18, 30, 0, 0)
+
+    const reservationsData = [
+      {
+        userId: clientUser.id,
+        tableId: tables[0].id,
+        reservationTime: tomorrow,
+        guests: 2,
+        status: ReservationStatus.PENDING,
+        notes: 'Gần cửa sổ',
+        channel: Channel.WEB,
+      },
+      {
+        userId: clientUser.id,
+        tableId: tables[tables.length > 1 ? 1 : 0].id,
+        reservationTime: nextWeek,
+        guests: 4,
+        status: ReservationStatus.CONFIRMED,
+        channel: Channel.WEB,
+      },
+      {
+        userId: clientUser.id,
+        tableId: tables[0].id,
+        reservationTime: yesterday,
+        guests: 2,
+        status: ReservationStatus.COMPLETED,
+        notes: 'Sinh nhật',
+        channel: Channel.WEB,
+      },
+      {
+        userId: clientUser.id,
+        tableId: tables[tables.length > 1 ? 1 : 0].id,
+        reservationTime: yesterday,
+        guests: 4,
+        status: ReservationStatus.CANCELLED,
+        notes: 'Bận đột xuất',
+        channel: Channel.WEB,
+      },
+    ]
+
+    for (const res of reservationsData) {
+      const exists = await prisma.reservation.findFirst({
+        where: {
+          userId: res.userId,
+          reservationTime: res.reservationTime,
+        },
+      })
+      if (!exists) {
+        await prisma.reservation.create({
+          data: res,
+        })
+      }
+    }
+    console.log('✓ Reservations created')
+  }
+
+  // =================================================================================================
+  // 11. MOCK ORDERS & REVIEWS
+  // =================================================================================================
+  console.log('Creating mock orders & reviews...')
+
+  // Only create if we have very few orders to avoid duplicating on every seed
+  const orderCount = await prisma.order.count()
+
+  if (orderCount < 5) {
+    const allDishes = await prisma.dish.findMany()
+    const table = await prisma.restaurantTable.findFirst({ where: { restaurantId: restaurant.id } })
+
+    if (allDishes.length > 0 && table) {
+      // Fetch English names for dishes to use in snapshots
+      const dishesWithTrans = await prisma.dish.findMany({
+        include: {
+          dishTranslations: {
+            where: { languageId: enLang.id },
+          },
+          skus: {
+            where: { value: 'DEFAULT' }, // Changed skuValue to value based on schema
+            take: 1,
+          },
+        },
+      })
+
+      // Create 20 random past orders
+      for (let i = 0; i < 20; i++) {
+        const isCompleted = Math.random() > 0.3
+        const status = isCompleted ? 'COMPLETED' : Math.random() > 0.5 ? 'PENDING' : 'CANCELLED'
+
+        const createdAt = new Date()
+        createdAt.setDate(createdAt.getDate() - Math.floor(Math.random() * 30)) // Random last 30 days
+
+        // Random 1-3 items
+        const numItems = Math.floor(Math.random() * 3) + 1
+        let totalAmount = 0
+        const orderItemsData: Prisma.DishSKUSnapshotUncheckedCreateWithoutOrderInput[] = []
+
+        for (let j = 0; j < numItems; j++) {
+          const dish = dishesWithTrans[Math.floor(Math.random() * dishesWithTrans.length)]
+          const qty = Math.floor(Math.random() * 2) + 1
+          const price = Number(dish.basePrice) || 20000
+          const dishName = dish.dishTranslations[0]?.name || 'Unknown Dish'
+          // Use default SKU if available
+          const skuId = dish.skus[0]?.id
+
+          totalAmount += price * qty
+
+          orderItemsData.push({
+            dishName: dishName,
+            quantity: qty,
+            price: new Prisma.Decimal(price),
+            skuValue: 'DEFAULT', // Assuming default for mock
+            skuId: skuId,
+            // Removed 'note' as it's not in DishSKUSnapshot
+          })
+        }
+
+        const order = await prisma.order.create({
+          data: {
+            restaurantId: restaurant.id,
+            tableId: table.id,
+            totalAmount: new Prisma.Decimal(totalAmount),
+            status: status as any,
+            channel: 'WEB', // Added channel as it might be required
+            createdAt: createdAt,
+            updatedAt: createdAt,
+            items: {
+              // Changed from orderItems to items
+              create: orderItemsData,
+            },
+          },
+        })
+
+        // Add review for completed orders
+        if (status === 'COMPLETED' && Math.random() > 0.6) {
+          // Pick a random dish from the order to review
+          const randomDishItem = dishesWithTrans.find(
+            (d) => d.dishTranslations[0]?.name === orderItemsData[0].dishName,
+          )
+
+          if (randomDishItem) {
+            await prisma.review.create({
+              data: {
+                dishId: randomDishItem.id, // Linked to a specific dish
+                userId: adminUser.id, // Needs a user, usage admin for seed
+                content: Math.random() > 0.5 ? 'Very delicious!' : 'Great service!', // 'content' not 'comment' based on schema?
+                rating: Math.floor(Math.random() * 2) + 4,
+              },
+            })
+          }
+        }
+      }
+      console.log('✓ Mock orders & reviews created')
+    }
+  } else {
+    console.log('✓ Mock orders/reviews skipped (already enough data)')
+  }
 
   console.log('✅ Database seeding completed!')
 }

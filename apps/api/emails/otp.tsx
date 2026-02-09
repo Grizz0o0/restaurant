@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {
   Body,
   Container,
@@ -9,7 +8,9 @@ import {
   Link,
   Section,
   Text,
+  Hr,
 } from '@react-email/components'
+import * as React from 'react'
 
 interface OTPEmailProps {
   otpCode: string
@@ -17,129 +18,145 @@ interface OTPEmailProps {
 }
 
 const logoUrl =
-  'https://blogger.googleusercontent.com/img/a/AVvXsEgsMvyExhwCaZ_ZmULk4f3nxsEnrb-02uuoTfS0UVNFi7d1RRN7Mz8cIKKktfU6DA09ezVx_k5BSXvjJPJyhGaa24sdNtrXotfMSrWKry18HzflpHJeHPeA-D04XmqdgaiXpTQIWZvAFIIETUcWC_d6UBNFnrnXleKq5HE1bznGZMOaLlTdqFG3-AEfNxM'
+  'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770633723/restaurant-app/avatar/yihgebwzfz3olvsezvpb.png'
 
 export const OTPEmail = ({ otpCode, title }: OTPEmailProps) => (
   <Html>
-    <Head>
-      <title>{title}</title>
-    </Head>
+    <Head />
     <Body style={main}>
       <Container style={container}>
-        <Img src={logoUrl} width="212" height="88" alt="Plaid" style={logo} />
-        <Text style={tertiary}>Mã xác thực OTP</Text>
-        <Heading style={secondary}>Hãy nhập mã xác thực để xác minh OTP sau vào website</Heading>
-        <Section style={codeContainer}>
-          <Text style={code}>{otpCode}</Text>
+        <Section style={coverSection}>
+          <Section style={imageSection}>
+            <Img
+              src={logoUrl}
+              width="80"
+              height="80"
+              alt="Bamixo Logo"
+              style={{ ...logo, borderRadius: '8px' }}
+            />
+          </Section>
+          <Section style={upperSection}>
+            <Heading style={h1}>{title}</Heading>
+            <Text style={mainText}>
+              Chào bạn, cảm ơn bạn đã đăng ký tài khoản. Để hoàn tất việc xác thực, vui lòng nhập mã
+              OTP dưới đây vào trang xác thực:
+            </Text>
+            <Section style={verificationSection}>
+              <Text style={verifyCode}>{otpCode}</Text>
+              <Text style={validityText}>(Mã này có hiệu lực trong vòng 10 phút)</Text>
+            </Section>
+          </Section>
+          <Hr />
+          <Section style={lowerSection}>
+            <Text style={cautionText}>
+              Nếu bạn không yêu cầu mã này, vui lòng bỏ qua email này hoặc liên hệ với bộ phận hỗ
+              trợ nếu bạn nghi ngờ có sự xâm nhập trái phép.
+            </Text>
+          </Section>
         </Section>
-        <Text style={paragraph}>
-          Nếu bạn không chủ động thực hiện hành động này? Xin hãy bỏ quả email này
+        <Text style={footerText}>
+          Email này được gửi tự động, vui lòng không trả lời. <br />
+          &copy; {new Date().getFullYear()} Bamixo Restaurant. All rights reserved.
         </Text>
       </Container>
-      <Text style={footer}>From Grizz with ❤️</Text>
     </Body>
   </Html>
 )
 
 OTPEmail.PreviewProps = {
   otpCode: '144833',
+  title: 'Xác thực tài khoản của bạn',
 } as OTPEmailProps
 
 export default OTPEmail
 
 const main = {
-  backgroundColor: '#ffffff',
-  fontFamily: 'HelveticaNeue,Helvetica,Arial,sans-serif',
+  backgroundColor: '#f6f9fc',
+  fontFamily:
+    '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
 }
 
 const container = {
   backgroundColor: '#ffffff',
-  border: '1px solid #eee',
-  borderRadius: '5px',
-  boxShadow: '0 5px 10px rgba(20,50,70,.2)',
-  marginTop: '20px',
-  maxWidth: '360px',
   margin: '0 auto',
-  padding: '68px 0 130px',
+  padding: '20px 0 48px',
+  marginBottom: '64px',
+}
+
+const coverSection = {
+  backgroundColor: '#fff',
+}
+
+const imageSection = {
+  padding: '20px 0',
+  textAlign: 'center' as const,
 }
 
 const logo = {
   margin: '0 auto',
 }
 
-const tertiary = {
-  color: '#0a85ea',
-  fontSize: '11px',
-  fontWeight: 700,
-  fontFamily: 'HelveticaNeue,Helvetica,Arial,sans-serif',
-  height: '16px',
-  letterSpacing: '0',
-  lineHeight: '16px',
-  margin: '16px 8px 8px 8px',
-  textTransform: 'uppercase' as const,
-  textAlign: 'center' as const,
+const upperSection = {
+  padding: '25px 35px',
 }
 
-const secondary = {
-  color: '#000',
-  display: 'inline-block',
-  fontFamily: 'HelveticaNeue-Medium,Helvetica,Arial,sans-serif',
-  fontSize: '20px',
-  fontWeight: 500,
+const h1 = {
+  color: '#333',
+  fontSize: '24px',
+  fontWeight: 'bold',
+  marginBottom: '15px',
+  textAlign: 'center' as const,
+  margin: '0',
+}
+
+const mainText = {
+  color: '#333',
+  fontSize: '16px',
   lineHeight: '24px',
-  marginBottom: '0',
-  marginTop: '0',
   textAlign: 'center' as const,
+  marginBottom: '20px',
 }
 
-const codeContainer = {
-  background: 'rgba(0,0,0,.05)',
-  borderRadius: '4px',
-  margin: '16px auto 14px',
-  verticalAlign: 'middle',
-  width: '280px',
+const verificationSection = {
+  textAlign: 'center' as const,
+  marginBottom: '20px',
 }
 
-const code = {
+const verifyCode = {
   color: '#000',
-  display: 'inline-block',
-  fontFamily: 'HelveticaNeue-Bold',
-  fontSize: '32px',
-  fontWeight: 700,
+  fontSize: '36px',
+  fontWeight: 'bold',
   letterSpacing: '6px',
-  lineHeight: '40px',
-  paddingBottom: '8px',
-  paddingTop: '8px',
-  margin: '0 auto',
-  width: '100%',
+  margin: '10px 0',
+  padding: '10px',
+  backgroundColor: '#f4f4f4',
+  borderRadius: '8px',
+  display: 'inline-block',
+  fontFamily: 'monospace',
+}
+
+const validityText = {
+  color: '#666',
+  fontSize: '14px',
+  marginTop: '5px',
+}
+
+const lowerSection = {
+  padding: '25px 35px',
+}
+
+const cautionText = {
+  color: '#666',
+  fontSize: '14px',
+  lineHeight: '22px',
+  marginBottom: '10px',
   textAlign: 'center' as const,
 }
 
-const paragraph = {
-  color: '#444',
-  fontSize: '15px',
-  fontFamily: 'HelveticaNeue,Helvetica,Arial,sans-serif',
-  letterSpacing: '0',
-  lineHeight: '23px',
-  padding: '0 40px',
-  margin: '0',
-  textAlign: 'center' as const,
-}
-
-const link = {
-  color: '#444',
-  textDecoration: 'underline',
-}
-
-const footer = {
-  color: '#000',
+const footerText = {
+  color: '#8898aa',
   fontSize: '12px',
-  fontWeight: 800,
-  letterSpacing: '0',
-  lineHeight: '23px',
-  margin: '0',
-  marginTop: '20px',
-  fontFamily: 'HelveticaNeue,Helvetica,Arial,sans-serif',
+  lineHeight: '16px',
   textAlign: 'center' as const,
-  textTransform: 'uppercase' as const,
+  marginTop: '20px',
 }
