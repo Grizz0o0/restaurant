@@ -31,7 +31,7 @@ import { useState } from 'react';
 type FormValues = z.infer<typeof RegisterBodySchema>;
 
 export default function RegisterPage() {
-    const { registerAsync, sendOTPAsync, isLoading } = useAuth();
+    const { register, sendOTPAsync, isRegisterLoading } = useAuth();
     const [otpSent, setOtpSent] = useState(false);
     const [countdown, setCountdown] = useState(0);
 
@@ -76,7 +76,7 @@ export default function RegisterPage() {
 
     const onSubmit = async (values: FormValues) => {
         try {
-            await registerAsync(values);
+            await register(values);
         } catch (error) {
             // Toast handled in hook
         }
@@ -178,7 +178,9 @@ export default function RegisterPage() {
                                         type="button"
                                         variant="outline"
                                         onClick={handleSendOTP}
-                                        disabled={isLoading || countdown > 0}
+                                        disabled={
+                                            isRegisterLoading || countdown > 0
+                                        }
                                         className="mb-2 shrink-0 min-w-25"
                                     >
                                         {countdown > 0
@@ -231,9 +233,11 @@ export default function RegisterPage() {
                                     type="submit"
                                     variant="hero"
                                     className="w-full mt-4"
-                                    disabled={isLoading}
+                                    disabled={isRegisterLoading}
                                 >
-                                    {isLoading ? 'Đang xử lý...' : 'Đăng ký'}
+                                    {isRegisterLoading
+                                        ? 'Đang xử lý...'
+                                        : 'Đăng ký'}
                                 </Button>
 
                                 <div className="text-center text-sm mt-4">

@@ -1,4 +1,5 @@
 import { toast } from 'sonner';
+import { getAccessToken } from '@/lib/auth/cookies';
 
 interface UploadResponse {
     url: string;
@@ -13,7 +14,7 @@ export const uploadService = {
         const formData = new FormData();
         formData.append('file', file);
 
-        const token = localStorage.getItem('accessToken');
+        const token = getAccessToken();
         const apiUrl =
             process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3052/v1/api';
 

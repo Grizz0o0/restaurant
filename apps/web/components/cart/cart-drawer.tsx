@@ -15,13 +15,15 @@ import { useUIStore } from '@/stores/use-ui-store';
 import { formatCurrency } from '@/lib/utils/format';
 import { trpc } from '@/lib/trpc/client';
 import { toast } from 'sonner';
+import { useAuth } from '@/hooks/domain/use-auth';
 
 export function CartDrawer() {
     const { isCartOpen, setCartOpen } = useUIStore();
     const utils = trpc.useUtils();
+    const { user } = useAuth();
 
     const { data: cart, isLoading } = trpc.cart.get.useQuery(undefined, {
-        enabled: isCartOpen,
+        enabled: isCartOpen && !!user,
     });
 
     const items = cart?.items || [];

@@ -5,10 +5,14 @@ import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/stores/use-ui-store';
 import { useEffect, useState } from 'react';
 import { trpc } from '@/lib/trpc/client';
+import { useAuth } from '@/hooks/domain/use-auth';
 
 export function CartButton() {
     const toggleCart = useUIStore((state) => state.toggleCart);
-    const { data: cart } = trpc.cart.get.useQuery();
+    const { user } = useAuth();
+    const { data: cart } = trpc.cart.get.useQuery(undefined, {
+        enabled: !!user,
+    });
 
     const [mounted, setMounted] = useState(false);
 

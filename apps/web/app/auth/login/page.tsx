@@ -38,7 +38,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 export default function LoginPage() {
-    const { loginAsync, isLoading } = useAuth();
+    const { login, isLoginLoading } = useAuth();
     const [show2FA, setShow2FA] = useState(false);
 
     const form = useForm<FormValues>({
@@ -53,7 +53,7 @@ export default function LoginPage() {
                 ...values,
                 totpCode: values.totpCode || undefined,
             };
-            await loginAsync(payload);
+            await login(payload);
         } catch (error: any) {
             // Check for the specific 2FA error message
             if (error?.message?.includes('Error.InvalidTOTPAndCode')) {
@@ -155,9 +155,9 @@ export default function LoginPage() {
                                     type="submit"
                                     variant="hero"
                                     className="w-full"
-                                    disabled={isLoading}
+                                    disabled={isLoginLoading}
                                 >
-                                    {isLoading
+                                    {isLoginLoading
                                         ? 'Đang xử lý...'
                                         : show2FA
                                           ? 'Xác thực'

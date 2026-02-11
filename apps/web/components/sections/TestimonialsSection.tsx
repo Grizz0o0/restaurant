@@ -6,7 +6,7 @@ const testimonials = [
         id: 1,
         name: 'Minh Anh',
         role: 'Food Blogger',
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=MinhAnh',
+        avatar: 'https://api.dicebear.com/7.x/avataaars/png?seed=MinhAnh',
         content:
             'Bánh mì ở đây thực sự xuất sắc! Vỏ bánh giòn tan, nhân pate béo ngậy mà không hề ngấy. Sẽ còn quay lại dài dài.',
         rating: 5,
@@ -15,7 +15,7 @@ const testimonials = [
         id: 2,
         name: 'Tuấn Hưng',
         role: 'Khách hàng thân thiết',
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=TuanHung',
+        avatar: 'https://api.dicebear.com/7.x/avataaars/png?seed=TuanHung',
         content:
             'Mình ăn ở đây từ hồi quán mới mở. Đến giờ hương vị vẫn không thay đổi, nhất là món xíu mại, nước sốt đậm đà lắm.',
         rating: 5,
@@ -24,7 +24,7 @@ const testimonials = [
         id: 3,
         name: 'Lan Chi',
         role: 'Nhân viên văn phòng',
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=LanChi',
+        avatar: 'https://api.dicebear.com/7.x/avataaars/png?seed=LanChi',
         content:
             'Bữa sáng yêu thích của cả phòng mình. Giao hàng nhanh, đồ ăn luôn nóng hổi. Rất recommend mọi người thử trà chanh nha.',
         rating: 4,
@@ -81,6 +81,7 @@ const TestimonialsSection = () => {
                                         alt={item.name}
                                         fill
                                         className="object-cover"
+                                        unoptimized
                                     />
                                 </div>
                                 <div>

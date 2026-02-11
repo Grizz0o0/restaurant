@@ -1,7 +1,6 @@
 import { Ctx, Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
 import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
 import { AdminRoleMiddleware } from '@/trpc/middlewares/admin-role.middleware'
-import { RoleName } from '@repo/constants'
 import {
   GetCategoriesQuerySchema,
   GetCategoriesResSchema,
@@ -24,7 +23,6 @@ export class CategoryRouter {
     input: GetCategoriesQuerySchema,
     output: GetCategoriesResSchema,
   })
-  @UseMiddlewares(AuthMiddleware)
   async list(@Input() input: GetCategoriesQueryType) {
     return this.categoryService.list(input)
   }
@@ -33,7 +31,6 @@ export class CategoryRouter {
     input: z.object({ id: z.string() }),
     output: CategoryDetailResSchema,
   })
-  @UseMiddlewares(AuthMiddleware)
   async detail(@Input('id') id: string) {
     return this.categoryService.findById(id)
   }

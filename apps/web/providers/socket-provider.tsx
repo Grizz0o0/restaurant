@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
+import { getAccessToken } from '@/lib/auth/cookies';
 
 interface SocketContextType {
     socket: Socket | null;
@@ -26,7 +27,7 @@ export const SocketProvider = ({
     const [isConnected, setIsConnected] = useState(false);
 
     useEffect(() => {
-        const storedToken = localStorage.getItem('accessToken');
+        const storedToken = getAccessToken();
         const activeToken = token || storedToken;
 
         if (!activeToken) return;

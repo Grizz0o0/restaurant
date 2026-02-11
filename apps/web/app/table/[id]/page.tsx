@@ -33,6 +33,7 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import { setAuthTokens } from '@/lib/auth/cookies';
 
 // Helper to format currency
 const formatCurrency = (amount: number) => {
@@ -63,11 +64,23 @@ export default function GuestTablePage() {
 
     // Authentication
     const loginMutation = trpc.auth.guestLogin.useMutation({
-        onSuccess: (data) => {
-            localStorage.setItem('accessToken', data.accessToken);
-            setIsLoggedIn(true);
-            toast.success('Xin chào! Bạn đã kết nối với bàn ăn.');
-            refetchDishes();
+        onSuccess: async (data) => {
+            // Set cookies via API route
+            try {
+                await fetch('/api/auth/guest-login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        accessToken: data.accessToken,
+                        refreshToken: data.refreshToken || data.accessToken,
+                    }),
+                });
+                setIsLoggedIn(true);
+                toast.success('Xin chào! Bạn đã kết nối với bàn ăn.');
+                refetchDishes();
+            } catch (error) {
+                toast.error('Lỗi kết nối');
+            }
         },
         onError: (err) => {
             toast.error('Lỗi kết nối bàn: ' + err.message);
