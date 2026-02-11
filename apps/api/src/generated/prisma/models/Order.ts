@@ -49,6 +49,7 @@ export type OrderMinAggregateOutputType = {
   channel: $Enums.Channel | null
   totalAmount: runtime.Decimal | null
   discount: runtime.Decimal | null
+  paymentStatus: $Enums.PaymentStatus | null
   paymentMethod: $Enums.PaymentMethod | null
   createdById: string | null
   updatedById: string | null
@@ -69,6 +70,7 @@ export type OrderMaxAggregateOutputType = {
   channel: $Enums.Channel | null
   totalAmount: runtime.Decimal | null
   discount: runtime.Decimal | null
+  paymentStatus: $Enums.PaymentStatus | null
   paymentMethod: $Enums.PaymentMethod | null
   createdById: string | null
   updatedById: string | null
@@ -90,6 +92,7 @@ export type OrderCountAggregateOutputType = {
   channel: number
   totalAmount: number
   discount: number
+  paymentStatus: number
   paymentMethod: number
   createdById: number
   updatedById: number
@@ -122,6 +125,7 @@ export type OrderMinAggregateInputType = {
   channel?: true
   totalAmount?: true
   discount?: true
+  paymentStatus?: true
   paymentMethod?: true
   createdById?: true
   updatedById?: true
@@ -142,6 +146,7 @@ export type OrderMaxAggregateInputType = {
   channel?: true
   totalAmount?: true
   discount?: true
+  paymentStatus?: true
   paymentMethod?: true
   createdById?: true
   updatedById?: true
@@ -163,6 +168,7 @@ export type OrderCountAggregateInputType = {
   channel?: true
   totalAmount?: true
   discount?: true
+  paymentStatus?: true
   paymentMethod?: true
   createdById?: true
   updatedById?: true
@@ -271,6 +277,7 @@ export type OrderGroupByOutputType = {
   channel: $Enums.Channel
   totalAmount: runtime.Decimal
   discount: runtime.Decimal
+  paymentStatus: $Enums.PaymentStatus
   paymentMethod: $Enums.PaymentMethod | null
   createdById: string | null
   updatedById: string | null
@@ -315,6 +322,7 @@ export type OrderWhereInput = {
   channel?: Prisma.EnumChannelFilter<"Order"> | $Enums.Channel
   totalAmount?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFilter<"Order"> | $Enums.PaymentStatus
   paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"Order"> | $Enums.PaymentMethod | null
   createdById?: Prisma.StringNullableFilter<"Order"> | string | null
   updatedById?: Prisma.StringNullableFilter<"Order"> | string | null
@@ -345,6 +353,7 @@ export type OrderOrderByWithRelationInput = {
   channel?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   discount?: Prisma.SortOrder
+  paymentStatus?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedById?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -378,6 +387,7 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   channel?: Prisma.EnumChannelFilter<"Order"> | $Enums.Channel
   totalAmount?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFilter<"Order"> | $Enums.PaymentStatus
   paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"Order"> | $Enums.PaymentMethod | null
   createdById?: Prisma.StringNullableFilter<"Order"> | string | null
   updatedById?: Prisma.StringNullableFilter<"Order"> | string | null
@@ -408,6 +418,7 @@ export type OrderOrderByWithAggregationInput = {
   channel?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   discount?: Prisma.SortOrder
+  paymentStatus?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedById?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -437,6 +448,7 @@ export type OrderScalarWhereWithAggregatesInput = {
   channel?: Prisma.EnumChannelWithAggregatesFilter<"Order"> | $Enums.Channel
   totalAmount?: Prisma.DecimalWithAggregatesFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalWithAggregatesFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusWithAggregatesFilter<"Order"> | $Enums.PaymentStatus
   paymentMethod?: Prisma.EnumPaymentMethodNullableWithAggregatesFilter<"Order"> | $Enums.PaymentMethod | null
   createdById?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
   updatedById?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
@@ -455,6 +467,7 @@ export type OrderCreateInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -482,6 +495,7 @@ export type OrderUncheckedCreateInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   createdById?: string | null
   updatedById?: string | null
@@ -503,6 +517,7 @@ export type OrderUpdateInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -530,6 +545,7 @@ export type OrderUncheckedUpdateInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -554,6 +570,7 @@ export type OrderCreateManyInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   createdById?: string | null
   updatedById?: string | null
@@ -572,6 +589,7 @@ export type OrderUpdateManyMutationInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -590,6 +608,7 @@ export type OrderUncheckedUpdateManyInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -626,6 +645,7 @@ export type OrderCountOrderByAggregateInput = {
   channel?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   discount?: Prisma.SortOrder
+  paymentStatus?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
@@ -651,6 +671,7 @@ export type OrderMaxOrderByAggregateInput = {
   channel?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   discount?: Prisma.SortOrder
+  paymentStatus?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
@@ -671,6 +692,7 @@ export type OrderMinOrderByAggregateInput = {
   channel?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   discount?: Prisma.SortOrder
+  paymentStatus?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
@@ -877,6 +899,10 @@ export type EnumChannelFieldUpdateOperationsInput = {
   set?: $Enums.Channel
 }
 
+export type EnumPaymentStatusFieldUpdateOperationsInput = {
+  set?: $Enums.PaymentStatus
+}
+
 export type NullableEnumPaymentMethodFieldUpdateOperationsInput = {
   set?: $Enums.PaymentMethod | null
 }
@@ -1028,6 +1054,7 @@ export type OrderCreateWithoutUserInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -1053,6 +1080,7 @@ export type OrderUncheckedCreateWithoutUserInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   createdById?: string | null
   updatedById?: string | null
@@ -1084,6 +1112,7 @@ export type OrderCreateWithoutCreatedByInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -1110,6 +1139,7 @@ export type OrderUncheckedCreateWithoutCreatedByInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   updatedById?: string | null
   deletedById?: string | null
@@ -1140,6 +1170,7 @@ export type OrderCreateWithoutUpdatedByInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -1166,6 +1197,7 @@ export type OrderUncheckedCreateWithoutUpdatedByInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   createdById?: string | null
   deletedById?: string | null
@@ -1196,6 +1228,7 @@ export type OrderCreateWithoutDeletedByInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -1222,6 +1255,7 @@ export type OrderUncheckedCreateWithoutDeletedByInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   createdById?: string | null
   updatedById?: string | null
@@ -1274,6 +1308,7 @@ export type OrderScalarWhereInput = {
   channel?: Prisma.EnumChannelFilter<"Order"> | $Enums.Channel
   totalAmount?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFilter<"Order"> | $Enums.PaymentStatus
   paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"Order"> | $Enums.PaymentMethod | null
   createdById?: Prisma.StringNullableFilter<"Order"> | string | null
   updatedById?: Prisma.StringNullableFilter<"Order"> | string | null
@@ -1340,6 +1375,7 @@ export type OrderCreateWithoutItemsInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -1366,6 +1402,7 @@ export type OrderUncheckedCreateWithoutItemsInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   createdById?: string | null
   updatedById?: string | null
@@ -1402,6 +1439,7 @@ export type OrderUpdateWithoutItemsInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1428,6 +1466,7 @@ export type OrderUncheckedUpdateWithoutItemsInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1448,6 +1487,7 @@ export type OrderCreateWithoutPaymentTransactionsInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -1474,6 +1514,7 @@ export type OrderUncheckedCreateWithoutPaymentTransactionsInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   createdById?: string | null
   updatedById?: string | null
@@ -1510,6 +1551,7 @@ export type OrderUpdateWithoutPaymentTransactionsInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1536,6 +1578,7 @@ export type OrderUncheckedUpdateWithoutPaymentTransactionsInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1556,6 +1599,7 @@ export type OrderCreateWithoutRestaurantInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -1581,6 +1625,7 @@ export type OrderUncheckedCreateWithoutRestaurantInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   createdById?: string | null
   updatedById?: string | null
@@ -1628,6 +1673,7 @@ export type OrderCreateWithoutTableInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -1653,6 +1699,7 @@ export type OrderUncheckedCreateWithoutTableInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   createdById?: string | null
   updatedById?: string | null
@@ -1700,6 +1747,7 @@ export type OrderCreateWithoutPromotionsInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -1726,6 +1774,7 @@ export type OrderUncheckedCreateWithoutPromotionsInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   createdById?: string | null
   updatedById?: string | null
@@ -1769,6 +1818,7 @@ export type OrderCreateManyUserInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   createdById?: string | null
   updatedById?: string | null
@@ -1790,6 +1840,7 @@ export type OrderCreateManyCreatedByInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   updatedById?: string | null
   deletedById?: string | null
@@ -1810,6 +1861,7 @@ export type OrderCreateManyUpdatedByInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   createdById?: string | null
   deletedById?: string | null
@@ -1830,6 +1882,7 @@ export type OrderCreateManyDeletedByInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   createdById?: string | null
   updatedById?: string | null
@@ -1847,6 +1900,7 @@ export type OrderUpdateWithoutUserInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1872,6 +1926,7 @@ export type OrderUncheckedUpdateWithoutUserInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1895,6 +1950,7 @@ export type OrderUncheckedUpdateManyWithoutUserInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1913,6 +1969,7 @@ export type OrderUpdateWithoutCreatedByInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1939,6 +1996,7 @@ export type OrderUncheckedUpdateWithoutCreatedByInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1962,6 +2020,7 @@ export type OrderUncheckedUpdateManyWithoutCreatedByInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1979,6 +2038,7 @@ export type OrderUpdateWithoutUpdatedByInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2005,6 +2065,7 @@ export type OrderUncheckedUpdateWithoutUpdatedByInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2028,6 +2089,7 @@ export type OrderUncheckedUpdateManyWithoutUpdatedByInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2045,6 +2107,7 @@ export type OrderUpdateWithoutDeletedByInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2071,6 +2134,7 @@ export type OrderUncheckedUpdateWithoutDeletedByInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2094,6 +2158,7 @@ export type OrderUncheckedUpdateManyWithoutDeletedByInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2113,6 +2178,7 @@ export type OrderCreateManyRestaurantInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   createdById?: string | null
   updatedById?: string | null
@@ -2131,6 +2197,7 @@ export type OrderUpdateWithoutRestaurantInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2156,6 +2223,7 @@ export type OrderUncheckedUpdateWithoutRestaurantInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2179,6 +2247,7 @@ export type OrderUncheckedUpdateManyWithoutRestaurantInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2199,6 +2268,7 @@ export type OrderCreateManyTableInput = {
   channel: $Enums.Channel
   totalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: $Enums.PaymentStatus
   paymentMethod?: $Enums.PaymentMethod | null
   createdById?: string | null
   updatedById?: string | null
@@ -2217,6 +2287,7 @@ export type OrderUpdateWithoutTableInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2242,6 +2313,7 @@ export type OrderUncheckedUpdateWithoutTableInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2265,6 +2337,7 @@ export type OrderUncheckedUpdateManyWithoutTableInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2283,6 +2356,7 @@ export type OrderUpdateWithoutPromotionsInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2309,6 +2383,7 @@ export type OrderUncheckedUpdateWithoutPromotionsInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2332,6 +2407,7 @@ export type OrderUncheckedUpdateManyWithoutPromotionsInput = {
   channel?: Prisma.EnumChannelFieldUpdateOperationsInput | $Enums.Channel
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2402,6 +2478,7 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   channel?: boolean
   totalAmount?: boolean
   discount?: boolean
+  paymentStatus?: boolean
   paymentMethod?: boolean
   createdById?: boolean
   updatedById?: boolean
@@ -2433,6 +2510,7 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   channel?: boolean
   totalAmount?: boolean
   discount?: boolean
+  paymentStatus?: boolean
   paymentMethod?: boolean
   createdById?: boolean
   updatedById?: boolean
@@ -2460,6 +2538,7 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   channel?: boolean
   totalAmount?: boolean
   discount?: boolean
+  paymentStatus?: boolean
   paymentMethod?: boolean
   createdById?: boolean
   updatedById?: boolean
@@ -2487,6 +2566,7 @@ export type OrderSelectScalar = {
   channel?: boolean
   totalAmount?: boolean
   discount?: boolean
+  paymentStatus?: boolean
   paymentMethod?: boolean
   createdById?: boolean
   updatedById?: boolean
@@ -2496,7 +2576,7 @@ export type OrderSelectScalar = {
   updatedAt?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "guestId" | "guestInfo" | "status" | "tableId" | "restaurantId" | "promotionId" | "channel" | "totalAmount" | "discount" | "paymentMethod" | "createdById" | "updatedById" | "deletedById" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "guestId" | "guestInfo" | "status" | "tableId" | "restaurantId" | "promotionId" | "channel" | "totalAmount" | "discount" | "paymentStatus" | "paymentMethod" | "createdById" | "updatedById" | "deletedById" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
 export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.Order$userArgs<ExtArgs>
   items?: boolean | Prisma.Order$itemsArgs<ExtArgs>
@@ -2551,6 +2631,7 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     channel: $Enums.Channel
     totalAmount: runtime.Decimal
     discount: runtime.Decimal
+    paymentStatus: $Enums.PaymentStatus
     paymentMethod: $Enums.PaymentMethod | null
     createdById: string | null
     updatedById: string | null
@@ -3001,6 +3082,7 @@ export interface OrderFieldRefs {
   readonly channel: Prisma.FieldRef<"Order", 'Channel'>
   readonly totalAmount: Prisma.FieldRef<"Order", 'Decimal'>
   readonly discount: Prisma.FieldRef<"Order", 'Decimal'>
+  readonly paymentStatus: Prisma.FieldRef<"Order", 'PaymentStatus'>
   readonly paymentMethod: Prisma.FieldRef<"Order", 'PaymentMethod'>
   readonly createdById: Prisma.FieldRef<"Order", 'String'>
   readonly updatedById: Prisma.FieldRef<"Order", 'String'>

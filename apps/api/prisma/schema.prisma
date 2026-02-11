@@ -542,6 +542,7 @@ model Order {
   channel      Channel
   totalAmount  Decimal            @db.Decimal(10, 2) @default(0)
   discount     Decimal            @db.Decimal(10, 2) @default(0)
+  paymentStatus PaymentStatus     @default(PENDING)
   paymentMethod PaymentMethod?
   createdById  String?
   createdBy    User?            @relation("OrderCreatedBy", fields: [createdById], references: [id], onDelete: SetNull, onUpdate: Cascade)
@@ -575,7 +576,7 @@ model PaymentTransaction {
   id                 String   @id @default(uuid())
   gateway            String   @db.VarChar(100)
   transactionDate    DateTime @default(now())
-  accountNumber      String   @db.VarChar(100)
+  accountNumber      String?   @db.VarChar(100)
   subAccount         String?  @db.VarChar(250)
   amountIn           Decimal  @db.Decimal(10, 2) @default(0)
   amountOut          Decimal  @db.Decimal(10, 2) @default(0)
@@ -882,5 +883,13 @@ enum PaymentMethod {
   CARD
   QR_PAY
   BANK_TRANSFER
+  MOMO
   OTHER
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
 }

@@ -29,6 +29,7 @@ import { InventoryTransactionModule } from './modules/inventory-transaction/inve
 import { RestaurantModule } from './modules/restaurant/restaurant.module'
 import { ReservationModule } from './modules/reservation/reservation.module'
 import { AddressModule } from './modules/address/address.module'
+import { PaymentModule } from './modules/payment/payment.module'
 
 import { EventEmitterModule } from '@nestjs/event-emitter'
 
@@ -74,6 +75,7 @@ import SuperJSON from 'superjson'
     RestaurantModule,
     ReservationModule,
     AddressModule,
+    PaymentModule,
 
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],

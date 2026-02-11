@@ -140,7 +140,18 @@ export const PaymentMethod = {
   CARD: 'CARD',
   QR_PAY: 'QR_PAY',
   BANK_TRANSFER: 'BANK_TRANSFER',
+  MOMO: 'MOMO',
   OTHER: 'OTHER'
 } as const
 
 export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
+
+
+export const PaymentStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED'
+} as const
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]

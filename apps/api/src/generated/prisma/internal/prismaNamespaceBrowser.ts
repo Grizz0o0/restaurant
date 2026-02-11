@@ -451,6 +451,7 @@ export const OrderScalarFieldEnum = {
   channel: 'channel',
   totalAmount: 'totalAmount',
   discount: 'discount',
+  paymentStatus: 'paymentStatus',
   paymentMethod: 'paymentMethod',
   createdById: 'createdById',
   updatedById: 'updatedById',

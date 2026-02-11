@@ -139,6 +139,12 @@ export class OrderService {
       if (!tableId) throw new BadRequestException('Guest must belong to a table')
     }
 
+    const validPaymentMethods = ['CASH', 'CARD', 'QR_PAY', 'BANK_TRANSFER', 'MOMO', 'OTHER'] // Matches PaymentMethod enum
+    let paymentMethod = 'CASH'
+    if (guestInfo?.paymentMethod && validPaymentMethods.includes(guestInfo.paymentMethod)) {
+      paymentMethod = guestInfo.paymentMethod
+    }
+
     return this.prismaService.$transaction(async (tx) => {
       // 1. Fetch Cart Items
       const cartItems = await tx.cartItem.findMany({
@@ -307,6 +313,7 @@ export class OrderService {
           channel: 'WEB', // Default
           promotionId: promotionId,
           guestInfo: orderGuestInfo,
+          paymentMethod: paymentMethod as any, // Cast to PaymentMethod enum
           items: {
             create: snapshots,
           },

@@ -247,7 +247,7 @@ export type PaymentTransactionGroupByOutputType = {
   id: string
   gateway: string
   transactionDate: Date
-  accountNumber: string
+  accountNumber: string | null
   subAccount: string | null
   amountIn: runtime.Decimal
   amountOut: runtime.Decimal
@@ -287,7 +287,7 @@ export type PaymentTransactionWhereInput = {
   id?: Prisma.StringFilter<"PaymentTransaction"> | string
   gateway?: Prisma.StringFilter<"PaymentTransaction"> | string
   transactionDate?: Prisma.DateTimeFilter<"PaymentTransaction"> | Date | string
-  accountNumber?: Prisma.StringFilter<"PaymentTransaction"> | string
+  accountNumber?: Prisma.StringNullableFilter<"PaymentTransaction"> | string | null
   subAccount?: Prisma.StringNullableFilter<"PaymentTransaction"> | string | null
   amountIn?: Prisma.DecimalFilter<"PaymentTransaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountOut?: Prisma.DecimalFilter<"PaymentTransaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -305,7 +305,7 @@ export type PaymentTransactionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   gateway?: Prisma.SortOrder
   transactionDate?: Prisma.SortOrder
-  accountNumber?: Prisma.SortOrder
+  accountNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   subAccount?: Prisma.SortOrderInput | Prisma.SortOrder
   amountIn?: Prisma.SortOrder
   amountOut?: Prisma.SortOrder
@@ -326,7 +326,7 @@ export type PaymentTransactionWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.PaymentTransactionWhereInput | Prisma.PaymentTransactionWhereInput[]
   gateway?: Prisma.StringFilter<"PaymentTransaction"> | string
   transactionDate?: Prisma.DateTimeFilter<"PaymentTransaction"> | Date | string
-  accountNumber?: Prisma.StringFilter<"PaymentTransaction"> | string
+  accountNumber?: Prisma.StringNullableFilter<"PaymentTransaction"> | string | null
   subAccount?: Prisma.StringNullableFilter<"PaymentTransaction"> | string | null
   amountIn?: Prisma.DecimalFilter<"PaymentTransaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountOut?: Prisma.DecimalFilter<"PaymentTransaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -344,7 +344,7 @@ export type PaymentTransactionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   gateway?: Prisma.SortOrder
   transactionDate?: Prisma.SortOrder
-  accountNumber?: Prisma.SortOrder
+  accountNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   subAccount?: Prisma.SortOrderInput | Prisma.SortOrder
   amountIn?: Prisma.SortOrder
   amountOut?: Prisma.SortOrder
@@ -369,7 +369,7 @@ export type PaymentTransactionScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"PaymentTransaction"> | string
   gateway?: Prisma.StringWithAggregatesFilter<"PaymentTransaction"> | string
   transactionDate?: Prisma.DateTimeWithAggregatesFilter<"PaymentTransaction"> | Date | string
-  accountNumber?: Prisma.StringWithAggregatesFilter<"PaymentTransaction"> | string
+  accountNumber?: Prisma.StringNullableWithAggregatesFilter<"PaymentTransaction"> | string | null
   subAccount?: Prisma.StringNullableWithAggregatesFilter<"PaymentTransaction"> | string | null
   amountIn?: Prisma.DecimalWithAggregatesFilter<"PaymentTransaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountOut?: Prisma.DecimalWithAggregatesFilter<"PaymentTransaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -386,7 +386,7 @@ export type PaymentTransactionCreateInput = {
   id?: string
   gateway: string
   transactionDate?: Date | string
-  accountNumber: string
+  accountNumber?: string | null
   subAccount?: string | null
   amountIn?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountOut?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -403,7 +403,7 @@ export type PaymentTransactionUncheckedCreateInput = {
   id?: string
   gateway: string
   transactionDate?: Date | string
-  accountNumber: string
+  accountNumber?: string | null
   subAccount?: string | null
   amountIn?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountOut?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -420,7 +420,7 @@ export type PaymentTransactionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   gateway?: Prisma.StringFieldUpdateOperationsInput | string
   transactionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  accountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subAccount?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amountIn?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountOut?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -437,7 +437,7 @@ export type PaymentTransactionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   gateway?: Prisma.StringFieldUpdateOperationsInput | string
   transactionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  accountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subAccount?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amountIn?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountOut?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -454,7 +454,7 @@ export type PaymentTransactionCreateManyInput = {
   id?: string
   gateway: string
   transactionDate?: Date | string
-  accountNumber: string
+  accountNumber?: string | null
   subAccount?: string | null
   amountIn?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountOut?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -471,7 +471,7 @@ export type PaymentTransactionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   gateway?: Prisma.StringFieldUpdateOperationsInput | string
   transactionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  accountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subAccount?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amountIn?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountOut?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -487,7 +487,7 @@ export type PaymentTransactionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   gateway?: Prisma.StringFieldUpdateOperationsInput | string
   transactionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  accountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subAccount?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amountIn?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountOut?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -619,7 +619,7 @@ export type PaymentTransactionCreateWithoutOrderInput = {
   id?: string
   gateway: string
   transactionDate?: Date | string
-  accountNumber: string
+  accountNumber?: string | null
   subAccount?: string | null
   amountIn?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountOut?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -635,7 +635,7 @@ export type PaymentTransactionUncheckedCreateWithoutOrderInput = {
   id?: string
   gateway: string
   transactionDate?: Date | string
-  accountNumber: string
+  accountNumber?: string | null
   subAccount?: string | null
   amountIn?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountOut?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -680,7 +680,7 @@ export type PaymentTransactionScalarWhereInput = {
   id?: Prisma.StringFilter<"PaymentTransaction"> | string
   gateway?: Prisma.StringFilter<"PaymentTransaction"> | string
   transactionDate?: Prisma.DateTimeFilter<"PaymentTransaction"> | Date | string
-  accountNumber?: Prisma.StringFilter<"PaymentTransaction"> | string
+  accountNumber?: Prisma.StringNullableFilter<"PaymentTransaction"> | string | null
   subAccount?: Prisma.StringNullableFilter<"PaymentTransaction"> | string | null
   amountIn?: Prisma.DecimalFilter<"PaymentTransaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountOut?: Prisma.DecimalFilter<"PaymentTransaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -697,7 +697,7 @@ export type PaymentTransactionCreateManyOrderInput = {
   id?: string
   gateway: string
   transactionDate?: Date | string
-  accountNumber: string
+  accountNumber?: string | null
   subAccount?: string | null
   amountIn?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountOut?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -713,7 +713,7 @@ export type PaymentTransactionUpdateWithoutOrderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   gateway?: Prisma.StringFieldUpdateOperationsInput | string
   transactionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  accountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subAccount?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amountIn?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountOut?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -729,7 +729,7 @@ export type PaymentTransactionUncheckedUpdateWithoutOrderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   gateway?: Prisma.StringFieldUpdateOperationsInput | string
   transactionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  accountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subAccount?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amountIn?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountOut?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -745,7 +745,7 @@ export type PaymentTransactionUncheckedUpdateManyWithoutOrderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   gateway?: Prisma.StringFieldUpdateOperationsInput | string
   transactionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  accountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subAccount?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amountIn?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountOut?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -850,7 +850,7 @@ export type $PaymentTransactionPayload<ExtArgs extends runtime.Types.Extensions.
     id: string
     gateway: string
     transactionDate: Date
-    accountNumber: string
+    accountNumber: string | null
     subAccount: string | null
     amountIn: runtime.Decimal
     amountOut: runtime.Decimal

@@ -62,6 +62,14 @@ const configSchema = z.object({
   SECRET_API_KEY: z.string(),
   JWT_SECRET: z.string(),
   FRONTEND_URL: z.string().url(),
+
+  // ===== MoMo =====
+  MOMO_PARTNER_CODE: z.string(),
+  MOMO_ACCESS_KEY: z.string(),
+  MOMO_SECRET_KEY: z.string(),
+  MOMO_IPN_URL: z.string().url(),
+  MOMO_REDIRECT_URL: z.string().url(),
+  MOMO_ENDPOINT: z.string().url(),
 })
 
 const configServer = configSchema.safeParse(process.env)
