@@ -102,6 +102,12 @@ import {
     CreateAddressBodySchema,
     UpdateAddressBodySchema,
     GetAddressesQuerySchema,
+    InitiatePaymentInputSchema,
+    InitiatePaymentOutputSchema,
+    CheckPaymentStatusInputSchema,
+    CheckPaymentStatusOutputSchema,
+    RefundPaymentInputSchema,
+    RefundPaymentOutputSchema,
 } from '@repo/schema';
 import superjson from 'superjson';
 const t = initTRPC.create({ transformer: superjson });
@@ -553,6 +559,20 @@ const appRouter = t.router({
         setDefault: publicProcedure
             .input(z.object({ id: z.string() }))
             .output(AddressSchema)
+            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+    }),
+    payment: t.router({
+        initiate: publicProcedure
+            .input(InitiatePaymentInputSchema)
+            .output(InitiatePaymentOutputSchema)
+            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        checkStatus: publicProcedure
+            .input(CheckPaymentStatusInputSchema)
+            .output(CheckPaymentStatusOutputSchema)
+            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        refund: publicProcedure
+            .input(RefundPaymentInputSchema)
+            .output(RefundPaymentOutputSchema)
             .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
     }),
 });

@@ -5,11 +5,19 @@ import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
-import { toast } from 'sonner';
 import { trpc } from '@/lib/trpc/client';
 import { formatCurrency } from '@/lib/utils/format';
 import { DishDetailModal } from '@/components/menu/dish-detail-modal';
 import { useDebounce } from '@/hooks/use-debounce';
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from '@/components/ui/pagination';
 
 export const MenuClient = () => {
     const [activeCategoryId, setActiveCategoryId] = useState<
@@ -17,12 +25,15 @@ export const MenuClient = () => {
     >(undefined);
     const [selectedDishId, setSelectedDishId] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 12;
+
     const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
     // Fetch Categories
     const { data: categoriesData, isLoading: isLoadingCategories } =
         trpc.category.list.useQuery({
-            limit: 20, // Get enough categories
+            limit: 50, // Get enough categories
             page: 1,
         });
 
@@ -36,18 +47,131 @@ export const MenuClient = () => {
             categoryId:
                 activeCategoryId === 'all' ? undefined : activeCategoryId,
             search: debouncedSearchQuery,
-            limit: 50,
+            limit: pageSize,
+            page: currentPage,
         },
         {
             keepPreviousData: true,
         } as any,
-    ); // Type assertion if needed for keepPreviousData depending on query version
+    );
 
     const categories = categoriesData?.data || [];
     const dishes = dishesData?.data || [];
+    const pagination = dishesData?.pagination;
 
     const handleCategoryChange = (id: string) => {
         setActiveCategoryId(id === 'all' ? undefined : id);
+        setCurrentPage(1); // Reset to first page
+    };
+
+    const handleSearchChange = (value: string) => {
+        setSearchQuery(value);
+        setCurrentPage(1); // Reset to first page
+    };
+
+    const renderPagination = () => {
+        if (!pagination || pagination.totalPages <= 1) return null;
+
+        const { totalPages, page } = pagination;
+        const pages = [];
+
+        // Show max 5 page numbers
+        let startPage = Math.max(1, page - 2);
+        let endPage = Math.min(totalPages, startPage + 4);
+
+        if (endPage - startPage < 4) {
+            startPage = Math.max(1, endPage - 4);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            pages.push(i);
+        }
+
+        return (
+            <div className="mt-12">
+                <Pagination>
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious
+                                onClick={() =>
+                                    setCurrentPage((p) => Math.max(1, p - 1))
+                                }
+                                className={
+                                    page === 1
+                                        ? 'pointer-events-none opacity-50'
+                                        : 'cursor-pointer'
+                                }
+                            />
+                        </PaginationItem>
+
+                        {startPage > 1 && (
+                            <>
+                                <PaginationItem>
+                                    <PaginationLink
+                                        onClick={() => setCurrentPage(1)}
+                                        className="cursor-pointer"
+                                    >
+                                        1
+                                    </PaginationLink>
+                                </PaginationItem>
+                                {startPage > 2 && (
+                                    <PaginationItem>
+                                        <PaginationEllipsis />
+                                    </PaginationItem>
+                                )}
+                            </>
+                        )}
+
+                        {pages.map((p) => (
+                            <PaginationItem key={p}>
+                                <PaginationLink
+                                    isActive={p === page}
+                                    onClick={() => setCurrentPage(p)}
+                                    className="cursor-pointer"
+                                >
+                                    {p}
+                                </PaginationLink>
+                            </PaginationItem>
+                        ))}
+
+                        {endPage < totalPages && (
+                            <>
+                                {endPage < totalPages - 1 && (
+                                    <PaginationItem>
+                                        <PaginationEllipsis />
+                                    </PaginationItem>
+                                )}
+                                <PaginationItem>
+                                    <PaginationLink
+                                        onClick={() =>
+                                            setCurrentPage(totalPages)
+                                        }
+                                        className="cursor-pointer"
+                                    >
+                                        {totalPages}
+                                    </PaginationLink>
+                                </PaginationItem>
+                            </>
+                        )}
+
+                        <PaginationItem>
+                            <PaginationNext
+                                onClick={() =>
+                                    setCurrentPage((p) =>
+                                        Math.min(totalPages, p + 1),
+                                    )
+                                }
+                                className={
+                                    page === totalPages
+                                        ? 'pointer-events-none opacity-50'
+                                        : 'cursor-pointer'
+                                }
+                            />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
+            </div>
+        );
     };
 
     return (
@@ -75,7 +199,9 @@ export const MenuClient = () => {
                                 type="text"
                                 placeholder="Tìm kiếm món ăn..."
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={(e) =>
+                                    handleSearchChange(e.target.value)
+                                }
                                 className="pl-10"
                             />
                         </div>
@@ -136,51 +262,55 @@ export const MenuClient = () => {
                         ))}
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {dishes.map((item: any) => (
-                            <div
-                                key={item.id}
-                                className="group bg-card rounded-2xl overflow-hidden border border-border hover:shadow-warm transition-all duration-300 flex flex-col"
-                            >
-                                <div className="relative aspect-square overflow-hidden bg-muted">
-                                    {item.images?.[0] ? (
-                                        <Image
-                                            src={item.images[0]}
-                                            alt={item.name || 'Món ăn'}
-                                            fill
-                                            className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                                            No Image
+                    <>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            {dishes.map((item: any) => (
+                                <div
+                                    key={item.id}
+                                    className="group bg-card rounded-2xl overflow-hidden border border-border hover:shadow-warm transition-all duration-300 flex flex-col"
+                                >
+                                    <div className="relative aspect-square overflow-hidden bg-muted">
+                                        {item.images?.[0] ? (
+                                            <Image
+                                                src={item.images[0]}
+                                                alt={item.name || 'Món ăn'}
+                                                fill
+                                                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                                                No Image
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="p-5 flex flex-col flex-1">
+                                        <h3 className="font-display text-xl font-bold text-foreground mb-2">
+                                            {item.name}
+                                        </h3>
+                                        <p className="text-muted-foreground text-sm mb-4 line-clamp-2 flex-1">
+                                            {item.description}
+                                        </p>
+                                        <div className="flex items-center justify-between mt-auto pt-4">
+                                            <span className="text-lg font-bold text-primary">
+                                                {formatCurrency(item.basePrice)}
+                                            </span>
+                                            <Button
+                                                variant="warm"
+                                                size="sm"
+                                                onClick={() => {
+                                                    setSelectedDishId(item.id);
+                                                }}
+                                            >
+                                                Thêm
+                                            </Button>
                                         </div>
-                                    )}
-                                </div>
-                                <div className="p-5 flex flex-col flex-1">
-                                    <h3 className="font-display text-xl font-bold text-foreground mb-2">
-                                        {item.name}
-                                    </h3>
-                                    <p className="text-muted-foreground text-sm mb-4 line-clamp-2 flex-1">
-                                        {item.description}
-                                    </p>
-                                    <div className="flex items-center justify-between mt-auto pt-4">
-                                        <span className="text-lg font-bold text-primary">
-                                            {formatCurrency(item.basePrice)}
-                                        </span>
-                                        <Button
-                                            variant="warm"
-                                            size="sm"
-                                            onClick={() => {
-                                                setSelectedDishId(item.id);
-                                            }}
-                                        >
-                                            Thêm
-                                        </Button>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+
+                        {renderPagination()}
+                    </>
                 )}
 
                 {!isLoadingDishes && dishes.length === 0 && (

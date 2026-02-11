@@ -53,11 +53,27 @@ export default function CheckoutPage() {
     const createOrderMutation = trpc.order.createFromCart.useMutation({
         onSuccess: (order) => {
             toast.success('Đặt hàng thành công!');
+            toast.success('Đặt hàng thành công!');
             utils.cart.get.invalidate();
-            router.push(`/checkout/success?orderId=${order.id}`);
+
+            if (paymentMethod === 'MOMO') {
+                initiatePaymentMutation.mutate({ orderId: order.id });
+            } else {
+                router.push(`/checkout/success?orderId=${order.id}`);
+            }
         },
         onError: (error) => {
             toast.error(error.message || 'Có lỗi xảy ra khi tạo đơn hàng');
+            setIsSubmitting(false);
+        },
+    });
+
+    const initiatePaymentMutation = trpc.payment.initiate.useMutation({
+        onSuccess: (data) => {
+            window.location.href = data.payUrl;
+        },
+        onError: (error) => {
+            toast.error(error.message || 'Lỗi khởi tạo thanh toán');
             setIsSubmitting(false);
         },
     });
@@ -229,7 +245,26 @@ export default function CheckoutPage() {
                                     </div>
                                     <div className="flex items-center space-x-2 border rounded-lg p-4 cursor-pointer hover:bg-muted/50 transition-colors [&:has(:checked)]:border-primary [&:has(:checked)]:bg-primary/5">
                                         <RadioGroupItem
-                                            value="BANKing"
+                                            value="MOMO"
+                                            id="momo"
+                                        />
+                                        <Label
+                                            htmlFor="momo"
+                                            className="flex-1 cursor-pointer flex items-center justify-between"
+                                        >
+                                            <span>Ví MoMo</span>
+                                            <Image
+                                                src="/images/momo-logo.png"
+                                                alt="MoMo"
+                                                width={24}
+                                                height={24}
+                                                className="rounded-md"
+                                            />
+                                        </Label>
+                                    </div>
+                                    <div className="flex items-center space-x-2 border rounded-lg p-4 cursor-pointer hover:bg-muted/50 transition-colors [&:has(:checked)]:border-primary [&:has(:checked)]:bg-primary/5">
+                                        <RadioGroupItem
+                                            value="BANK_TRANSFER"
                                             id="banking"
                                         />
                                         <Label

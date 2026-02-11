@@ -19,3 +19,4 @@ export * from './promotion.schema';
 export * from './notification.schema';
 export * from './restaurant.schema';
 export * from './reservation.schema';
+export * from './payment.schema';

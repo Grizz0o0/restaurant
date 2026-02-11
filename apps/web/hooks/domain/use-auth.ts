@@ -88,8 +88,10 @@ export const useAuth = () => {
         try {
             await fetch('/api/auth/logout', { method: 'POST' });
             clearAuthTokens();
+            // Explicitly clear user data to update UI immediately
+            utils.profile.getProfile.setData(undefined, undefined);
             // Clear cached data
-            utils.invalidate();
+            await utils.invalidate();
             toast.success('Đăng xuất thành công');
             router.push('/auth/login');
         } catch (error) {
