@@ -46,7 +46,7 @@ const Cart = () => {
     });
 
     const updateQuantity = (
-        skuId: string,
+        itemId: string,
         currentQty: number,
         delta: number,
     ) => {
@@ -54,13 +54,13 @@ const Cart = () => {
         if (newQuantity < 1) return;
 
         updateItemMutation.mutate({
-            skuId,
+            itemId,
             quantity: newQuantity,
         });
     };
 
-    const removeItem = (skuId: string) => {
-        removeItemMutation.mutate({ skuId });
+    const removeItem = (itemId: string) => {
+        removeItemMutation.mutate({ itemId });
     };
 
     if (isAuthLoading || (isAuthenticated && isCartLoading)) {
@@ -89,7 +89,7 @@ const Cart = () => {
     }
 
     const cartItems = cartData?.items || [];
-    const subtotal = cartData?.totalPrice || 0;
+    const subtotal = cartData?.total || 0;
     // Backend cart usually returns total price, but sometimes we re-calc on frontend or rely on backend response.
     // The Schema GetCartResSchema usually has totalPrice.
     // Let's assume cartData has totalPrice, if not we calculate.
@@ -194,7 +194,7 @@ const Cart = () => {
                                                 <button
                                                     onClick={() =>
                                                         updateQuantity(
-                                                            item.skuId,
+                                                            item.id,
                                                             item.quantity,
                                                             -1,
                                                         )
@@ -212,7 +212,7 @@ const Cart = () => {
                                                 <button
                                                     onClick={() =>
                                                         updateQuantity(
-                                                            item.skuId,
+                                                            item.id,
                                                             item.quantity,
                                                             1,
                                                         )
@@ -227,7 +227,7 @@ const Cart = () => {
                                             </div>
                                             <button
                                                 onClick={() =>
-                                                    removeItem(item.skuId)
+                                                    removeItem(item.id)
                                                 }
                                                 disabled={
                                                     removeItemMutation.isPending
