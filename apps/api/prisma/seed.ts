@@ -36,8 +36,8 @@ async function main() {
     // await prisma.sKU.deleteMany({})
     // await prisma.variantOption.deleteMany({})
     // await prisma.variant.deleteMany({})
-    // await prisma.dishTranslation.deleteMany({})
-    // await prisma.dish.deleteMany({})
+    await prisma.dishTranslation.deleteMany({})
+    await prisma.dish.deleteMany({})
 
     // Categories
     // await prisma.dishCategoryTranslation.deleteMany({})
@@ -557,6 +557,7 @@ async function main() {
     en: { name: string; desc: string }
     price: number
     catId: string
+    images?: string[]
     variants?: { name: string; options: { value: string; price?: number }[] }[]
     recipe?: { ingredientName: string; quantity: number }[]
   }
@@ -566,179 +567,223 @@ async function main() {
     {
       vi: { name: 'Bánh mì chả nóng', desc: 'Nhân chả thơm ngon' },
       en: { name: 'Hot Pork Roll Banh Mi', desc: 'With hot pork roll' },
+      images: [''],
       price: 25000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì pate chả nóng', desc: 'Pate béo ngậy và chả' },
       en: { name: 'Pate & Pork Roll Banh Mi', desc: 'Pate and pork roll' },
+      images: [''],
       price: 25000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì chả ruốc', desc: 'Chả và ruốc bông' },
       en: { name: 'Pork Roll & Floss Banh Mi', desc: 'Pork roll and meat floss' },
+      images: [''],
       price: 25000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì giò nóng', desc: 'Giò lụa nóng hổi' },
       en: { name: 'Hot Vietnamese Sausage Banh Mi', desc: 'Hot sausage' },
+      images: [''],
       price: 25000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì pate giò nóng', desc: 'Pate và giò' },
       en: { name: 'Pate & Sausage Banh Mi', desc: 'Pate and sausage' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770818610/restaurant-app/dishes/lxaxii1b6yezzcjvmhtj.jpg',
+      ],
       price: 25000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì giò ruốc', desc: 'Giò và ruốc' },
       en: { name: 'Sausage & Floss Banh Mi', desc: 'Sausage and floss' },
+      images: [''],
       price: 25000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì lườn ngỗng', desc: 'Lườn ngỗng hun khói' },
       en: { name: 'Smoked Goose Breast Banh Mi', desc: 'Smoked goose breast' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770818519/restaurant-app/dishes/ingfvc6xhphd5wm0iqqz.jpg',
+      ],
       price: 25000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì pate lườn ngỗng', desc: 'Pate và lườn ngỗng' },
       en: { name: 'Pate & Goose Breast Banh Mi', desc: 'Pate and goose breast' },
+      images: [''],
       price: 25000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì lườn ruốc', desc: 'Lườn ngỗng và ruốc' },
       en: { name: 'Goose Breast & Floss Banh Mi', desc: 'Goose breast and floss' },
+      images: [''],
       price: 25000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì xá xíu', desc: 'Thịt xá xíu đậm đà' },
       en: { name: 'Char Siu Banh Mi', desc: 'BBQ pork' },
+      images: [''],
       price: 25000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì pate xá xíu', desc: 'Pate và xá xíu' },
       en: { name: 'Pate & Char Siu Banh Mi', desc: 'Pate and BBQ pork' },
+      images: [''],
       price: 25000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì xá xíu ruốc', desc: 'Xá xíu và ruốc' },
       en: { name: 'Char Siu & Floss Banh Mi', desc: 'BBQ pork and floss' },
+      images: [''],
       price: 25000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì nem nướng', desc: 'Nem nướng thơm lừng' },
       en: { name: 'Grilled Sausage Banh Mi', desc: 'Grilled sausage' },
+      images: [''],
       price: 25000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì pate nem nướng', desc: 'Pate và nem nướng' },
       en: { name: 'Pate & Grilled Sausage Banh Mi', desc: 'Pate and grilled sausage' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770814709/restaurant-app/dishes/u2xamxvpgbxgvvml1hjw.jpg',
+      ],
       price: 25000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì nem nướng ruốc', desc: 'Nem nướng và ruốc' },
       en: { name: 'Grilled Sausage & Floss Banh Mi', desc: 'Grilled sausage and floss' },
+      images: [''],
       price: 25000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì trứng chả', desc: 'Trứng ốp và chả' },
       en: { name: 'Egg & Pork Roll Banh Mi', desc: 'Fried egg and pork roll' },
+      images: [''],
       price: 25000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì trứng giò', desc: 'Trứng ốp và giò' },
       en: { name: 'Egg & Sausage Banh Mi', desc: 'Fried egg and sausage' },
+      images: [''],
       price: 25000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì trứng ruốc', desc: 'Trứng và ruốc' },
       en: { name: 'Egg & Floss Banh Mi', desc: 'Fried egg and floss' },
+      images: [''],
       price: 20000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì trứng bò khô', desc: 'Trứng và bò khô' },
       en: { name: 'Egg & Beef Jerky Banh Mi', desc: 'Egg and beef jerky' },
+      images: [''],
       price: 20000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì trứng xúc xích', desc: 'Trứng và xúc xích' },
       en: { name: 'Egg & Sausage Banh Mi', desc: 'Egg and sausage' },
+      images: [''],
       price: 20000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì 2 trứng', desc: 'Hai trứng ốp la' },
       en: { name: 'Double Egg Banh Mi', desc: 'Two fried eggs' },
+      images: [''],
       price: 20000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì pate trứng', desc: 'Pate và trứng' },
       en: { name: 'Pate & Egg Banh Mi', desc: 'Pate and egg' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770814656/restaurant-app/dishes/ktg0ojt5rpq2cl1xcmlm.jpg',
+      ],
       price: 20000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì pate xúc xích', desc: 'Pate và xúc xích' },
       en: { name: 'Pate & Sausage Banh Mi', desc: 'Pate and sausage' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770814550/restaurant-app/dishes/kmpjcl9vucw336twrjyj.jpg',
+      ],
       price: 20000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì xúc xích ruốc', desc: 'Xúc xích và ruốc' },
       en: { name: 'Sausage & Floss Banh Mi', desc: 'Sausage and floss' },
+      images: [''],
       price: 20000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì xúc xích bò khô', desc: 'Xúc xích và bò khô' },
       en: { name: 'Sausage & Beef Jerky Banh Mi', desc: 'Sausage and beef jerky' },
+      images: [''],
       price: 20000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì pate lạp xưởng', desc: 'Pate và lạp xưởng' },
       en: { name: 'Pate & Chinese Sausage Banh Mi', desc: 'Pate and chinese sausage' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770814335/restaurant-app/dishes/g9nbh5b2oakg0leuhrob.jpg',
+      ],
       price: 20000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì pate', desc: 'Sốt pate đặc biệt' },
       en: { name: 'Pate Banh Mi', desc: 'Special pate' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770810580/Screenshot_2026-02-08_203316_qkihfi.png',
+      ],
       price: 15000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì bò khô', desc: 'Nhân bò khô' },
       en: { name: 'Beef Jerky Banh Mi', desc: 'Beef jerky' },
+      images: [''],
       price: 15000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì ruốc', desc: 'Nhân ruốc' },
       en: { name: 'Floss Banh Mi', desc: 'Meat floss' },
+      images: [''],
       price: 15000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì xúc xích', desc: 'Nhân xúc xích' },
+      images: [''],
       en: { name: 'Sausage Banh Mi', desc: 'Sausage' },
       price: 15000,
       catId: banhMiCat.id,
@@ -746,35 +791,45 @@ async function main() {
     {
       vi: { name: 'Bánh mì 1 trứng', desc: 'Một trứng ốp la' },
       en: { name: 'Single Egg Banh Mi', desc: 'One fried egg' },
+      images: [''],
       price: 15000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì pate ruốc', desc: 'Pate và ruốc' },
       en: { name: 'Pate & Floss Banh Mi', desc: 'Pate and floss' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770818832/restaurant-app/dishes/oshk7lyn8unoyetvcuza.jpg',
+      ],
       price: 15000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì pate bò khô', desc: 'Pate và bò khô' },
       en: { name: 'Pate & Beef Jerky Banh Mi', desc: 'Pate and beef jerky' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770819011/restaurant-app/dishes/u5fjwdaemq5tkyxh8fth.jpg',
+      ],
       price: 15000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì bơ sữa', desc: 'Ngọt ngào bơ sữa' },
       en: { name: 'Butter & Milk Banh Mi', desc: 'Butter and condensed milk' },
+      images: [''],
       price: 15000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì thập cẩm', desc: 'Tổng hợp các loại nhân' },
+      images: [''],
       en: { name: 'Mixed Banh Mi', desc: 'Fully loaded' },
       price: 30000,
       catId: banhMiCat.id,
     },
     {
       vi: { name: 'Bánh mì đặc biệt', desc: 'Phần nhân siêu đầy đặn' },
+      images: [''],
       en: { name: 'Special Banh Mi', desc: 'Super loaded' },
       price: 40000,
       catId: banhMiCat.id,
@@ -782,6 +837,7 @@ async function main() {
     {
       vi: { name: 'Bánh mì không', desc: 'Bánh mì giòn tan' },
       en: { name: 'Plain Banh Mi', desc: 'Crispy baguette' },
+      images: [''],
       price: 5000,
       catId: banhMiCat.id,
     },
@@ -790,84 +846,104 @@ async function main() {
     {
       vi: { name: 'Xôi pate ruốc', desc: 'Xôi dẻo với pate ruốc' },
       en: { name: 'Pate & Floss Sticky Rice', desc: 'Sticky rice with pate and floss' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770819462/restaurant-app/dishes/renkkvpkgclfosrukffp.jpg',
+      ],
       price: 20000,
       catId: xoiCat.id,
     },
     {
       vi: { name: 'Xôi pate trứng', desc: 'Xôi pate trứng' },
       en: { name: 'Pate & Egg Sticky Rice', desc: 'Pate and egg' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770819595/restaurant-app/dishes/mlhaxymasbrgmhl3vjmb.jpg',
+      ],
       price: 20000,
       catId: xoiCat.id,
     },
     {
       vi: { name: 'Xôi pate xúc xích', desc: 'Xôi pate xúc xích' },
       en: { name: 'Pate & Sausage Sticky Rice', desc: 'Pate and sausage' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770819897/restaurant-app/dishes/tbktqmlpcicrt5lo4fmp.jpg',
+      ],
       price: 20000,
       catId: xoiCat.id,
     },
     {
       vi: { name: 'Xôi trứng xúc xích', desc: 'Xôi trứng xúc xích' },
       en: { name: 'Egg & Sausage Sticky Rice', desc: 'Egg and sausage' },
+      images: [''],
       price: 20000,
       catId: xoiCat.id,
     },
     {
       vi: { name: 'Xôi trứng ruốc', desc: 'Xôi trứng ruốc' },
       en: { name: 'Egg & Floss Sticky Rice', desc: 'Egg and floss' },
+      images: [''],
       price: 20000,
       catId: xoiCat.id,
     },
     {
       vi: { name: 'Xôi 2 trứng', desc: 'Xôi với 2 trứng' },
       en: { name: 'Double Egg Sticky Rice', desc: 'Sticky rice with 2 eggs' },
+      images: [''],
       price: 20000,
       catId: xoiCat.id,
     },
     {
       vi: { name: 'Xôi trứng chả', desc: 'Xôi trứng chả' },
       en: { name: 'Egg & Pork Roll Sticky Rice', desc: 'Egg and pork roll' },
+      images: [''],
       price: 25000,
       catId: xoiCat.id,
     },
     {
       vi: { name: 'Xôi trứng giò', desc: 'Xôi trứng giò' },
       en: { name: 'Egg & Sausage Sticky Rice', desc: 'Egg and sausage' },
+      images: [''],
       price: 25000,
       catId: xoiCat.id,
     },
     {
       vi: { name: 'Xôi pate chả', desc: 'Xôi pate chả' },
       en: { name: 'Pate & Pork Roll Sticky Rice', desc: 'Pate and pork roll' },
+      images: [''],
       price: 25000,
       catId: xoiCat.id,
     },
     {
       vi: { name: 'Xôi pate giò', desc: 'Xôi pate giò' },
       en: { name: 'Pate & Sausage Sticky Rice', desc: 'Pate and sausage' },
+      images: [''],
       price: 25000,
       catId: xoiCat.id,
     },
     {
       vi: { name: 'Xôi chả ruốc', desc: 'Xôi chả ruốc' },
       en: { name: 'Pork Roll & Floss Sticky Rice', desc: 'Pork roll and floss' },
+      images: [''],
       price: 25000,
       catId: xoiCat.id,
     },
     {
       vi: { name: 'Xôi giò ruốc', desc: 'Xôi giò ruốc' },
       en: { name: 'Sausage & Floss Sticky Rice', desc: 'Sausage and floss' },
+      images: [''],
       price: 25000,
       catId: xoiCat.id,
     },
     {
       vi: { name: 'Xôi thập cẩm', desc: 'Đầy đủ toping' },
       en: { name: 'Mixed Sticky Rice', desc: 'Mixed toppings' },
+      images: [''],
       price: 30000,
       catId: xoiCat.id,
     },
     {
       vi: { name: 'Xôi thập cẩm trứng', desc: 'Thập cẩm thêm trứng' },
       en: { name: 'Mixed Sticky Rice with Egg', desc: 'Mixed toppings with egg' },
+      images: [''],
       price: 35000,
       catId: xoiCat.id,
     },
@@ -876,12 +952,18 @@ async function main() {
     {
       vi: { name: 'Nem nướng suất vừa', desc: 'Suất vừa ăn' },
       en: { name: 'Grilled Sausage (Medium)', desc: 'Medium portion' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1771000800/restaurant-app/dishes/bgdi6uhodcyi4joriepi.jpg',
+      ],
       price: 35000,
       catId: nemNuongCat.id,
     },
     {
       vi: { name: 'Nem nướng suất lớn', desc: 'Suất lớn đầy đặn' },
       en: { name: 'Grilled Sausage (Large)', desc: 'Large portion' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1771000788/restaurant-app/dishes/ecqt9zrntxwrrvbk7njk.jpg',
+      ],
       price: 45000,
       catId: nemNuongCat.id,
     },
@@ -890,84 +972,126 @@ async function main() {
     {
       vi: { name: 'Bánh cá kem sữa', desc: 'Nhân kem sữa' },
       en: { name: 'Custard Taiyaki', desc: 'Custard filling' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1771000094/restaurant-app/dishes/txuxtbttlhsrydhujcer.jpg',
+      ],
       price: 10000,
       catId: banhCaCat.id,
     },
     {
       vi: { name: 'Bánh cá sô cô la', desc: 'Nhân chocolate' },
       en: { name: 'Chocolate Taiyaki', desc: 'Chocolate filling' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1771000094/restaurant-app/dishes/txuxtbttlhsrydhujcer.jpg',
+      ],
       price: 10000,
       catId: banhCaCat.id,
     },
     {
       vi: { name: 'Bánh cá trà xanh', desc: 'Nhân trà xanh' },
       en: { name: 'Matcha Taiyaki', desc: 'Matcha filling' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1771000094/restaurant-app/dishes/txuxtbttlhsrydhujcer.jpg',
+      ],
       price: 10000,
       catId: banhCaCat.id,
     },
     {
       vi: { name: 'Bánh cá phomai kéo sợi', desc: 'Phomai mozzarella' },
       en: { name: 'Cheese Taiyaki', desc: 'Mozzarella cheese' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1771000094/restaurant-app/dishes/txuxtbttlhsrydhujcer.jpg',
+      ],
       price: 10000,
       catId: banhCaCat.id,
     },
     {
       vi: { name: 'Bánh cá pate', desc: 'Nhân pate' },
       en: { name: 'Pate Taiyaki', desc: 'Pate filling' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1771000094/restaurant-app/dishes/txuxtbttlhsrydhujcer.jpg',
+      ],
       price: 10000,
       catId: banhCaCat.id,
     },
     {
       vi: { name: 'Bánh cá xúc xích', desc: 'Nhân xúc xích' },
       en: { name: 'Sausage Taiyaki', desc: 'Sausage filling' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1771000094/restaurant-app/dishes/txuxtbttlhsrydhujcer.jpg',
+      ],
       price: 10000,
       catId: banhCaCat.id,
     },
     {
       vi: { name: 'Bánh cá bò khô', desc: 'Nhân bò khô' },
       en: { name: 'Beef Jerky Taiyaki', desc: 'Beef jerky filling' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1771000094/restaurant-app/dishes/txuxtbttlhsrydhujcer.jpg',
+      ],
       price: 10000,
       catId: banhCaCat.id,
     },
     {
       vi: { name: 'Bánh cá ruốc', desc: 'Nhân ruốc' },
       en: { name: 'Floss Taiyaki', desc: 'Floss filling' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1771000094/restaurant-app/dishes/txuxtbttlhsrydhujcer.jpg',
+      ],
       price: 10000,
       catId: banhCaCat.id,
     },
     {
       vi: { name: 'Bánh cá ngô', desc: 'Nhân ngô' },
       en: { name: 'Corn Taiyaki', desc: 'Corn filling' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1771000094/restaurant-app/dishes/txuxtbttlhsrydhujcer.jpg',
+      ],
       price: 10000,
       catId: banhCaCat.id,
     },
     {
       vi: { name: 'Bánh cá sốt dâu', desc: 'Sốt dâu' },
       en: { name: 'Strawberry Taiyaki', desc: 'Strawberry sauce' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1771000094/restaurant-app/dishes/txuxtbttlhsrydhujcer.jpg',
+      ],
       price: 10000,
       catId: banhCaCat.id,
     },
     {
       vi: { name: 'Bánh cá sốt việt quất', desc: 'Sốt việt quất' },
       en: { name: 'Blueberry Taiyaki', desc: 'Blueberry sauce' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1771000094/restaurant-app/dishes/txuxtbttlhsrydhujcer.jpg',
+      ],
       price: 10000,
       catId: banhCaCat.id,
     },
     {
       vi: { name: 'Bánh cá sốt xoài', desc: 'Sốt xoài' },
       en: { name: 'Mango Taiyaki', desc: 'Mango sauce' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1771000094/restaurant-app/dishes/txuxtbttlhsrydhujcer.jpg',
+      ],
       price: 10000,
       catId: banhCaCat.id,
     },
     {
       vi: { name: 'Bánh cá sốt đào', desc: 'Sốt đào' },
       en: { name: 'Peach Taiyaki', desc: 'Peach sauce' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1771000094/restaurant-app/dishes/txuxtbttlhsrydhujcer.jpg',
+      ],
       price: 10000,
       catId: banhCaCat.id,
     },
     {
       vi: { name: 'Bánh cá không nhân', desc: 'Vỏ giòn' },
       en: { name: 'Plain Taiyaki', desc: 'No filling' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1771000094/restaurant-app/dishes/txuxtbttlhsrydhujcer.jpg',
+      ],
       price: 7000,
       catId: banhCaCat.id,
     },
@@ -976,60 +1100,88 @@ async function main() {
     {
       vi: { name: 'Bỏng ngô', desc: 'Bỏng ngô giòn' },
       en: { name: 'Popcorn', desc: 'Crispy popcorn' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770999651/restaurant-app/dishes/geoa0aym9qspidgmhg7x.jpg',
+      ],
       price: 25000,
       catId: snackCat.id,
     },
     {
       vi: { name: 'Nem chua rán', desc: 'Nem chua rán Hà Nội' },
       en: { name: 'Fried Fermented Pork', desc: 'Fried sour pork' },
+      images: [''],
       price: 25000,
       catId: snackCat.id,
     },
     {
       vi: { name: 'Khoai lang kén', desc: 'Khoai lang kén vàng ươm' },
       en: { name: 'Sweet Potato Cocoons', desc: 'Fried sweet potato' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770999931/restaurant-app/dishes/jtmcfqcglesuqfni1ufj.jpg',
+      ],
       price: 25000,
       catId: snackCat.id,
     },
     {
       vi: { name: 'Khoai tây rán', desc: 'Khoai tây chiên' },
       en: { name: 'French Fries', desc: 'Fried potato' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770999843/restaurant-app/dishes/agm4yb1x0ioajgkuylps.jpg',
+      ],
       price: 20000,
       catId: snackCat.id,
     },
     {
       vi: { name: 'Cá viên chiên', desc: 'Cá viên chiên' },
       en: { name: 'Fried Fish Balls', desc: 'Fish balls' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770999426/restaurant-app/dishes/r9hat4onkgrph6ykamsm.jpg',
+      ],
       price: 20000,
       catId: snackCat.id,
     },
     {
       vi: { name: 'Xúc xích', desc: 'Xúc xích chiên' },
       en: { name: 'Fried Sausage', desc: 'Sausage' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770999197/restaurant-app/dishes/jalybe4aqft1muwmclke.jpg',
+      ],
       price: 10000,
       catId: snackCat.id,
     },
     {
       vi: { name: 'Lạp xưởng', desc: 'Lạp xưởng tươi' },
       en: { name: 'Chinese Sausage', desc: 'Chinese sausage' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770999139/restaurant-app/dishes/jvpa3vdjfqmj64njvuv5.jpg',
+      ],
       price: 10000,
       catId: snackCat.id,
     },
     {
       vi: { name: 'Hướng dương mộc', desc: 'Hạt hướng dương' },
       en: { name: 'Sunflower Seeds', desc: 'Sunflower seeds' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770999519/restaurant-app/dishes/tqklnn9dhgfemkzuxobg.jpg',
+      ],
       price: 10000,
       catId: snackCat.id,
     },
     {
       vi: { name: 'Bò khô vắt tắc', desc: 'Bò khô chanh' },
       en: { name: 'Beef Jerky w/ Lime', desc: 'Beef jerky with lime' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770999581/restaurant-app/dishes/wnvueyu04fvxesdjp1np.jpg',
+      ],
       price: 15000,
       catId: snackCat.id,
     },
     {
       vi: { name: 'Kem cốc', desc: 'Kem mát lạnh' },
       en: { name: 'Ice Cream Cup', desc: 'Ice cream' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770998988/restaurant-app/dishes/brf4gpubslmgevn5xur4.jpg',
+      ],
       price: 5000,
       catId: snackCat.id,
     },
@@ -1038,12 +1190,18 @@ async function main() {
     {
       vi: { name: 'Trà chanh', desc: 'Trà chanh tươi mát' },
       en: { name: 'Lime Tea', desc: 'Fresh lime tea' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828534/restaurant-app/dishes/cts37hpxw3wrnh9mj69d.jpg',
+      ],
       price: 10000,
       catId: drinkCat.id,
     },
     {
       vi: { name: 'Cafe sữa', desc: 'Cà phê nâu đá' },
       en: { name: 'Milk Coffee', desc: 'Vietnamese milk coffee' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828480/restaurant-app/dishes/utpftxpwkiyd92pgz4oc.jpg',
+      ],
       price: 18000,
       catId: drinkCat.id,
     },
@@ -1072,6 +1230,7 @@ async function main() {
         basePrice: dishData.price,
         supplierId: supplier.id,
         categories: { connect: { id: dishData.catId } },
+        images: (dishData.images || []).filter((img) => img !== ''),
         isActive: true, // Ensuring default active
 
         dishTranslations: {

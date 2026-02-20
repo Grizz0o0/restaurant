@@ -14,16 +14,12 @@ export const uploadService = {
         const formData = new FormData();
         formData.append('file', file);
 
-        const token = getAccessToken();
-        const apiUrl =
-            process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3052/v1/api';
-
         try {
-            const response = await fetch(`${apiUrl}/uploads?folder=${folder}`, {
+            // Use the local Next.js proxy route instead of direct backend URL
+            // This allows the server-side proxy to access httpOnly cookies
+            const response = await fetch(`/api/upload?folder=${folder}`, {
                 method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                // No need to manually set Authorization header, cookies are sent automatically
                 body: formData,
             });
 
@@ -33,8 +29,8 @@ export const uploadService = {
             }
 
             const data = await response.json();
-            console.log('Upload Service Response Data:', data); // Debug log
-            return data.data || data; // Handle wrapped response
+            // Handle cases where the backend wraps the response in a 'data' property
+            return data.data || data;
         } catch (error: any) {
             console.error('Upload error:', error);
             throw error;

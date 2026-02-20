@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { ArrowRight, Clock, MapPin, Star } from 'lucide-react';
-import heroBanhMi from '@/assets/hero-banh-mi.jpg';
+import heroBanhMi from '@/assets/hero-banh-mi2.jpg';
 import { Button } from '@/components/ui/button';
 
 const HeroSection = () => {
