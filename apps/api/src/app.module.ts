@@ -26,7 +26,9 @@ import { LanguageModule } from './modules/language/language.module'
 import { SupplierModule } from './modules/supplier/supplier.module'
 import { InventoryModule } from './modules/inventory/inventory.module'
 import { InventoryTransactionModule } from './modules/inventory-transaction/inventory-transaction.module'
+import { InventoryDishModule } from './modules/inventory-dish/inventory-dish.module'
 import { RestaurantModule } from './modules/restaurant/restaurant.module'
+import { RestaurantStaffModule } from './modules/restaurant-staff/restaurant-staff.module'
 import { ReservationModule } from './modules/reservation/reservation.module'
 import { AddressModule } from './modules/address/address.module'
 import { PaymentModule } from './modules/payment/payment.module'
@@ -72,7 +74,9 @@ import SuperJSON from 'superjson'
     SupplierModule,
     InventoryModule,
     InventoryTransactionModule,
+    InventoryDishModule,
     RestaurantModule,
+    RestaurantStaffModule,
     ReservationModule,
     AddressModule,
     PaymentModule,

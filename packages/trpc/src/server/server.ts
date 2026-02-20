@@ -108,6 +108,13 @@ import {
     CheckPaymentStatusOutputSchema,
     RefundPaymentInputSchema,
     RefundPaymentOutputSchema,
+    GetRestaurantStaffParamsSchema,
+    GetRestaurantStaffResSchema,
+    CreateRestaurantStaffBodySchema,
+    UpdateRestaurantStaffBodySchema,
+    CreateInventoryDishBodySchema,
+    UpdateInventoryDishBodySchema,
+    GetDishIngredientsResSchema,
 } from '@repo/schema';
 import superjson from 'superjson';
 const t = initTRPC.create({ transformer: superjson });
@@ -573,6 +580,69 @@ const appRouter = t.router({
         refund: publicProcedure
             .input(RefundPaymentInputSchema)
             .output(RefundPaymentOutputSchema)
+            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+    }),
+    restaurantStaff: t.router({
+        getStaffs: publicProcedure
+            .input(z.object({ restaurantId: z.string().uuid() }))
+            .output(z.any())
+            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        assignStaff: publicProcedure
+            .input(
+                z.object({
+                    restaurantId: z.string().uuid(),
+                    data: CreateRestaurantStaffBodySchema,
+                }),
+            )
+            .output(z.any())
+            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        updateStaffPosition: publicProcedure
+            .input(
+                z.object({
+                    restaurantId: z.string().uuid(),
+                    userId: z.string().uuid(),
+                    data: UpdateRestaurantStaffBodySchema,
+                }),
+            )
+            .output(z.any())
+            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        removeStaff: publicProcedure
+            .input(
+                z.object({
+                    restaurantId: z.string().uuid(),
+                    userId: z.string().uuid(),
+                }),
+            )
+            .output(z.any())
+            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+    }),
+    inventoryDish: t.router({
+        getDishIngredients: publicProcedure
+            .input(z.object({ dishId: z.string().uuid() }))
+            .output(z.any())
+            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        addIngredientToDish: publicProcedure
+            .input(CreateInventoryDishBodySchema)
+            .output(z.any())
+            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        updateIngredientQuantity: publicProcedure
+            .input(
+                z.object({
+                    inventoryId: z.string().uuid(),
+                    dishId: z.string().uuid(),
+                    data: UpdateInventoryDishBodySchema,
+                }),
+            )
+            .output(z.any())
+            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        removeIngredientFromDish: publicProcedure
+            .input(
+                z.object({
+                    inventoryId: z.string().uuid(),
+                    dishId: z.string().uuid(),
+                }),
+            )
+            .output(z.any())
             .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
     }),
 });
