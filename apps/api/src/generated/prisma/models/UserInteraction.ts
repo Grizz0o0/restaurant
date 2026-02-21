@@ -47,6 +47,7 @@ export type UserInteractionCountAggregateOutputType = {
   userId: number
   dishId: number
   action: number
+  metadata: number
   timestamp: number
   _all: number
 }
@@ -73,6 +74,7 @@ export type UserInteractionCountAggregateInputType = {
   userId?: true
   dishId?: true
   action?: true
+  metadata?: true
   timestamp?: true
   _all?: true
 }
@@ -151,9 +153,10 @@ export type UserInteractionGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 
 export type UserInteractionGroupByOutputType = {
   id: string
-  userId: string
+  userId: string | null
   dishId: string | null
   action: $Enums.InteractionType
+  metadata:unknown | null
   timestamp: Date
   _count: UserInteractionCountAggregateOutputType | null
   _min: UserInteractionMinAggregateOutputType | null
@@ -180,19 +183,21 @@ export type UserInteractionWhereInput = {
   OR?: Prisma.UserInteractionWhereInput[]
   NOT?: Prisma.UserInteractionWhereInput | Prisma.UserInteractionWhereInput[]
   id?: Prisma.StringFilter<"UserInteraction"> | string
-  userId?: Prisma.StringFilter<"UserInteraction"> | string
+  userId?: Prisma.StringNullableFilter<"UserInteraction"> | string | null
   dishId?: Prisma.StringNullableFilter<"UserInteraction"> | string | null
   action?: Prisma.EnumInteractionTypeFilter<"UserInteraction"> | $Enums.InteractionType
+  metadata?: Prisma.JsonNullableFilter<"UserInteraction">
   timestamp?: Prisma.DateTimeFilter<"UserInteraction"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   dish?: Prisma.XOR<Prisma.DishNullableScalarRelationFilter, Prisma.DishWhereInput> | null
 }
 
 export type UserInteractionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  userId?: Prisma.SortOrderInput | Prisma.SortOrder
   dishId?: Prisma.SortOrderInput | Prisma.SortOrder
   action?: Prisma.SortOrder
+  metadata?: Prisma.SortOrderInput | Prisma.SortOrder
   timestamp?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   dish?: Prisma.DishOrderByWithRelationInput
@@ -203,19 +208,21 @@ export type UserInteractionWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.UserInteractionWhereInput | Prisma.UserInteractionWhereInput[]
   OR?: Prisma.UserInteractionWhereInput[]
   NOT?: Prisma.UserInteractionWhereInput | Prisma.UserInteractionWhereInput[]
-  userId?: Prisma.StringFilter<"UserInteraction"> | string
+  userId?: Prisma.StringNullableFilter<"UserInteraction"> | string | null
   dishId?: Prisma.StringNullableFilter<"UserInteraction"> | string | null
   action?: Prisma.EnumInteractionTypeFilter<"UserInteraction"> | $Enums.InteractionType
+  metadata?: Prisma.JsonNullableFilter<"UserInteraction">
   timestamp?: Prisma.DateTimeFilter<"UserInteraction"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   dish?: Prisma.XOR<Prisma.DishNullableScalarRelationFilter, Prisma.DishWhereInput> | null
 }, "id">
 
 export type UserInteractionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  userId?: Prisma.SortOrderInput | Prisma.SortOrder
   dishId?: Prisma.SortOrderInput | Prisma.SortOrder
   action?: Prisma.SortOrder
+  metadata?: Prisma.SortOrderInput | Prisma.SortOrder
   timestamp?: Prisma.SortOrder
   _count?: Prisma.UserInteractionCountOrderByAggregateInput
   _max?: Prisma.UserInteractionMaxOrderByAggregateInput
@@ -227,63 +234,71 @@ export type UserInteractionScalarWhereWithAggregatesInput = {
   OR?: Prisma.UserInteractionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UserInteractionScalarWhereWithAggregatesInput | Prisma.UserInteractionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"UserInteraction"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"UserInteraction"> | string
+  userId?: Prisma.StringNullableWithAggregatesFilter<"UserInteraction"> | string | null
   dishId?: Prisma.StringNullableWithAggregatesFilter<"UserInteraction"> | string | null
   action?: Prisma.EnumInteractionTypeWithAggregatesFilter<"UserInteraction"> | $Enums.InteractionType
+  metadata?: Prisma.JsonNullableWithAggregatesFilter<"UserInteraction">
   timestamp?: Prisma.DateTimeWithAggregatesFilter<"UserInteraction"> | Date | string
 }
 
 export type UserInteractionCreateInput = {
   id?: string
   action: $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutInteractionsInput
+  user?: Prisma.UserCreateNestedOneWithoutInteractionsInput
   dish?: Prisma.DishCreateNestedOneWithoutInteractionsInput
 }
 
 export type UserInteractionUncheckedCreateInput = {
   id?: string
-  userId: string
+  userId?: string | null
   dishId?: string | null
   action: $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Date | string
 }
 
 export type UserInteractionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   action?: Prisma.EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutInteractionsNestedInput
+  user?: Prisma.UserUpdateOneWithoutInteractionsNestedInput
   dish?: Prisma.DishUpdateOneWithoutInteractionsNestedInput
 }
 
 export type UserInteractionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dishId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   action?: Prisma.EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserInteractionCreateManyInput = {
   id?: string
-  userId: string
+  userId?: string | null
   dishId?: string | null
   action: $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Date | string
 }
 
 export type UserInteractionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   action?: Prisma.EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserInteractionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dishId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   action?: Prisma.EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -302,6 +317,7 @@ export type UserInteractionCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   dishId?: Prisma.SortOrder
   action?: Prisma.SortOrder
+  metadata?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
 }
 
@@ -412,6 +428,7 @@ export type UserInteractionUncheckedUpdateManyWithoutDishNestedInput = {
 export type UserInteractionCreateWithoutUserInput = {
   id?: string
   action: $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Date | string
   dish?: Prisma.DishCreateNestedOneWithoutInteractionsInput
 }
@@ -420,6 +437,7 @@ export type UserInteractionUncheckedCreateWithoutUserInput = {
   id?: string
   dishId?: string | null
   action: $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Date | string
 }
 
@@ -454,23 +472,26 @@ export type UserInteractionScalarWhereInput = {
   OR?: Prisma.UserInteractionScalarWhereInput[]
   NOT?: Prisma.UserInteractionScalarWhereInput | Prisma.UserInteractionScalarWhereInput[]
   id?: Prisma.StringFilter<"UserInteraction"> | string
-  userId?: Prisma.StringFilter<"UserInteraction"> | string
+  userId?: Prisma.StringNullableFilter<"UserInteraction"> | string | null
   dishId?: Prisma.StringNullableFilter<"UserInteraction"> | string | null
   action?: Prisma.EnumInteractionTypeFilter<"UserInteraction"> | $Enums.InteractionType
+  metadata?: Prisma.JsonNullableFilter<"UserInteraction">
   timestamp?: Prisma.DateTimeFilter<"UserInteraction"> | Date | string
 }
 
 export type UserInteractionCreateWithoutDishInput = {
   id?: string
   action: $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutInteractionsInput
+  user?: Prisma.UserCreateNestedOneWithoutInteractionsInput
 }
 
 export type UserInteractionUncheckedCreateWithoutDishInput = {
   id?: string
-  userId: string
+  userId?: string | null
   action: $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Date | string
 }
 
@@ -504,12 +525,14 @@ export type UserInteractionCreateManyUserInput = {
   id?: string
   dishId?: string | null
   action: $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Date | string
 }
 
 export type UserInteractionUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   action?: Prisma.EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dish?: Prisma.DishUpdateOneWithoutInteractionsNestedInput
 }
@@ -518,6 +541,7 @@ export type UserInteractionUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   dishId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   action?: Prisma.EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -525,34 +549,39 @@ export type UserInteractionUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   dishId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   action?: Prisma.EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserInteractionCreateManyDishInput = {
   id?: string
-  userId: string
+  userId?: string | null
   action: $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Date | string
 }
 
 export type UserInteractionUpdateWithoutDishInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   action?: Prisma.EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutInteractionsNestedInput
+  user?: Prisma.UserUpdateOneWithoutInteractionsNestedInput
 }
 
 export type UserInteractionUncheckedUpdateWithoutDishInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   action?: Prisma.EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserInteractionUncheckedUpdateManyWithoutDishInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   action?: Prisma.EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+  metadata?:unknown | Prisma.NullableJsonNullValueInput
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -563,8 +592,9 @@ export type UserInteractionSelect<ExtArgs extends runtime.Types.Extensions.Inter
   userId?: boolean
   dishId?: boolean
   action?: boolean
+  metadata?: boolean
   timestamp?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserInteraction$userArgs<ExtArgs>
   dish?: boolean | Prisma.UserInteraction$dishArgs<ExtArgs>
 }, ExtArgs["result"]["userInteraction"]>
 
@@ -573,8 +603,9 @@ export type UserInteractionSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   userId?: boolean
   dishId?: boolean
   action?: boolean
+  metadata?: boolean
   timestamp?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserInteraction$userArgs<ExtArgs>
   dish?: boolean | Prisma.UserInteraction$dishArgs<ExtArgs>
 }, ExtArgs["result"]["userInteraction"]>
 
@@ -583,8 +614,9 @@ export type UserInteractionSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   userId?: boolean
   dishId?: boolean
   action?: boolean
+  metadata?: boolean
   timestamp?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserInteraction$userArgs<ExtArgs>
   dish?: boolean | Prisma.UserInteraction$dishArgs<ExtArgs>
 }, ExtArgs["result"]["userInteraction"]>
 
@@ -593,34 +625,36 @@ export type UserInteractionSelectScalar = {
   userId?: boolean
   dishId?: boolean
   action?: boolean
+  metadata?: boolean
   timestamp?: boolean
 }
 
-export type UserInteractionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "dishId" | "action" | "timestamp", ExtArgs["result"]["userInteraction"]>
+export type UserInteractionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "dishId" | "action" | "metadata" | "timestamp", ExtArgs["result"]["userInteraction"]>
 export type UserInteractionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserInteraction$userArgs<ExtArgs>
   dish?: boolean | Prisma.UserInteraction$dishArgs<ExtArgs>
 }
 export type UserInteractionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserInteraction$userArgs<ExtArgs>
   dish?: boolean | Prisma.UserInteraction$dishArgs<ExtArgs>
 }
 export type UserInteractionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserInteraction$userArgs<ExtArgs>
   dish?: boolean | Prisma.UserInteraction$dishArgs<ExtArgs>
 }
 
 export type $UserInteractionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "UserInteraction"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
+    user: Prisma.$UserPayload<ExtArgs> | null
     dish: Prisma.$DishPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    userId: string
+    userId: string | null
     dishId: string | null
     action: $Enums.InteractionType
+    metadata:unknown | null
     timestamp: Date
   }, ExtArgs["result"]["userInteraction"]>
   composites: {}
@@ -1016,7 +1050,7 @@ readonly fields: UserInteractionFieldRefs;
  */
 export interface Prisma__UserInteractionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserInteraction$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserInteraction$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   dish<T extends Prisma.UserInteraction$dishArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserInteraction$dishArgs<ExtArgs>>): Prisma.Prisma__DishClient<runtime.Types.Result.GetResult<Prisma.$DishPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1051,6 +1085,7 @@ export interface UserInteractionFieldRefs {
   readonly userId: Prisma.FieldRef<"UserInteraction", 'String'>
   readonly dishId: Prisma.FieldRef<"UserInteraction", 'String'>
   readonly action: Prisma.FieldRef<"UserInteraction", 'InteractionType'>
+  readonly metadata: Prisma.FieldRef<"UserInteraction", 'Json'>
   readonly timestamp: Prisma.FieldRef<"UserInteraction", 'DateTime'>
 }
     
@@ -1445,6 +1480,25 @@ export type UserInteractionDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many UserInteractions to delete.
    */
   limit?: number
+}
+
+/**
+ * UserInteraction.user
+ */
+export type UserInteraction$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

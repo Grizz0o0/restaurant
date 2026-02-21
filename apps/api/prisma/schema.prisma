@@ -189,16 +189,19 @@ model UserTranslation {
 
 model UserInteraction {
   id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   dishId    String?
   dish      Dish?    @relation(fields: [dishId], references: [id], onDelete: SetNull)
   action    InteractionType
+  metadata  Json?
   timestamp DateTime @default(now())
 }
 
 enum InteractionType {
   VIEW
+  CLICK
+  SEARCH
   ADD_CART
   ORDER
   REVIEW

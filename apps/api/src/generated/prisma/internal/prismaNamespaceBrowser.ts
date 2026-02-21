@@ -183,6 +183,7 @@ export const UserInteractionScalarFieldEnum = {
   userId: 'userId',
   dishId: 'dishId',
   action: 'action',
+  metadata: 'metadata',
   timestamp: 'timestamp'
 } as const
 

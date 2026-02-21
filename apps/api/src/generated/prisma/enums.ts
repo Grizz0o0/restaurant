@@ -11,6 +11,8 @@
 
 export const InteractionType = {
   VIEW: 'VIEW',
+  CLICK: 'CLICK',
+  SEARCH: 'SEARCH',
   ADD_CART: 'ADD_CART',
   ORDER: 'ORDER',
   REVIEW: 'REVIEW'
