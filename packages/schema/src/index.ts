@@ -22,3 +22,8 @@ export * from './reservation.schema';
 export * from './payment.schema';
 export * from './restaurant-staff.schema';
 export * from './inventory-dish.schema';
+export * from './user-preference.schema';
+export * from './message.schema';
+export * from './payment-transaction.schema';
+export * from './analytics.schema';
+export * from './recommendation.schema';
