@@ -52,6 +52,8 @@ export class RecommendationService {
       take: limit,
       select: {
         id: true,
+        basePrice: true,
+        images: true,
       },
     })
 
@@ -62,7 +64,10 @@ export class RecommendationService {
 
     return {
       items: recommendations.map((r, i) => ({
-        dishId: r.id,
+        id: r.id,
+        name: 'Dish ' + r.id.substring(0, 4), // Placeholder since name is localized
+        basePrice: Number(r.basePrice || 0),
+        images: r.images || [],
         score: 1.0 - i * 0.1, // Mocked relevancy score
         reason: 'Based on your recent interactions',
       })),
@@ -71,10 +76,20 @@ export class RecommendationService {
 
   private async getFallbackRecommendations(limit: number) {
     // Top 5 generally popular dishes (using mock logic or random)
-    const dishes = await this.prisma.dish.findMany({ take: limit })
+    const dishes = await this.prisma.dish.findMany({
+      take: limit,
+      select: {
+        id: true,
+        basePrice: true,
+        images: true,
+      },
+    })
     return {
       items: dishes.map((d) => ({
-        dishId: d.id,
+        id: d.id,
+        name: 'Dish ' + d.id.substring(0, 4), // Placeholder since name is localized
+        basePrice: Number(d.basePrice || 0),
+        images: d.images || [],
         score: 0.8,
         reason: 'Popular right now',
       })),
