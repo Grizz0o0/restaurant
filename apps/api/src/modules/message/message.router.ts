@@ -8,6 +8,7 @@ import {
   GetHistoryParamsSchema,
   GetHistoryParamsType,
   GetHistoryResSchema,
+  GetConversationsResSchema,
 } from '@repo/schema'
 import { Context } from '@/trpc/context'
 
@@ -30,5 +31,12 @@ export class MessageRouter {
   })
   async getHistory(@Input() input: GetHistoryParamsType, @Ctx() ctx: Context) {
     return this.messageService.getHistory(ctx.user!.userId, input)
+  }
+
+  @Query({
+    output: GetConversationsResSchema,
+  })
+  async getConversations(@Ctx() ctx: Context) {
+    return this.messageService.getConversations(ctx.user!.userId)
   }
 }

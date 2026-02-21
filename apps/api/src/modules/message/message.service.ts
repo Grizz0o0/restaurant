@@ -93,4 +93,53 @@ export class MessageService {
       nextCursor,
     }
   }
+
+  async getConversations(adminId: string) {
+    // 1. Fetch all messages involving the admin
+    const messages = await this.prisma.message.findMany({
+      where: {
+        OR: [{ fromUserId: adminId }, { toUserId: adminId }],
+      },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        fromUser: { select: { id: true, name: true, avatar: true } },
+        toUser: { select: { id: true, name: true, avatar: true } },
+      },
+    })
+
+    // 2. Group by the OTHER user
+    const conversationMap = new Map<string, any>()
+
+    for (const msg of messages) {
+      const otherUserId = msg.fromUserId === adminId ? msg.toUserId : msg.fromUserId
+      const isUnread = msg.toUserId === adminId && msg.readAt === null
+
+      if (!conversationMap.has(otherUserId)) {
+        const otherUser = msg.fromUserId === adminId ? msg.toUser : msg.fromUser
+        conversationMap.set(otherUserId, {
+          userId: otherUserId,
+          name: otherUser?.name || 'Unknown',
+          avatar: otherUser?.avatar || null,
+          lastMessage: {
+            id: msg.id,
+            fromUserId: msg.fromUserId,
+            toUserId: msg.toUserId,
+            content: msg.content,
+            readAt: msg.readAt,
+            createdAt: msg.createdAt,
+          },
+          unreadCount: isUnread ? 1 : 0,
+        })
+      } else {
+        if (isUnread) {
+          const current = conversationMap.get(otherUserId)
+          current.unreadCount += 1
+        }
+      }
+    }
+
+    return {
+      conversations: Array.from(conversationMap.values()),
+    }
+  }
 }

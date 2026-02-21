@@ -123,6 +123,7 @@ import {
     TopDishesResSchema,
     GetRecommendationsQuerySchema,
     RecommendationResSchema,
+    GetConversationsResSchema,
 } from '@repo/schema';
 import superjson from 'superjson';
 const t = initTRPC.create({ transformer: superjson });
@@ -661,6 +662,9 @@ const appRouter = t.router({
         getHistory: publicProcedure
             .input(GetHistoryParamsSchema)
             .output(GetHistoryResSchema)
+            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        getConversations: publicProcedure
+            .output(GetConversationsResSchema)
             .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
     }),
     analytics: t.router({

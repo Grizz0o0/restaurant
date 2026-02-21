@@ -25,7 +25,21 @@ export const GetHistoryResSchema = z.object({
     nextCursor: z.string().optional(),
 });
 
+export const ConversationUserSchema = z.object({
+    userId: z.string().uuid(),
+    name: z.string(),
+    avatar: z.string().nullable(),
+    lastMessage: MessageSchema,
+    unreadCount: z.number(),
+});
+
+export const GetConversationsResSchema = z.object({
+    conversations: z.array(ConversationUserSchema),
+});
+
 export type Message = z.infer<typeof MessageSchema>;
 export type SendMessageBodyType = z.infer<typeof SendMessageBodySchema>;
 export type GetHistoryParamsType = z.infer<typeof GetHistoryParamsSchema>;
 export type GetHistoryResType = z.infer<typeof GetHistoryResSchema>;
+export type ConversationUser = z.infer<typeof ConversationUserSchema>;
+export type GetConversationsResType = z.infer<typeof GetConversationsResSchema>;
