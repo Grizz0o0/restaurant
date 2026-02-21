@@ -19,6 +19,7 @@ import { toast } from 'sonner';
 import { useAuth } from '@/hooks/domain/use-auth';
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 interface DishDetailModalProps {
     isOpen: boolean;
@@ -33,6 +34,7 @@ export function DishDetailModal({
 }: DishDetailModalProps) {
     const { isAuthenticated } = useAuth();
     const utils = trpc.useUtils();
+    const { trackInteraction } = useAnalytics();
 
     const [quantity, setQuantity] = useState(1);
     const [selectedOptions, setSelectedOptions] = useState<
@@ -87,6 +89,13 @@ export function DishDetailModal({
     const addToCartMutation = trpc.cart.add.useMutation({
         onSuccess: () => {
             toast.success(`Đã thêm ${quantity} ${dishName} vào giỏ`);
+
+            // Analytics Tracking
+            trackInteraction('ADD_CART', dishId as string, {
+                quantity,
+                skuId: matchingSku?.id,
+            });
+
             utils.cart.get.invalidate();
             onClose();
         },

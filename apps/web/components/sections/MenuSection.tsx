@@ -9,8 +9,11 @@ import { trpc } from '@/lib/trpc/client';
 import { formatCurrency } from '@/lib/utils/format';
 import { DishDetailModal } from '@/components/menu/dish-detail-modal';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 const MenuSection = () => {
+    const { trackInteraction } = useAnalytics();
+
     const [activeCategoryId, setActiveCategoryId] = useState<
         string | undefined
     >(undefined);
@@ -22,9 +25,14 @@ const MenuSection = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setDebouncedSearch(searchQuery);
+            if (searchQuery.trim().length > 0) {
+                trackInteraction('SEARCH', undefined, {
+                    query: searchQuery.trim(),
+                });
+            }
         }, 500);
         return () => clearTimeout(timer);
-    }, [searchQuery]);
+    }, [searchQuery, trackInteraction]);
 
     // Fetch Categories
     const { data: categoriesData, isLoading: isLoadingCategories } =
@@ -49,6 +57,11 @@ const MenuSection = () => {
 
     const handleCategoryChange = (id: string) => {
         setActiveCategoryId(id === 'all' ? undefined : id);
+    };
+
+    const handleSelectDish = (dishId: string) => {
+        setSelectedDishId(dishId);
+        trackInteraction('VIEW', dishId);
     };
 
     return (
@@ -141,7 +154,7 @@ const MenuSection = () => {
                                       <div
                                           className="relative aspect-square overflow-hidden cursor-pointer"
                                           onClick={() =>
-                                              setSelectedDishId(dish.id)
+                                              handleSelectDish(dish.id)
                                           }
                                       >
                                           <Image
@@ -169,7 +182,7 @@ const MenuSection = () => {
                                           <h3
                                               className="font-display text-lg font-semibold text-card-foreground mb-1 cursor-pointer hover:text-primary transition-colors"
                                               onClick={() =>
-                                                  setSelectedDishId(dish.id)
+                                                  handleSelectDish(dish.id)
                                               }
                                           >
                                               {dish.name}
@@ -188,7 +201,7 @@ const MenuSection = () => {
                                                   variant="hero"
                                                   size="sm"
                                                   onClick={() =>
-                                                      setSelectedDishId(dish.id)
+                                                      handleSelectDish(dish.id)
                                                   } // Open detail modal on Add too for customization
                                               >
                                                   <Plus className="w-4 h-4 ml-0 mr-1" />
