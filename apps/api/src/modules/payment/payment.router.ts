@@ -1,4 +1,4 @@
-import { Ctx, Input, Mutation, Router, UseMiddlewares } from 'nestjs-trpc'
+import { Ctx, Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
 import { z } from 'zod'
 import { PaymentService } from './payment.service'
 import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
@@ -8,6 +8,9 @@ import {
   CheckPaymentStatusOutputSchema,
   RefundPaymentInputSchema,
   RefundPaymentOutputSchema,
+  GetTransactionsQuerySchema,
+  GetTransactionsResSchema,
+  GetTransactionsQueryType,
 } from '@repo/schema'
 
 const InitiatePaymentInput = z.object({
@@ -54,5 +57,14 @@ export class PaymentRouter {
   async refund(@Input() input: { orderId: string }) {
     // TODO: Add Admin/Manager Guard here
     return this.paymentService.refundTransaction(input.orderId)
+  }
+
+  @Query({
+    input: GetTransactionsQuerySchema,
+    output: GetTransactionsResSchema,
+  })
+  async transactions(@Input() input: GetTransactionsQueryType) {
+    // TODO: Add AdminRoleMiddleware securely
+    return this.paymentService.listTransactions(input)
   }
 }

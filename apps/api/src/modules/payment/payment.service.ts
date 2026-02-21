@@ -2,6 +2,7 @@ import { Injectable, BadRequestException, Logger, NotFoundException } from '@nes
 import { PrismaService } from '@/shared/prisma/prisma.service'
 import envConfig from '@/shared/config'
 import { generateSignature, buildRawSignature } from './payment.utils'
+import { GetTransactionsQueryType } from '@repo/schema'
 
 @Injectable()
 export class PaymentService {
@@ -390,5 +391,26 @@ export class PaymentService {
       this.logger.error('MoMo Refund Error', error)
       throw new BadRequestException('Failed to refund transaction')
     }
+  }
+
+  async listTransactions(query: GetTransactionsQueryType) {
+    const { page, limit, gateway, orderId } = query
+    const skip = (page - 1) * limit
+
+    const where: any = {}
+    if (gateway) where.gateway = gateway
+    if (orderId) where.orderId = orderId
+
+    const [items, total] = await Promise.all([
+      this.prisma.paymentTransaction.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prisma.paymentTransaction.count({ where }),
+    ])
+
+    return { items, total }
   }
 }

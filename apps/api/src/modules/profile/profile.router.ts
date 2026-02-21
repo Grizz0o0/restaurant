@@ -5,6 +5,9 @@ import {
   ProfileDetailResSchema,
   UpdateProfileBodySchema,
   UpdateProfileBodyType,
+  UserPreferenceSchema,
+  UpdateUserPreferenceBodySchema,
+  UpdateUserPreferenceBodyType,
 } from '@repo/schema'
 import { Context } from '@/trpc/context'
 
@@ -26,5 +29,20 @@ export class ProfileRouter {
   })
   async updateProfile(@Input() input: UpdateProfileBodyType, @Ctx() ctx: Context) {
     return this.profileService.updateProfile(ctx.user!.userId, input)
+  }
+
+  @Query({
+    output: UserPreferenceSchema,
+  })
+  async getPreferences(@Ctx() ctx: Context) {
+    return this.profileService.getPreferences(ctx.user!.userId)
+  }
+
+  @Mutation({
+    input: UpdateUserPreferenceBodySchema,
+    output: UserPreferenceSchema,
+  })
+  async updatePreferences(@Input() input: UpdateUserPreferenceBodyType, @Ctx() ctx: Context) {
+    return this.profileService.updatePreferences(ctx.user!.userId, input)
   }
 }
