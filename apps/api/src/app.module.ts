@@ -23,6 +23,9 @@ import { PromotionModule } from './modules/promotion/promotion.module'
 import { NotificationModule } from './modules/notification/notification.module'
 import { CartModule } from './modules/cart/cart.module'
 import { LanguageModule } from './modules/language/language.module'
+import { MessageModule } from './modules/message/message.module'
+import { AnalyticsModule } from './modules/analytics/analytics.module'
+import { RecommendationModule } from './modules/recommendation/recommendation.module'
 import { SupplierModule } from './modules/supplier/supplier.module'
 import { InventoryModule } from './modules/inventory/inventory.module'
 import { InventoryTransactionModule } from './modules/inventory-transaction/inventory-transaction.module'
@@ -70,6 +73,9 @@ import SuperJSON from 'superjson'
     NotificationModule,
     NotificationModule,
     CartModule,
+    MessageModule,
+    AnalyticsModule,
+    RecommendationModule,
     LanguageModule,
     SupplierModule,
     InventoryModule,

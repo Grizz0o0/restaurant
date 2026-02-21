@@ -115,6 +115,14 @@ import {
     CreateInventoryDishBodySchema,
     UpdateInventoryDishBodySchema,
     GetDishIngredientsResSchema,
+    SendMessageBodySchema,
+    GetHistoryParamsSchema,
+    GetHistoryResSchema,
+    LogInteractionBodySchema,
+    TopDishesQuerySchema,
+    TopDishesResSchema,
+    GetRecommendationsQuerySchema,
+    RecommendationResSchema,
 } from '@repo/schema';
 import superjson from 'superjson';
 const t = initTRPC.create({ transformer: superjson });
@@ -644,6 +652,32 @@ const appRouter = t.router({
             )
             .output(z.any())
             .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+    }),
+    message: t.router({
+        send: publicProcedure
+            .input(SendMessageBodySchema)
+            .output(z.any())
+            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        getHistory: publicProcedure
+            .input(GetHistoryParamsSchema)
+            .output(GetHistoryResSchema)
+            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+    }),
+    analytics: t.router({
+        log: publicProcedure
+            .input(LogInteractionBodySchema)
+            .output(z.any())
+            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        getTopDishes: publicProcedure
+            .input(TopDishesQuerySchema)
+            .output(TopDishesResSchema)
+            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+    }),
+    recommendation: t.router({
+        getForUser: publicProcedure
+            .input(GetRecommendationsQuerySchema)
+            .output(RecommendationResSchema)
+            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
     }),
 });
 export type AppRouter = typeof appRouter;
