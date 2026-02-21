@@ -11,6 +11,12 @@ export const useChat = (isOpen: boolean) => {
 
     const utils = trpc.useUtils();
 
+    const sendMutation = trpc.message.send.useMutation({
+        onError: (error) => {
+            console.error('Lỗi khi gửi tin nhắn:', error);
+        },
+    });
+
     // Fetch history using tRPC when chat opens
     const { data: historyData, isLoading: isLoadingHistory } =
         trpc.message.getHistory.useQuery(
@@ -31,8 +37,19 @@ export const useChat = (isOpen: boolean) => {
         if (!socket || !isConnected || !isOpen) return;
 
         // Listen for incoming messages
-        socket.on('receiveMessage', (message: Message) => {
-            setMessages((prev) => [...prev, message]);
+        socket.on('newMessage', (message: Message) => {
+            setMessages((prev) => {
+                // Ignore optimistic messages or duplicates
+                if (prev.some((m) => m.id === message.id)) return prev;
+                // Since this might be our own message returned by the server,
+                // we might want to replace the temp message, but for simplicity we can just filter temps out
+                const filtered = prev.filter(
+                    (m) =>
+                        !m.id.startsWith('temp-') ||
+                        m.content !== message.content,
+                );
+                return [...filtered, message];
+            });
         });
 
         // Listen for message status updates (e.g. read receipts, delivered) if needed
@@ -47,32 +64,37 @@ export const useChat = (isOpen: boolean) => {
         });
 
         return () => {
-            socket.off('receiveMessage');
+            socket.off('newMessage');
             socket.off('messageStatusUpdate');
         };
     }, [socket, isConnected, isOpen]);
 
     const sendMessage = useCallback(
         (content: string) => {
-            if (!socket || !isConnected || !content.trim()) return;
+            if (!content.trim() || !user) return;
 
-            socket.emit('sendMessage', {
-                content: content.trim(),
+            const trimmedContent = content.trim();
+            const adminId = '00000000-0000-0000-0000-000000000000';
+
+            // Send via tRPC
+            sendMutation.mutate({
+                toUserId: adminId,
+                content: trimmedContent,
             });
 
             // Optimistic update
             const tempMessage: Message = {
                 id: `temp-${Date.now()}`,
-                fromUserId: user?.id || '',
-                toUserId: '00000000-0000-0000-0000-000000000000',
-                content: content.trim(),
+                fromUserId: user.id,
+                toUserId: adminId,
+                content: trimmedContent,
                 readAt: null,
                 createdAt: new Date(),
             };
 
             setMessages((prev) => [...prev, tempMessage]);
         },
-        [socket, isConnected, user],
+        [sendMutation, user],
     );
 
     return {
