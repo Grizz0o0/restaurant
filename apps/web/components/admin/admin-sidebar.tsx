@@ -14,6 +14,9 @@ import {
     Grid,
     Ticket,
     Package,
+    Settings,
+    CalendarDays,
+    MessageSquareText,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -39,6 +42,11 @@ const sidebarItems = [
         title: 'Bàn ăn',
         href: '/admin/tables',
         icon: Grid,
+    },
+    {
+        title: 'Đặt bàn',
+        href: '/admin/reservations',
+        icon: CalendarDays,
     },
     {
         title: 'Đơn hàng',
@@ -69,6 +77,16 @@ const sidebarItems = [
         title: 'Table QR',
         href: '/admin/table-qr',
         icon: QrCode,
+    },
+    {
+        title: 'Cài đặt',
+        href: '/admin/settings',
+        icon: Settings,
+    },
+    {
+        title: 'Chat Hỗ trợ',
+        href: '/admin/chat',
+        icon: MessageSquareText,
     },
 ];
 

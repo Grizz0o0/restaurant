@@ -5,6 +5,7 @@ import { usePermission } from '@/hooks/use-permission';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { AdminSidebar } from '@/components/admin/admin-sidebar';
+import { AdminHeader } from '@/components/admin/admin-header';
 
 export default function AdminLayout({
     children,
@@ -67,9 +68,12 @@ const AdminRoleCheck = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className="min-h-screen bg-background">
             <AdminSidebar />
-            <main className="md:pl-64 flex-1 flex flex-col min-h-screen transition-all duration-300 ease-in-out p-4 md:p-8 pt-6">
-                {children}
-            </main>
+            <div className="md:pl-64 flex flex-col min-h-screen">
+                <AdminHeader />
+                <main className="flex-1 transition-all duration-300 ease-in-out p-4 md:p-8 pt-6">
+                    {children}
+                </main>
+            </div>
         </div>
     );
 };
