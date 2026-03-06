@@ -4,6 +4,7 @@ export const ReviewSchema = z.object({
     id: z.string(),
     content: z.string(),
     rating: z.number().min(1).max(5),
+    adminReply: z.string().nullable().optional(),
     dishId: z.string(),
     userId: z.string(),
     createdAt: z.date(),
@@ -11,6 +12,16 @@ export const ReviewSchema = z.object({
 });
 
 export type ReviewType = z.infer<typeof ReviewSchema>;
+
+export const ReplyReviewBodySchema = z.object({
+    id: z.string(),
+    adminReply: z
+        .string()
+        .min(1, 'Nội dung phản hồi không được trống')
+        .max(2000),
+});
+
+export type ReplyReviewBodyType = z.infer<typeof ReplyReviewBodySchema>;
 
 export const CreateReviewBodySchema = z.object({
     dishId: z.string(),

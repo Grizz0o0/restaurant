@@ -22,6 +22,8 @@ import {
     BanUserBodySchema,
     UnbanUserBodySchema,
     ForceLogoutBodySchema,
+    GetReportQuerySchema,
+    GetReportResponseSchema,
     GetPermissionsQuerySchema,
     GetPermissionsResSchema,
     GetPermissionParamsSchema,
@@ -68,6 +70,7 @@ import {
     NotificationSchema,
     MarkAsReadSchema,
     CreateReviewBodySchema,
+    ReplyReviewBodySchema,
     ReviewDetailResSchema,
     GetReviewsQuerySchema,
     GetReviewsResSchema,
@@ -193,6 +196,10 @@ const appRouter = t.router({
             .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
         getStats: publicProcedure
             .output(z.any())
+            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        getReport: publicProcedure
+            .input(GetReportQuerySchema)
+            .output(GetReportResponseSchema)
             .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
     }),
     permission: t.router({
@@ -426,6 +433,10 @@ const appRouter = t.router({
         delete: publicProcedure
             .input(z.object({ id: z.string() }))
             .output(z.any())
+            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        reply: publicProcedure
+            .input(ReplyReviewBodySchema)
+            .output(ReviewDetailResSchema)
             .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
     }),
     promotion: t.router({
