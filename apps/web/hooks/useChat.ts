@@ -17,12 +17,20 @@ export const useChat = (isOpen: boolean) => {
         },
     });
 
-    // Fetch history using tRPC when chat opens
+    // Fetch admin user ID
+    const { data: adminData } = trpc.message.getAdmin.useQuery(undefined, {
+        enabled: isAuthenticated,
+        refetchOnWindowFocus: false,
+    });
+
+    const adminId = adminData?.id;
+
+    // Fetch history using tRPC when chat opens and adminId is available
     const { data: historyData, isLoading: isLoadingHistory } =
         trpc.message.getHistory.useQuery(
-            { limit: 50, userId: '00000000-0000-0000-0000-000000000000' },
+            { limit: 50, userId: adminId || '' },
             {
-                enabled: isOpen && isAuthenticated,
+                enabled: isOpen && isAuthenticated && !!adminId,
                 refetchOnWindowFocus: false,
             },
         );
@@ -71,10 +79,9 @@ export const useChat = (isOpen: boolean) => {
 
     const sendMessage = useCallback(
         (content: string) => {
-            if (!content.trim() || !user) return;
+            if (!content.trim() || !user || !adminId) return;
 
             const trimmedContent = content.trim();
-            const adminId = '00000000-0000-0000-0000-000000000000';
 
             // Send via tRPC
             sendMutation.mutate({
@@ -94,7 +101,7 @@ export const useChat = (isOpen: boolean) => {
 
             setMessages((prev) => [...prev, tempMessage]);
         },
-        [sendMutation, user],
+        [sendMutation, user, adminId],
     );
 
     return {

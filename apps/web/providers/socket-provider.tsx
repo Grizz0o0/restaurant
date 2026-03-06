@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useAuth } from '@/hooks/domain/use-auth';
+import { getAccessToken } from '@/lib/auth/cookies';
 
 interface SocketContextType {
     socket: Socket | null;
@@ -33,9 +34,13 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
             return;
         }
 
+        const token = getAccessToken();
         const socketInstance = io(
             process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3052',
             {
+                auth: {
+                    token,
+                },
                 withCredentials: true,
                 transports: ['websocket'],
                 reconnectionDelay: 1000,
