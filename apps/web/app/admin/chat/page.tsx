@@ -1,5 +1,4 @@
-import { ChatSidebar } from '@/components/admin/chat/chat-sidebar';
-import { ChatWindow } from '@/components/admin/chat/chat-window';
+import { ChatClient } from '@/components/admin/chat/chat-client';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -8,10 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function AdminChatPage() {
-    return (
-        <div className="flex h-[calc(100vh-(--spacing(16)))] w-full overflow-hidden bg-background border rounded-lg shadow-sm">
-            <ChatSidebar />
-            <ChatWindow />
-        </div>
-    );
+    return <ChatClient />;
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useAdminChat } from '@/hooks/useAdminChat';
+import { useChatContext } from './chat-client';
 import { cn } from '@/lib/utils';
 import { UserCircle, MessageSquare, Loader2 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
@@ -13,7 +13,7 @@ export const ChatSidebar = () => {
         selectedUserId,
         setSelectedUserId,
         isLoadingConversations,
-    } = useAdminChat();
+    } = useChatContext();
 
     if (isLoadingConversations) {
         return (

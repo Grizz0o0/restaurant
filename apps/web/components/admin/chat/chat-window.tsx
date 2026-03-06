@@ -1,6 +1,6 @@
 'use client';
 
-import { useAdminChat } from '@/hooks/useAdminChat';
+import { useChatContext } from './chat-client';
 import { useRef, useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -15,12 +15,17 @@ export const ChatWindow = () => {
         isLoadingHistory,
         sendMessage,
         isConnected,
-    } = useAdminChat();
+    } = useChatContext();
     const [inputValue, setInputValue] = useState('');
-    const messagesEndRef = useRef<HTMLDivElement>(null);
+    const scrollAreaRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        if (scrollAreaRef.current) {
+            scrollAreaRef.current.scrollTo({
+                top: scrollAreaRef.current.scrollHeight,
+                behavior: 'smooth',
+            });
+        }
     };
 
     useEffect(() => {
@@ -61,7 +66,10 @@ export const ChatWindow = () => {
             </div>
 
             {/* Messages Area */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-muted/5">
+            <div
+                ref={scrollAreaRef}
+                className="flex-1 overflow-y-auto p-6 space-y-6 bg-muted/5"
+            >
                 {isLoadingHistory ? (
                     <div className="flex justify-center h-full items-center">
                         <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
@@ -101,7 +109,6 @@ export const ChatWindow = () => {
                         );
                     })
                 )}
-                <div ref={messagesEndRef} />
             </div>
 
             {/* Input Form */}
