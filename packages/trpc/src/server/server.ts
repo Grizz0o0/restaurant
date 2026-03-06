@@ -506,6 +506,9 @@ const appRouter = t.router({
             .input(z.object({ id: z.string() }))
             .output(RestaurantSchema.extend({ staff: z.any().optional() }))
             .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        getMain: publicProcedure
+            .output(RestaurantSchema)
+            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
         create: publicProcedure
             .input(CreateRestaurantBodySchema)
             .output(RestaurantSchema)
@@ -665,6 +668,9 @@ const appRouter = t.router({
             .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
         getConversations: publicProcedure
             .output(GetConversationsResSchema)
+            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        getAdmin: publicProcedure
+            .output(z.object({ id: z.string() }).nullable())
             .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
     }),
     analytics: t.router({
