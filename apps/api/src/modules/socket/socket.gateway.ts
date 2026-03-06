@@ -11,9 +11,12 @@ import { Logger } from '@nestjs/common'
 import { TokenService } from '@/shared/services/token.service'
 import { REQUEST_USER_KEY } from '@repo/constants'
 
+import envConfig from '@/shared/config'
+
 @WebSocketGateway({
   cors: {
-    origin: '*', // Adjust this to your frontend URL in production
+    origin: envConfig.FRONTEND_URL,
+    credentials: true,
   },
 })
 export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
@@ -28,8 +31,19 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
 
   async handleConnection(client: Socket, ...args: any[]) {
     try {
-      const token =
+      let token =
         client.handshake.auth.token || client.handshake.headers.authorization?.split(' ')[1]
+
+      if (!token && client.handshake.headers.cookie) {
+        const cookies = client.handshake.headers.cookie
+          .split(';')
+          .reduce((res: Record<string, string>, c: string) => {
+            const [key, val] = c.trim().split('=').map(decodeURIComponent)
+            res[key] = val
+            return res
+          }, {})
+        token = cookies['accessToken']
+      }
 
       if (!token) {
         this.logger.warn(`Client ${client.id} connected without token`)
