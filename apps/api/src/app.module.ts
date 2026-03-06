@@ -71,7 +71,6 @@ import SuperJSON from 'superjson'
     ReviewModule,
     PromotionModule,
     NotificationModule,
-    NotificationModule,
     CartModule,
     MessageModule,
     AnalyticsModule,
