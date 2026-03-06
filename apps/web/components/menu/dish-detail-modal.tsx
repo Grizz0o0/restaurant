@@ -8,7 +8,6 @@ import {
     DialogHeader,
     DialogTitle,
     DialogDescription,
-    DialogFooter,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -17,7 +16,6 @@ import { trpc } from '@/lib/trpc/client';
 import { formatCurrency } from '@/lib/utils/format';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks/domain/use-auth';
-import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useAnalytics } from '@/hooks/useAnalytics';
 
@@ -55,25 +53,29 @@ export function DishDetailModal({
         }
     }, [isOpen]);
 
-    // Get dish name with fallback
-    const dishName = dish?.name || dish?.translations?.[0]?.name || 'Món ăn';
+    // Get translations
+    const viTranslation = dish?.dishTranslations?.find(
+        (t) => t.languageId === 'vi',
+    );
+    const enTranslation = dish?.dishTranslations?.find(
+        (t) => t.languageId === 'en',
+    );
+    const defaultTranslation =
+        viTranslation || enTranslation || dish?.dishTranslations?.[0];
+
+    // Get dish text data with fallback
+    const dishName = defaultTranslation?.name || '';
+    const dishDescription = defaultTranslation?.description || '';
 
     // Find matching SKU based on selected options
     const matchingSku = dish?.skus?.find((sku: any) => {
         if (!sku.variantOptions || !dish.variants) return false;
-
-        // Ensure all variants are selected
         const selectedOptionIds = Object.values(selectedOptions);
         if (selectedOptionIds.length !== dish.variants.length) return false;
-
-        // Check if SKU contains all selected options
-        // SKU.variantOptions is array of objects { id, value ... }
         const skuOptionIds = sku.variantOptions.map((o: any) => o.id);
         return selectedOptionIds.every((id) => skuOptionIds.includes(id));
     }) as any;
 
-    // Fallback price if no variants: basePrice.
-    // If variants exist but no SKU match: null (unavailable).
     const currentPrice =
         dish?.variants && dish.variants.length > 0
             ? matchingSku?.price
@@ -88,25 +90,28 @@ export function DishDetailModal({
 
     const addToCartMutation = trpc.cart.add.useMutation({
         onSuccess: () => {
-            toast.success(`Đã thêm ${quantity} ${dishName} vào giỏ`);
-
-            // Analytics Tracking
+            toast.success(`Đã thêm ${quantity} ${dishName} vào giỏ`, {
+                position: 'top-center',
+            });
             trackInteraction('ADD_CART', dishId as string, {
                 quantity,
                 skuId: matchingSku?.id,
             });
-
             utils.cart.get.invalidate();
             onClose();
         },
         onError: (error) => {
-            toast.error(error.message || 'Không thể thêm vào giỏ hàng');
+            toast.error(error.message || 'Không thể thêm vào giỏ hàng', {
+                position: 'top-center',
+            });
         },
     });
 
     const handleAddToCart = () => {
         if (!isAuthenticated) {
-            toast.error('Vui lòng đăng nhập để đặt hàng');
+            toast.error('Vui lòng đăng nhập để đặt hàng', {
+                position: 'top-center',
+            });
             return;
         }
 
@@ -114,10 +119,11 @@ export function DishDetailModal({
 
         let skuIdToAdd = null;
 
-        // Logic check
         if (dish.variants && dish.variants.length > 0) {
             if (!matchingSku) {
-                toast.error('Vui lòng chọn đầy đủ các tùy chọn');
+                toast.error('Vui lòng chọn đầy đủ các tùy chọn', {
+                    position: 'top-center',
+                });
                 return;
             }
             skuIdToAdd = matchingSku.id;
@@ -128,7 +134,9 @@ export function DishDetailModal({
             if (defaultSku) {
                 skuIdToAdd = defaultSku.id;
             } else {
-                toast.error('Sản phẩm này tạm thời không khả dụng (Lỗi SKU)');
+                toast.error('Sản phẩm này tạm thời không khả dụng', {
+                    position: 'top-center',
+                });
                 return;
             }
         }
@@ -143,121 +151,159 @@ export function DishDetailModal({
 
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-            <DialogContent className="sm:max-w-125 max-h-[90vh] overflow-y-auto">
+            <DialogContent className="sm:max-w-105 p-0 flex flex-col gap-0 overflow-hidden max-h-[90vh] rounded-3xl">
                 {isLoading || !dish ? (
-                    <div className="flex justify-center py-10">
+                    <div className="flex flex-col items-center justify-center p-20 space-y-4">
                         <DialogTitle className="sr-only">
                             Đang tải chi tiết món ăn...
                         </DialogTitle>
-                        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                        <Loader2 className="h-10 w-10 animate-spin text-primary/80" />
+                        <span className="text-sm text-muted-foreground font-medium">
+                            Đang chuẩn bị...
+                        </span>
                     </div>
                 ) : (
                     <>
-                        <DialogHeader>
-                            <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-4 bg-muted">
-                                {dish.images?.[0] ? (
-                                    <Image
-                                        src={dish.images[0]}
-                                        alt={dish.name || 'Dish'}
-                                        fill
-                                        className="object-cover"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                                        No Image
+                        <div className="overflow-y-auto flex-1 w-full bg-background no-scrollbar">
+                            <DialogHeader className="p-0 text-left space-y-0">
+                                <div className="relative w-full aspect-square sm:aspect-4/3 bg-muted/30 shrink-0 isolate">
+                                    {dish.images?.[0] ? (
+                                        <Image
+                                            src={dish.images[0]}
+                                            alt={dish.name || 'Dish'}
+                                            fill
+                                            className="object-cover"
+                                            priority
+                                            sizes="(max-width: 640px) 100vw, 420px"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground bg-gray-50 dark:bg-zinc-900 border-b">
+                                            <span className="text-sm font-medium">
+                                                Không có ảnh
+                                            </span>
+                                        </div>
+                                    )}
+
+                                    {/* Premium Gradient Overlay */}
+                                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent pointer-events-none z-10" />
+
+                                    <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
+                                        <DialogTitle
+                                            className={
+                                                dishName
+                                                    ? 'text-2xl md:text-[28px] leading-tight font-display font-bold text-white tracking-tight drop-shadow-sm'
+                                                    : 'sr-only'
+                                            }
+                                        >
+                                            {dishName || 'Chi tiết món ăn'}
+                                        </DialogTitle>
+                                        <div className="text-white/95 font-semibold text-lg md:text-xl mt-1.5 drop-shadow-sm flex items-center gap-2 text-primary-200">
+                                            {currentPrice
+                                                ? formatCurrency(
+                                                      Number(currentPrice),
+                                                  )
+                                                : ''}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {dishDescription && (
+                                    <div className="px-6 pt-6 pb-2">
+                                        <DialogDescription className="text-[15px] leading-relaxed text-muted-foreground/90 whitespace-pre-line font-medium">
+                                            {dishDescription}
+                                        </DialogDescription>
                                     </div>
                                 )}
-                            </div>
-                            <DialogTitle className="text-2xl font-display">
-                                {dishName}
-                            </DialogTitle>
-                            <DialogDescription>
-                                {dish.description}
-                            </DialogDescription>
-                        </DialogHeader>
+                            </DialogHeader>
 
-                        <div className="space-y-6 py-4">
-                            {/* Variants */}
-                            {dish.variants?.map((variant: any) => (
-                                <div key={variant.id} className="space-y-3">
-                                    <Label className="text-base font-semibold">
-                                        {variant.name}{' '}
-                                        <span className="text-destructive">
-                                            *
-                                        </span>
-                                    </Label>
-                                    <RadioGroup
-                                        value={selectedOptions[variant.id]}
-                                        onValueChange={(val) =>
-                                            handleOptionSelect(variant.id, val)
-                                        }
-                                        className="flex flex-wrap gap-2"
+                            <div className="space-y-7 p-6 pt-4">
+                                {/* Variants */}
+                                {dish.variants?.map((variant: any) => (
+                                    <div
+                                        key={variant.id}
+                                        className="space-y-3.5"
                                     >
-                                        {variant.options.map((option: any) => (
-                                            <div key={option.id}>
-                                                <RadioGroupItem
-                                                    value={option.id}
-                                                    id={option.id}
-                                                    className="peer sr-only"
-                                                />
-                                                <Label
-                                                    htmlFor={option.id}
-                                                    className="flex items-center justify-center rounded-md border border-muted bg-white px-3 py-2 text-sm font-medium shadow-sm hover:bg-gray-50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:text-primary cursor-pointer transition-all"
-                                                >
-                                                    {option.value}
-                                                </Label>
-                                            </div>
-                                        ))}
-                                    </RadioGroup>
-                                </div>
-                            ))}
+                                        <div className="flex items-center justify-between">
+                                            <Label className="text-base font-semibold text-foreground tracking-tight">
+                                                {variant.name}
+                                            </Label>
+                                            <span className="text-[11px] uppercase tracking-wider font-bold text-primary/80 bg-primary/10 px-2 py-0.5 rounded-full">
+                                                Bắt buộc
+                                            </span>
+                                        </div>
+                                        <RadioGroup
+                                            value={selectedOptions[variant.id]}
+                                            onValueChange={(val) =>
+                                                handleOptionSelect(
+                                                    variant.id,
+                                                    val,
+                                                )
+                                            }
+                                            className="flex flex-wrap gap-2.5"
+                                        >
+                                            {variant.options.map(
+                                                (option: any) => (
+                                                    <div key={option.id}>
+                                                        <RadioGroupItem
+                                                            value={option.id}
+                                                            id={option.id}
+                                                            className="peer sr-only"
+                                                        />
+                                                        <Label
+                                                            htmlFor={option.id}
+                                                            className="flex items-center justify-center rounded-2xl border border-transparent bg-muted/50 px-5 py-2.5 text-[15px] font-medium text-muted-foreground hover:bg-muted/80 peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-primary-foreground peer-data-[state=checked]:shadow-md cursor-pointer transition-all duration-200 select-none"
+                                                        >
+                                                            {option.value}
+                                                        </Label>
+                                                    </div>
+                                                ),
+                                            )}
+                                        </RadioGroup>
+                                    </div>
+                                ))}
 
-                            {/* Quantity */}
-                            <div className="flex items-center justify-between pt-4 border-t">
-                                <span className="font-semibold">Số lượng</span>
-                                <div className="flex items-center gap-3">
-                                    <Button
-                                        variant="outline"
-                                        size="icon"
-                                        className="h-8 w-8 rounded-full"
-                                        onClick={() =>
-                                            setQuantity(
-                                                Math.max(1, quantity - 1),
-                                            )
-                                        }
-                                        disabled={quantity <= 1}
-                                    >
-                                        <Minus className="h-4 w-4" />
-                                    </Button>
-                                    <span className="w-8 text-center font-medium">
-                                        {quantity}
+                                {/* Quantity */}
+                                <div className="flex items-center justify-between pt-6 border-t border-border/60">
+                                    <span className="font-semibold text-base tracking-tight text-foreground">
+                                        Số lượng
                                     </span>
-                                    <Button
-                                        variant="outline"
-                                        size="icon"
-                                        className="h-8 w-8 rounded-full"
-                                        onClick={() =>
-                                            setQuantity(quantity + 1)
-                                        }
-                                    >
-                                        <Plus className="h-4 w-4" />
-                                    </Button>
+                                    <div className="flex items-center gap-4 bg-muted/40 rounded-full p-1 border shadow-sm">
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="h-10 w-10 rounded-full hover:bg-background hover:shadow-sm text-foreground/80 hover:text-foreground transition-all"
+                                            onClick={() =>
+                                                setQuantity(
+                                                    Math.max(1, quantity - 1),
+                                                )
+                                            }
+                                            disabled={quantity <= 1}
+                                        >
+                                            <Minus className="h-4 w-4" />
+                                        </Button>
+                                        <span className="w-6 text-center font-semibold text-[17px]">
+                                            {quantity}
+                                        </span>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="h-10 w-10 rounded-full hover:bg-background hover:shadow-sm text-foreground/80 hover:text-foreground transition-all"
+                                            onClick={() =>
+                                                setQuantity(quantity + 1)
+                                            }
+                                        >
+                                            <Plus className="h-4 w-4" />
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <DialogFooter className="flex-col sm:flex-row gap-2 items-center border-t pt-4">
-                            <div className="flex-1 text-xl font-bold text-primary">
-                                {currentPrice
-                                    ? formatCurrency(
-                                          Number(currentPrice) * quantity,
-                                      )
-                                    : '--'}
-                            </div>
+                        {/* Sticky Footer */}
+                        <div className="p-4 sm:p-5 bg-background border-t shadow-[0_-12px_40px_-15px_rgba(0,0,0,0.15)] shrink-0 z-20">
                             <Button
-                                className="w-full sm:w-auto"
+                                className="w-full h-14 text-[16px] font-bold rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
                                 size="lg"
-                                variant="hero"
                                 onClick={handleAddToCart}
                                 disabled={
                                     !currentPrice ||
@@ -268,16 +314,21 @@ export function DishDetailModal({
                                 }
                             >
                                 {addToCartMutation.isPending ? (
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                                 ) : null}
-                                Thêm vào giỏ -{' '}
-                                {currentPrice
-                                    ? formatCurrency(
-                                          Number(currentPrice) * quantity,
-                                      )
-                                    : 'Chọn tùy chọn'}
+                                <div className="flex items-center justify-between w-full px-2">
+                                    <span>Thêm vào giỏ</span>
+                                    <span className="font-black text-[17px]">
+                                        {currentPrice
+                                            ? formatCurrency(
+                                                  Number(currentPrice) *
+                                                      quantity,
+                                              )
+                                            : 'Chọn tùy chọn'}
+                                    </span>
+                                </div>
                             </Button>
-                        </DialogFooter>
+                        </div>
                     </>
                 )}
             </DialogContent>
