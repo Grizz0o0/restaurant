@@ -7,6 +7,8 @@ import {
   ReservationStatus,
   Channel,
   Prisma,
+  OrderStatus,
+  PaymentStatus,
 } from '../src/generated/prisma/client'
 import envConfig from '../src/shared/config'
 import { PrismaPg } from '@prisma/adapter-pg'
@@ -23,34 +25,46 @@ async function main() {
   // =================================================================================================
   console.log('Cleaning up old data...')
   try {
-    // await prisma.cartItem.deleteMany({})
-    // await prisma.userInteraction.deleteMany({})
-    // await prisma.review.deleteMany({})
-    // await prisma.inventoryDish.deleteMany({})
-    // await prisma.inventoryTransaction.deleteMany({})
-    // await prisma.inventory.deleteMany({})
+    // Delete orders and related details first
+    await prisma.paymentTransaction.deleteMany({})
+    await prisma.dishSKUSnapshot.deleteMany({})
+    await prisma.order.deleteMany({})
+    await prisma.reservation.deleteMany({})
 
-    // await prisma.promotion.deleteMany({})
+    // Interactions, Carts, Reviews, Messages
+    await prisma.userInteraction.deleteMany({})
+    await prisma.cartItem.deleteMany({})
+    await prisma.review.deleteMany({})
+    await prisma.recommendation.deleteMany({})
+    await prisma.notification.deleteMany({})
+    await prisma.message.deleteMany({})
+
+    // Inventory
+    await prisma.inventoryDish.deleteMany({})
+    await prisma.inventoryTransaction.deleteMany({})
+    await prisma.inventory.deleteMany({})
+
+    await prisma.promotion.deleteMany({})
 
     // Dishes & SKUs
-    // await prisma.sKU.deleteMany({})
-    // await prisma.variantOption.deleteMany({})
-    // await prisma.variant.deleteMany({})
+    await prisma.sKU.deleteMany({})
+    await prisma.variantOption.deleteMany({})
+    await prisma.variant.deleteMany({})
     await prisma.dishTranslation.deleteMany({})
     await prisma.dish.deleteMany({})
 
     // Categories
-    // await prisma.dishCategoryTranslation.deleteMany({})
-    // await prisma.dishCategory.deleteMany({})
+    await prisma.dishCategoryTranslation.deleteMany({})
+    await prisma.dishCategory.deleteMany({})
 
     // Restaurant & Tables
-    // await prisma.restaurantStaff.deleteMany({})
-    // await prisma.restaurantTable.deleteMany({})
-    // await prisma.restaurant.deleteMany({})
+    await prisma.restaurantStaff.deleteMany({})
+    await prisma.restaurantTable.deleteMany({})
+    await prisma.restaurant.deleteMany({})
 
     // Suppliers
-    // await prisma.supplierTranslation.deleteMany({})
-    // await prisma.supplier.deleteMany({})
+    await prisma.supplierTranslation.deleteMany({})
+    await prisma.supplier.deleteMany({})
 
     console.log('✓ Old data cleaned')
   } catch (e) {
@@ -1473,7 +1487,11 @@ async function main() {
       // Create 20 random past orders
       for (let i = 0; i < 20; i++) {
         const isCompleted = Math.random() > 0.3
-        const status = isCompleted ? 'COMPLETED' : Math.random() > 0.5 ? 'PENDING' : 'CANCELLED'
+        const status = isCompleted
+          ? OrderStatus.COMPLETED
+          : Math.random() > 0.5
+            ? OrderStatus.PENDING_CONFIRMATION
+            : OrderStatus.CANCELLED
 
         const createdAt = new Date()
         createdAt.setDate(createdAt.getDate() - Math.floor(Math.random() * 30)) // Random last 30 days
@@ -1503,21 +1521,34 @@ async function main() {
           })
         }
 
+        const channelSelect = Math.random() > 0.5 ? Channel.WEB : Channel.POS
         const order = await prisma.order.create({
           data: {
             restaurantId: restaurant.id,
-            tableId: table.id,
+            tableId: channelSelect === Channel.POS ? table.id : null,
+            userId: clientUser.id,
             totalAmount: new Prisma.Decimal(totalAmount),
-            status: status as any,
-            channel: 'WEB', // Added channel as it might be required
+            status: status,
+            channel: channelSelect,
             createdAt: createdAt,
             updatedAt: createdAt,
+            paymentStatus: isCompleted ? PaymentStatus.PAID : PaymentStatus.PENDING,
             items: {
-              // Changed from orderItems to items
               create: orderItemsData,
             },
           },
         })
+
+        if (isCompleted) {
+          await prisma.paymentTransaction.create({
+            data: {
+              orderId: order.id,
+              gateway: 'CASH',
+              amountIn: new Prisma.Decimal(totalAmount),
+              transactionContent: `Payment for Order ${order.id}`,
+            },
+          })
+        }
 
         // Add review for completed orders
         if (status === 'COMPLETED' && Math.random() > 0.6) {
@@ -1527,12 +1558,20 @@ async function main() {
           )
 
           if (randomDishItem) {
+            const reviewComments = [
+              'Ngon quá!',
+              'Chất lượng tuyệt vời!',
+              'Giao hàng nhanh, đồ ăn nóng hổi.',
+              'Pate hơi mặn xíu nhưng tổng thể rất ngon.',
+              'Giá hợp lý, sẽ quay lại.',
+            ]
             await prisma.review.create({
               data: {
                 dishId: randomDishItem.id, // Linked to a specific dish
-                userId: adminUser.id, // Needs a user, usage admin for seed
-                content: Math.random() > 0.5 ? 'Very delicious!' : 'Great service!', // 'content' not 'comment' based on schema?
-                rating: Math.floor(Math.random() * 2) + 4,
+                userId: clientUser.id, // clientUser creates the review
+                content: reviewComments[Math.floor(Math.random() * reviewComments.length)],
+                rating: Math.floor(Math.random() * 2) + 4, // 4 or 5 stars
+                createdAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24), // Review 1 day later
               },
             })
           }
@@ -1542,6 +1581,47 @@ async function main() {
     }
   } else {
     console.log('✓ Mock orders/reviews skipped (already enough data)')
+  }
+
+  // =================================================================================================
+  // 12. MOCK MESSAGES
+  // =================================================================================================
+  console.log('Creating mock messages...')
+  const messageCount = await prisma.message.count()
+  if (messageCount === 0 && adminUser && clientUser) {
+    const now = new Date()
+    await prisma.message.createMany({
+      data: [
+        {
+          fromUserId: clientUser.id,
+          toUserId: adminUser.id,
+          content: 'Chào nhà hàng, cuối tuần này mình muốn đặt bàn cho 10 người được không ạ?',
+          createdAt: new Date(now.getTime() - 1000 * 60 * 60 * 2), // 2 hours ago
+        },
+        {
+          fromUserId: adminUser.id,
+          toUserId: clientUser.id,
+          content:
+            'Dạ chào bạn, Bamixo hiện có phòng VIP chứa được 10 người nhé. Bạn dự định đến vào lúc mấy giờ ạ?',
+          createdAt: new Date(now.getTime() - 1000 * 60 * 60 * 1), // 1 hour ago
+        },
+        {
+          fromUserId: clientUser.id,
+          toUserId: adminUser.id,
+          content: 'Mình đến tầm 19:00 tối mai nhé! Có cần cọc trước không?',
+          createdAt: new Date(now.getTime() - 1000 * 60 * 30), // 30 mins ago
+        },
+        {
+          fromUserId: clientUser.id,
+          toUserId: adminUser.id,
+          content: 'Cập nhật lại là mình đi 12 người nhé!',
+          createdAt: new Date(now.getTime() - 1000 * 60 * 5), // 5 mins ago
+        },
+      ],
+    })
+    console.log('✓ Mock messages created')
+  } else {
+    console.log('✓ Mock messages skipped')
   }
 
   console.log('✅ Database seeding completed!')
