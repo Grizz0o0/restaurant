@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common'
 import { ReviewRepo } from './review.repo'
-import { CreateReviewBodyType, GetReviewsQueryType } from '@repo/schema'
+import { CreateReviewBodyType, GetReviewsQueryType, ReplyReviewBodyType } from '@repo/schema'
 
 @Injectable()
 export class ReviewService {
@@ -24,5 +24,11 @@ export class ReviewService {
     }
 
     return await this.reviewRepo.delete(id)
+  }
+
+  async reply(data: ReplyReviewBodyType) {
+    const review = await this.reviewRepo.findById(data.id)
+    if (!review) throw new NotFoundException('Review not found')
+    return await this.reviewRepo.reply({ id: data.id, adminReply: data.adminReply })
   }
 }

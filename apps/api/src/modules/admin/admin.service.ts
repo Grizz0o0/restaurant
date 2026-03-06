@@ -3,6 +3,7 @@ import { RoleName, UserStatus } from '@repo/constants'
 import { AuthRepository } from '@/modules/auth/auth.repo'
 import { SharedUserRepository } from '@/shared/repositories/shared-user.repo'
 import { PrismaService } from '@/shared/prisma/prisma.service'
+import type { GetReportQueryType } from '@repo/schema'
 
 @Injectable()
 export class AdminService {
@@ -84,16 +85,67 @@ export class AdminService {
     }
   }
 
+  async getReport(input: GetReportQueryType) {
+    const { startDate, endDate } = input
+
+    // Adjust endDate to be inclusive (end of that day)
+    const endOfDay = new Date(endDate)
+    endOfDay.setHours(23, 59, 59, 999)
+
+    // Fetch all completed orders in the range with their items
+    const orders = await this.prisma.order.findMany({
+      where: {
+        status: 'COMPLETED',
+        createdAt: { gte: startDate, lte: endOfDay },
+      },
+      include: { items: true },
+      orderBy: { createdAt: 'asc' },
+    })
+
+    // Group orders by date
+    const dailyMap = new Map<string, { revenue: number; orders: number }>()
+    for (const order of orders) {
+      const dateKey = order.createdAt.toISOString().split('T')[0]
+      const existing = dailyMap.get(dateKey) || { revenue: 0, orders: 0 }
+      existing.revenue += Number(order.totalAmount)
+      existing.orders += 1
+      dailyMap.set(dateKey, existing)
+    }
+
+    const dailyRevenue = Array.from(dailyMap.entries()).map(([date, val]) => ({
+      date,
+      revenue: val.revenue,
+      orders: val.orders,
+    }))
+
+    // Aggregate top dishes
+    const dishMap = new Map<string, { totalQuantity: number; totalRevenue: number }>()
+    for (const order of orders) {
+      for (const item of order.items) {
+        const existing = dishMap.get(item.dishName) || { totalQuantity: 0, totalRevenue: 0 }
+        existing.totalQuantity += item.quantity
+        existing.totalRevenue += Number(item.price) * item.quantity
+        dishMap.set(item.dishName, existing)
+      }
+    }
+
+    const topDishes = Array.from(dishMap.entries())
+      .map(([dishName, val]) => ({ dishName, ...val }))
+      .sort((a, b) => b.totalQuantity - a.totalQuantity)
+      .slice(0, 10)
+
+    const totalRevenue = orders.reduce((sum, o) => sum + Number(o.totalAmount), 0)
+    const totalOrders = orders.length
+    const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0
+
+    return { totalRevenue, totalOrders, avgOrderValue, dailyRevenue, topDishes }
+  }
+
   async banUser(userId: string) {
     const user = await this.sharedUserRepository.findUnique({ id: userId })
     if (!user) throw new NotFoundException('User not found')
 
-    // 1. Update user status to BLOCKED through SharedUserRepository if possible, or AuthRepository
-    // We need to update status. sharedUserRepository might only have specific generic methods.
-    // Let's use authRepository if it has updateUser, or sharedUserRepository update.
     await this.authRepository.updateUser(userId, { status: UserStatus.BLOCKED })
-
-    // 2. Revoke all sessions (Force Logout)
     await this.authRepository.deleteManyRefreshToken({ userId })
 
     return { message: 'User has been banned and logged out.' }
@@ -117,7 +169,6 @@ export class AdminService {
     if (!user) throw new NotFoundException('User not found')
 
     await this.authRepository.deleteManyRefreshToken({ userId })
-    // Also invalidate validation codes if strict
 
     return { message: 'User has been forced to logout.' }
   }

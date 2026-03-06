@@ -1,8 +1,10 @@
 import { Ctx, Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
 import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
+import { AdminRoleMiddleware } from '@/trpc/middlewares/admin-role.middleware'
 import { Context } from '@/trpc/context'
 import {
   CreateReviewBodySchema,
+  ReplyReviewBodySchema,
   GetReviewsQuerySchema,
   GetReviewsResSchema,
   ReviewDetailResSchema,
@@ -40,5 +42,14 @@ export class ReviewRouter {
   async delete(@Input('id') id: string, @Ctx() ctx: Context) {
     const isAdmin = ctx.user?.roleName === RoleName.Admin
     return this.reviewService.delete(id, ctx.user!.userId, isAdmin)
+  }
+
+  @Mutation({
+    input: ReplyReviewBodySchema,
+    output: ReviewDetailResSchema,
+  })
+  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
+  async reply(@Input() input: any) {
+    return this.reviewService.reply(input)
   }
 }

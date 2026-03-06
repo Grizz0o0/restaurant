@@ -50,6 +50,17 @@ export class ReviewRepo {
     )
   }
 
+  async reply({ id, adminReply }: { id: string; adminReply: string }) {
+    return this.prisma.review.update({
+      where: { id },
+      data: { adminReply },
+      include: {
+        user: { select: { id: true, name: true, avatar: true } },
+        dish: { select: { id: true, images: true } },
+      },
+    })
+  }
+
   async delete(id: string) {
     return this.prisma.review.delete({
       where: { id },

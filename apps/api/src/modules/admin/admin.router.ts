@@ -9,6 +9,9 @@ import {
   UnbanUserBodyType,
   ForceLogoutBodySchema,
   ForceLogoutBodyType,
+  GetReportQuerySchema,
+  GetReportQueryType,
+  GetReportResponseSchema,
 } from '@repo/schema'
 import { RoleName } from '@repo/constants'
 
@@ -35,5 +38,13 @@ export class AdminRouter {
   @Query()
   async getStats() {
     return this.adminService.getDashboardStats()
+  }
+
+  @Query({
+    input: GetReportQuerySchema,
+    output: GetReportResponseSchema,
+  })
+  async getReport(@Input() input: GetReportQueryType) {
+    return this.adminService.getReport(input)
   }
 }
