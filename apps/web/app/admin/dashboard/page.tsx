@@ -10,6 +10,7 @@ import {
 import { useAuth } from '@/hooks/domain/use-auth';
 import { trpc } from '@/lib/trpc/client';
 import { Archive, BarChart3, ShoppingBag, Users } from 'lucide-react';
+import { OrderStatusBadge } from '@/components/admin/orders/order-status-badge';
 
 export default function AdminDashboard() {
     const { user } = useAuth();
@@ -123,21 +124,30 @@ export default function AdminDashboard() {
                                 stats?.recentOrders.map((order: any) => (
                                     <div
                                         key={order.id}
-                                        className="flex items-center gap-4"
+                                        className="flex items-center gap-4 group p-2 -mx-2 rounded-lg hover:bg-muted/50 transition-colors"
                                     >
-                                        <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                                             <ShoppingBag className="h-4 w-4 text-primary" />
                                         </div>
                                         <div className="flex-1 overflow-hidden">
-                                            <p className="text-sm font-medium truncate">
+                                            <p className="text-sm font-medium truncate group-hover:text-primary transition-colors">
                                                 {order.user}
                                             </p>
                                             <p className="text-xs text-muted-foreground truncate">
                                                 {order.itemsSummary}
                                             </p>
                                         </div>
-                                        <div className="text-sm font-medium whitespace-nowrap">
-                                            {formatCurrency(order.totalAmount)}
+                                        <div className="flex flex-col items-end gap-1.5 shrink-0">
+                                            <div className="text-sm font-semibold whitespace-nowrap">
+                                                {formatCurrency(
+                                                    order.totalAmount,
+                                                )}
+                                            </div>
+                                            <OrderStatusBadge
+                                                status={order.status}
+                                                className="scale-90 origin-right"
+                                                showIcon={false}
+                                            />
                                         </div>
                                     </div>
                                 ))

@@ -17,6 +17,8 @@ import {
     Settings,
     CalendarDays,
     MessageSquareText,
+    BarChart3,
+    Star,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -87,6 +89,16 @@ const sidebarItems = [
         title: 'Chat Hỗ trợ',
         href: '/admin/chat',
         icon: MessageSquareText,
+    },
+    {
+        title: 'Báo cáo',
+        href: '/admin/reports',
+        icon: BarChart3,
+    },
+    {
+        title: 'Đánh giá',
+        href: '/admin/reviews',
+        icon: Star,
     },
 ];
 

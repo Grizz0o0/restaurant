@@ -1,8 +1,8 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { ShoppingCart, Loader2, Search, CircleDot, Eye } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { ShoppingCart, Loader2, Search, Eye } from 'lucide-react';
+import { OrderStatusBadge } from '@/components/admin/orders/order-status-badge';
 import { trpc } from '@/lib/trpc/client';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -102,15 +102,6 @@ export default function AdminOrdersPage() {
             .reduce((sum, o) => sum + Number(o.totalAmount || 0), 0);
         return { total, pending, completed, totalRevenue };
     }, [orders]);
-
-    const getStatusBadge = (status: string) => {
-        const statusInfo = ORDER_STATUSES.find((s) => s.value === status);
-        return (
-            <Badge variant={statusInfo?.variant || 'outline'}>
-                {statusInfo?.label || status}
-            </Badge>
-        );
-    };
 
     const formatVnd = (amount: number) =>
         new Intl.NumberFormat('vi-VN', {
@@ -387,7 +378,11 @@ export default function AdminOrdersPage() {
                                     <p className="text-sm text-muted-foreground">
                                         Trạng thái
                                     </p>
-                                    {getStatusBadge(selectedOrder.status)}
+                                    <div className="mt-1">
+                                        <OrderStatusBadge
+                                            status={selectedOrder.status}
+                                        />
+                                    </div>
                                 </div>
                                 <div>
                                     <p className="text-sm text-muted-foreground">

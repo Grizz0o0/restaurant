@@ -70,7 +70,7 @@ const AdminRoleCheck = ({ children }: { children: React.ReactNode }) => {
             <AdminSidebar />
             <div className="md:pl-64 flex flex-col min-h-screen">
                 <AdminHeader />
-                <main className="flex-1 transition-all duration-300 ease-in-out p-4 md:p-8 pt-6">
+                <main className="flex-1 transition-all duration-300 ease-in-out p-2 md:p-4 pt-2">
                     {children}
                 </main>
             </div>
