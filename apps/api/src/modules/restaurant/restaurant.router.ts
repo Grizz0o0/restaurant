@@ -39,6 +39,13 @@ export class RestaurantRouter {
     return this.restaurantService.findById(id)
   }
 
+  @Query({
+    output: RestaurantSchema,
+  })
+  async getMain() {
+    return this.restaurantService.getMain()
+  }
+
   @Mutation({
     input: CreateRestaurantBodySchema,
     output: RestaurantSchema,

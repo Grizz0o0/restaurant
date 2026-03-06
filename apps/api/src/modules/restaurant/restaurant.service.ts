@@ -59,6 +59,21 @@ export class RestaurantService {
     return restaurant
   }
 
+  async getMain() {
+    const restaurant = await this.prisma.restaurant.findFirst({
+      orderBy: { createdAt: 'asc' },
+    })
+
+    if (!restaurant) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'Restaurant not found',
+      })
+    }
+
+    return restaurant
+  }
+
   async list(input: GetRestaurantsQueryType) {
     const { page = 1, limit = 10, search } = input
     const skip = (page - 1) * limit

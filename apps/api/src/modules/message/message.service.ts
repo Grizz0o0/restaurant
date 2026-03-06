@@ -142,4 +142,18 @@ export class MessageService {
       conversations: Array.from(conversationMap.values()),
     }
   }
+
+  async getAdmin() {
+    const adminRole = await this.prisma.role.findUnique({
+      where: { name: 'ADMIN' },
+    })
+    if (!adminRole) return null
+
+    const adminUser = await this.prisma.user.findFirst({
+      where: { roleId: adminRole.id },
+      select: { id: true },
+    })
+
+    return adminUser
+  }
 }
