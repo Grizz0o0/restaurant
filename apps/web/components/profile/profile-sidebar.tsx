@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { User, Shield, Package, MapPin, LogOut } from 'lucide-react';
+import { User, Shield, Package, MapPin, LogOut, Star } from 'lucide-react';
 import { useAuth } from '@/hooks/domain/use-auth';
 
 const sidebarNavItems = [
@@ -21,6 +21,11 @@ const sidebarNavItems = [
         title: 'Đơn hàng',
         href: '/profile/orders',
         icon: Package,
+    },
+    {
+        title: 'Đánh giá của tôi',
+        href: '/profile/reviews',
+        icon: Star,
     },
     {
         title: 'Sổ địa chỉ',

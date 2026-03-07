@@ -86,16 +86,28 @@ export const useAuth = () => {
     // Logout using Next.js API route
     const logout = async () => {
         try {
-            await fetch('/api/auth/logout', { method: 'POST' });
+            fetch('/api/auth/logout', { method: 'POST' });
             clearAuthTokens();
-            // Explicitly clear user data to update UI immediately
-            utils.profile.getProfile.setData(undefined, undefined);
-            // Clear cached data
-            await utils.invalidate();
             toast.success('Đăng xuất thành công');
-            router.push('/auth/login');
+            window.location.href = '/auth/login';
         } catch (error) {
+            console.error('Logout error:', error);
             toast.error('Đăng xuất thất bại');
+        }
+    };
+
+    // Login with Google
+    const loginWithGoogle = async () => {
+        setIsLoginLoading(true);
+        try {
+            const result = await utils.auth.googleUrl.fetch();
+            if (result && result.url) {
+                window.location.href = result.url;
+            }
+        } catch (error) {
+            console.error('Lỗi khi lấy link Google OAuth:', error);
+            toast.error('Không thể kết nối với Google');
+            setIsLoginLoading(false);
         }
     };
 
@@ -105,6 +117,7 @@ export const useAuth = () => {
         isLoading,
         login,
         isLoginLoading,
+        loginWithGoogle,
         register,
         isRegisterLoading,
         sendOTP: sendOTPMutation.mutate,

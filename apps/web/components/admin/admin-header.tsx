@@ -16,13 +16,13 @@ import { LogOut, User, Settings as SettingsIcon } from 'lucide-react';
 import Link from 'next/link';
 
 export function AdminHeader() {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
 
     return (
         <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b bg-background/95 px-6 backdrop-blur supports-backdrop-filter:bg-background/60">
             <div className="flex items-center gap-4">
                 <h2 className="text-lg font-semibold tracking-tight hidden md:block">
-                    Admin Portal
+                    Quản trị
                 </h2>
             </div>
             <div className="flex items-center gap-4">
@@ -74,7 +74,10 @@ export function AdminHeader() {
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-destructive focus:bg-destructive focus:text-destructive-foreground cursor-pointer">
+                        <DropdownMenuItem
+                            className="text-destructive focus:bg-destructive focus:text-destructive-foreground cursor-pointer"
+                            onClick={() => logout()}
+                        >
                             <LogOut className="mr-2 h-4 w-4" />
                             <span>Đăng xuất</span>
                         </DropdownMenuItem>
