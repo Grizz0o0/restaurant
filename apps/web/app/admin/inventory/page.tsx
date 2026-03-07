@@ -1,12 +1,7 @@
 'use client';
 
 import { useMemo, useState, useEffect } from 'react';
-import {
-    useForm,
-    type Resolver,
-    type SubmitHandler,
-    type UseFormReturn,
-} from 'react-hook-form';
+import { useForm, type Resolver, type SubmitHandler } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -18,6 +13,10 @@ import {
     Search,
     Package,
     AlertTriangle,
+    RefreshCw,
+    TrendingDown,
+    CheckCircle2,
+    BoxesIcon,
 } from 'lucide-react';
 import {
     AlertDialog,
@@ -33,6 +32,7 @@ import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Progress } from '@/components/ui/progress';
 import {
     Card,
     CardContent,
@@ -61,11 +61,15 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
+    FormDescription,
 } from '@/components/ui/form';
 import { trpc } from '@/lib/trpc/client';
 import { useAuth } from '@/hooks/domain/use-auth';
+import { format } from 'date-fns';
+import { vi } from 'date-fns/locale';
+import { cn } from '@/lib/utils';
 
-// Schema matching CreateInventoryBodyType
+// Schema
 const inventorySchema = z.object({
     restaurantId: z.string().uuid(),
     itemName: z.string().trim().min(1, 'Tên mặt hàng không được trống'),
@@ -79,7 +83,6 @@ const inventorySchema = z.object({
 
 type InventoryFormValues = z.infer<typeof inventorySchema>;
 
-// Types for REST API response
 interface InventoryItem {
     id: string;
     restaurantId: string;
@@ -91,32 +94,62 @@ interface InventoryItem {
     updatedAt: string;
 }
 
+type StatusFilter = 'all' | 'low' | 'ok';
+
+function StockStatusBadge({ item }: { item: InventoryItem }) {
+    const isLow = item.threshold !== null && item.quantity <= item.threshold;
+    if (isLow) {
+        return (
+            <Badge variant="destructive" className="gap-1 whitespace-nowrap">
+                <AlertTriangle className="h-3 w-3" />
+                Sắp hết
+            </Badge>
+        );
+    }
+    return (
+        <Badge
+            variant="outline"
+            className="gap-1 bg-emerald-500/10 text-emerald-600 border-emerald-200 whitespace-nowrap"
+        >
+            <CheckCircle2 className="h-3 w-3" />
+            Đủ hàng
+        </Badge>
+    );
+}
+
+function StockProgressBar({ item }: { item: InventoryItem }) {
+    if (!item.threshold || item.threshold === 0) return null;
+    const pct = Math.min((item.quantity / (item.threshold * 3)) * 100, 100);
+    const isLow = item.quantity <= item.threshold;
+    return (
+        <div className="w-full min-w-20">
+            <Progress
+                value={pct}
+                className={cn(
+                    'h-1.5',
+                    isLow ? '[&>div]:bg-rose-500' : '[&>div]:bg-emerald-500',
+                )}
+            />
+        </div>
+    );
+}
+
 export default function AdminInventoryPage() {
-    // 1. Get User/Auth Info
     const { user } = useAuth();
-    // 2. We need a restaurantId. Assuming simpler setup: fetch first restaurant or user's restaurant
-    // If not in user object, we try to fetch list
     const { data: restaurants } = trpc.restaurant.list.useQuery(
         {},
-        {
-            enabled: !user?.roleId, // Always fetch if uncertain, simplify logic
-        },
+        { enabled: !user?.roleId },
     );
-
-    // Determine restaurantId: preferably from context or first available
-    // For now, we'll try to use the first one from the list if available
     const restaurantId = restaurants?.items?.[0]?.id;
 
-    // 3. REST API State
     const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
-
-    // 4. Form & UI State
     const [open, setOpen] = useState(false);
     const [editing, setEditing] = useState<InventoryItem | null>(null);
     const [deleteId, setDeleteId] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const form = useForm<InventoryFormValues>({
@@ -130,24 +163,19 @@ export default function AdminInventoryPage() {
         },
     });
 
-    // Fetch Inventory Data via REST
+    const getBaseUrl = () =>
+        process.env.NEXT_PUBLIC_API_URL?.replace('/trpc', '') ||
+        'http://localhost:3052/v1/api';
+
     const fetchInventory = async () => {
         try {
             setIsRefreshing(true);
             const token = localStorage.getItem('accessToken');
-            const res = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL?.replace('/trpc', '') || 'http://localhost:3052/v1/api'}/inventories?limit=100`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                },
-            );
+            const res = await fetch(`${getBaseUrl()}/inventories?limit=100`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
             if (!res.ok) throw new Error('Failed to fetch inventory');
             const data = await res.json();
-            // data might be array or { data: [] } depending on backend. Controller findAll returns direct array or paged?
-            // Controller: returns findMany result directly or handled by interceptor?
-            // Assuming TransformInterceptor wraps it in { statusCode, message, data }
             const items = data.data || data;
             setInventoryItems(Array.isArray(items) ? items : []);
         } catch (error) {
@@ -162,15 +190,11 @@ export default function AdminInventoryPage() {
     useEffect(() => {
         fetchInventory();
     }, []);
-
-    // Effect to set restaurantId in form when available
     useEffect(() => {
-        if (restaurantId && !editing) {
+        if (restaurantId && !editing)
             form.setValue('restaurantId', restaurantId);
-        }
     }, [restaurantId, editing, form]);
 
-    // Handlers
     const openCreate = () => {
         if (!restaurantId) {
             toast.error('Không tìm thấy thông tin nhà hàng');
@@ -178,7 +202,7 @@ export default function AdminInventoryPage() {
         }
         setEditing(null);
         form.reset({
-            restaurantId: restaurantId,
+            restaurantId,
             itemName: '',
             quantity: 0,
             unit: 'kg',
@@ -203,28 +227,21 @@ export default function AdminInventoryPage() {
         setIsSubmitting(true);
         try {
             const token = localStorage.getItem('accessToken');
-            const baseUrl =
-                process.env.NEXT_PUBLIC_API_URL?.replace('/trpc', '') ||
-                'http://localhost:3052/v1/api';
             const url = editing
-                ? `${baseUrl}/inventories/${editing.id}`
-                : `${baseUrl}/inventories`;
-            const method = editing ? 'PATCH' : 'POST';
-
+                ? `${getBaseUrl()}/inventories/${editing.id}`
+                : `${getBaseUrl()}/inventories`;
             const res = await fetch(url, {
-                method,
+                method: editing ? 'PATCH' : 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify(values),
             });
-
             if (!res.ok) {
                 const err = await res.json();
                 throw new Error(err.message || 'Failed to save');
             }
-
             toast.success(
                 editing ? 'Đã cập nhật kho hàng' : 'Đã thêm mặt hàng mới',
             );
@@ -241,42 +258,45 @@ export default function AdminInventoryPage() {
         if (!deleteId) return;
         try {
             const token = localStorage.getItem('accessToken');
-            const baseUrl =
-                process.env.NEXT_PUBLIC_API_URL?.replace('/trpc', '') ||
-                'http://localhost:3052/v1/api';
-            const res = await fetch(`${baseUrl}/inventories/${deleteId}`, {
+            const res = await fetch(`${getBaseUrl()}/inventories/${deleteId}`, {
                 method: 'DELETE',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                headers: { Authorization: `Bearer ${token}` },
             });
-
             if (!res.ok) throw new Error('Failed to delete');
-
             toast.success('Đã xóa mặt hàng');
             setDeleteId(null);
             fetchInventory();
-        } catch (error) {
+        } catch {
             toast.error('Có lỗi xảy ra khi xóa');
         }
     };
 
-    const filteredItems = useMemo(() => {
-        return inventoryItems.filter((item) =>
-            item.itemName.toLowerCase().includes(searchQuery.toLowerCase()),
-        );
-    }, [inventoryItems, searchQuery]);
-
     const stats = useMemo(() => {
-        const totalItems = inventoryItems.length;
+        const total = inventoryItems.length;
         const lowStock = inventoryItems.filter(
             (i) => i.threshold !== null && i.quantity <= i.threshold,
         ).length;
-        return { totalItems, lowStock };
+        const okStock = total - lowStock;
+        return { total, lowStock, okStock };
     }, [inventoryItems]);
 
+    const filteredItems = useMemo(() => {
+        return inventoryItems.filter((item) => {
+            const matchSearch = item.itemName
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase());
+            const isLow =
+                item.threshold !== null && item.quantity <= item.threshold;
+            const matchStatus =
+                statusFilter === 'all' ||
+                (statusFilter === 'low' ? isLow : !isLow);
+            return matchSearch && matchStatus;
+        });
+    }, [inventoryItems, searchQuery, statusFilter]);
+
     return (
-        <div className="flex flex-col p-6 w-full max-w-7xl mx-auto space-y-8">
+        <div className="flex flex-col p-6 w-full max-w-7xl mx-auto space-y-6">
+            {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h1 className="font-display text-3xl font-bold tracking-tight text-foreground">
@@ -291,12 +311,15 @@ export default function AdminInventoryPage() {
                         variant="outline"
                         onClick={fetchInventory}
                         disabled={isRefreshing}
+                        className="gap-2"
                     >
-                        {isRefreshing ? (
-                            <Loader2 className="w-4 h-4 animate-spin" />
-                        ) : (
-                            'Làm mới'
-                        )}
+                        <RefreshCw
+                            className={cn(
+                                'w-4 h-4',
+                                isRefreshing && 'animate-spin',
+                            )}
+                        />
+                        Làm mới
                     </Button>
                     <Dialog open={open} onOpenChange={setOpen}>
                         <DialogTrigger asChild>
@@ -356,6 +379,7 @@ export default function AdminInventoryPage() {
                                                         <Input
                                                             type="number"
                                                             step="0.01"
+                                                            min={0}
                                                             {...field}
                                                         />
                                                     </FormControl>
@@ -375,9 +399,7 @@ export default function AdminInventoryPage() {
                                                         onValueChange={
                                                             field.onChange
                                                         }
-                                                        defaultValue={
-                                                            field.value
-                                                        }
+                                                        value={field.value}
                                                     >
                                                         <FormControl>
                                                             <SelectTrigger>
@@ -397,8 +419,14 @@ export default function AdminInventoryPage() {
                                                             <SelectItem value="ml">
                                                                 ml
                                                             </SelectItem>
-                                                            <SelectItem value="pcs">
+                                                            <SelectItem value="hộp">
                                                                 cái/hộp
+                                                            </SelectItem>
+                                                            <SelectItem value="gói">
+                                                                gói
+                                                            </SelectItem>
+                                                            <SelectItem value="chai">
+                                                                chai
                                                             </SelectItem>
                                                         </SelectContent>
                                                     </Select>
@@ -419,9 +447,14 @@ export default function AdminInventoryPage() {
                                                     <Input
                                                         type="number"
                                                         step="0.01"
+                                                        min={0}
                                                         {...field}
                                                     />
                                                 </FormControl>
+                                                <FormDescription>
+                                                    Hệ thống sẽ cảnh báo khi số
+                                                    lượng đạt hoặc dưới mức này.
+                                                </FormDescription>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
@@ -437,12 +470,15 @@ export default function AdminInventoryPage() {
                                         </Button>
                                         <Button
                                             type="submit"
+                                            variant="hero"
                                             disabled={isSubmitting}
                                         >
                                             {isSubmitting && (
                                                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                                             )}
-                                            {editing ? 'Cập nhật' : 'Tạo mới'}
+                                            {editing
+                                                ? 'Lưu thay đổi'
+                                                : 'Tạo mới'}
                                         </Button>
                                     </div>
                                 </form>
@@ -452,133 +488,293 @@ export default function AdminInventoryPage() {
                 </div>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-                <Card>
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium">
+            {/* Stats Cards */}
+            <div className="grid gap-4 sm:grid-cols-3">
+                <Card className="bg-linear-to-br from-primary/5 to-primary/10 border-primary/20">
+                    <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
+                        <CardDescription className="text-primary/80 font-medium text-xs uppercase tracking-wide">
                             Tổng mặt hàng
-                        </CardTitle>
+                        </CardDescription>
+                        <BoxesIcon className="h-4 w-4 text-primary/60" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">
-                            {stats.totalItems}
+                        <div className="text-3xl font-bold font-display text-primary">
+                            {stats.total}
                         </div>
+                        <p className="text-xs text-muted-foreground mt-1">
+                            Đang quản lý
+                        </p>
                     </CardContent>
                 </Card>
-                <Card className={stats.lowStock > 0 ? 'border-amber-500' : ''}>
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium">
-                            Cảnh báo sắp hết
-                        </CardTitle>
+
+                <Card className="bg-linear-to-br from-emerald-500/5 to-emerald-500/10 border-emerald-200">
+                    <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
+                        <CardDescription className="text-emerald-700 font-medium text-xs uppercase tracking-wide">
+                            Đủ hàng
+                        </CardDescription>
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold flex items-center gap-2">
-                            {stats.lowStock}
-                            {stats.lowStock > 0 && (
-                                <AlertTriangle className="h-5 w-5 text-amber-500" />
+                        <div className="text-3xl font-bold font-display text-emerald-600">
+                            {stats.okStock}
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-1">
+                            Mặt hàng còn đủ
+                        </p>
+                    </CardContent>
+                </Card>
+
+                <Card
+                    className={cn(
+                        'bg-linear-to-br border',
+                        stats.lowStock > 0
+                            ? 'from-rose-500/5 to-rose-500/10 border-rose-200'
+                            : 'from-muted/5 to-muted/10',
+                    )}
+                >
+                    <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
+                        <CardDescription
+                            className={cn(
+                                'font-medium text-xs uppercase tracking-wide',
+                                stats.lowStock > 0
+                                    ? 'text-rose-700'
+                                    : 'text-muted-foreground',
                             )}
+                        >
+                            Cảnh báo sắp hết
+                        </CardDescription>
+                        <TrendingDown
+                            className={cn(
+                                'h-4 w-4',
+                                stats.lowStock > 0
+                                    ? 'text-rose-500'
+                                    : 'text-muted-foreground',
+                            )}
+                        />
+                    </CardHeader>
+                    <CardContent>
+                        <div
+                            className={cn(
+                                'text-3xl font-bold font-display',
+                                stats.lowStock > 0
+                                    ? 'text-rose-600'
+                                    : 'text-muted-foreground',
+                            )}
+                        >
+                            {stats.lowStock}
                         </div>
+                        <p className="text-xs text-muted-foreground mt-1">
+                            Cần nhập thêm
+                        </p>
                     </CardContent>
                 </Card>
             </div>
 
-            <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                    placeholder="Tìm kiếm mặt hàng..."
-                    className="pl-9 max-w-sm"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
+            {/* Low stock alert banner */}
+            {stats.lowStock > 0 && (
+                <div className="flex items-center gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-200">
+                    <AlertTriangle className="h-4 w-4 shrink-0" />
+                    <p className="text-sm font-medium">
+                        Có <strong>{stats.lowStock}</strong> mặt hàng đang ở mức
+                        thấp cần nhập thêm hàng.
+                    </p>
+                </div>
+            )}
+
+            {/* Filters */}
+            <div className="flex flex-col sm:flex-row gap-3">
+                <div className="relative flex-1 max-w-sm">
+                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                        placeholder="Tìm kiếm mặt hàng..."
+                        className="pl-9"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                </div>
+                <div className="flex gap-2">
+                    {(['all', 'ok', 'low'] as StatusFilter[]).map((s) => (
+                        <Button
+                            key={s}
+                            size="sm"
+                            variant={statusFilter === s ? 'default' : 'outline'}
+                            onClick={() => setStatusFilter(s)}
+                            className={cn(
+                                'gap-1.5',
+                                statusFilter === s &&
+                                    s === 'low' &&
+                                    'bg-rose-500 hover:bg-rose-600 border-rose-500',
+                                statusFilter === s &&
+                                    s === 'ok' &&
+                                    'bg-emerald-500 hover:bg-emerald-600 border-emerald-500',
+                            )}
+                        >
+                            {s === 'all' && 'Tất cả'}
+                            {s === 'ok' && (
+                                <>
+                                    <CheckCircle2 className="h-3.5 w-3.5" /> Đủ
+                                    hàng
+                                </>
+                            )}
+                            {s === 'low' && (
+                                <>
+                                    <AlertTriangle className="h-3.5 w-3.5" />{' '}
+                                    Sắp hết
+                                </>
+                            )}
+                        </Button>
+                    ))}
+                </div>
             </div>
 
+            {/* Table */}
             <Card>
                 <CardContent className="p-0">
                     {isLoading ? (
-                        <div className="flex justify-center p-8">
-                            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                        <div className="flex justify-center p-16">
+                            <Loader2 className="h-8 w-8 animate-spin text-primary" />
                         </div>
                     ) : filteredItems.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center p-8 text-muted-foreground">
-                            <Package className="h-12 w-12 mb-2 opacity-20" />
-                            <p>Chưa có dữ liệu kho hàng</p>
+                        <div className="flex flex-col items-center justify-center p-16 text-muted-foreground gap-3">
+                            <Package className="h-12 w-12 opacity-20" />
+                            <p className="text-sm">
+                                {searchQuery || statusFilter !== 'all'
+                                    ? 'Không tìm thấy mặt hàng nào'
+                                    : 'Chưa có dữ liệu kho hàng'}
+                            </p>
                         </div>
                     ) : (
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm text-left">
-                                <thead className="bg-muted/50 font-medium">
+                                <thead className="bg-muted/50 border-b">
                                     <tr>
-                                        <th className="p-4">Tên mặt hàng</th>
-                                        <th className="p-4">Số lượng</th>
-                                        <th className="p-4">Đơn vị</th>
-                                        <th className="p-4">Ngưỡng</th>
-                                        <th className="p-4">Trạng thái</th>
-                                        <th className="p-4 text-right">
+                                        <th className="p-4 font-semibold">
+                                            Tên mặt hàng
+                                        </th>
+                                        <th className="p-4 font-semibold">
+                                            Số lượng
+                                        </th>
+                                        <th className="p-4 font-semibold">
+                                            Đơn vị
+                                        </th>
+                                        <th className="p-4 font-semibold hidden md:table-cell">
+                                            Tồn / Ngưỡng
+                                        </th>
+                                        <th className="p-4 font-semibold">
+                                            Trạng thái
+                                        </th>
+                                        <th className="p-4 font-semibold hidden lg:table-cell text-muted-foreground">
+                                            Cập nhật
+                                        </th>
+                                        <th className="p-4 font-semibold text-right">
                                             Thao tác
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y">
-                                    {filteredItems.map((item) => (
-                                        <tr
-                                            key={item.id}
-                                            className="hover:bg-muted/50"
-                                        >
-                                            <td className="p-4 font-medium">
-                                                {item.itemName}
-                                            </td>
-                                            <td className="p-4">
-                                                {item.quantity}
-                                            </td>
-                                            <td className="p-4">{item.unit}</td>
-                                            <td className="p-4">
-                                                {item.threshold || '-'}
-                                            </td>
-                                            <td className="p-4">
-                                                {item.threshold !== null &&
-                                                item.quantity <=
-                                                    item.threshold ? (
-                                                    <Badge
-                                                        variant="destructive"
-                                                        className="gap-1"
-                                                    >
-                                                        <AlertTriangle className="h-3 w-3" />
-                                                        Sắp hết
-                                                    </Badge>
-                                                ) : (
-                                                    <Badge
-                                                        variant="outline"
-                                                        className="bg-green-500/10 text-green-600 border-green-200"
-                                                    >
-                                                        Đủ hàng
-                                                    </Badge>
+                                    {filteredItems.map((item) => {
+                                        const isLow =
+                                            item.threshold !== null &&
+                                            item.quantity <= item.threshold;
+                                        return (
+                                            <tr
+                                                key={item.id}
+                                                className={cn(
+                                                    'hover:bg-muted/30 transition-colors',
+                                                    isLow &&
+                                                        'bg-rose-50/50 dark:bg-rose-950/20',
                                                 )}
-                                            </td>
-                                            <td className="p-4 text-right">
-                                                <div className="flex justify-end gap-2">
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        onClick={() =>
-                                                            openEdit(item)
-                                                        }
+                                            >
+                                                <td className="p-4">
+                                                    <div className="flex items-center gap-2">
+                                                        <div
+                                                            className={cn(
+                                                                'h-2 w-2 rounded-full shrink-0',
+                                                                isLow
+                                                                    ? 'bg-rose-500'
+                                                                    : 'bg-emerald-500',
+                                                            )}
+                                                        />
+                                                        <span className="font-medium">
+                                                            {item.itemName}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td className="p-4">
+                                                    <span
+                                                        className={cn(
+                                                            'font-bold text-base',
+                                                            isLow
+                                                                ? 'text-rose-600'
+                                                                : 'text-foreground',
+                                                        )}
                                                     >
-                                                        <Pencil className="h-4 w-4" />
-                                                    </Button>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        className="text-destructive"
-                                                        onClick={() =>
-                                                            setDeleteId(item.id)
-                                                        }
-                                                    >
-                                                        <Trash2 className="h-4 w-4" />
-                                                    </Button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                                        {item.quantity}
+                                                    </span>
+                                                </td>
+                                                <td className="p-4 text-muted-foreground">
+                                                    {item.unit}
+                                                </td>
+                                                <td className="p-4 hidden md:table-cell">
+                                                    <div className="space-y-1 min-w-30">
+                                                        <div className="flex justify-between text-xs text-muted-foreground">
+                                                            <span>
+                                                                {item.quantity}{' '}
+                                                                /{' '}
+                                                                {item.threshold ??
+                                                                    '∞'}
+                                                            </span>
+                                                        </div>
+                                                        <StockProgressBar
+                                                            item={item}
+                                                        />
+                                                    </div>
+                                                </td>
+                                                <td className="p-4">
+                                                    <StockStatusBadge
+                                                        item={item}
+                                                    />
+                                                </td>
+                                                <td className="p-4 hidden lg:table-cell text-xs text-muted-foreground">
+                                                    {item.updatedAt
+                                                        ? format(
+                                                              new Date(
+                                                                  item.updatedAt,
+                                                              ),
+                                                              'dd/MM/yyyy HH:mm',
+                                                              { locale: vi },
+                                                          )
+                                                        : '-'}
+                                                </td>
+                                                <td className="p-4 text-right">
+                                                    <div className="flex justify-end gap-1">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/10"
+                                                            onClick={() =>
+                                                                openEdit(item)
+                                                            }
+                                                        >
+                                                            <Pencil className="h-3.5 w-3.5" />
+                                                        </Button>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                                                            onClick={() =>
+                                                                setDeleteId(
+                                                                    item.id,
+                                                                )
+                                                            }
+                                                        >
+                                                            <Trash2 className="h-3.5 w-3.5" />
+                                                        </Button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         </div>
@@ -595,6 +791,7 @@ export default function AdminInventoryPage() {
                         <AlertDialogTitle>Xác nhận xóa</AlertDialogTitle>
                         <AlertDialogDescription>
                             Bạn có chắc chắn muốn xóa mặt hàng này khỏi kho?
+                            Hành động này không thể hoàn tác.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>

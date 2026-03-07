@@ -38,12 +38,20 @@ export const TopDishReportItemSchema = z.object({
     totalRevenue: z.number(),
 });
 
+export const DishReviewScoreSchema = z.object({
+    dishName: z.string(),
+    avgRating: z.number(),
+    reviewCount: z.number(),
+});
+
 export const GetReportResponseSchema = z.object({
     totalRevenue: z.number(),
     totalOrders: z.number(),
     avgOrderValue: z.number(),
     dailyRevenue: z.array(DailyRevenueItemSchema),
     topDishes: z.array(TopDishReportItemSchema),
+    topRatedDishes: z.array(DishReviewScoreSchema),
+    topCriticizedDishes: z.array(DishReviewScoreSchema),
 });
 
 export type GetReportResponseType = z.infer<typeof GetReportResponseSchema>;

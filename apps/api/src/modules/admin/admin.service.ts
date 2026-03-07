@@ -138,7 +138,53 @@ export class AdminService {
     const totalOrders = orders.length
     const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0
 
-    return { totalRevenue, totalOrders, avgOrderValue, dailyRevenue, topDishes }
+    // Fetch review stats for dishes in this period
+    const reviewsInPeriod = await this.prisma.review.groupBy({
+      by: ['dishId'],
+      where: {
+        createdAt: { gte: startDate, lte: endOfDay },
+      },
+      _avg: { rating: true },
+      _count: { rating: true },
+    })
+
+    // Get dish names for those reviews
+    const dishIds = reviewsInPeriod.map((r) => r.dishId)
+    const dishesInfo = await this.prisma.dish.findMany({
+      where: { id: { in: dishIds } },
+      select: { id: true, dishTranslations: { select: { name: true } }, basePrice: true },
+    })
+
+    // Map data
+    const dishReviewScores = reviewsInPeriod.map((r) => {
+      const dish = dishesInfo.find((d) => d.id === r.dishId)
+      return {
+        dishName: dish?.dishTranslations[0]?.name || 'Unknown Dish',
+        avgRating: r._avg.rating || 0,
+        reviewCount: r._count.rating,
+      }
+    })
+
+    // Sort for top rated and top criticized
+    const topRatedDishes = [...dishReviewScores]
+      .filter((r) => r.reviewCount > 0)
+      .sort((a, b) => b.avgRating - a.avgRating || b.reviewCount - a.reviewCount)
+      .slice(0, 5)
+
+    const topCriticizedDishes = [...dishReviewScores]
+      .filter((r) => r.reviewCount > 0)
+      .sort((a, b) => a.avgRating - b.avgRating || b.reviewCount - a.reviewCount)
+      .slice(0, 5)
+
+    return {
+      totalRevenue,
+      totalOrders,
+      avgOrderValue,
+      dailyRevenue,
+      topDishes,
+      topRatedDishes,
+      topCriticizedDishes,
+    }
   }
 
   async banUser(userId: string) {

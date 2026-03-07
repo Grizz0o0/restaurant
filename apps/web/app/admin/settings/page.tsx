@@ -1,12 +1,13 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { trpc } from '@/lib/trpc/client';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { ImageUpload } from '@/components/ui/image-upload';
 
 const settingsSchema = z.object({
     name: z.string().min(1, 'Vui lòng nhập tên nhà hàng'),
@@ -25,6 +26,7 @@ export default function SettingsPage() {
         register,
         handleSubmit,
         reset,
+        control,
         formState: { errors, isSubmitting },
     } = useForm<SettingsFormValues>({
         resolver: zodResolver(settingsSchema),
@@ -151,13 +153,18 @@ export default function SettingsPage() {
                                     htmlFor="logo"
                                     className="text-sm font-medium leading-none"
                                 >
-                                    Đường dẫn Logo (URL)
+                                    Logo nhà hàng
                                 </label>
-                                <input
-                                    id="logo"
-                                    {...register('logo')}
-                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                                    placeholder="https://..."
+                                <Controller
+                                    name="logo"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <ImageUpload
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            folder="restaurant"
+                                        />
+                                    )}
                                 />
                             </div>
 

@@ -29,9 +29,13 @@ import {
 import {
     Download,
     TrendingUp,
+    TrendingDown,
     ShoppingBag,
     DollarSign,
     Award,
+    ThumbsUp,
+    ThumbsDown,
+    Star,
     Loader2,
 } from 'lucide-react';
 import { format, subDays, startOfMonth, endOfMonth, parseISO } from 'date-fns';
@@ -139,6 +143,34 @@ export default function AdminReportsPage() {
         const ws2 = XLSX.utils.aoa_to_sheet(dishRows);
         ws2['!cols'] = [{ wch: 4 }, { wch: 30 }, { wch: 16 }, { wch: 20 }];
         XLSX.utils.book_append_sheet(wb, ws2, 'Món bán chạy');
+
+        // --- Sheet 3: Top Rated Dishes ---
+        const topRatedRows = [
+            ['#', 'Tên món ăn', 'Điểm trung bình', 'Số lượt đánh giá'],
+            ...data.topRatedDishes.map((d, i) => [
+                i + 1,
+                d.dishName,
+                d.avgRating,
+                d.reviewCount,
+            ]),
+        ];
+        const ws3 = XLSX.utils.aoa_to_sheet(topRatedRows);
+        ws3['!cols'] = [{ wch: 4 }, { wch: 30 }, { wch: 15 }, { wch: 18 }];
+        XLSX.utils.book_append_sheet(wb, ws3, 'Top Khen (Điểm cao)');
+
+        // --- Sheet 4: Top Criticized Dishes ---
+        const topCriticizedRows = [
+            ['#', 'Tên món ăn', 'Điểm trung bình', 'Số lượt đánh giá'],
+            ...data.topCriticizedDishes.map((d, i) => [
+                i + 1,
+                d.dishName,
+                d.avgRating,
+                d.reviewCount,
+            ]),
+        ];
+        const ws4 = XLSX.utils.aoa_to_sheet(topCriticizedRows);
+        ws4['!cols'] = [{ wch: 4 }, { wch: 30 }, { wch: 15 }, { wch: 18 }];
+        XLSX.utils.book_append_sheet(wb, ws4, 'Top Chê (Điểm thấp)');
 
         XLSX.writeFile(
             wb,
@@ -404,6 +436,156 @@ export default function AdminReportsPage() {
                             )}
                         </CardContent>
                     </Card>
+
+                    {/* Feedback Tables */}
+                    <div className="grid gap-6 sm:grid-cols-2">
+                        {/* Top Rated */}
+                        <Card>
+                            <CardHeader className="pb-3">
+                                <CardTitle className="flex items-center gap-2 text-emerald-600">
+                                    <ThumbsUp className="h-5 w-5" />
+                                    Top 5 Món Được Khen Nhiều Nhất
+                                </CardTitle>
+                                <CardDescription>
+                                    Đánh giá trung bình cao nhất
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="p-0">
+                                {!data || data.topRatedDishes.length === 0 ? (
+                                    <div className="flex h-32 items-center justify-center text-muted-foreground text-sm">
+                                        Chưa có đánh giá nào
+                                    </div>
+                                ) : (
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-sm">
+                                            <thead className="border-b bg-emerald-50/50 dark:bg-emerald-950/20">
+                                                <tr>
+                                                    <th className="text-left p-3 font-semibold text-emerald-800 dark:text-emerald-400">
+                                                        Tên món
+                                                    </th>
+                                                    <th className="text-right p-3 font-semibold text-emerald-800 dark:text-emerald-400">
+                                                        Điểm TB
+                                                    </th>
+                                                    <th className="text-right p-3 font-semibold text-emerald-800 dark:text-emerald-400">
+                                                        Lượt ĐG
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y">
+                                                {data.topRatedDishes.map(
+                                                    (dish, i) => (
+                                                        <tr
+                                                            key={dish.dishName}
+                                                            className="hover:bg-muted/30"
+                                                        >
+                                                            <td className="p-3 font-medium">
+                                                                {i === 0 && (
+                                                                    <span className="mr-1.5">
+                                                                        🥇
+                                                                    </span>
+                                                                )}
+                                                                {i === 1 && (
+                                                                    <span className="mr-1.5">
+                                                                        🥈
+                                                                    </span>
+                                                                )}
+                                                                {i === 2 && (
+                                                                    <span className="mr-1.5">
+                                                                        🥉
+                                                                    </span>
+                                                                )}
+                                                                {dish.dishName}
+                                                            </td>
+                                                            <td className="p-3 text-right font-bold text-emerald-600 flex items-center justify-end gap-1">
+                                                                {dish.avgRating.toFixed(
+                                                                    1,
+                                                                )}
+                                                                <Star className="h-3 w-3 fill-emerald-600" />
+                                                            </td>
+                                                            <td className="p-3 text-right text-muted-foreground">
+                                                                {
+                                                                    dish.reviewCount
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    ),
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+
+                        {/* Top Criticized */}
+                        <Card>
+                            <CardHeader className="pb-3">
+                                <CardTitle className="flex items-center gap-2 text-rose-600">
+                                    <ThumbsDown className="h-5 w-5" />
+                                    Top 5 Món Bị Chê Nhiều Nhất
+                                </CardTitle>
+                                <CardDescription>
+                                    Đánh giá trung bình thấp nhất
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="p-0">
+                                {!data ||
+                                data.topCriticizedDishes.length === 0 ? (
+                                    <div className="flex h-32 items-center justify-center text-muted-foreground text-sm">
+                                        Chưa có đánh giá nào
+                                    </div>
+                                ) : (
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-sm">
+                                            <thead className="border-b bg-rose-50/50 dark:bg-rose-950/20">
+                                                <tr>
+                                                    <th className="text-left p-3 font-semibold text-rose-800 dark:text-rose-400">
+                                                        Tên món
+                                                    </th>
+                                                    <th className="text-right p-3 font-semibold text-rose-800 dark:text-rose-400">
+                                                        Điểm TB
+                                                    </th>
+                                                    <th className="text-right p-3 font-semibold text-rose-800 dark:text-rose-400">
+                                                        Lượt ĐG
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y">
+                                                {data.topCriticizedDishes.map(
+                                                    (dish, i) => (
+                                                        <tr
+                                                            key={dish.dishName}
+                                                            className="hover:bg-muted/30"
+                                                        >
+                                                            <td className="p-3 font-medium">
+                                                                {i === 0 && (
+                                                                    <span className="mr-1.5 text-rose-600">
+                                                                        ⚠️
+                                                                    </span>
+                                                                )}
+                                                                {dish.dishName}
+                                                            </td>
+                                                            <td className="p-3 text-right font-bold text-rose-600 flex items-center justify-end gap-1">
+                                                                {dish.avgRating.toFixed(
+                                                                    1,
+                                                                )}
+                                                                <Star className="h-3 w-3 fill-rose-600" />
+                                                            </td>
+                                                            <td className="p-3 text-right text-muted-foreground">
+                                                                {
+                                                                    dish.reviewCount
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    ),
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </div>
                 </>
             )}
         </div>
