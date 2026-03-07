@@ -430,6 +430,10 @@ const appRouter = t.router({
             .input(GetReviewsQuerySchema)
             .output(GetReviewsResSchema)
             .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        myReviews: publicProcedure
+            .input(GetReviewsQuerySchema)
+            .output(GetReviewsResSchema)
+            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
         delete: publicProcedure
             .input(z.object({ id: z.string() }))
             .output(z.any())

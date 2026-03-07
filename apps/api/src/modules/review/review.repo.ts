@@ -18,7 +18,11 @@ export class ReviewRepo {
           select: { id: true, name: true, avatar: true },
         },
         dish: {
-          select: { id: true, images: true },
+          select: {
+            id: true,
+            images: true,
+            dishTranslations: { select: { name: true }, take: 1 },
+          },
         },
       },
     })
@@ -42,7 +46,11 @@ export class ReviewRepo {
             select: { id: true, name: true, avatar: true },
           },
           dish: {
-            select: { id: true, images: true },
+            select: {
+              id: true,
+              images: true,
+              dishTranslations: { select: { name: true }, take: 1 },
+            },
           },
         },
       },
@@ -56,7 +64,13 @@ export class ReviewRepo {
       data: { adminReply },
       include: {
         user: { select: { id: true, name: true, avatar: true } },
-        dish: { select: { id: true, images: true } },
+        dish: {
+          select: {
+            id: true,
+            images: true,
+            dishTranslations: { select: { name: true }, take: 1 },
+          },
+        },
       },
     })
   }

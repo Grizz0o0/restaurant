@@ -52,6 +52,9 @@ export const ReviewDetailResSchema = ReviewSchema.extend({
         .object({
             id: z.string(),
             images: z.array(z.string()),
+            dishTranslations: z
+                .array(z.object({ name: z.string() }))
+                .optional(),
         })
         .optional(),
 });

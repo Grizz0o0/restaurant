@@ -34,6 +34,15 @@ export class ReviewRouter {
     return this.reviewService.list(input)
   }
 
+  @Query({
+    input: GetReviewsQuerySchema,
+    output: GetReviewsResSchema,
+  })
+  @UseMiddlewares(AuthMiddleware)
+  async myReviews(@Input() input: any, @Ctx() ctx: Context) {
+    return this.reviewService.list({ ...input, userId: ctx.user!.userId })
+  }
+
   @Mutation({
     input: z.object({ id: z.string() }),
     output: z.any(),
