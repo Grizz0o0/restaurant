@@ -73,6 +73,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import { ImageUpload } from '@/components/ui/image-upload';
 
 const userSchema = z.object({
     name: z.string().trim().min(1, 'Tên không được trống').max(200),
@@ -85,7 +86,7 @@ const userSchema = z.object({
         .or(z.literal('')),
     roleId: z.string().min(1, 'Vui lòng chọn vai trò'),
     status: z.enum(['ACTIVE', 'INACTIVE']).optional(),
-    avatar: z.string().url('URL không hợp lệ').optional().or(z.literal('')),
+    avatar: z.string().optional().or(z.literal('')),
 });
 
 type UserFormValues = z.infer<typeof userSchema>;
@@ -703,12 +704,15 @@ export default function AdminUsersPage() {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    Avatar URL
+                                                    Ảnh đại diện
                                                 </FormLabel>
                                                 <FormControl>
-                                                    <Input
-                                                        placeholder="https://example.com/avatar.jpg"
-                                                        {...field}
+                                                    <ImageUpload
+                                                        value={field.value}
+                                                        onChange={
+                                                            field.onChange
+                                                        }
+                                                        folder="avatars"
                                                     />
                                                 </FormControl>
                                                 <FormMessage />

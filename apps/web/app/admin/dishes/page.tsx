@@ -676,9 +676,7 @@ export default function AdminDishesPage() {
                                         name="image_url"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>
-                                                    Hình ảnh (URL)
-                                                </FormLabel>
+                                                <FormLabel>Hình ảnh</FormLabel>
                                                 <FormControl>
                                                     <ImageUpload
                                                         value={field.value}

@@ -50,6 +50,8 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form';
+import { ImageUpload } from '@/components/ui/image-upload';
+import { Controller } from 'react-hook-form';
 
 const supplierSchema = z.object({
     name: z
@@ -57,12 +59,7 @@ const supplierSchema = z.object({
         .trim()
         .min(1, 'Tên nhà cung cấp không được trống')
         .max(200),
-    logo: z
-        .string()
-        .trim()
-        .url('URL không hợp lệ')
-        .optional()
-        .or(z.literal('')),
+    logo: z.string().trim().optional().or(z.literal('')),
     contactName: z.string().trim().max(200).optional().or(z.literal('')),
     phoneNumber: z.string().trim().max(50).optional().or(z.literal('')),
     email: z.string().email('Email không hợp lệ').optional().or(z.literal('')),
@@ -170,7 +167,7 @@ export default function AdminSuppliersPage() {
             const url = editing
                 ? `${apiUrl}/suppliers/${editing.id}`
                 : `${apiUrl}/suppliers`;
-            const method = editing ? 'PUT' : 'POST';
+            const method = editing ? 'PATCH' : 'POST';
 
             const res = await fetch(url, {
                 method,
@@ -424,11 +421,14 @@ export default function AdminSuppliersPage() {
                                         name="logo"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Logo URL</FormLabel>
+                                                <FormLabel>Logo</FormLabel>
                                                 <FormControl>
-                                                    <Input
-                                                        placeholder="https://example.com/logo.png"
-                                                        {...field}
+                                                    <ImageUpload
+                                                        value={field.value}
+                                                        onChange={
+                                                            field.onChange
+                                                        }
+                                                        folder="suppliers"
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
@@ -552,8 +552,21 @@ export default function AdminSuppliersPage() {
                                             className="hover:bg-muted/30 transition-colors"
                                         >
                                             <td className="p-4">
-                                                <div className="font-medium">
-                                                    {supplier.name}
+                                                <div className="flex items-center gap-3">
+                                                    {supplier.logo ? (
+                                                        <img
+                                                            src={supplier.logo}
+                                                            alt={supplier.name}
+                                                            className="h-9 w-9 rounded-md object-cover border shrink-0"
+                                                        />
+                                                    ) : (
+                                                        <div className="h-9 w-9 rounded-md bg-muted flex items-center justify-center shrink-0 border">
+                                                            <Truck className="h-4 w-4 text-muted-foreground" />
+                                                        </div>
+                                                    )}
+                                                    <div className="font-medium">
+                                                        {supplier.name}
+                                                    </div>
                                                 </div>
                                             </td>
                                             <td className="p-4 text-sm">

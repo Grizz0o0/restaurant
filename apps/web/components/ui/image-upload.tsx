@@ -13,6 +13,7 @@ interface ImageUploadProps {
     onChange: (url: string) => void;
     className?: string;
     disabled?: boolean;
+    folder?: string;
 }
 
 export function ImageUpload({
@@ -20,6 +21,7 @@ export function ImageUpload({
     onChange,
     className,
     disabled,
+    folder = 'dishes',
 }: ImageUploadProps) {
     const [isUploading, setIsUploading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -42,7 +44,7 @@ export function ImageUpload({
         setIsUploading(true);
 
         try {
-            const res = await uploadService.upload(file, 'dishes');
+            const res = await uploadService.upload(file, folder);
             console.log('Upload response:', res);
             if (res?.url) {
                 onChange(res.url);
