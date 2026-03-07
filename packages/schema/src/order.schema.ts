@@ -3,6 +3,7 @@ import { DishSchema } from './dish.schema';
 
 export const OrderItemSchema = z.object({
     id: z.string(),
+    dishId: z.string().nullable().optional(),
     dishName: z.string(),
     price: z
         .custom<any>(
@@ -13,7 +14,7 @@ export const OrderItemSchema = z.object({
         .or(z.number()), // Decimal in DB, number in JS
     quantity: z.number().int().positive(),
     images: z.array(z.string()),
-    skuValue: z.string().optional(),
+    skuValue: z.string().nullable().optional(),
 });
 
 export const OrderSchema = z.object({

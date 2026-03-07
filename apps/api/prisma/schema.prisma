@@ -301,6 +301,7 @@ model Dish {
   skus                   SKU[]
   reviews                Review[]
   dishTranslations       DishTranslation[]
+  dishSkuSnapshots       DishSKUSnapshot[]
   inventories            InventoryDish[]
   recommendations        Recommendation[]
   createdById            String?
@@ -515,6 +516,8 @@ model CartItem {
 
 model DishSKUSnapshot {
   id           String   @id @default(uuid())
+  dishId       String?
+  dish         Dish?    @relation(fields: [dishId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   dishName     String   @db.VarChar(500)
   price        Decimal  @db.Decimal(10, 2)
   quantity     Int      @default(1)

@@ -281,6 +281,7 @@ export type DishWhereInput = {
   skus?: Prisma.SKUListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   dishTranslations?: Prisma.DishTranslationListRelationFilter
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotListRelationFilter
   inventories?: Prisma.InventoryDishListRelationFilter
   recommendations?: Prisma.RecommendationListRelationFilter
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -308,6 +309,7 @@ export type DishOrderByWithRelationInput = {
   skus?: Prisma.SKUOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
   dishTranslations?: Prisma.DishTranslationOrderByRelationAggregateInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotOrderByRelationAggregateInput
   inventories?: Prisma.InventoryDishOrderByRelationAggregateInput
   recommendations?: Prisma.RecommendationOrderByRelationAggregateInput
   createdBy?: Prisma.UserOrderByWithRelationInput
@@ -338,6 +340,7 @@ export type DishWhereUniqueInput = Prisma.AtLeast<{
   skus?: Prisma.SKUListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   dishTranslations?: Prisma.DishTranslationListRelationFilter
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotListRelationFilter
   inventories?: Prisma.InventoryDishListRelationFilter
   recommendations?: Prisma.RecommendationListRelationFilter
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -399,6 +402,7 @@ export type DishCreateInput = {
   skus?: Prisma.SKUCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
@@ -425,6 +429,7 @@ export type DishUncheckedCreateInput = {
   skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
 }
@@ -445,6 +450,7 @@ export type DishUpdateInput = {
   skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
@@ -471,6 +477,7 @@ export type DishUncheckedUpdateInput = {
   skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
 }
@@ -878,6 +885,22 @@ export type DishUncheckedUpdateManyWithoutSupplierNestedInput = {
   deleteMany?: Prisma.DishScalarWhereInput | Prisma.DishScalarWhereInput[]
 }
 
+export type DishCreateNestedOneWithoutDishSkuSnapshotsInput = {
+  create?: Prisma.XOR<Prisma.DishCreateWithoutDishSkuSnapshotsInput, Prisma.DishUncheckedCreateWithoutDishSkuSnapshotsInput>
+  connectOrCreate?: Prisma.DishCreateOrConnectWithoutDishSkuSnapshotsInput
+  connect?: Prisma.DishWhereUniqueInput
+}
+
+export type DishUpdateOneWithoutDishSkuSnapshotsNestedInput = {
+  create?: Prisma.XOR<Prisma.DishCreateWithoutDishSkuSnapshotsInput, Prisma.DishUncheckedCreateWithoutDishSkuSnapshotsInput>
+  connectOrCreate?: Prisma.DishCreateOrConnectWithoutDishSkuSnapshotsInput
+  upsert?: Prisma.DishUpsertWithoutDishSkuSnapshotsInput
+  disconnect?: Prisma.DishWhereInput | boolean
+  delete?: Prisma.DishWhereInput | boolean
+  connect?: Prisma.DishWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DishUpdateToOneWithWhereWithoutDishSkuSnapshotsInput, Prisma.DishUpdateWithoutDishSkuSnapshotsInput>, Prisma.DishUncheckedUpdateWithoutDishSkuSnapshotsInput>
+}
+
 export type DishCreateNestedOneWithoutReviewsInput = {
   create?: Prisma.XOR<Prisma.DishCreateWithoutReviewsInput, Prisma.DishUncheckedCreateWithoutReviewsInput>
   connectOrCreate?: Prisma.DishCreateOrConnectWithoutReviewsInput
@@ -936,6 +959,7 @@ export type DishCreateWithoutCreatedByInput = {
   skus?: Prisma.SKUCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
@@ -960,6 +984,7 @@ export type DishUncheckedCreateWithoutCreatedByInput = {
   skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
 }
@@ -990,6 +1015,7 @@ export type DishCreateWithoutUpdatedByInput = {
   skus?: Prisma.SKUCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
@@ -1014,6 +1040,7 @@ export type DishUncheckedCreateWithoutUpdatedByInput = {
   skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
 }
@@ -1044,6 +1071,7 @@ export type DishCreateWithoutDeletedByInput = {
   skus?: Prisma.SKUCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
@@ -1068,6 +1096,7 @@ export type DishUncheckedCreateWithoutDeletedByInput = {
   skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
 }
@@ -1163,6 +1192,7 @@ export type DishCreateWithoutInteractionsInput = {
   skus?: Prisma.SKUCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
@@ -1188,6 +1218,7 @@ export type DishUncheckedCreateWithoutInteractionsInput = {
   skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
 }
@@ -1223,6 +1254,7 @@ export type DishUpdateWithoutInteractionsInput = {
   skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
@@ -1248,6 +1280,7 @@ export type DishUncheckedUpdateWithoutInteractionsInput = {
   skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
 }
@@ -1267,6 +1300,7 @@ export type DishCreateWithoutDishTranslationsInput = {
   variants?: Prisma.VariantCreateNestedManyWithoutDishInput
   skus?: Prisma.SKUCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
@@ -1292,6 +1326,7 @@ export type DishUncheckedCreateWithoutDishTranslationsInput = {
   variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
   skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
 }
@@ -1327,6 +1362,7 @@ export type DishUpdateWithoutDishTranslationsInput = {
   variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
   skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
@@ -1352,6 +1388,7 @@ export type DishUncheckedUpdateWithoutDishTranslationsInput = {
   variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
   skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
 }
@@ -1371,6 +1408,7 @@ export type DishCreateWithoutCategoriesInput = {
   skus?: Prisma.SKUCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
@@ -1396,6 +1434,7 @@ export type DishUncheckedCreateWithoutCategoriesInput = {
   skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
 }
@@ -1436,6 +1475,7 @@ export type DishCreateWithoutVariantsInput = {
   skus?: Prisma.SKUCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
@@ -1461,6 +1501,7 @@ export type DishUncheckedCreateWithoutVariantsInput = {
   skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
 }
@@ -1496,6 +1537,7 @@ export type DishUpdateWithoutVariantsInput = {
   skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
@@ -1521,6 +1563,7 @@ export type DishUncheckedUpdateWithoutVariantsInput = {
   skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
 }
@@ -1540,6 +1583,7 @@ export type DishCreateWithoutSkusInput = {
   variants?: Prisma.VariantCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
@@ -1565,6 +1609,7 @@ export type DishUncheckedCreateWithoutSkusInput = {
   variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
 }
@@ -1600,6 +1645,7 @@ export type DishUpdateWithoutSkusInput = {
   variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
@@ -1625,6 +1671,7 @@ export type DishUncheckedUpdateWithoutSkusInput = {
   variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
 }
@@ -1644,6 +1691,7 @@ export type DishCreateWithoutSupplierInput = {
   skus?: Prisma.SKUCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
@@ -1669,6 +1717,7 @@ export type DishUncheckedCreateWithoutSupplierInput = {
   skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
 }
@@ -1699,6 +1748,114 @@ export type DishUpdateManyWithWhereWithoutSupplierInput = {
   data: Prisma.XOR<Prisma.DishUpdateManyMutationInput, Prisma.DishUncheckedUpdateManyWithoutSupplierInput>
 }
 
+export type DishCreateWithoutDishSkuSnapshotsInput = {
+  id?: string
+  basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
+  virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  images?: Prisma.DishCreateimagesInput | string[]
+  isActive?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  supplier: Prisma.SupplierCreateNestedOneWithoutDishesInput
+  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
+  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
+  recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
+}
+
+export type DishUncheckedCreateWithoutDishSkuSnapshotsInput = {
+  id?: string
+  basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
+  virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  supplierId: string
+  images?: Prisma.DishCreateimagesInput | string[]
+  isActive?: boolean
+  createdById?: string | null
+  updatedById?: string | null
+  deletedById?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
+  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
+  recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
+}
+
+export type DishCreateOrConnectWithoutDishSkuSnapshotsInput = {
+  where: Prisma.DishWhereUniqueInput
+  create: Prisma.XOR<Prisma.DishCreateWithoutDishSkuSnapshotsInput, Prisma.DishUncheckedCreateWithoutDishSkuSnapshotsInput>
+}
+
+export type DishUpsertWithoutDishSkuSnapshotsInput = {
+  update: Prisma.XOR<Prisma.DishUpdateWithoutDishSkuSnapshotsInput, Prisma.DishUncheckedUpdateWithoutDishSkuSnapshotsInput>
+  create: Prisma.XOR<Prisma.DishCreateWithoutDishSkuSnapshotsInput, Prisma.DishUncheckedCreateWithoutDishSkuSnapshotsInput>
+  where?: Prisma.DishWhereInput
+}
+
+export type DishUpdateToOneWithWhereWithoutDishSkuSnapshotsInput = {
+  where?: Prisma.DishWhereInput
+  data: Prisma.XOR<Prisma.DishUpdateWithoutDishSkuSnapshotsInput, Prisma.DishUncheckedUpdateWithoutDishSkuSnapshotsInput>
+}
+
+export type DishUpdateWithoutDishSkuSnapshotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  images?: Prisma.DishUpdateimagesInput | string[]
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supplier?: Prisma.SupplierUpdateOneRequiredWithoutDishesNestedInput
+  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
+  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
+  recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
+}
+
+export type DishUncheckedUpdateWithoutDishSkuSnapshotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  supplierId?: Prisma.StringFieldUpdateOperationsInput | string
+  images?: Prisma.DishUpdateimagesInput | string[]
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
+  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
+  recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
+}
+
 export type DishCreateWithoutReviewsInput = {
   id?: string
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1714,6 +1871,7 @@ export type DishCreateWithoutReviewsInput = {
   variants?: Prisma.VariantCreateNestedManyWithoutDishInput
   skus?: Prisma.SKUCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
@@ -1739,6 +1897,7 @@ export type DishUncheckedCreateWithoutReviewsInput = {
   variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
   skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
 }
@@ -1774,6 +1933,7 @@ export type DishUpdateWithoutReviewsInput = {
   variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
   skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
@@ -1799,6 +1959,7 @@ export type DishUncheckedUpdateWithoutReviewsInput = {
   variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
   skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
 }
@@ -1819,6 +1980,7 @@ export type DishCreateWithoutInventoriesInput = {
   skus?: Prisma.SKUCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
@@ -1844,6 +2006,7 @@ export type DishUncheckedCreateWithoutInventoriesInput = {
   skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
 }
 
@@ -1879,6 +2042,7 @@ export type DishUpdateWithoutInventoriesInput = {
   skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
@@ -1904,6 +2068,7 @@ export type DishUncheckedUpdateWithoutInventoriesInput = {
   skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
 }
 
@@ -1923,6 +2088,7 @@ export type DishCreateWithoutRecommendationsInput = {
   skus?: Prisma.SKUCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
@@ -1948,6 +2114,7 @@ export type DishUncheckedCreateWithoutRecommendationsInput = {
   skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
   dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
 }
 
@@ -1983,6 +2150,7 @@ export type DishUpdateWithoutRecommendationsInput = {
   skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
@@ -2008,6 +2176,7 @@ export type DishUncheckedUpdateWithoutRecommendationsInput = {
   skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
 }
 
@@ -2069,6 +2238,7 @@ export type DishUpdateWithoutCreatedByInput = {
   skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
@@ -2093,6 +2263,7 @@ export type DishUncheckedUpdateWithoutCreatedByInput = {
   skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
 }
@@ -2127,6 +2298,7 @@ export type DishUpdateWithoutUpdatedByInput = {
   skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
@@ -2151,6 +2323,7 @@ export type DishUncheckedUpdateWithoutUpdatedByInput = {
   skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
 }
@@ -2185,6 +2358,7 @@ export type DishUpdateWithoutDeletedByInput = {
   skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
@@ -2209,6 +2383,7 @@ export type DishUncheckedUpdateWithoutDeletedByInput = {
   skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
 }
@@ -2242,6 +2417,7 @@ export type DishUpdateWithoutCategoriesInput = {
   skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
@@ -2267,6 +2443,7 @@ export type DishUncheckedUpdateWithoutCategoriesInput = {
   skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
 }
@@ -2315,6 +2492,7 @@ export type DishUpdateWithoutSupplierInput = {
   skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
@@ -2340,6 +2518,7 @@ export type DishUncheckedUpdateWithoutSupplierInput = {
   skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
   dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
 }
@@ -2370,6 +2549,7 @@ export type DishCountOutputType = {
   skus: number
   reviews: number
   dishTranslations: number
+  dishSkuSnapshots: number
   inventories: number
   recommendations: number
 }
@@ -2381,6 +2561,7 @@ export type DishCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   skus?: boolean | DishCountOutputTypeCountSkusArgs
   reviews?: boolean | DishCountOutputTypeCountReviewsArgs
   dishTranslations?: boolean | DishCountOutputTypeCountDishTranslationsArgs
+  dishSkuSnapshots?: boolean | DishCountOutputTypeCountDishSkuSnapshotsArgs
   inventories?: boolean | DishCountOutputTypeCountInventoriesArgs
   recommendations?: boolean | DishCountOutputTypeCountRecommendationsArgs
 }
@@ -2440,6 +2621,13 @@ export type DishCountOutputTypeCountDishTranslationsArgs<ExtArgs extends runtime
 /**
  * DishCountOutputType without action
  */
+export type DishCountOutputTypeCountDishSkuSnapshotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DishSKUSnapshotWhereInput
+}
+
+/**
+ * DishCountOutputType without action
+ */
 export type DishCountOutputTypeCountInventoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.InventoryDishWhereInput
 }
@@ -2472,6 +2660,7 @@ export type DishSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   skus?: boolean | Prisma.Dish$skusArgs<ExtArgs>
   reviews?: boolean | Prisma.Dish$reviewsArgs<ExtArgs>
   dishTranslations?: boolean | Prisma.Dish$dishTranslationsArgs<ExtArgs>
+  dishSkuSnapshots?: boolean | Prisma.Dish$dishSkuSnapshotsArgs<ExtArgs>
   inventories?: boolean | Prisma.Dish$inventoriesArgs<ExtArgs>
   recommendations?: boolean | Prisma.Dish$recommendationsArgs<ExtArgs>
   createdBy?: boolean | Prisma.Dish$createdByArgs<ExtArgs>
@@ -2542,6 +2731,7 @@ export type DishInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   skus?: boolean | Prisma.Dish$skusArgs<ExtArgs>
   reviews?: boolean | Prisma.Dish$reviewsArgs<ExtArgs>
   dishTranslations?: boolean | Prisma.Dish$dishTranslationsArgs<ExtArgs>
+  dishSkuSnapshots?: boolean | Prisma.Dish$dishSkuSnapshotsArgs<ExtArgs>
   inventories?: boolean | Prisma.Dish$inventoriesArgs<ExtArgs>
   recommendations?: boolean | Prisma.Dish$recommendationsArgs<ExtArgs>
   createdBy?: boolean | Prisma.Dish$createdByArgs<ExtArgs>
@@ -2572,6 +2762,7 @@ export type $DishPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     skus: Prisma.$SKUPayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
     dishTranslations: Prisma.$DishTranslationPayload<ExtArgs>[]
+    dishSkuSnapshots: Prisma.$DishSKUSnapshotPayload<ExtArgs>[]
     inventories: Prisma.$InventoryDishPayload<ExtArgs>[]
     recommendations: Prisma.$RecommendationPayload<ExtArgs>[]
     createdBy: Prisma.$UserPayload<ExtArgs> | null
@@ -2992,6 +3183,7 @@ export interface Prisma__DishClient<T, Null = never, ExtArgs extends runtime.Typ
   skus<T extends Prisma.Dish$skusArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$skusArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SKUPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.Dish$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   dishTranslations<T extends Prisma.Dish$dishTranslationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$dishTranslationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DishTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  dishSkuSnapshots<T extends Prisma.Dish$dishSkuSnapshotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$dishSkuSnapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DishSKUSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inventories<T extends Prisma.Dish$inventoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$inventoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryDishPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   recommendations<T extends Prisma.Dish$recommendationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$recommendationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecommendationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdBy<T extends Prisma.Dish$createdByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$createdByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -3575,6 +3767,30 @@ export type Dish$dishTranslationsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.DishTranslationScalarFieldEnum | Prisma.DishTranslationScalarFieldEnum[]
+}
+
+/**
+ * Dish.dishSkuSnapshots
+ */
+export type Dish$dishSkuSnapshotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DishSKUSnapshot
+   */
+  select?: Prisma.DishSKUSnapshotSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DishSKUSnapshot
+   */
+  omit?: Prisma.DishSKUSnapshotOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DishSKUSnapshotInclude<ExtArgs> | null
+  where?: Prisma.DishSKUSnapshotWhereInput
+  orderBy?: Prisma.DishSKUSnapshotOrderByWithRelationInput | Prisma.DishSKUSnapshotOrderByWithRelationInput[]
+  cursor?: Prisma.DishSKUSnapshotWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DishSKUSnapshotScalarFieldEnum | Prisma.DishSKUSnapshotScalarFieldEnum[]
 }
 
 /**

@@ -16,6 +16,7 @@ export class OrderRepo {
     totalPrice: number
     status: string
     items: {
+      dishId?: string
       dishName: string
       price: number
       quantity: number
@@ -32,6 +33,7 @@ export class OrderRepo {
         channel: Channel.WEB,
         items: {
           create: data.items.map((item) => ({
+            dishId: item.dishId,
             dishName: item.dishName,
             price: new Prisma.Decimal(item.price),
             quantity: item.quantity,

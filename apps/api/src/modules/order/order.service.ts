@@ -81,6 +81,7 @@ export class OrderService {
       const dishName = dish.dishTranslations?.[0]?.name || 'Unknown Dish'
 
       orderItems.push({
+        dishId: item.dishId,
         dishName,
         price: price,
         quantity: item.quantity,
@@ -240,6 +241,7 @@ export class OrderService {
         const dishName = item.sku.dish.dishTranslations[0]?.name || 'Unknown Dish'
 
         snapshots.push({
+          dishId: item.sku.dish.id,
           dishName: dishName,
           price: item.sku.price,
           quantity: quantity,

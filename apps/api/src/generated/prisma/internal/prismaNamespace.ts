@@ -3464,6 +3464,7 @@ export type CartItemScalarFieldEnum = (typeof CartItemScalarFieldEnum)[keyof typ
 
 export const DishSKUSnapshotScalarFieldEnum = {
   id: 'id',
+  dishId: 'dishId',
   dishName: 'dishName',
   price: 'price',
   quantity: 'quantity',

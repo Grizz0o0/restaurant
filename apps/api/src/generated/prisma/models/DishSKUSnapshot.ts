@@ -40,6 +40,7 @@ export type DishSKUSnapshotSumAggregateOutputType = {
 
 export type DishSKUSnapshotMinAggregateOutputType = {
   id: string | null
+  dishId: string | null
   dishName: string | null
   price: runtime.Decimal | null
   quantity: number | null
@@ -51,6 +52,7 @@ export type DishSKUSnapshotMinAggregateOutputType = {
 
 export type DishSKUSnapshotMaxAggregateOutputType = {
   id: string | null
+  dishId: string | null
   dishName: string | null
   price: runtime.Decimal | null
   quantity: number | null
@@ -62,6 +64,7 @@ export type DishSKUSnapshotMaxAggregateOutputType = {
 
 export type DishSKUSnapshotCountAggregateOutputType = {
   id: number
+  dishId: number
   dishName: number
   price: number
   quantity: number
@@ -86,6 +89,7 @@ export type DishSKUSnapshotSumAggregateInputType = {
 
 export type DishSKUSnapshotMinAggregateInputType = {
   id?: true
+  dishId?: true
   dishName?: true
   price?: true
   quantity?: true
@@ -97,6 +101,7 @@ export type DishSKUSnapshotMinAggregateInputType = {
 
 export type DishSKUSnapshotMaxAggregateInputType = {
   id?: true
+  dishId?: true
   dishName?: true
   price?: true
   quantity?: true
@@ -108,6 +113,7 @@ export type DishSKUSnapshotMaxAggregateInputType = {
 
 export type DishSKUSnapshotCountAggregateInputType = {
   id?: true
+  dishId?: true
   dishName?: true
   price?: true
   quantity?: true
@@ -207,6 +213,7 @@ export type DishSKUSnapshotGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 
 export type DishSKUSnapshotGroupByOutputType = {
   id: string
+  dishId: string | null
   dishName: string
   price: runtime.Decimal
   quantity: number
@@ -242,6 +249,7 @@ export type DishSKUSnapshotWhereInput = {
   OR?: Prisma.DishSKUSnapshotWhereInput[]
   NOT?: Prisma.DishSKUSnapshotWhereInput | Prisma.DishSKUSnapshotWhereInput[]
   id?: Prisma.StringFilter<"DishSKUSnapshot"> | string
+  dishId?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
   dishName?: Prisma.StringFilter<"DishSKUSnapshot"> | string
   price?: Prisma.DecimalFilter<"DishSKUSnapshot"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   quantity?: Prisma.IntFilter<"DishSKUSnapshot"> | number
@@ -250,12 +258,14 @@ export type DishSKUSnapshotWhereInput = {
   skuId?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
   orderId?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DishSKUSnapshot"> | Date | string
+  dish?: Prisma.XOR<Prisma.DishNullableScalarRelationFilter, Prisma.DishWhereInput> | null
   sku?: Prisma.XOR<Prisma.SKUNullableScalarRelationFilter, Prisma.SKUWhereInput> | null
   order?: Prisma.XOR<Prisma.OrderNullableScalarRelationFilter, Prisma.OrderWhereInput> | null
 }
 
 export type DishSKUSnapshotOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  dishId?: Prisma.SortOrderInput | Prisma.SortOrder
   dishName?: Prisma.SortOrder
   price?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
@@ -264,6 +274,7 @@ export type DishSKUSnapshotOrderByWithRelationInput = {
   skuId?: Prisma.SortOrderInput | Prisma.SortOrder
   orderId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  dish?: Prisma.DishOrderByWithRelationInput
   sku?: Prisma.SKUOrderByWithRelationInput
   order?: Prisma.OrderOrderByWithRelationInput
 }
@@ -273,6 +284,7 @@ export type DishSKUSnapshotWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.DishSKUSnapshotWhereInput | Prisma.DishSKUSnapshotWhereInput[]
   OR?: Prisma.DishSKUSnapshotWhereInput[]
   NOT?: Prisma.DishSKUSnapshotWhereInput | Prisma.DishSKUSnapshotWhereInput[]
+  dishId?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
   dishName?: Prisma.StringFilter<"DishSKUSnapshot"> | string
   price?: Prisma.DecimalFilter<"DishSKUSnapshot"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   quantity?: Prisma.IntFilter<"DishSKUSnapshot"> | number
@@ -281,12 +293,14 @@ export type DishSKUSnapshotWhereUniqueInput = Prisma.AtLeast<{
   skuId?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
   orderId?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DishSKUSnapshot"> | Date | string
+  dish?: Prisma.XOR<Prisma.DishNullableScalarRelationFilter, Prisma.DishWhereInput> | null
   sku?: Prisma.XOR<Prisma.SKUNullableScalarRelationFilter, Prisma.SKUWhereInput> | null
   order?: Prisma.XOR<Prisma.OrderNullableScalarRelationFilter, Prisma.OrderWhereInput> | null
 }, "id">
 
 export type DishSKUSnapshotOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  dishId?: Prisma.SortOrderInput | Prisma.SortOrder
   dishName?: Prisma.SortOrder
   price?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
@@ -307,6 +321,7 @@ export type DishSKUSnapshotScalarWhereWithAggregatesInput = {
   OR?: Prisma.DishSKUSnapshotScalarWhereWithAggregatesInput[]
   NOT?: Prisma.DishSKUSnapshotScalarWhereWithAggregatesInput | Prisma.DishSKUSnapshotScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"DishSKUSnapshot"> | string
+  dishId?: Prisma.StringNullableWithAggregatesFilter<"DishSKUSnapshot"> | string | null
   dishName?: Prisma.StringWithAggregatesFilter<"DishSKUSnapshot"> | string
   price?: Prisma.DecimalWithAggregatesFilter<"DishSKUSnapshot"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   quantity?: Prisma.IntWithAggregatesFilter<"DishSKUSnapshot"> | number
@@ -325,12 +340,14 @@ export type DishSKUSnapshotCreateInput = {
   images?: Prisma.DishSKUSnapshotCreateimagesInput | string[]
   skuValue: string
   createdAt?: Date | string
+  dish?: Prisma.DishCreateNestedOneWithoutDishSkuSnapshotsInput
   sku?: Prisma.SKUCreateNestedOneWithoutDishSKUSnapshotsInput
   order?: Prisma.OrderCreateNestedOneWithoutItemsInput
 }
 
 export type DishSKUSnapshotUncheckedCreateInput = {
   id?: string
+  dishId?: string | null
   dishName: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   quantity?: number
@@ -349,12 +366,14 @@ export type DishSKUSnapshotUpdateInput = {
   images?: Prisma.DishSKUSnapshotUpdateimagesInput | string[]
   skuValue?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dish?: Prisma.DishUpdateOneWithoutDishSkuSnapshotsNestedInput
   sku?: Prisma.SKUUpdateOneWithoutDishSKUSnapshotsNestedInput
   order?: Prisma.OrderUpdateOneWithoutItemsNestedInput
 }
 
 export type DishSKUSnapshotUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  dishId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dishName?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
@@ -367,6 +386,7 @@ export type DishSKUSnapshotUncheckedUpdateInput = {
 
 export type DishSKUSnapshotCreateManyInput = {
   id?: string
+  dishId?: string | null
   dishName: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   quantity?: number
@@ -389,6 +409,7 @@ export type DishSKUSnapshotUpdateManyMutationInput = {
 
 export type DishSKUSnapshotUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  dishId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dishName?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
@@ -411,6 +432,7 @@ export type DishSKUSnapshotOrderByRelationAggregateInput = {
 
 export type DishSKUSnapshotCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  dishId?: Prisma.SortOrder
   dishName?: Prisma.SortOrder
   price?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
@@ -428,6 +450,7 @@ export type DishSKUSnapshotAvgOrderByAggregateInput = {
 
 export type DishSKUSnapshotMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  dishId?: Prisma.SortOrder
   dishName?: Prisma.SortOrder
   price?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
@@ -439,6 +462,7 @@ export type DishSKUSnapshotMaxOrderByAggregateInput = {
 
 export type DishSKUSnapshotMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  dishId?: Prisma.SortOrder
   dishName?: Prisma.SortOrder
   price?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
@@ -451,6 +475,48 @@ export type DishSKUSnapshotMinOrderByAggregateInput = {
 export type DishSKUSnapshotSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
+}
+
+export type DishSKUSnapshotCreateNestedManyWithoutDishInput = {
+  create?: Prisma.XOR<Prisma.DishSKUSnapshotCreateWithoutDishInput, Prisma.DishSKUSnapshotUncheckedCreateWithoutDishInput> | Prisma.DishSKUSnapshotCreateWithoutDishInput[] | Prisma.DishSKUSnapshotUncheckedCreateWithoutDishInput[]
+  connectOrCreate?: Prisma.DishSKUSnapshotCreateOrConnectWithoutDishInput | Prisma.DishSKUSnapshotCreateOrConnectWithoutDishInput[]
+  createMany?: Prisma.DishSKUSnapshotCreateManyDishInputEnvelope
+  connect?: Prisma.DishSKUSnapshotWhereUniqueInput | Prisma.DishSKUSnapshotWhereUniqueInput[]
+}
+
+export type DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput = {
+  create?: Prisma.XOR<Prisma.DishSKUSnapshotCreateWithoutDishInput, Prisma.DishSKUSnapshotUncheckedCreateWithoutDishInput> | Prisma.DishSKUSnapshotCreateWithoutDishInput[] | Prisma.DishSKUSnapshotUncheckedCreateWithoutDishInput[]
+  connectOrCreate?: Prisma.DishSKUSnapshotCreateOrConnectWithoutDishInput | Prisma.DishSKUSnapshotCreateOrConnectWithoutDishInput[]
+  createMany?: Prisma.DishSKUSnapshotCreateManyDishInputEnvelope
+  connect?: Prisma.DishSKUSnapshotWhereUniqueInput | Prisma.DishSKUSnapshotWhereUniqueInput[]
+}
+
+export type DishSKUSnapshotUpdateManyWithoutDishNestedInput = {
+  create?: Prisma.XOR<Prisma.DishSKUSnapshotCreateWithoutDishInput, Prisma.DishSKUSnapshotUncheckedCreateWithoutDishInput> | Prisma.DishSKUSnapshotCreateWithoutDishInput[] | Prisma.DishSKUSnapshotUncheckedCreateWithoutDishInput[]
+  connectOrCreate?: Prisma.DishSKUSnapshotCreateOrConnectWithoutDishInput | Prisma.DishSKUSnapshotCreateOrConnectWithoutDishInput[]
+  upsert?: Prisma.DishSKUSnapshotUpsertWithWhereUniqueWithoutDishInput | Prisma.DishSKUSnapshotUpsertWithWhereUniqueWithoutDishInput[]
+  createMany?: Prisma.DishSKUSnapshotCreateManyDishInputEnvelope
+  set?: Prisma.DishSKUSnapshotWhereUniqueInput | Prisma.DishSKUSnapshotWhereUniqueInput[]
+  disconnect?: Prisma.DishSKUSnapshotWhereUniqueInput | Prisma.DishSKUSnapshotWhereUniqueInput[]
+  delete?: Prisma.DishSKUSnapshotWhereUniqueInput | Prisma.DishSKUSnapshotWhereUniqueInput[]
+  connect?: Prisma.DishSKUSnapshotWhereUniqueInput | Prisma.DishSKUSnapshotWhereUniqueInput[]
+  update?: Prisma.DishSKUSnapshotUpdateWithWhereUniqueWithoutDishInput | Prisma.DishSKUSnapshotUpdateWithWhereUniqueWithoutDishInput[]
+  updateMany?: Prisma.DishSKUSnapshotUpdateManyWithWhereWithoutDishInput | Prisma.DishSKUSnapshotUpdateManyWithWhereWithoutDishInput[]
+  deleteMany?: Prisma.DishSKUSnapshotScalarWhereInput | Prisma.DishSKUSnapshotScalarWhereInput[]
+}
+
+export type DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput = {
+  create?: Prisma.XOR<Prisma.DishSKUSnapshotCreateWithoutDishInput, Prisma.DishSKUSnapshotUncheckedCreateWithoutDishInput> | Prisma.DishSKUSnapshotCreateWithoutDishInput[] | Prisma.DishSKUSnapshotUncheckedCreateWithoutDishInput[]
+  connectOrCreate?: Prisma.DishSKUSnapshotCreateOrConnectWithoutDishInput | Prisma.DishSKUSnapshotCreateOrConnectWithoutDishInput[]
+  upsert?: Prisma.DishSKUSnapshotUpsertWithWhereUniqueWithoutDishInput | Prisma.DishSKUSnapshotUpsertWithWhereUniqueWithoutDishInput[]
+  createMany?: Prisma.DishSKUSnapshotCreateManyDishInputEnvelope
+  set?: Prisma.DishSKUSnapshotWhereUniqueInput | Prisma.DishSKUSnapshotWhereUniqueInput[]
+  disconnect?: Prisma.DishSKUSnapshotWhereUniqueInput | Prisma.DishSKUSnapshotWhereUniqueInput[]
+  delete?: Prisma.DishSKUSnapshotWhereUniqueInput | Prisma.DishSKUSnapshotWhereUniqueInput[]
+  connect?: Prisma.DishSKUSnapshotWhereUniqueInput | Prisma.DishSKUSnapshotWhereUniqueInput[]
+  update?: Prisma.DishSKUSnapshotUpdateWithWhereUniqueWithoutDishInput | Prisma.DishSKUSnapshotUpdateWithWhereUniqueWithoutDishInput[]
+  updateMany?: Prisma.DishSKUSnapshotUpdateManyWithWhereWithoutDishInput | Prisma.DishSKUSnapshotUpdateManyWithWhereWithoutDishInput[]
+  deleteMany?: Prisma.DishSKUSnapshotScalarWhereInput | Prisma.DishSKUSnapshotScalarWhereInput[]
 }
 
 export type DishSKUSnapshotCreateNestedManyWithoutSkuInput = {
@@ -546,6 +612,72 @@ export type DishSKUSnapshotUncheckedUpdateManyWithoutOrderNestedInput = {
   deleteMany?: Prisma.DishSKUSnapshotScalarWhereInput | Prisma.DishSKUSnapshotScalarWhereInput[]
 }
 
+export type DishSKUSnapshotCreateWithoutDishInput = {
+  id?: string
+  dishName: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  quantity?: number
+  images?: Prisma.DishSKUSnapshotCreateimagesInput | string[]
+  skuValue: string
+  createdAt?: Date | string
+  sku?: Prisma.SKUCreateNestedOneWithoutDishSKUSnapshotsInput
+  order?: Prisma.OrderCreateNestedOneWithoutItemsInput
+}
+
+export type DishSKUSnapshotUncheckedCreateWithoutDishInput = {
+  id?: string
+  dishName: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  quantity?: number
+  images?: Prisma.DishSKUSnapshotCreateimagesInput | string[]
+  skuValue: string
+  skuId?: string | null
+  orderId?: string | null
+  createdAt?: Date | string
+}
+
+export type DishSKUSnapshotCreateOrConnectWithoutDishInput = {
+  where: Prisma.DishSKUSnapshotWhereUniqueInput
+  create: Prisma.XOR<Prisma.DishSKUSnapshotCreateWithoutDishInput, Prisma.DishSKUSnapshotUncheckedCreateWithoutDishInput>
+}
+
+export type DishSKUSnapshotCreateManyDishInputEnvelope = {
+  data: Prisma.DishSKUSnapshotCreateManyDishInput | Prisma.DishSKUSnapshotCreateManyDishInput[]
+  skipDuplicates?: boolean
+}
+
+export type DishSKUSnapshotUpsertWithWhereUniqueWithoutDishInput = {
+  where: Prisma.DishSKUSnapshotWhereUniqueInput
+  update: Prisma.XOR<Prisma.DishSKUSnapshotUpdateWithoutDishInput, Prisma.DishSKUSnapshotUncheckedUpdateWithoutDishInput>
+  create: Prisma.XOR<Prisma.DishSKUSnapshotCreateWithoutDishInput, Prisma.DishSKUSnapshotUncheckedCreateWithoutDishInput>
+}
+
+export type DishSKUSnapshotUpdateWithWhereUniqueWithoutDishInput = {
+  where: Prisma.DishSKUSnapshotWhereUniqueInput
+  data: Prisma.XOR<Prisma.DishSKUSnapshotUpdateWithoutDishInput, Prisma.DishSKUSnapshotUncheckedUpdateWithoutDishInput>
+}
+
+export type DishSKUSnapshotUpdateManyWithWhereWithoutDishInput = {
+  where: Prisma.DishSKUSnapshotScalarWhereInput
+  data: Prisma.XOR<Prisma.DishSKUSnapshotUpdateManyMutationInput, Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishInput>
+}
+
+export type DishSKUSnapshotScalarWhereInput = {
+  AND?: Prisma.DishSKUSnapshotScalarWhereInput | Prisma.DishSKUSnapshotScalarWhereInput[]
+  OR?: Prisma.DishSKUSnapshotScalarWhereInput[]
+  NOT?: Prisma.DishSKUSnapshotScalarWhereInput | Prisma.DishSKUSnapshotScalarWhereInput[]
+  id?: Prisma.StringFilter<"DishSKUSnapshot"> | string
+  dishId?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
+  dishName?: Prisma.StringFilter<"DishSKUSnapshot"> | string
+  price?: Prisma.DecimalFilter<"DishSKUSnapshot"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  quantity?: Prisma.IntFilter<"DishSKUSnapshot"> | number
+  images?: Prisma.StringNullableListFilter<"DishSKUSnapshot">
+  skuValue?: Prisma.StringFilter<"DishSKUSnapshot"> | string
+  skuId?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
+  orderId?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"DishSKUSnapshot"> | Date | string
+}
+
 export type DishSKUSnapshotCreateWithoutSkuInput = {
   id?: string
   dishName: string
@@ -554,11 +686,13 @@ export type DishSKUSnapshotCreateWithoutSkuInput = {
   images?: Prisma.DishSKUSnapshotCreateimagesInput | string[]
   skuValue: string
   createdAt?: Date | string
+  dish?: Prisma.DishCreateNestedOneWithoutDishSkuSnapshotsInput
   order?: Prisma.OrderCreateNestedOneWithoutItemsInput
 }
 
 export type DishSKUSnapshotUncheckedCreateWithoutSkuInput = {
   id?: string
+  dishId?: string | null
   dishName: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   quantity?: number
@@ -594,21 +728,6 @@ export type DishSKUSnapshotUpdateManyWithWhereWithoutSkuInput = {
   data: Prisma.XOR<Prisma.DishSKUSnapshotUpdateManyMutationInput, Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutSkuInput>
 }
 
-export type DishSKUSnapshotScalarWhereInput = {
-  AND?: Prisma.DishSKUSnapshotScalarWhereInput | Prisma.DishSKUSnapshotScalarWhereInput[]
-  OR?: Prisma.DishSKUSnapshotScalarWhereInput[]
-  NOT?: Prisma.DishSKUSnapshotScalarWhereInput | Prisma.DishSKUSnapshotScalarWhereInput[]
-  id?: Prisma.StringFilter<"DishSKUSnapshot"> | string
-  dishName?: Prisma.StringFilter<"DishSKUSnapshot"> | string
-  price?: Prisma.DecimalFilter<"DishSKUSnapshot"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  quantity?: Prisma.IntFilter<"DishSKUSnapshot"> | number
-  images?: Prisma.StringNullableListFilter<"DishSKUSnapshot">
-  skuValue?: Prisma.StringFilter<"DishSKUSnapshot"> | string
-  skuId?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
-  orderId?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"DishSKUSnapshot"> | Date | string
-}
-
 export type DishSKUSnapshotCreateWithoutOrderInput = {
   id?: string
   dishName: string
@@ -617,11 +736,13 @@ export type DishSKUSnapshotCreateWithoutOrderInput = {
   images?: Prisma.DishSKUSnapshotCreateimagesInput | string[]
   skuValue: string
   createdAt?: Date | string
+  dish?: Prisma.DishCreateNestedOneWithoutDishSkuSnapshotsInput
   sku?: Prisma.SKUCreateNestedOneWithoutDishSKUSnapshotsInput
 }
 
 export type DishSKUSnapshotUncheckedCreateWithoutOrderInput = {
   id?: string
+  dishId?: string | null
   dishName: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   quantity?: number
@@ -657,8 +778,57 @@ export type DishSKUSnapshotUpdateManyWithWhereWithoutOrderInput = {
   data: Prisma.XOR<Prisma.DishSKUSnapshotUpdateManyMutationInput, Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutOrderInput>
 }
 
+export type DishSKUSnapshotCreateManyDishInput = {
+  id?: string
+  dishName: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  quantity?: number
+  images?: Prisma.DishSKUSnapshotCreateimagesInput | string[]
+  skuValue: string
+  skuId?: string | null
+  orderId?: string | null
+  createdAt?: Date | string
+}
+
+export type DishSKUSnapshotUpdateWithoutDishInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  dishName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  images?: Prisma.DishSKUSnapshotUpdateimagesInput | string[]
+  skuValue?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sku?: Prisma.SKUUpdateOneWithoutDishSKUSnapshotsNestedInput
+  order?: Prisma.OrderUpdateOneWithoutItemsNestedInput
+}
+
+export type DishSKUSnapshotUncheckedUpdateWithoutDishInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  dishName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  images?: Prisma.DishSKUSnapshotUpdateimagesInput | string[]
+  skuValue?: Prisma.StringFieldUpdateOperationsInput | string
+  skuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type DishSKUSnapshotUncheckedUpdateManyWithoutDishInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  dishName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  images?: Prisma.DishSKUSnapshotUpdateimagesInput | string[]
+  skuValue?: Prisma.StringFieldUpdateOperationsInput | string
+  skuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type DishSKUSnapshotCreateManySkuInput = {
   id?: string
+  dishId?: string | null
   dishName: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   quantity?: number
@@ -676,11 +846,13 @@ export type DishSKUSnapshotUpdateWithoutSkuInput = {
   images?: Prisma.DishSKUSnapshotUpdateimagesInput | string[]
   skuValue?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dish?: Prisma.DishUpdateOneWithoutDishSkuSnapshotsNestedInput
   order?: Prisma.OrderUpdateOneWithoutItemsNestedInput
 }
 
 export type DishSKUSnapshotUncheckedUpdateWithoutSkuInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  dishId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dishName?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
@@ -692,6 +864,7 @@ export type DishSKUSnapshotUncheckedUpdateWithoutSkuInput = {
 
 export type DishSKUSnapshotUncheckedUpdateManyWithoutSkuInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  dishId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dishName?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
@@ -703,6 +876,7 @@ export type DishSKUSnapshotUncheckedUpdateManyWithoutSkuInput = {
 
 export type DishSKUSnapshotCreateManyOrderInput = {
   id?: string
+  dishId?: string | null
   dishName: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   quantity?: number
@@ -720,11 +894,13 @@ export type DishSKUSnapshotUpdateWithoutOrderInput = {
   images?: Prisma.DishSKUSnapshotUpdateimagesInput | string[]
   skuValue?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dish?: Prisma.DishUpdateOneWithoutDishSkuSnapshotsNestedInput
   sku?: Prisma.SKUUpdateOneWithoutDishSKUSnapshotsNestedInput
 }
 
 export type DishSKUSnapshotUncheckedUpdateWithoutOrderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  dishId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dishName?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
@@ -736,6 +912,7 @@ export type DishSKUSnapshotUncheckedUpdateWithoutOrderInput = {
 
 export type DishSKUSnapshotUncheckedUpdateManyWithoutOrderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  dishId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dishName?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
@@ -749,6 +926,7 @@ export type DishSKUSnapshotUncheckedUpdateManyWithoutOrderInput = {
 
 export type DishSKUSnapshotSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  dishId?: boolean
   dishName?: boolean
   price?: boolean
   quantity?: boolean
@@ -757,12 +935,14 @@ export type DishSKUSnapshotSelect<ExtArgs extends runtime.Types.Extensions.Inter
   skuId?: boolean
   orderId?: boolean
   createdAt?: boolean
+  dish?: boolean | Prisma.DishSKUSnapshot$dishArgs<ExtArgs>
   sku?: boolean | Prisma.DishSKUSnapshot$skuArgs<ExtArgs>
   order?: boolean | Prisma.DishSKUSnapshot$orderArgs<ExtArgs>
 }, ExtArgs["result"]["dishSKUSnapshot"]>
 
 export type DishSKUSnapshotSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  dishId?: boolean
   dishName?: boolean
   price?: boolean
   quantity?: boolean
@@ -771,12 +951,14 @@ export type DishSKUSnapshotSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   skuId?: boolean
   orderId?: boolean
   createdAt?: boolean
+  dish?: boolean | Prisma.DishSKUSnapshot$dishArgs<ExtArgs>
   sku?: boolean | Prisma.DishSKUSnapshot$skuArgs<ExtArgs>
   order?: boolean | Prisma.DishSKUSnapshot$orderArgs<ExtArgs>
 }, ExtArgs["result"]["dishSKUSnapshot"]>
 
 export type DishSKUSnapshotSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  dishId?: boolean
   dishName?: boolean
   price?: boolean
   quantity?: boolean
@@ -785,12 +967,14 @@ export type DishSKUSnapshotSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   skuId?: boolean
   orderId?: boolean
   createdAt?: boolean
+  dish?: boolean | Prisma.DishSKUSnapshot$dishArgs<ExtArgs>
   sku?: boolean | Prisma.DishSKUSnapshot$skuArgs<ExtArgs>
   order?: boolean | Prisma.DishSKUSnapshot$orderArgs<ExtArgs>
 }, ExtArgs["result"]["dishSKUSnapshot"]>
 
 export type DishSKUSnapshotSelectScalar = {
   id?: boolean
+  dishId?: boolean
   dishName?: boolean
   price?: boolean
   quantity?: boolean
@@ -801,16 +985,19 @@ export type DishSKUSnapshotSelectScalar = {
   createdAt?: boolean
 }
 
-export type DishSKUSnapshotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "dishName" | "price" | "quantity" | "images" | "skuValue" | "skuId" | "orderId" | "createdAt", ExtArgs["result"]["dishSKUSnapshot"]>
+export type DishSKUSnapshotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "dishId" | "dishName" | "price" | "quantity" | "images" | "skuValue" | "skuId" | "orderId" | "createdAt", ExtArgs["result"]["dishSKUSnapshot"]>
 export type DishSKUSnapshotInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  dish?: boolean | Prisma.DishSKUSnapshot$dishArgs<ExtArgs>
   sku?: boolean | Prisma.DishSKUSnapshot$skuArgs<ExtArgs>
   order?: boolean | Prisma.DishSKUSnapshot$orderArgs<ExtArgs>
 }
 export type DishSKUSnapshotIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  dish?: boolean | Prisma.DishSKUSnapshot$dishArgs<ExtArgs>
   sku?: boolean | Prisma.DishSKUSnapshot$skuArgs<ExtArgs>
   order?: boolean | Prisma.DishSKUSnapshot$orderArgs<ExtArgs>
 }
 export type DishSKUSnapshotIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  dish?: boolean | Prisma.DishSKUSnapshot$dishArgs<ExtArgs>
   sku?: boolean | Prisma.DishSKUSnapshot$skuArgs<ExtArgs>
   order?: boolean | Prisma.DishSKUSnapshot$orderArgs<ExtArgs>
 }
@@ -818,11 +1005,13 @@ export type DishSKUSnapshotIncludeUpdateManyAndReturn<ExtArgs extends runtime.Ty
 export type $DishSKUSnapshotPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "DishSKUSnapshot"
   objects: {
+    dish: Prisma.$DishPayload<ExtArgs> | null
     sku: Prisma.$SKUPayload<ExtArgs> | null
     order: Prisma.$OrderPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    dishId: string | null
     dishName: string
     price: runtime.Decimal
     quantity: number
@@ -1225,6 +1414,7 @@ readonly fields: DishSKUSnapshotFieldRefs;
  */
 export interface Prisma__DishSKUSnapshotClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  dish<T extends Prisma.DishSKUSnapshot$dishArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DishSKUSnapshot$dishArgs<ExtArgs>>): Prisma.Prisma__DishClient<runtime.Types.Result.GetResult<Prisma.$DishPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   sku<T extends Prisma.DishSKUSnapshot$skuArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DishSKUSnapshot$skuArgs<ExtArgs>>): Prisma.Prisma__SKUClient<runtime.Types.Result.GetResult<Prisma.$SKUPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   order<T extends Prisma.DishSKUSnapshot$orderArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DishSKUSnapshot$orderArgs<ExtArgs>>): Prisma.Prisma__OrderClient<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1257,6 +1447,7 @@ export interface Prisma__DishSKUSnapshotClient<T, Null = never, ExtArgs extends 
  */
 export interface DishSKUSnapshotFieldRefs {
   readonly id: Prisma.FieldRef<"DishSKUSnapshot", 'String'>
+  readonly dishId: Prisma.FieldRef<"DishSKUSnapshot", 'String'>
   readonly dishName: Prisma.FieldRef<"DishSKUSnapshot", 'String'>
   readonly price: Prisma.FieldRef<"DishSKUSnapshot", 'Decimal'>
   readonly quantity: Prisma.FieldRef<"DishSKUSnapshot", 'Int'>
@@ -1658,6 +1849,25 @@ export type DishSKUSnapshotDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many DishSKUSnapshots to delete.
    */
   limit?: number
+}
+
+/**
+ * DishSKUSnapshot.dish
+ */
+export type DishSKUSnapshot$dishArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Dish
+   */
+  select?: Prisma.DishSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Dish
+   */
+  omit?: Prisma.DishOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DishInclude<ExtArgs> | null
+  where?: Prisma.DishWhereInput
 }
 
 /**
