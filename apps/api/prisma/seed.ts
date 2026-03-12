@@ -463,9 +463,87 @@ async function main() {
     { name: 'Chanh', unit: 'kg', quantity: 5, threshold: 1 },
     { name: 'Đường', unit: 'kg', quantity: 10, threshold: 2 },
     { name: 'Cafe', unit: 'kg', quantity: 2, threshold: 0.5 },
-    { name: 'Sữa đặc', unit: 'hộp', quantity: 20, threshold: 5 },
+    { name: 'Xúc xích', unit: 'chiếc', quantity: 50, threshold: 10 },
+    { name: 'Lạp xưởng', unit: 'chiếc', quantity: 30, threshold: 5 },
+    { name: 'Ruốc thịt', unit: 'kg', quantity: 3, threshold: 0.5 },
+    { name: 'Bò khô', unit: 'kg', quantity: 2, threshold: 0.5 },
+    { name: 'Xá xíu', unit: 'kg', quantity: 3, threshold: 1 },
+    { name: 'Lườn ngỗng', unit: 'kg', quantity: 2, threshold: 0.5 },
+    { name: 'Nem nướng', unit: 'chiếc', quantity: 50, threshold: 10 },
+    { name: 'Bơ', unit: 'kg', quantity: 2, threshold: 0.5 },
+    { name: 'Sốt Mayonnaise', unit: 'chai', quantity: 10, threshold: 2 },
+    { name: 'Tương ớt', unit: 'chai', quantity: 10, threshold: 2 },
+    { name: 'Rau mùi', unit: 'mớ', quantity: 20, threshold: 5 },
+    { name: 'Bột mì', unit: 'kg', quantity: 10, threshold: 2 },
+    { name: 'Sữa tươi', unit: 'lít', quantity: 10, threshold: 2 },
+    { name: 'Phô mai sợi', unit: 'kg', quantity: 2, threshold: 0.5 },
+    { name: 'Sốt Chocolate', unit: 'chai', quantity: 5, threshold: 1 },
+    { name: 'Sốt Dâu', unit: 'chai', quantity: 5, threshold: 1 },
+    { name: 'Sốt Trà xanh', unit: 'chai', quantity: 5, threshold: 1 },
+    { name: 'Bắp hạt', unit: 'hộp', quantity: 10, threshold: 2 },
+    { name: 'Khoai lang', unit: 'kg', quantity: 10, threshold: 2 },
+    { name: 'Khoai tây', unit: 'kg', quantity: 10, threshold: 2 },
+    { name: 'Kem', unit: 'hộp', quantity: 5, threshold: 1 },
+    { name: 'Bỏng ngô (nguyên liệu)', unit: 'kg', quantity: 3, threshold: 0.5 },
+    { name: 'Nem chua', unit: 'chiếc', quantity: 50, threshold: 10 },
+    { name: 'Cá viên', unit: 'gói', quantity: 10, threshold: 2 },
+    { name: 'Hạt hướng dương', unit: 'kg', quantity: 5, threshold: 1 },
+    { name: 'Trà chanh (gói)', unit: 'gói', quantity: 20, threshold: 5 },
+    { name: 'Trà ô long', unit: 'gói', quantity: 20, threshold: 5 },
+    { name: 'Trà nhài', unit: 'gói', quantity: 20, threshold: 5 },
+    { name: 'Trà đào (túi lọc)', unit: 'gói', quantity: 20, threshold: 5 },
+    { name: 'Trân châu đen', unit: 'kg', quantity: 10, threshold: 2 },
+    { name: 'Trân châu trắng', unit: 'kg', quantity: 10, threshold: 2 },
+    { name: 'Thạch cốt dừa', unit: 'kg', quantity: 5, threshold: 1 },
+    { name: 'Đào ngâm', unit: 'hộp', quantity: 10, threshold: 2 },
+    { name: 'Sữa đặc', unit: 'hộp', quantity: 10, threshold: 2 },
+    { name: 'Vải ngâm', unit: 'hộp', quantity: 10, threshold: 2 },
+    { name: 'Kem Vani', unit: 'hộp', quantity: 5, threshold: 1 },
+    { name: 'Kem Chocolate', unit: 'hộp', quantity: 5, threshold: 1 },
+    { name: 'Kem Dâu', unit: 'hộp', quantity: 5, threshold: 1 },
+    { name: 'Kem Matcha', unit: 'hộp', quantity: 5, threshold: 1 },
+    { name: 'Siro Dâu', unit: 'chai', quantity: 5, threshold: 1 },
+    { name: 'Siro Việt Quất', unit: 'chai', quantity: 5, threshold: 1 },
+    { name: 'Siro Đào', unit: 'chai', quantity: 5, threshold: 1 },
+    { name: 'Siro Xoài', unit: 'chai', quantity: 5, threshold: 1 },
+    { name: 'Đồ chua (Cà rốt & củ cải)', unit: 'kg', quantity: 10, threshold: 2 },
+    { name: 'Nước tương', unit: 'chai', quantity: 10, threshold: 2 },
+    { name: 'Nước sốt (Bánh mì)', unit: 'lít', quantity: 5, threshold: 1 },
+    { name: 'Hạt tiêu', unit: 'gói', quantity: 10, threshold: 2 },
+    { name: 'Cùi bưởi (đã chế biến)', unit: 'kg', quantity: 5, threshold: 1 },
+    { name: 'Đậu xanh', unit: 'kg', quantity: 5, threshold: 1 },
+    { name: 'Cốt dừa', unit: 'kg', quantity: 5, threshold: 1 },
+    { name: 'Caramen (Bánh flan)', unit: 'cái', quantity: 50, threshold: 10 },
+    { name: 'Thạch sương sáo', unit: 'kg', quantity: 5, threshold: 1 },
+    { name: 'Sợi Thái (Cendol)', unit: 'kg', quantity: 5, threshold: 1 },
+    { name: 'Bột năng', unit: 'kg', quantity: 5, threshold: 1 },
+    { name: 'Nha đam', unit: 'kg', quantity: 5, threshold: 1 },
+    { name: 'Bột Milo', unit: 'kg', quantity: 5, threshold: 1 },
+    { name: 'Hoa quả (Mix)', unit: 'kg', quantity: 5, threshold: 1 },
+    { name: 'Sữa chua (hũ)', unit: 'hộp', quantity: 50, threshold: 10 },
+    { name: 'Đá viên', unit: 'kg', quantity: 20, threshold: 5 },
+    { name: 'Quả tắc (Quất)', unit: 'kg', quantity: 5, threshold: 1 },
+    { name: 'Táo đỏ', unit: 'kg', quantity: 2, threshold: 0.5 },
+    { name: 'Long nhãn', unit: 'kg', quantity: 2, threshold: 0.5 },
+    { name: 'Mãng cầu tươi', unit: 'kg', quantity: 5, threshold: 1 },
+    { name: 'Kem cheese (Milkfoam)', unit: 'kg', quantity: 3, threshold: 1 },
+    { name: 'Chanh leo', unit: 'kg', quantity: 5, threshold: 1 },
+    { name: 'Hồng trà (gói)', unit: 'gói', quantity: 50, threshold: 10 },
+    { name: 'Trân châu trắng', unit: 'kg', quantity: 5, threshold: 1 },
+    { name: 'Đường đen (siro)', unit: 'chai', quantity: 5, threshold: 1 },
+    { name: 'Siro Bạc hà', unit: 'chai', quantity: 3, threshold: 1 },
+    { name: 'Siro Hạt dẻ', unit: 'chai', quantity: 3, threshold: 1 },
+    { name: 'Siro Socola', unit: 'chai', quantity: 3, threshold: 1 },
+    { name: 'Sốt Cacao', unit: 'chai', quantity: 3, threshold: 1 },
+    { name: 'Muối (tinh)', unit: 'kg', quantity: 1, threshold: 0.2 },
+    { name: 'Hạt chia', unit: 'kg', quantity: 1, threshold: 0.1 },
+    { name: 'Quả dừa tươi', unit: 'quả', quantity: 20, threshold: 5 },
+    { name: 'Coca lon', unit: 'lon', quantity: 48, threshold: 12 },
+    { name: 'Nước khoáng Lavie', unit: 'chai', quantity: 48, threshold: 12 },
+    { name: 'Sữa đậu nành', unit: 'lít', quantity: 10, threshold: 2 },
+    { name: 'Gừng tươi', unit: 'kg', quantity: 1, threshold: 0.2 },
+    { name: 'Mật ong', unit: 'chai', quantity: 2, threshold: 0.5 },
   ]
-
   const inventoryMap = new Map<string, string>() // Name -> ID
 
   for (const item of inventoryItemsData) {
@@ -558,6 +636,54 @@ async function main() {
     'Bánh cá Taiyaki',
     'Fish-shaped cake',
   )
+  const cheCat = await getOrCreateCategory(
+    'Chè',
+    'Vietnamese Sweet Soups',
+    'Chè truyền thống',
+    'Traditional sweet soups',
+  )
+  const tauHuCat = await getOrCreateCategory(
+    'Tàu Hũ',
+    'Tofu Pudding',
+    'Tàu hũ mềm mát',
+    'Soft tofu pudding',
+  )
+  const suaChuaCat = await getOrCreateCategory(
+    'Sữa Chua',
+    'Yogurt',
+    'Sữa chua các loại',
+    'Various yogurts',
+  )
+  const traCat = await getOrCreateCategory(
+    'Trà Trái Cây',
+    'Fruit Teas',
+    'Trà hoa quả thanh nhiệt',
+    'Refreshing fruit teas',
+  )
+  const cafeCat = await getOrCreateCategory(
+    'Cà Phê',
+    'Coffee',
+    'Cà phê truyền thống',
+    'Vietnamese traditional coffee',
+  )
+  const traSuaCat = await getOrCreateCategory(
+    'Trà Sữa',
+    'Milk Teas',
+    'Trà sữa béo ngậy',
+    'Creamy milk teas',
+  )
+  const suaTuoiCat = await getOrCreateCategory(
+    'Sữa Tươi',
+    'Fresh Milk',
+    'Sữa tươi các loại',
+    'Fresh milk drinks',
+  )
+  const hotDrinkCat = await getOrCreateCategory(
+    'Đồ Uống Nóng',
+    'Hot Drinks',
+    'Các loại trà và sữa uống nóng',
+    'Selection of hot beverages',
+  )
 
   console.log('✓ Categories created/checked')
 
@@ -584,6 +710,12 @@ async function main() {
       images: [''],
       price: 25000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Chả lụa', quantity: 0.05 }, // 50g
+        { ingredientName: 'Rau mùi', quantity: 0.1 }, // 1/10 mớ
+        { ingredientName: 'Tương ớt', quantity: 0.02 }, // 20ml
+      ],
     },
     {
       vi: { name: 'Bánh mì pate chả nóng', desc: 'Pate béo ngậy và chả' },
@@ -591,6 +723,12 @@ async function main() {
       images: [''],
       price: 25000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Pate', quantity: 0.03 }, // 30g
+        { ingredientName: 'Chả lụa', quantity: 0.05 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+      ],
     },
     {
       vi: { name: 'Bánh mì chả ruốc', desc: 'Chả và ruốc bông' },
@@ -598,6 +736,12 @@ async function main() {
       images: [''],
       price: 25000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Chả lụa', quantity: 0.05 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.02 }, // 20g
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+      ],
     },
     {
       vi: { name: 'Bánh mì giò nóng', desc: 'Giò lụa nóng hổi' },
@@ -605,6 +749,11 @@ async function main() {
       images: [''],
       price: 25000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Chả lụa', quantity: 0.05 }, // Tạm dùng chả lụa thay giò lụa
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+      ],
     },
     {
       vi: { name: 'Bánh mì pate giò nóng', desc: 'Pate và giò' },
@@ -614,6 +763,12 @@ async function main() {
       ],
       price: 25000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Pate', quantity: 0.03 },
+        { ingredientName: 'Chả lụa', quantity: 0.05 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+      ],
     },
     {
       vi: { name: 'Bánh mì giò ruốc', desc: 'Giò và ruốc' },
@@ -621,6 +776,12 @@ async function main() {
       images: [''],
       price: 25000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Chả lụa', quantity: 0.05 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.02 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+      ],
     },
     {
       vi: { name: 'Bánh mì lườn ngỗng', desc: 'Lườn ngỗng hun khói' },
@@ -630,6 +791,16 @@ async function main() {
       ],
       price: 25000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Lườn ngỗng', quantity: 0.05 }, // 50g
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+        { ingredientName: 'Tương ớt', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Bánh mì pate lườn ngỗng', desc: 'Pate và lườn ngỗng' },
@@ -637,6 +808,16 @@ async function main() {
       images: [''],
       price: 25000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Pate', quantity: 0.03 },
+        { ingredientName: 'Lườn ngỗng', quantity: 0.05 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì lườn ruốc', desc: 'Lườn ngỗng và ruốc' },
@@ -644,6 +825,16 @@ async function main() {
       images: [''],
       price: 25000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Lườn ngỗng', quantity: 0.05 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.02 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì xá xíu', desc: 'Thịt xá xíu đậm đà' },
@@ -651,6 +842,16 @@ async function main() {
       images: [''],
       price: 25000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Xá xíu', quantity: 0.05 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+        { ingredientName: 'Tương ớt', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Bánh mì pate xá xíu', desc: 'Pate và xá xíu' },
@@ -658,6 +859,16 @@ async function main() {
       images: [''],
       price: 25000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Pate', quantity: 0.03 },
+        { ingredientName: 'Xá xíu', quantity: 0.05 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì xá xíu ruốc', desc: 'Xá xíu và ruốc' },
@@ -665,6 +876,16 @@ async function main() {
       images: [''],
       price: 25000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Xá xíu', quantity: 0.05 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.02 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì nem nướng', desc: 'Nem nướng thơm lừng' },
@@ -672,6 +893,16 @@ async function main() {
       images: [''],
       price: 25000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Nem nướng', quantity: 1 }, // 1 chiếc
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+        { ingredientName: 'Tương ớt', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Bánh mì pate nem nướng', desc: 'Pate và nem nướng' },
@@ -681,6 +912,16 @@ async function main() {
       ],
       price: 25000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Pate', quantity: 0.03 },
+        { ingredientName: 'Nem nướng', quantity: 1 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì nem nướng ruốc', desc: 'Nem nướng và ruốc' },
@@ -688,6 +929,16 @@ async function main() {
       images: [''],
       price: 25000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Nem nướng', quantity: 1 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.02 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì trứng chả', desc: 'Trứng ốp và chả' },
@@ -695,13 +946,33 @@ async function main() {
       images: [''],
       price: 25000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Trứng', quantity: 1 }, // 1 quả
+        { ingredientName: 'Chả lụa', quantity: 0.03 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì trứng giò', desc: 'Trứng ốp và giò' },
-      en: { name: 'Egg & Sausage Banh Mi', desc: 'Fried egg and sausage' },
+      en: { name: 'Egg & Vietnamese Ham Banh Mi', desc: 'Fried egg and Vietnamese ham' },
       images: [''],
       price: 25000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Trứng', quantity: 1 },
+        { ingredientName: 'Chả lụa', quantity: 0.03 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì trứng ruốc', desc: 'Trứng và ruốc' },
@@ -709,6 +980,16 @@ async function main() {
       images: [''],
       price: 20000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Trứng', quantity: 1 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.02 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì trứng bò khô', desc: 'Trứng và bò khô' },
@@ -716,6 +997,16 @@ async function main() {
       images: [''],
       price: 20000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Trứng', quantity: 1 },
+        { ingredientName: 'Bò khô', quantity: 0.02 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì trứng xúc xích', desc: 'Trứng và xúc xích' },
@@ -723,6 +1014,16 @@ async function main() {
       images: [''],
       price: 20000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Trứng', quantity: 1 },
+        { ingredientName: 'Xúc xích', quantity: 1 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì 2 trứng', desc: 'Hai trứng ốp la' },
@@ -730,6 +1031,15 @@ async function main() {
       images: [''],
       price: 20000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Trứng', quantity: 2 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì pate trứng', desc: 'Pate và trứng' },
@@ -739,6 +1049,16 @@ async function main() {
       ],
       price: 20000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Pate', quantity: 0.03 },
+        { ingredientName: 'Trứng', quantity: 1 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì pate xúc xích', desc: 'Pate và xúc xích' },
@@ -748,6 +1068,16 @@ async function main() {
       ],
       price: 20000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Pate', quantity: 0.03 },
+        { ingredientName: 'Xúc xích', quantity: 1 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì xúc xích ruốc', desc: 'Xúc xích và ruốc' },
@@ -755,6 +1085,16 @@ async function main() {
       images: [''],
       price: 20000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Xúc xích', quantity: 1 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.02 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì xúc xích bò khô', desc: 'Xúc xích và bò khô' },
@@ -762,6 +1102,16 @@ async function main() {
       images: [''],
       price: 20000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Xúc xích', quantity: 1 },
+        { ingredientName: 'Bò khô', quantity: 0.02 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì pate lạp xưởng', desc: 'Pate và lạp xưởng' },
@@ -771,6 +1121,16 @@ async function main() {
       ],
       price: 20000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Pate', quantity: 0.03 },
+        { ingredientName: 'Lạp xưởng', quantity: 1 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì pate', desc: 'Sốt pate đặc biệt' },
@@ -780,6 +1140,15 @@ async function main() {
       ],
       price: 15000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Pate', quantity: 0.05 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì bò khô', desc: 'Nhân bò khô' },
@@ -787,6 +1156,15 @@ async function main() {
       images: [''],
       price: 15000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Bò khô', quantity: 0.03 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì ruốc', desc: 'Nhân ruốc' },
@@ -794,6 +1172,15 @@ async function main() {
       images: [''],
       price: 15000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.03 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì xúc xích', desc: 'Nhân xúc xích' },
@@ -801,6 +1188,15 @@ async function main() {
       en: { name: 'Sausage Banh Mi', desc: 'Sausage' },
       price: 15000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Xúc xích', quantity: 1 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì 1 trứng', desc: 'Một trứng ốp la' },
@@ -808,6 +1204,15 @@ async function main() {
       images: [''],
       price: 15000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Trứng', quantity: 1 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì pate ruốc', desc: 'Pate và ruốc' },
@@ -815,8 +1220,18 @@ async function main() {
       images: [
         'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770818832/restaurant-app/dishes/oshk7lyn8unoyetvcuza.jpg',
       ],
-      price: 15000,
+      price: 20000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Pate', quantity: 0.03 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.02 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua (Cà rốt & củ cải)', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì pate bò khô', desc: 'Pate và bò khô' },
@@ -824,8 +1239,18 @@ async function main() {
       images: [
         'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770819011/restaurant-app/dishes/u5fjwdaemq5tkyxh8fth.jpg',
       ],
-      price: 15000,
+      price: 20000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Pate', quantity: 0.03 },
+        { ingredientName: 'Bò khô', quantity: 0.02 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì bơ sữa', desc: 'Ngọt ngào bơ sữa' },
@@ -833,6 +1258,11 @@ async function main() {
       images: [''],
       price: 15000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Bơ', quantity: 0.02 },
+        { ingredientName: 'Sữa đặc', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Bánh mì thập cẩm', desc: 'Tổng hợp các loại nhân' },
@@ -840,6 +1270,20 @@ async function main() {
       en: { name: 'Mixed Banh Mi', desc: 'Fully loaded' },
       price: 30000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Pate', quantity: 0.03 },
+        { ingredientName: 'Trứng', quantity: 1 },
+        { ingredientName: 'Xúc xích', quantity: 1 },
+        { ingredientName: 'Chả lụa', quantity: 0.03 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.02 },
+        { ingredientName: 'Bò khô', quantity: 0.02 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì đặc biệt', desc: 'Phần nhân siêu đầy đặn' },
@@ -847,6 +1291,20 @@ async function main() {
       en: { name: 'Special Banh Mi', desc: 'Super loaded' },
       price: 40000,
       catId: banhMiCat.id,
+      recipe: [
+        { ingredientName: 'Bánh mì (Vỏ)', quantity: 1 },
+        { ingredientName: 'Pate', quantity: 0.05 },
+        { ingredientName: 'Trứng', quantity: 1 },
+        { ingredientName: 'Xúc xích', quantity: 1 },
+        { ingredientName: 'Chả lụa', quantity: 0.05 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.03 },
+        { ingredientName: 'Bò khô', quantity: 0.03 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+        { ingredientName: 'Dưa chuột', quantity: 0.02 },
+        { ingredientName: 'Đồ chua', quantity: 0.02 },
+        { ingredientName: 'Bơ', quantity: 0.01 },
+        { ingredientName: 'Nước sốt (Bánh mì)', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Bánh mì không', desc: 'Bánh mì giòn tan' },
@@ -854,6 +1312,7 @@ async function main() {
       images: [''],
       price: 5000,
       catId: banhMiCat.id,
+      recipe: [{ ingredientName: 'Bánh mì (Vỏ)', quantity: 1 }],
     },
 
     // --- XÔI ---
@@ -865,6 +1324,12 @@ async function main() {
       ],
       price: 20000,
       catId: xoiCat.id,
+      recipe: [
+        { ingredientName: 'Gạo nếp', quantity: 0.15 }, // 150g
+        { ingredientName: 'Pate', quantity: 0.03 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.02 },
+        { ingredientName: 'Hành phi', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Xôi pate trứng', desc: 'Xôi pate trứng' },
@@ -874,6 +1339,12 @@ async function main() {
       ],
       price: 20000,
       catId: xoiCat.id,
+      recipe: [
+        { ingredientName: 'Gạo nếp', quantity: 0.15 },
+        { ingredientName: 'Pate', quantity: 0.03 },
+        { ingredientName: 'Trứng', quantity: 1 },
+        { ingredientName: 'Hành phi', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Xôi pate xúc xích', desc: 'Xôi pate xúc xích' },
@@ -883,6 +1354,12 @@ async function main() {
       ],
       price: 20000,
       catId: xoiCat.id,
+      recipe: [
+        { ingredientName: 'Gạo nếp', quantity: 0.15 },
+        { ingredientName: 'Pate', quantity: 0.03 },
+        { ingredientName: 'Xúc xích', quantity: 1 },
+        { ingredientName: 'Hành phi', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Xôi trứng xúc xích', desc: 'Xôi trứng xúc xích' },
@@ -890,6 +1367,12 @@ async function main() {
       images: [''],
       price: 20000,
       catId: xoiCat.id,
+      recipe: [
+        { ingredientName: 'Gạo nếp', quantity: 0.15 },
+        { ingredientName: 'Trứng', quantity: 1 },
+        { ingredientName: 'Xúc xích', quantity: 1 },
+        { ingredientName: 'Hành phi', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Xôi trứng ruốc', desc: 'Xôi trứng ruốc' },
@@ -897,6 +1380,12 @@ async function main() {
       images: [''],
       price: 20000,
       catId: xoiCat.id,
+      recipe: [
+        { ingredientName: 'Gạo nếp', quantity: 0.15 },
+        { ingredientName: 'Trứng', quantity: 1 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.02 },
+        { ingredientName: 'Hành phi', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Xôi 2 trứng', desc: 'Xôi với 2 trứng' },
@@ -904,6 +1393,11 @@ async function main() {
       images: [''],
       price: 20000,
       catId: xoiCat.id,
+      recipe: [
+        { ingredientName: 'Gạo nếp', quantity: 0.15 },
+        { ingredientName: 'Trứng', quantity: 2 },
+        { ingredientName: 'Hành phi', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Xôi trứng chả', desc: 'Xôi trứng chả' },
@@ -911,13 +1405,25 @@ async function main() {
       images: [''],
       price: 25000,
       catId: xoiCat.id,
+      recipe: [
+        { ingredientName: 'Gạo nếp', quantity: 0.15 },
+        { ingredientName: 'Trứng', quantity: 1 },
+        { ingredientName: 'Chả lụa', quantity: 0.05 },
+        { ingredientName: 'Hành phi', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Xôi trứng giò', desc: 'Xôi trứng giò' },
-      en: { name: 'Egg & Sausage Sticky Rice', desc: 'Egg and sausage' },
+      en: { name: 'Egg & Vietnamese Ham Sticky Rice', desc: 'Egg and Vietnamese ham' },
       images: [''],
       price: 25000,
       catId: xoiCat.id,
+      recipe: [
+        { ingredientName: 'Gạo nếp', quantity: 0.15 },
+        { ingredientName: 'Trứng', quantity: 1 },
+        { ingredientName: 'Chả lụa', quantity: 0.05 },
+        { ingredientName: 'Hành phi', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Xôi pate chả', desc: 'Xôi pate chả' },
@@ -925,13 +1431,25 @@ async function main() {
       images: [''],
       price: 25000,
       catId: xoiCat.id,
+      recipe: [
+        { ingredientName: 'Gạo nếp', quantity: 0.15 },
+        { ingredientName: 'Pate', quantity: 0.03 },
+        { ingredientName: 'Chả lụa', quantity: 0.05 },
+        { ingredientName: 'Hành phi', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Xôi pate giò', desc: 'Xôi pate giò' },
-      en: { name: 'Pate & Sausage Sticky Rice', desc: 'Pate and sausage' },
+      en: { name: 'Pate & Vietnamese Ham Sticky Rice', desc: 'Pate and Vietnamese ham' },
       images: [''],
       price: 25000,
       catId: xoiCat.id,
+      recipe: [
+        { ingredientName: 'Gạo nếp', quantity: 0.15 },
+        { ingredientName: 'Pate', quantity: 0.03 },
+        { ingredientName: 'Chả lụa', quantity: 0.05 },
+        { ingredientName: 'Hành phi', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Xôi chả ruốc', desc: 'Xôi chả ruốc' },
@@ -939,13 +1457,25 @@ async function main() {
       images: [''],
       price: 25000,
       catId: xoiCat.id,
+      recipe: [
+        { ingredientName: 'Gạo nếp', quantity: 0.15 },
+        { ingredientName: 'Chả lụa', quantity: 0.05 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.02 },
+        { ingredientName: 'Hành phi', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Xôi giò ruốc', desc: 'Xôi giò ruốc' },
-      en: { name: 'Sausage & Floss Sticky Rice', desc: 'Sausage and floss' },
+      en: { name: 'Vietnamese Ham & Floss Sticky Rice', desc: 'Vietnamese ham and floss' },
       images: [''],
       price: 25000,
       catId: xoiCat.id,
+      recipe: [
+        { ingredientName: 'Gạo nếp', quantity: 0.15 },
+        { ingredientName: 'Chả lụa', quantity: 0.05 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.02 },
+        { ingredientName: 'Hành phi', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Xôi thập cẩm', desc: 'Đầy đủ toping' },
@@ -953,6 +1483,15 @@ async function main() {
       images: [''],
       price: 30000,
       catId: xoiCat.id,
+      recipe: [
+        { ingredientName: 'Gạo nếp', quantity: 0.15 },
+        { ingredientName: 'Pate', quantity: 0.03 },
+        { ingredientName: 'Trứng', quantity: 1 },
+        { ingredientName: 'Xúc xích', quantity: 1 },
+        { ingredientName: 'Chả lụa', quantity: 0.03 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.02 },
+        { ingredientName: 'Hành phi', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Xôi thập cẩm trứng', desc: 'Thập cẩm thêm trứng' },
@@ -960,6 +1499,15 @@ async function main() {
       images: [''],
       price: 35000,
       catId: xoiCat.id,
+      recipe: [
+        { ingredientName: 'Gạo nếp', quantity: 0.15 },
+        { ingredientName: 'Pate', quantity: 0.03 },
+        { ingredientName: 'Trứng', quantity: 2 },
+        { ingredientName: 'Xúc xích', quantity: 1 },
+        { ingredientName: 'Chả lụa', quantity: 0.03 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.02 },
+        { ingredientName: 'Hành phi', quantity: 0.01 },
+      ],
     },
 
     // --- NEM NƯỚNG ---
@@ -971,6 +1519,11 @@ async function main() {
       ],
       price: 35000,
       catId: nemNuongCat.id,
+      recipe: [
+        { ingredientName: 'Nem nướng', quantity: 2 },
+        { ingredientName: 'Dưa chuột', quantity: 0.1 },
+        { ingredientName: 'Rau mùi', quantity: 0.1 },
+      ],
     },
     {
       vi: { name: 'Nem nướng suất lớn', desc: 'Suất lớn đầy đặn' },
@@ -980,6 +1533,11 @@ async function main() {
       ],
       price: 45000,
       catId: nemNuongCat.id,
+      recipe: [
+        { ingredientName: 'Nem nướng', quantity: 3 },
+        { ingredientName: 'Dưa chuột', quantity: 0.15 },
+        { ingredientName: 'Rau mùi', quantity: 0.15 },
+      ],
     },
 
     // --- BÁNH CÁ ---
@@ -991,6 +1549,12 @@ async function main() {
       ],
       price: 10000,
       catId: banhCaCat.id,
+      recipe: [
+        { ingredientName: 'Bột mì', quantity: 0.05 },
+        { ingredientName: 'Trứng', quantity: 0.5 },
+        { ingredientName: 'Sữa tươi', quantity: 0.05 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Bánh cá sô cô la', desc: 'Nhân chocolate' },
@@ -1000,6 +1564,12 @@ async function main() {
       ],
       price: 10000,
       catId: banhCaCat.id,
+      recipe: [
+        { ingredientName: 'Bột mì', quantity: 0.05 },
+        { ingredientName: 'Trứng', quantity: 0.5 },
+        { ingredientName: 'Sữa tươi', quantity: 0.05 },
+        { ingredientName: 'Sốt Chocolate', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Bánh cá trà xanh', desc: 'Nhân trà xanh' },
@@ -1009,6 +1579,12 @@ async function main() {
       ],
       price: 10000,
       catId: banhCaCat.id,
+      recipe: [
+        { ingredientName: 'Bột mì', quantity: 0.05 },
+        { ingredientName: 'Trứng', quantity: 0.5 },
+        { ingredientName: 'Sữa tươi', quantity: 0.05 },
+        { ingredientName: 'Sốt Trà xanh', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Bánh cá phomai kéo sợi', desc: 'Phomai mozzarella' },
@@ -1018,6 +1594,12 @@ async function main() {
       ],
       price: 10000,
       catId: banhCaCat.id,
+      recipe: [
+        { ingredientName: 'Bột mì', quantity: 0.05 },
+        { ingredientName: 'Trứng', quantity: 0.5 },
+        { ingredientName: 'Sữa tươi', quantity: 0.05 },
+        { ingredientName: 'Phô mai sợi', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Bánh cá pate', desc: 'Nhân pate' },
@@ -1027,6 +1609,10 @@ async function main() {
       ],
       price: 10000,
       catId: banhCaCat.id,
+      recipe: [
+        { ingredientName: 'Bột mì', quantity: 0.05 },
+        { ingredientName: 'Pate', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Bánh cá xúc xích', desc: 'Nhân xúc xích' },
@@ -1036,6 +1622,10 @@ async function main() {
       ],
       price: 10000,
       catId: banhCaCat.id,
+      recipe: [
+        { ingredientName: 'Bột mì', quantity: 0.05 },
+        { ingredientName: 'Xúc xích', quantity: 0.5 },
+      ],
     },
     {
       vi: { name: 'Bánh cá bò khô', desc: 'Nhân bò khô' },
@@ -1045,6 +1635,10 @@ async function main() {
       ],
       price: 10000,
       catId: banhCaCat.id,
+      recipe: [
+        { ingredientName: 'Bột mì', quantity: 0.05 },
+        { ingredientName: 'Bò khô', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Bánh cá ruốc', desc: 'Nhân ruốc' },
@@ -1054,6 +1648,10 @@ async function main() {
       ],
       price: 10000,
       catId: banhCaCat.id,
+      recipe: [
+        { ingredientName: 'Bột mì', quantity: 0.05 },
+        { ingredientName: 'Ruốc thịt', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Bánh cá ngô', desc: 'Nhân ngô' },
@@ -1063,6 +1661,10 @@ async function main() {
       ],
       price: 10000,
       catId: banhCaCat.id,
+      recipe: [
+        { ingredientName: 'Bột mì', quantity: 0.05 },
+        { ingredientName: 'Bắp hạt', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Bánh cá sốt dâu', desc: 'Sốt dâu' },
@@ -1072,6 +1674,10 @@ async function main() {
       ],
       price: 10000,
       catId: banhCaCat.id,
+      recipe: [
+        { ingredientName: 'Bột mì', quantity: 0.05 },
+        { ingredientName: 'Siro Dâu', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Bánh cá sốt việt quất', desc: 'Sốt việt quất' },
@@ -1081,6 +1687,10 @@ async function main() {
       ],
       price: 10000,
       catId: banhCaCat.id,
+      recipe: [
+        { ingredientName: 'Bột mì', quantity: 0.05 },
+        { ingredientName: 'Siro Việt Quất', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Bánh cá sốt xoài', desc: 'Sốt xoài' },
@@ -1090,6 +1700,10 @@ async function main() {
       ],
       price: 10000,
       catId: banhCaCat.id,
+      recipe: [
+        { ingredientName: 'Bột mì', quantity: 0.05 },
+        { ingredientName: 'Siro Xoài', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Bánh cá sốt đào', desc: 'Sốt đào' },
@@ -1099,6 +1713,10 @@ async function main() {
       ],
       price: 10000,
       catId: banhCaCat.id,
+      recipe: [
+        { ingredientName: 'Bột mì', quantity: 0.05 },
+        { ingredientName: 'Siro Đào', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Bánh cá không nhân', desc: 'Vỏ giòn' },
@@ -1108,6 +1726,7 @@ async function main() {
       ],
       price: 7000,
       catId: banhCaCat.id,
+      recipe: [{ ingredientName: 'Bột mì', quantity: 0.05 }],
     },
 
     // --- ĐỒ ĂN VẶT ---
@@ -1119,6 +1738,11 @@ async function main() {
       ],
       price: 25000,
       catId: snackCat.id,
+      recipe: [
+        { ingredientName: 'Bỏng ngô (nguyên liệu)', quantity: 0.1 },
+        { ingredientName: 'Bơ', quantity: 0.02 },
+        { ingredientName: 'Đường', quantity: 0.05 },
+      ],
     },
     {
       vi: { name: 'Nem chua rán', desc: 'Nem chua rán Hà Nội' },
@@ -1126,6 +1750,10 @@ async function main() {
       images: [''],
       price: 25000,
       catId: snackCat.id,
+      recipe: [
+        { ingredientName: 'Nem chua', quantity: 5 },
+        { ingredientName: 'Tương ớt', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Khoai lang kén', desc: 'Khoai lang kén vàng ươm' },
@@ -1135,6 +1763,10 @@ async function main() {
       ],
       price: 25000,
       catId: snackCat.id,
+      recipe: [
+        { ingredientName: 'Khoai lang', quantity: 0.2 },
+        { ingredientName: 'Tương ớt', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Khoai tây rán', desc: 'Khoai tây chiên' },
@@ -1144,6 +1776,10 @@ async function main() {
       ],
       price: 20000,
       catId: snackCat.id,
+      recipe: [
+        { ingredientName: 'Khoai tây', quantity: 0.2 },
+        { ingredientName: 'Tương ớt', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Cá viên chiên', desc: 'Cá viên chiên' },
@@ -1153,6 +1789,10 @@ async function main() {
       ],
       price: 20000,
       catId: snackCat.id,
+      recipe: [
+        { ingredientName: 'Cá viên', quantity: 10 },
+        { ingredientName: 'Tương ớt', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Xúc xích', desc: 'Xúc xích chiên' },
@@ -1162,6 +1802,10 @@ async function main() {
       ],
       price: 10000,
       catId: snackCat.id,
+      recipe: [
+        { ingredientName: 'Xúc xích', quantity: 1 },
+        { ingredientName: 'Tương ớt', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Lạp xưởng', desc: 'Lạp xưởng tươi' },
@@ -1171,6 +1815,10 @@ async function main() {
       ],
       price: 10000,
       catId: snackCat.id,
+      recipe: [
+        { ingredientName: 'Lạp xưởng', quantity: 1 },
+        { ingredientName: 'Tương ớt', quantity: 0.01 },
+      ],
     },
     {
       vi: { name: 'Hướng dương mộc', desc: 'Hạt hướng dương' },
@@ -1180,6 +1828,7 @@ async function main() {
       ],
       price: 10000,
       catId: snackCat.id,
+      recipe: [{ ingredientName: 'Hạt hướng dương', quantity: 0.05 }],
     },
     {
       vi: { name: 'Bò khô vắt tắc', desc: 'Bò khô chanh' },
@@ -1189,6 +1838,10 @@ async function main() {
       ],
       price: 15000,
       catId: snackCat.id,
+      recipe: [
+        { ingredientName: 'Bò khô', quantity: 0.05 },
+        { ingredientName: 'Chanh', quantity: 0.02 },
+      ],
     },
     {
       vi: { name: 'Kem cốc', desc: 'Kem mát lạnh' },
@@ -1198,6 +1851,7 @@ async function main() {
       ],
       price: 5000,
       catId: snackCat.id,
+      recipe: [{ ingredientName: 'Kem', quantity: 1 }],
     },
 
     // --- ĐỒ UỐNG (Giữ lại mẫu) ---
@@ -1207,17 +1861,971 @@ async function main() {
       images: [
         'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828534/restaurant-app/dishes/cts37hpxw3wrnh9mj69d.jpg',
       ],
-      price: 10000,
-      catId: drinkCat.id,
+      price: 15000,
+      catId: traCat.id,
+      recipe: [
+        { ingredientName: 'Trà chanh (gói)', quantity: 1 },
+        { ingredientName: 'Chanh', quantity: 0.05 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+      ],
     },
     {
-      vi: { name: 'Cafe sữa', desc: 'Cà phê nâu đá' },
-      en: { name: 'Milk Coffee', desc: 'Vietnamese milk coffee' },
+      vi: { name: 'Trà sen vàng', desc: 'Trà sen vàng thượng hạng' },
+      en: { name: 'Golden Lotus Tea', desc: 'Premium lotus tea' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828534/restaurant-app/dishes/cts37hpxw3wrnh9mj69d.jpg',
+      ],
+      price: 35000,
+      catId: traCat.id,
+      recipe: [
+        { ingredientName: 'Trà ô long', quantity: 1 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+      ],
+    },
+    {
+      vi: { name: 'Trà đào cam sả', desc: 'Trà đào cam sả tươi mát' },
+      en: { name: 'Peach Orange Lemongrass Tea', desc: 'Refreshing peach tea' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828534/restaurant-app/dishes/cts37hpxw3wrnh9mj69d.jpg',
+      ],
+      price: 35000,
+      catId: traCat.id,
+      recipe: [
+        { ingredientName: 'Trà đào (túi lọc)', quantity: 1 },
+        { ingredientName: 'Đào ngâm', quantity: 0.05 },
+        { ingredientName: 'Siro Đào', quantity: 0.02 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+      ],
+    },
+    {
+      vi: { name: 'Trà nhài nha đam', desc: 'Trà nhài thơm mát kèm nha đam' },
+      en: { name: 'Jasmine Aloe Vera Tea', desc: 'Jasmine tea with aloe vera' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828534/restaurant-app/dishes/cts37hpxw3wrnh9mj69d.jpg',
+      ],
+      price: 30000,
+      catId: traCat.id,
+      recipe: [
+        { ingredientName: 'Trà nhài', quantity: 1 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+      ],
+    },
+    {
+      vi: { name: 'Trà sữa trân châu', desc: 'Trà sữa truyền thống' },
+      en: { name: 'Boba Milk Tea', desc: 'Traditional milk tea' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828534/restaurant-app/dishes/cts37hpxw3wrnh9mj69d.jpg',
+      ],
+      price: 30000,
+      catId: traSuaCat.id,
+      recipe: [
+        { ingredientName: 'Trà ô long', quantity: 1 },
+        { ingredientName: 'Sữa tươi', quantity: 0.1 }, // 100ml
+        { ingredientName: 'Trân châu đen', quantity: 0.05 }, // 50g
+        { ingredientName: 'Đường', quantity: 0.02 },
+      ],
+    },
+    {
+      vi: { name: 'Trà sữa matcha', desc: 'Trà sữa vị matcha' },
+      en: { name: 'Matcha Milk Tea', desc: 'Matcha flavored milk tea' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828534/restaurant-app/dishes/cts37hpxw3wrnh9mj69d.jpg',
+      ],
+      price: 35000,
+      catId: traSuaCat.id,
+      recipe: [
+        { ingredientName: 'Trà nhài', quantity: 1 },
+        { ingredientName: 'Sữa tươi', quantity: 0.1 },
+        { ingredientName: 'Sốt Trà xanh', quantity: 0.03 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+      ],
+    },
+    {
+      vi: { name: 'Cafe đen đá', desc: 'Cà phê nguyên chất' },
+      en: { name: 'Iced Black Coffee', desc: 'Pure black coffee' },
       images: [
         'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828480/restaurant-app/dishes/utpftxpwkiyd92pgz4oc.jpg',
       ],
+      price: 20000,
+      catId: cafeCat.id,
+      recipe: [
+        { ingredientName: 'Cafe', quantity: 0.02 },
+        { ingredientName: 'Đường', quantity: 0.01 },
+      ],
+    },
+    {
+      vi: { name: 'Cafe sữa đá', desc: 'Cà phê sữa đá pha phin' },
+      en: { name: 'Iced Milk Coffee', desc: 'Vietnamese milk coffee' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828480/restaurant-app/dishes/utpftxpwkiyd92pgz4oc.jpg',
+      ],
+      price: 25000,
+      catId: cafeCat.id,
+      recipe: [
+        { ingredientName: 'Cafe', quantity: 0.02 },
+        { ingredientName: 'Sữa đặc', quantity: 0.05 },
+      ],
+    },
+    {
+      vi: { name: 'Bạc xỉu', desc: 'Bạc xỉu nóng/đá' },
+      en: { name: 'Bac Xiu', desc: 'White coffee' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828480/restaurant-app/dishes/utpftxpwkiyd92pgz4oc.jpg',
+      ],
+      price: 25000,
+      catId: cafeCat.id,
+      recipe: [
+        { ingredientName: 'Cafe', quantity: 0.01 },
+        { ingredientName: 'Sữa tươi', quantity: 0.05 },
+        { ingredientName: 'Sữa đặc', quantity: 0.05 },
+      ],
+    },
+
+    // Thêm các loại Kem vào category Ăn Vặt (hoặc riêng nếu có Desserts)
+    {
+      vi: { name: 'Kem Vani', desc: 'Kem vani truyền thống' },
+      en: { name: 'Vanilla Ice Cream', desc: 'Classic vanilla' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770998988/restaurant-app/dishes/brf4gpubslmgevn5xur4.jpg',
+      ],
+      price: 15000,
+      catId: snackCat.id, // Dùng tạm snackCat
+      recipe: [
+        { ingredientName: 'Kem Vani', quantity: 0.1 }, // 100g
+      ],
+    },
+    {
+      vi: { name: 'Kem Chocolate', desc: 'Kem sô-cô-la đen' },
+      en: { name: 'Chocolate Ice Cream', desc: 'Dark chocolate' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770998988/restaurant-app/dishes/brf4gpubslmgevn5xur4.jpg',
+      ],
+      price: 15000,
+      catId: snackCat.id,
+      recipe: [{ ingredientName: 'Kem Chocolate', quantity: 0.1 }],
+    },
+    {
+      vi: { name: 'Kem Dâu', desc: 'Kem chua ngọt vị dâu tây' },
+      en: { name: 'Strawberry Ice Cream', desc: 'Strawberry flavor' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770998988/restaurant-app/dishes/brf4gpubslmgevn5xur4.jpg',
+      ],
+      price: 15000,
+      catId: snackCat.id,
+      recipe: [
+        { ingredientName: 'Kem Dâu', quantity: 0.1 },
+        { ingredientName: 'Siro Dâu', quantity: 0.01 },
+      ],
+    },
+    {
+      vi: { name: 'Kem Matcha', desc: 'Kem vị trà xanh' },
+      en: { name: 'Matcha Ice Cream', desc: 'Matcha flavor' },
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770998988/restaurant-app/dishes/brf4gpubslmgevn5xur4.jpg',
+      ],
       price: 18000,
+      catId: snackCat.id,
+      recipe: [{ ingredientName: 'Kem Matcha', quantity: 0.1 }],
+    },
+
+    // --- CHÈ ---
+    {
+      vi: { name: 'Chè bưởi', desc: 'Chè bưởi An Giang cùi giòn, đỗ bùi' },
+      en: { name: 'Pomelo Sweet Soup', desc: 'Traditional pomelo sweet soup' },
+      images: [''],
+      price: 20000,
+      catId: cheCat.id,
+      recipe: [
+        { ingredientName: 'Cùi bưởi (đã chế biến)', quantity: 0.1 }, // 100g
+        { ingredientName: 'Đậu xanh', quantity: 0.05 }, // 50g
+        { ingredientName: 'Cốt dừa', quantity: 0.05 }, // 50g
+        { ingredientName: 'Đường', quantity: 0.02 },
+      ],
+    },
+    {
+      vi: { name: 'Chè bưởi caramen', desc: 'Chè bưởi kèm bánh flan' },
+      en: { name: 'Pomelo Sweet Soup with Flan', desc: 'Pomelo soup with caramel' },
+      images: [''],
+      price: 25000,
+      catId: cheCat.id,
+      recipe: [
+        { ingredientName: 'Cùi bưởi (đã chế biến)', quantity: 0.1 },
+        { ingredientName: 'Đậu xanh', quantity: 0.05 },
+        { ingredientName: 'Caramen (Bánh flan)', quantity: 1 },
+        { ingredientName: 'Cốt dừa', quantity: 0.05 },
+      ],
+    },
+    {
+      vi: { name: 'Chè thái bưởi', desc: 'Chè bưởi kết hợp sợi thái' },
+      en: { name: 'Pomelo & Cendol Sweet Soup', desc: 'Pomelo soup with Thai cendol' },
+      images: [''],
+      price: 25000,
+      catId: cheCat.id,
+      recipe: [
+        { ingredientName: 'Cùi bưởi (đã chế biến)', quantity: 0.05 },
+        { ingredientName: 'Sợi Thái (Cendol)', quantity: 0.05 },
+        { ingredientName: 'Đậu xanh', quantity: 0.03 },
+        { ingredientName: 'Cốt dừa', quantity: 0.05 },
+      ],
+    },
+    {
+      vi: { name: 'Chè thái bưởi caramen', desc: 'Chè thái bưởi kèm caramen' },
+      en: { name: 'Pomelo & Cendol with Flan', desc: 'Thai pomelo soup with flan' },
+      images: [''],
+      price: 30000,
+      catId: cheCat.id,
+      recipe: [
+        { ingredientName: 'Cùi bưởi (đã chế biến)', quantity: 0.05 },
+        { ingredientName: 'Sợi Thái (Cendol)', quantity: 0.05 },
+        { ingredientName: 'Caramen (Bánh flan)', quantity: 1 },
+        { ingredientName: 'Cốt dừa', quantity: 0.05 },
+      ],
+    },
+    {
+      vi: { name: 'Chè thập cẩm caramen', desc: 'Chè thập cẩm các loại topping kèm caramen' },
+      en: { name: 'Mixed Sweet Soup with Flan', desc: 'Mixed soup with caramel' },
+      images: [''],
+      price: 30000,
+      catId: cheCat.id,
+      recipe: [
+        { ingredientName: 'Cùi bưởi (đã chế biến)', quantity: 0.03 },
+        { ingredientName: 'Đậu xanh', quantity: 0.03 },
+        { ingredientName: 'Thạch sương sáo', quantity: 0.03 },
+        { ingredientName: 'Caramen (Bánh flan)', quantity: 1 },
+        { ingredientName: 'Cốt dừa', quantity: 0.05 },
+      ],
+    },
+    {
+      vi: { name: 'Chè sương sáo', desc: 'Thạch sương sáo thanh mát' },
+      en: { name: 'Grass Jelly Sweet Soup', desc: 'Refreshing grass jelly' },
+      images: [''],
+      price: 15000,
+      catId: cheCat.id,
+      recipe: [
+        { ingredientName: 'Thạch sương sáo', quantity: 0.15 }, // 150g
+        { ingredientName: 'Cốt dừa', quantity: 0.05 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+      ],
+    },
+    {
+      vi: { name: 'Chè sương sáo caramen', desc: 'Thạch sương sáo kèm caramen' },
+      en: { name: 'Grass Jelly with Flan', desc: 'Grass jelly and caramel' },
+      images: [''],
+      price: 20000,
+      catId: cheCat.id,
+      recipe: [
+        { ingredientName: 'Thạch sương sáo', quantity: 0.1 },
+        { ingredientName: 'Caramen (Bánh flan)', quantity: 1 },
+        { ingredientName: 'Cốt dừa', quantity: 0.05 },
+      ],
+    },
+    {
+      vi: { name: 'Chè thạch trân châu', desc: 'Thạch và trân châu dai giòn' },
+      en: { name: 'Jelly & Boba Sweet Soup', desc: 'Jelly and pearls' },
+      images: [''],
+      price: 20000,
+      catId: cheCat.id,
+      recipe: [
+        { ingredientName: 'Thạch sương sáo', quantity: 0.05 },
+        { ingredientName: 'Trân châu đen', quantity: 0.05 },
+        { ingredientName: 'Cốt dừa', quantity: 0.05 },
+      ],
+    },
+    {
+      vi: { name: 'Chè thạch caramen trân châu', desc: 'Thạch trân châu kèm caramen' },
+      en: { name: 'Jelly & Boba with Flan', desc: 'Jelly pearls with flan' },
+      images: [''],
+      price: 25000,
+      catId: cheCat.id,
+      recipe: [
+        { ingredientName: 'Thạch sương sáo', quantity: 0.05 },
+        { ingredientName: 'Trân châu đen', quantity: 0.05 },
+        { ingredientName: 'Caramen (Bánh flan)', quantity: 1 },
+        { ingredientName: 'Cốt dừa', quantity: 0.05 },
+      ],
+    },
+
+    // --- TÀU HŨ ---
+    {
+      vi: {
+        name: 'Tàu hũ nha đam trân châu cốt dừa',
+        desc: 'Tàu hũ mềm mịn kèm nha đam và trân châu',
+      },
+      en: { name: 'Tofu Pudding with Aloe Vera & Boba', desc: 'Tofu with aloe vera and pearls' },
+      images: [''],
+      price: 20000,
+      catId: tauHuCat.id,
+      recipe: [
+        { ingredientName: 'Nha đam', quantity: 0.05 },
+        { ingredientName: 'Trân châu đen', quantity: 0.05 },
+        { ingredientName: 'Cốt dừa', quantity: 0.05 },
+      ],
+    },
+    {
+      vi: {
+        name: 'Tàu hũ Milo trân châu đường đen cốt dừa',
+        desc: 'Tàu hũ Milo đậm đà kèm trân châu',
+      },
+      en: { name: 'Milo Tofu Pudding with Boba', desc: 'Milo tofu with brown sugar pearls' },
+      images: [''],
+      price: 20000,
+      catId: tauHuCat.id,
+      recipe: [
+        { ingredientName: 'Bột Milo', quantity: 0.02 },
+        { ingredientName: 'Trân châu đen', quantity: 0.05 },
+        { ingredientName: 'Cốt dừa', quantity: 0.05 },
+      ],
+    },
+    {
+      vi: { name: 'Tàu hũ caramen trân châu cốt dừa', desc: 'Tàu hũ caramen béo ngậy' },
+      en: { name: 'Caramel Tofu Pudding with Boba', desc: 'Tofu with flan and pearls' },
+      images: [''],
+      price: 25000,
+      catId: tauHuCat.id,
+      recipe: [
+        { ingredientName: 'Caramen (Bánh flan)', quantity: 1 },
+        { ingredientName: 'Trân châu đen', quantity: 0.05 },
+        { ingredientName: 'Cốt dừa', quantity: 0.05 },
+      ],
+    },
+    {
+      vi: { name: 'Tàu hũ hoa quả trân châu cốt dừa', desc: 'Tàu hũ mix hoa quả tươi' },
+      en: { name: 'Fruit Tofu Pudding with Boba', desc: 'Tofu with mixed fruits' },
+      images: [''],
+      price: 25000,
+      catId: tauHuCat.id,
+      recipe: [
+        { ingredientName: 'Hoa quả (Mix)', quantity: 0.05 },
+        { ingredientName: 'Trân châu đen', quantity: 0.05 },
+        { ingredientName: 'Cốt dừa', quantity: 0.05 },
+      ],
+    },
+    {
+      vi: {
+        name: 'Tàu hũ hoa quả caramen trân châu cốt dừa',
+        desc: 'Tàu hũ đặc biệt đầy đủ topping',
+      },
+      en: { name: 'Special Mixed Tofu Pudding', desc: 'Tofu with fruits, flan and pearls' },
+      images: [''],
+      price: 30000,
+      catId: tauHuCat.id,
+      recipe: [
+        { ingredientName: 'Hoa quả (Mix)', quantity: 0.05 },
+        { ingredientName: 'Caramen (Bánh flan)', quantity: 1 },
+        { ingredientName: 'Trân châu đen', quantity: 0.05 },
+        { ingredientName: 'Cốt dừa', quantity: 0.05 },
+      ],
+    },
+    {
+      vi: { name: 'Tàu hũ cốt dừa hộp mini', desc: 'Tàu hũ mini tiện lợi' },
+      en: { name: 'Mini Tofu Pudding', desc: 'Small serving tofu' },
+      images: [''],
+      price: 5000,
+      catId: tauHuCat.id,
+      recipe: [{ ingredientName: 'Cốt dừa', quantity: 0.03 }],
+    },
+
+    // --- SỮA CHUA & CARAMEN ---
+    {
+      vi: { name: 'Sữa chua đánh đá', desc: 'Sữa chua kết hợp đá bào giải nhiệt' },
+      en: { name: 'Iced Yogurt', desc: 'Refreshing yogurt with crushed ice' },
+      images: [''],
+      price: 15000,
+      catId: suaChuaCat.id,
+      recipe: [
+        { ingredientName: 'Sữa chua (hũ)', quantity: 1 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+        { ingredientName: 'Sữa đặc', quantity: 0.02 },
+      ],
+    },
+    {
+      vi: { name: 'Sữa chua trân châu đánh đá', desc: 'Sữa chua đánh đá kèm trân châu đen' },
+      en: { name: 'Iced Yogurt with Boba', desc: 'Iced yogurt with pearls' },
+      images: [''],
+      price: 20000,
+      catId: suaChuaCat.id,
+      recipe: [
+        { ingredientName: 'Sữa chua (hũ)', quantity: 1 },
+        { ingredientName: 'Trân châu đen', quantity: 0.05 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Sữa chua nha đam đánh đá', desc: 'Sữa chua đánh đá kèm nha đam' },
+      en: { name: 'Iced Yogurt with Aloe Vera', desc: 'Iced yogurt with aloe vera' },
+      images: [''],
+      price: 20000,
+      catId: suaChuaCat.id,
+      recipe: [
+        { ingredientName: 'Sữa chua (hũ)', quantity: 1 },
+        { ingredientName: 'Nha đam', quantity: 0.05 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Sữa chua trân châu nha đam', desc: 'Sữa chua mix trân châu và nha đam' },
+      en: { name: 'Yogurt with Boba & Aloe Vera', desc: 'Yogurt with pearls and aloe vera' },
+      images: [''],
+      price: 25000,
+      catId: suaChuaCat.id,
+      recipe: [
+        { ingredientName: 'Sữa chua (hũ)', quantity: 1 },
+        { ingredientName: 'Trân châu đen', quantity: 0.05 },
+        { ingredientName: 'Nha đam', quantity: 0.05 },
+      ],
+    },
+    {
+      vi: { name: 'Sữa chua trân châu caramen', desc: 'Sữa chua mix trân châu và caramen' },
+      en: { name: 'Yogurt with Boba & Flan', desc: 'Yogurt with pearls and caramel' },
+      images: [''],
+      price: 25000,
+      catId: suaChuaCat.id,
+      recipe: [
+        { ingredientName: 'Sữa chua (hũ)', quantity: 1 },
+        { ingredientName: 'Trân châu đen', quantity: 0.05 },
+        { ingredientName: 'Caramen (Bánh flan)', quantity: 1 },
+      ],
+    },
+    {
+      vi: { name: 'Sữa chua trân châu hoa quả', desc: 'Sữa chua mix trân châu và hoa quả' },
+      en: { name: 'Yogurt with Boba & Fruit', desc: 'Yogurt with pearls and mixed fruits' },
+      images: [''],
+      price: 25000,
+      catId: suaChuaCat.id,
+      recipe: [
+        { ingredientName: 'Sữa chua (hũ)', quantity: 1 },
+        { ingredientName: 'Trân châu đen', quantity: 0.05 },
+        { ingredientName: 'Hoa quả (Mix)', quantity: 0.05 },
+      ],
+    },
+    {
+      vi: { name: 'Sữa chua caramen hoa quả', desc: 'Sữa chua đặc biệt đầy đủ topping' },
+      en: { name: 'Special Mixed Yogurt', desc: 'Yogurt with flan and fruits' },
+      images: [''],
+      price: 30000,
+      catId: suaChuaCat.id,
+      recipe: [
+        { ingredientName: 'Sữa chua (hũ)', quantity: 1 },
+        { ingredientName: 'Caramen (Bánh flan)', quantity: 1 },
+        { ingredientName: 'Hoa quả (Mix)', quantity: 0.05 },
+      ],
+    },
+    {
+      vi: { name: 'Sữa chua lắc vị Việt quất', desc: 'Sữa chua lắc vị việt quất tươi mát' },
+      en: { name: 'Blueberry Yogurt Shake', desc: 'Blueberry flavored yogurt shake' },
+      images: [''],
+      price: 20000,
+      catId: suaChuaCat.id,
+      recipe: [
+        { ingredientName: 'Sữa chua (hũ)', quantity: 1 },
+        { ingredientName: 'Siro Việt Quất', quantity: 0.02 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Sữa chua lắc vị Dâu', desc: 'Sữa chua lắc vị dâu tây' },
+      en: { name: 'Strawberry Yogurt Shake', desc: 'Strawberry flavored yogurt shake' },
+      images: [''],
+      price: 20000,
+      catId: suaChuaCat.id,
+      recipe: [
+        { ingredientName: 'Sữa chua (hũ)', quantity: 1 },
+        { ingredientName: 'Siro Dâu', quantity: 0.02 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Sữa chua lắc vị Xoài', desc: 'Sữa chua lắc vị xoài' },
+      en: { name: 'Mango Yogurt Shake', desc: 'Mango flavored yogurt shake' },
+      images: [''],
+      price: 20000,
+      catId: suaChuaCat.id,
+      recipe: [
+        { ingredientName: 'Sữa chua (hũ)', quantity: 1 },
+        { ingredientName: 'Siro Xoài', quantity: 0.02 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Sữa chua lắc vị Đào', desc: 'Sữa chua lắc vị đào' },
+      en: { name: 'Peach Yogurt Shake', desc: 'Peach flavored yogurt shake' },
+      images: [''],
+      price: 20000,
+      catId: suaChuaCat.id,
+      recipe: [
+        { ingredientName: 'Sữa chua (hũ)', quantity: 1 },
+        { ingredientName: 'Siro Đào', quantity: 0.02 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Caramen hộp', desc: 'Bánh flan caramen đóng hộp' },
+      en: { name: 'Caramel Flan Box', desc: 'Boxed caramel flan' },
+      images: [''],
+      price: 7000,
+      catId: suaChuaCat.id,
+      recipe: [{ ingredientName: 'Caramen (Bánh flan)', quantity: 1 }],
+    },
+
+    // --- TRÀ (FRUIT TEAS) ---
+    {
+      vi: {
+        name: 'Trà chanh nha đam/con cá',
+        desc: 'Trà chanh mát lạnh kèm nha đam hoặc thạch con cá',
+      },
+      en: { name: 'Iced Lemon Tea with Aloe/Jelly', desc: 'Lemon tea with toppings' },
+      images: [''],
+      price: 25000,
+      catId: traCat.id,
+      recipe: [
+        { ingredientName: 'Trà chanh (gói)', quantity: 1 },
+        { ingredientName: 'Nha đam', quantity: 0.05 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Trà tắc', desc: 'Trà tắc truyền thống thơm mát' },
+      en: { name: 'Kumquat Tea', desc: 'Traditional kumquat tea' },
+      images: [''],
+      price: 15000,
+      catId: traCat.id,
+      recipe: [
+        { ingredientName: 'Hồng trà (gói)', quantity: 1 },
+        { ingredientName: 'Quả tắc (Quất)', quantity: 0.03 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Trà tắc nha đam/con cá', desc: 'Trà tắc kèm topping nha đam hoặc thạch' },
+      en: { name: 'Kumquat Tea with Aloe/Jelly', desc: 'Kumquat tea with toppings' },
+      images: [''],
+      price: 25000,
+      catId: traCat.id,
+      recipe: [
+        { ingredientName: 'Hồng trà (gói)', quantity: 1 },
+        { ingredientName: 'Quả tắc (Quất)', quantity: 0.03 },
+        { ingredientName: 'Nha đam', quantity: 0.05 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Trà đào nha đam', desc: 'Trà đào thơm nồng kèm nha đam giòn sần sật' },
+      en: { name: 'Peach Tea with Aloe Vera', desc: 'Peach tea with aloe topping' },
+      images: [''],
+      price: 30000,
+      catId: traCat.id,
+      recipe: [
+        { ingredientName: 'Trà đào (túi lọc)', quantity: 1 },
+        { ingredientName: 'Đào ngâm', quantity: 0.05 },
+        { ingredientName: 'Nha đam', quantity: 0.05 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Trà hoa quả nhiệt đới', desc: 'Tổng hợp các loại hoa quả tươi mát' },
+      en: { name: 'Tropical Fruit Tea', desc: 'Mixed fresh fruit tea' },
+      images: [''],
+      price: 35000,
+      catId: traCat.id,
+      recipe: [
+        { ingredientName: 'Hồng trà (gói)', quantity: 1 },
+        { ingredientName: 'Hoa quả (Mix)', quantity: 0.08 },
+        { ingredientName: 'Chanh leo', quantity: 0.02 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Trà xoài chanh leo', desc: 'Sự kết hợp giữa xoài và chanh leo' },
+      en: { name: 'Mango Passion Fruit Tea', desc: 'Mango and passion fruit blend' },
+      images: [''],
+      price: 30000,
+      catId: traCat.id,
+      recipe: [
+        { ingredientName: 'Hồng trà (gói)', quantity: 1 },
+        { ingredientName: 'Siro Xoài', quantity: 0.02 },
+        { ingredientName: 'Chanh leo', quantity: 0.02 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Trà táo đỏ long nhãn', desc: 'Trà thảo mộc thanh lọc cơ thể' },
+      en: { name: 'Red Date & Longan Tea', desc: 'Herbal tea with dates and longan' },
+      images: [''],
+      price: 30000,
+      catId: traCat.id,
+      recipe: [
+        { ingredientName: 'Hồng trà (gói)', quantity: 1 },
+        { ingredientName: 'Táo đỏ', quantity: 0.02 },
+        { ingredientName: 'Long nhãn', quantity: 0.02 },
+        { ingredientName: 'Đường', quantity: 0.01 },
+      ],
+    },
+    {
+      vi: { name: 'Trà mãng cầu', desc: 'Trà mãng cầu xiêm tươi mới' },
+      en: { name: 'Soursop Tea', desc: 'Fresh soursop tea' },
+      images: [''],
+      price: 30000,
+      catId: traCat.id,
+      recipe: [
+        { ingredientName: 'Hồng trà (gói)', quantity: 1 },
+        { ingredientName: 'Mãng cầu tươi', quantity: 0.05 },
+        { ingredientName: 'Đường', quantity: 0.03 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Hồng trà kem cheese', desc: 'Hồng trà đậm vị kèm lớp kem cheese béo ngậy' },
+      en: { name: 'Black Tea with Cream Cheese', desc: 'Black tea with cheese foam' },
+      images: [''],
+      price: 35000,
+      catId: traCat.id,
+      recipe: [
+        { ingredientName: 'Hồng trà (gói)', quantity: 1 },
+        { ingredientName: 'Kem cheese (Milkfoam)', quantity: 0.05 },
+        { ingredientName: 'Sữa đặc', quantity: 0.01 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Trà xanh kem cheese', desc: 'Trà xanh thanh mát kèm kem cheese' },
+      en: { name: 'Green Tea with Cream Cheese', desc: 'Green tea with cheese foam' },
+      images: [''],
+      price: 35000,
+      catId: traCat.id,
+      recipe: [
+        { ingredientName: 'Trà nhài', quantity: 1 },
+        { ingredientName: 'Kem cheese (Milkfoam)', quantity: 0.05 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+
+    // --- TRÀ SỮA (MILK TEAS) ---
+    {
+      vi: { name: 'Trà sữa trân châu', desc: 'Trà sữa truyền thống với các loại trân châu' },
+      en: { name: 'Pearl Milk Tea', desc: 'Classic milk tea with pearl options' },
+      images: [''],
+      price: 25000,
+      catId: traSuaCat.id,
+      variants: [
+        {
+          name: 'Topping',
+          options: [
+            { value: 'Trân châu đen', price: 0 },
+            { value: 'Trân châu trắng', price: 3000 },
+            { value: 'Trân châu đường đen', price: 5000 },
+          ],
+        },
+      ],
+      recipe: [
+        { ingredientName: 'Trà ô long', quantity: 1 },
+        { ingredientName: 'Sữa tươi', quantity: 0.1 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+      ],
+    },
+    {
+      vi: { name: 'Trà sữa các vị', desc: 'Trà sữa với nhiều lựa chọn hương vị trái cây và hạt' },
+      en: { name: 'Flavored Milk Tea', desc: 'Milk tea with various flavor options' },
+      images: [''],
+      price: 30000,
+      catId: traSuaCat.id,
+      variants: [
+        {
+          name: 'Hương vị',
+          options: [
+            { value: 'Xoài', price: 0 },
+            { value: 'Dâu', price: 0 },
+            { value: 'Việt quất', price: 0 },
+            { value: 'Bạc hà', price: 0 },
+            { value: 'Hạt dẻ', price: 0 },
+            { value: 'Đào', price: 0 },
+            { value: 'Socola', price: 0 },
+          ],
+        },
+      ],
+      recipe: [
+        { ingredientName: 'Trà nhài', quantity: 1 },
+        { ingredientName: 'Sữa tươi', quantity: 0.1 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+
+    // --- SỮA TƯƠI (FRESH MILK) ---
+    {
+      vi: {
+        name: 'Sữa tươi trân châu đường đen',
+        desc: 'Sữa tươi kết hợp vị ngọt của trân châu đường đen',
+      },
+      en: { name: 'Brown Sugar Pearl Fresh Milk', desc: 'Fresh milk with brown sugar boba' },
+      images: [''],
+      price: 35000,
+      catId: suaTuoiCat.id,
+      recipe: [
+        { ingredientName: 'Sữa tươi', quantity: 0.15 },
+        { ingredientName: 'Trân châu đen', quantity: 0.05 },
+        { ingredientName: 'Đường đen (siro)', quantity: 0.02 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Matcha trân châu đường đen', desc: 'Sữa tươi trà xanh với trân châu đường đen' },
+      en: {
+        name: 'Matcha Brown Sugar Pearl Fresh Milk',
+        desc: 'Matcha and fresh milk with brown sugar boba',
+      },
+      images: [''],
+      price: 35000,
+      catId: suaTuoiCat.id,
+      recipe: [
+        { ingredientName: 'Sữa tươi', quantity: 0.15 },
+        { ingredientName: 'Sốt Trà xanh', quantity: 0.02 },
+        { ingredientName: 'Trân châu đen', quantity: 0.05 },
+        { ingredientName: 'Đường đen (siro)', quantity: 0.02 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Matcha latte', desc: 'Sữa tươi trà xanh thơm mát' },
+      en: { name: 'Matcha Latte', desc: 'Matcha with fresh milk' },
+      images: [''],
+      price: 30000,
+      catId: suaTuoiCat.id,
+      recipe: [
+        { ingredientName: 'Sữa tươi', quantity: 0.15 },
+        { ingredientName: 'Sốt Trà xanh', quantity: 0.02 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Cacao latte', desc: 'Sữa tươi cacao đậm đà' },
+      en: { name: 'Cacao Latte', desc: 'Cacao with fresh milk' },
+      images: [''],
+      price: 30000,
+      catId: suaTuoiCat.id,
+      recipe: [
+        { ingredientName: 'Sữa tươi', quantity: 0.15 },
+        { ingredientName: 'Sốt Cacao', quantity: 0.03 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Sữa tươi cafe', desc: 'Sữa tươi cafe với nhiều lựa chọn topping' },
+      en: { name: 'Fresh Milk Coffee', desc: 'Coffee with fresh milk and toppings' },
+      images: [''],
+      price: 30000,
+      catId: suaTuoiCat.id,
+      variants: [
+        {
+          name: 'Topping',
+          options: [
+            { value: 'Sương sáo', price: 0 },
+            { value: 'Caramel', price: 5000 },
+            { value: 'Đường đen', price: 5000 },
+          ],
+        },
+      ],
+      recipe: [
+        { ingredientName: 'Sữa tươi', quantity: 0.15 },
+        { ingredientName: 'Cafe', quantity: 0.02 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+
+    // --- CÀ PHÊ (COFFEE) SPECIALTIES ---
+    {
+      vi: { name: 'Cafe muối', desc: 'Cafe đậm đà kèm lớp kem muối béo mặn' },
+      en: { name: 'Salted Coffee', desc: 'Coffee with salted cream foam' },
+      images: [''],
+      price: 30000,
+      catId: cafeCat.id,
+      recipe: [
+        { ingredientName: 'Cafe', quantity: 0.02 },
+        { ingredientName: 'Sữa đặc', quantity: 0.03 },
+        { ingredientName: 'Kem cheese (Milkfoam)', quantity: 0.03 },
+        { ingredientName: 'Muối (tinh)', quantity: 0.001 }, // 1g
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Cafe cốt dừa', desc: 'Cafe hòa quyện cùng cốt dừa đá xay béo ngậy' },
+      en: { name: 'Coconut Coffee', desc: 'Coffee with coconut milk slushie' },
+      images: [''],
+      price: 35000,
+      catId: cafeCat.id,
+      recipe: [
+        { ingredientName: 'Cafe', quantity: 0.02 },
+        { ingredientName: 'Cốt dừa', quantity: 0.05 },
+        { ingredientName: 'Sữa đặc', quantity: 0.03 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+
+    // --- NƯỚC GIẢI KHÁT (BEVERAGES) ---
+    {
+      vi: { name: 'Nước chanh tươi', desc: 'Nước chanh tươi nguyên chất mát lạnh' },
+      en: { name: 'Fresh Lemonade', desc: 'Fresh squeezed lime juice' },
+      images: [''],
+      price: 20000,
       catId: drinkCat.id,
+      variants: [
+        {
+          name: 'Topping',
+          options: [
+            { value: 'Hạt chia', price: 5000 },
+            { value: 'Nha đam', price: 5000 },
+            { value: 'Con cá', price: 5000 },
+          ],
+        },
+      ],
+      recipe: [
+        { ingredientName: 'Chanh', quantity: 0.05 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Nước dừa tươi', desc: 'Nước dừa tươi nguyên quả' },
+      en: { name: 'Fresh Coconut Water', desc: 'Fresh coconut water from fruit' },
+      images: [''],
+      price: 30000,
+      catId: drinkCat.id,
+      recipe: [{ ingredientName: 'Quả dừa tươi', quantity: 1 }],
+    },
+    {
+      vi: { name: 'Cacao lắc đá', desc: 'Cacao béo ngậy được lắc đều cùng đá' },
+      en: { name: 'Shaken Iced Cacao', desc: 'Creamy cacao shaken with ice' },
+      images: [''],
+      price: 30000,
+      catId: drinkCat.id,
+      recipe: [
+        { ingredientName: 'Sốt Cacao', quantity: 0.03 },
+        { ingredientName: 'Sữa tươi', quantity: 0.1 },
+        { ingredientName: 'Sữa đặc', quantity: 0.02 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Milo lắc đá', desc: 'Sữa Milo lắc đá mát lạnh' },
+      en: { name: 'Shaken Iced Milo', desc: 'Milo chocolate drink shaken with ice' },
+      images: [''],
+      price: 30000,
+      catId: drinkCat.id,
+      recipe: [
+        { ingredientName: 'Bột Milo', quantity: 0.03 },
+        { ingredientName: 'Sữa tươi', quantity: 0.1 },
+        { ingredientName: 'Sữa đặc', quantity: 0.02 },
+        { ingredientName: 'Đá viên', quantity: 0.1 },
+      ],
+    },
+    {
+      vi: { name: 'Milo đá bào full topping', desc: 'Milo đá bào cực đã với nhiều loại topping' },
+      en: { name: 'Full Topping Milo Slushie', desc: 'Shaved ice Milo with various toppings' },
+      images: [''],
+      price: 35000,
+      catId: drinkCat.id,
+      recipe: [
+        { ingredientName: 'Bột Milo', quantity: 0.05 },
+        { ingredientName: 'Sữa tươi', quantity: 0.1 },
+        { ingredientName: 'Trân châu đen', quantity: 0.03 },
+        { ingredientName: 'Thạch cốt dừa', quantity: 0.03 },
+        { ingredientName: 'Đá viên', quantity: 0.2 },
+      ],
+    },
+    {
+      vi: { name: 'Coca', desc: 'Coca Cola lon 330ml' },
+      en: { name: 'Coca Cola', desc: '330ml can of Coca Cola' },
+      images: [''],
+      price: 15000,
+      catId: drinkCat.id,
+      recipe: [{ ingredientName: 'Coca lon', quantity: 1 }],
+    },
+    {
+      vi: { name: 'Lavie', desc: 'Nước khoáng Lavie chai 500ml' },
+      en: { name: 'Lavie Water', desc: '500ml bottle of Lavie mineral water' },
+      images: [''],
+      price: 10000,
+      catId: drinkCat.id,
+      recipe: [{ ingredientName: 'Nước khoáng Lavie', quantity: 1 }],
+    },
+
+    // --- ĐỒ UỐNG NÓNG (HOT DRINKS) ---
+    {
+      vi: { name: 'Sữa đậu nóng', desc: 'Sữa đậu nành nguyên chất đun nóng thơm lừng' },
+      en: { name: 'Hot Soy Milk', desc: 'Freshly boiled hot soy milk' },
+      images: [''],
+      price: 15000,
+      catId: hotDrinkCat.id,
+      recipe: [{ ingredientName: 'Sữa đậu nành', quantity: 0.2 }], // 200ml
+    },
+    {
+      vi: { name: 'Trà sữa nóng', desc: 'Trà sữa nóng với nhiều lựa chọn hương vị' },
+      en: { name: 'Hot Milk Tea', desc: 'Hot milk tea with various flavors' },
+      images: [''],
+      price: 30000,
+      catId: hotDrinkCat.id,
+      variants: [
+        {
+          name: 'Hương vị',
+          options: [
+            { value: 'Truyền thống', price: 0 },
+            { value: 'Xoài', price: 0 },
+            { value: 'Dâu', price: 0 },
+            { value: 'Việt quất', price: 0 },
+            { value: 'Socola', price: 0 },
+          ],
+        },
+      ],
+      recipe: [
+        { ingredientName: 'Hồng trà (gói)', quantity: 1 },
+        { ingredientName: 'Sữa tươi', quantity: 0.1 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+      ],
+    },
+    {
+      vi: { name: 'Trà gừng nóng', desc: 'Trà gừng ấm áp, tốt cho sức khỏe' },
+      en: { name: 'Hot Ginger Tea', desc: 'Warming and healthy ginger tea' },
+      images: [''],
+      price: 20000,
+      catId: hotDrinkCat.id,
+      recipe: [
+        { ingredientName: 'Gừng tươi', quantity: 0.02 },
+        { ingredientName: 'Đường', quantity: 0.02 },
+      ],
+    },
+    {
+      vi: { name: 'Trà quất mật ong nóng', desc: 'Trà quất mật ong thanh cổ, ấm bụng' },
+      en: { name: 'Hot Kumquat Honey Tea', desc: 'Soothing hot kumquat and honey tea' },
+      images: [''],
+      price: 25000,
+      catId: hotDrinkCat.id,
+      recipe: [
+        { ingredientName: 'Quả tắc (Quất)', quantity: 0.03 },
+        { ingredientName: 'Mật ong', quantity: 0.02 },
+      ],
+    },
+    {
+      vi: {
+        name: 'Hồng trà táo long nhãn nóng',
+        desc: 'Hồng trà táo đỏ long nhãn an thần, dễ ngủ',
+      },
+      en: {
+        name: 'Hot Red Date & Longan Black Tea',
+        desc: 'Calming black tea with dates and longan',
+      },
+      images: [''],
+      price: 30000,
+      catId: hotDrinkCat.id,
+      recipe: [
+        { ingredientName: 'Hồng trà (gói)', quantity: 1 },
+        { ingredientName: 'Táo đỏ', quantity: 0.02 },
+        { ingredientName: 'Long nhãn', quantity: 0.02 },
+      ],
     },
   ]
 
