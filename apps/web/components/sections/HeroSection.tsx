@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { ArrowRight, Clock, MapPin, Star } from 'lucide-react';
 import heroBanhMi from '@/assets/hero-banh-mi2.jpg';
 import { Button } from '@/components/ui/button';
@@ -44,12 +45,14 @@ const HeroSection = () => {
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <Button variant="hero" size="xl">
-                                Xem thực đơn
-                                <ArrowRight className="w-5 h-5" />
+                            <Button variant="hero" size="xl" asChild>
+                                <Link href="/menu">
+                                    Xem thực đơn
+                                    <ArrowRight className="w-5 h-5 ml-2" />
+                                </Link>
                             </Button>
-                            <Button variant="warm" size="xl">
-                                Đặt bàn
+                            <Button variant="warm" size="xl" asChild>
+                                <Link href="#about">Về chúng tôi</Link>
                             </Button>
                         </div>
 

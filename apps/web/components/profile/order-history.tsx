@@ -12,14 +12,6 @@ import {
 } from 'lucide-react';
 import { useSocket } from '@/providers/socket-provider';
 import { toast } from 'sonner';
-
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -119,6 +111,7 @@ function ReviewDialog({
         onSuccess: () => {
             toast.success('Cảm ơn bạn đã đánh giá! ⭐');
             utils.review.list.invalidate();
+            utils.review.myReviews.invalidate();
             onClose();
             setRating(5);
             setContent('');
@@ -170,7 +163,7 @@ function ReviewDialog({
                             placeholder="Món ăn thế nào? Khẩu phần, hương vị, trình bày..."
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
-                            className="min-h-[120px] resize-none"
+                            className="min-h-30 resize-none"
                             maxLength={1000}
                         />
                         <p className="text-xs text-muted-foreground text-right">

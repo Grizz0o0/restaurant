@@ -39,7 +39,6 @@ import {
     Loader2,
 } from 'lucide-react';
 import { format, subDays, startOfMonth, endOfMonth, parseISO } from 'date-fns';
-import { vi } from 'date-fns/locale';
 import * as XLSX from 'xlsx';
 
 const PRESET_RANGES = [
@@ -47,6 +46,7 @@ const PRESET_RANGES = [
     { label: '30 ngày qua', value: '30d' },
     { label: 'Tháng này', value: 'thisMonth' },
     { label: '3 tháng qua', value: '90d' },
+    { label: 'Năm nay', value: 'thisYear' },
 ];
 
 function getDateRange(preset: string): { startDate: Date; endDate: Date } {
@@ -60,6 +60,11 @@ function getDateRange(preset: string): { startDate: Date; endDate: Date } {
             return { startDate: startOfMonth(now), endDate: endOfMonth(now) };
         case '90d':
             return { startDate: subDays(now, 89), endDate: now };
+        case 'thisYear':
+            return {
+                startDate: new Date(now.getFullYear(), 0, 1),
+                endDate: now,
+            };
         default:
             return { startDate: subDays(now, 6), endDate: now };
     }

@@ -13,8 +13,9 @@ interface AppShellProps {
 export function AppShell({ children }: AppShellProps) {
     const pathname = usePathname();
     const isAdmin = pathname?.startsWith('/admin');
+    const isStaff = pathname?.startsWith('/staff');
 
-    if (isAdmin) {
+    if (isAdmin || isStaff) {
         return (
             <>
                 {children}
