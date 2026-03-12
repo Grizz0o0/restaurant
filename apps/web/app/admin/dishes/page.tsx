@@ -24,12 +24,14 @@ import {
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { trpc } from '@/lib/trpc/client';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { DishIngredients } from '@/components/admin/dishes/dish-ingredients';
 import {
     Card,
     CardContent,
@@ -127,18 +129,7 @@ export default function AdminDishesPage() {
         page: 1,
         limit: 100,
     });
-    // Assuming languages response structure, trpc usually returns data directly or wrapped
-    // The router output was z.any(), so we might need to inspect.
-    // Usually standard response from this repo is { data: [], pagination: ... } or just array.
-    // Based on `dish.service` list: { data: ..., total: ... } => createPaginationResult
-    // Language router list returns languageService.list(input) => findMany.
-    // So it returns an array directly? No, `language.service.ts` uses `findAll` which returns array.
-    // Wait, let's double check language.service.ts.
-    // `findAll` returns `prisma.supplier.findMany` (wait that was supplier service).
-    // Let's check language.service.ts if I saw it.
-    // I only saw language.router.ts.
-    // Assuming it returns array or { data: [] }.
-    // I'll handle both safely.
+
     const languagesRaw = languagesData as any;
     const languages = Array.isArray(languagesRaw)
         ? languagesRaw
@@ -457,323 +448,38 @@ export default function AdminDishesPage() {
                                 </DialogTitle>
                             </DialogHeader>
 
-                            <Form {...form}>
-                                <form
-                                    onSubmit={form.handleSubmit(onSubmit)}
-                                    className="space-y-6 pt-4"
-                                >
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <FormField
-                                            control={form.control}
-                                            name="name"
-                                            render={({ field }) => (
-                                                <FormItem className="col-span-2">
-                                                    <FormLabel>
-                                                        Tên món
-                                                    </FormLabel>
-                                                    <FormControl>
-                                                        <Input
-                                                            placeholder="Ví dụ: Bánh mì đặc biệt"
-                                                            {...field}
-                                                        />
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
+                            <Tabs defaultValue="basic" className="w-full">
+                                <TabsList className="grid w-full grid-cols-2">
+                                    <TabsTrigger value="basic">
+                                        Thông tin cơ bản
+                                    </TabsTrigger>
+                                    <TabsTrigger
+                                        value="ingredients"
+                                        disabled={!editing}
+                                    >
+                                        Công thức / Nguyên liệu
+                                    </TabsTrigger>
+                                </TabsList>
+                                <TabsContent value="basic">
+                                    <Form {...form}>
+                                        <form
+                                            onSubmit={form.handleSubmit(
+                                                onSubmit,
                                             )}
-                                        />
-
-                                        <FormField
-                                            control={form.control}
-                                            name="category_id"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>
-                                                        Danh mục
-                                                    </FormLabel>
-                                                    <Select
-                                                        value={
-                                                            field.value || ''
-                                                        }
-                                                        onValueChange={
-                                                            field.onChange
-                                                        }
-                                                    >
-                                                        <FormControl>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Chọn danh mục" />
-                                                            </SelectTrigger>
-                                                        </FormControl>
-                                                        <SelectContent>
-                                                            {categories.map(
-                                                                (c) => (
-                                                                    <SelectItem
-                                                                        key={
-                                                                            c.id
-                                                                        }
-                                                                        value={
-                                                                            c.id
-                                                                        }
-                                                                    >
-                                                                        {c.name}
-                                                                    </SelectItem>
-                                                                ),
-                                                            )}
-                                                        </SelectContent>
-                                                    </Select>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-
-                                        <FormField
-                                            control={form.control}
-                                            name="price_vnd"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>
-                                                        Giá bán (VNĐ)
-                                                    </FormLabel>
-                                                    <FormControl>
-                                                        <div className="relative">
-                                                            <span className="absolute left-3 top-2.5 text-muted-foreground text-sm">
-                                                                ₫
-                                                            </span>
-                                                            <Input
-                                                                type="number"
-                                                                className="pl-7"
-                                                                min={0}
-                                                                step={1000}
-                                                                {...field}
-                                                                onChange={(e) =>
-                                                                    field.onChange(
-                                                                        Number(
-                                                                            e
-                                                                                .target
-                                                                                .value,
-                                                                        ),
-                                                                    )
-                                                                }
-                                                            />
-                                                        </div>
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                    </div>
-
-                                    <FormField
-                                        control={form.control}
-                                        name="description"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>
-                                                    Mô tả chi tiết
-                                                </FormLabel>
-                                                <FormControl>
-                                                    <Textarea
-                                                        rows={3}
-                                                        placeholder="Thành phần, hương vị..."
-                                                        className="resize-none"
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <FormField
-                                            control={form.control}
-                                            name="supplier_id"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>
-                                                        Nhà cung cấp
-                                                    </FormLabel>
-                                                    <Select
-                                                        value={
-                                                            field.value || ''
-                                                        }
-                                                        onValueChange={
-                                                            field.onChange
-                                                        }
-                                                    >
-                                                        <FormControl>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Chọn NCC" />
-                                                            </SelectTrigger>
-                                                        </FormControl>
-                                                        <SelectContent>
-                                                            {suppliers.map(
-                                                                (s) => (
-                                                                    <SelectItem
-                                                                        key={
-                                                                            s.id
-                                                                        }
-                                                                        value={
-                                                                            s.id
-                                                                        }
-                                                                    >
-                                                                        {s.name}
-                                                                    </SelectItem>
-                                                                ),
-                                                            )}
-                                                        </SelectContent>
-                                                    </Select>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-
-                                        <FormField
-                                            control={form.control}
-                                            name="language_id"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>
-                                                        Ngôn ngữ
-                                                    </FormLabel>
-                                                    <Select
-                                                        value={
-                                                            field.value || 'vi'
-                                                        }
-                                                        onValueChange={
-                                                            field.onChange
-                                                        }
-                                                    >
-                                                        <FormControl>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Chọn ngôn ngữ" />
-                                                            </SelectTrigger>
-                                                        </FormControl>
-                                                        <SelectContent>
-                                                            {languages.map(
-                                                                (l: any) => (
-                                                                    <SelectItem
-                                                                        key={
-                                                                            l.id
-                                                                        }
-                                                                        value={
-                                                                            l.id
-                                                                        }
-                                                                    >
-                                                                        {l.name}
-                                                                    </SelectItem>
-                                                                ),
-                                                            )}
-                                                        </SelectContent>
-                                                    </Select>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                    </div>
-
-                                    <FormField
-                                        control={form.control}
-                                        name="image_url"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Hình ảnh</FormLabel>
-                                                <FormControl>
-                                                    <ImageUpload
-                                                        value={field.value}
-                                                        onChange={
-                                                            field.onChange
-                                                        }
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <FormField
-                                        control={form.control}
-                                        name="is_active"
-                                        render={({ field }) => (
-                                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 shadow-sm bg-muted/20">
-                                                <div className="space-y-0.5">
-                                                    <FormLabel className="text-base">
-                                                        Đang kinh doanh
-                                                    </FormLabel>
-                                                    <div className="text-sm text-muted-foreground">
-                                                        Hiển thị món này trên
-                                                        thực đơn của khách hàng.
-                                                    </div>
-                                                </div>
-                                                <FormControl>
-                                                    <div className="flex items-center gap-2">
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={
-                                                                field.value
-                                                            }
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            className="h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary"
-                                                        />
-                                                    </div>
-                                                </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    {/* Variants Section */}
-                                    <div className="space-y-4 pt-4 border-t">
-                                        <div className="flex items-center justify-between">
-                                            <h3 className="font-semibold text-lg">
-                                                Biến thể (Size, Topping)
-                                            </h3>
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() =>
-                                                    appendVariant({
-                                                        name: '',
-                                                        options: [
-                                                            { value: '' },
-                                                        ],
-                                                    })
-                                                }
-                                            >
-                                                <Plus className="w-4 h-4 mr-2" />
-                                                Thêm biến thể
-                                            </Button>
-                                        </div>
-
-                                        {variantFields.map((field, index) => (
-                                            <div
-                                                key={field.id}
-                                                className="p-4 border rounded-lg space-y-4 bg-muted/10 relative"
-                                            >
-                                                <Button
-                                                    type="button"
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    className="absolute top-2 right-2 text-muted-foreground hover:text-destructive"
-                                                    onClick={() =>
-                                                        removeVariant(index)
-                                                    }
-                                                >
-                                                    <X className="w-4 h-4" />
-                                                </Button>
-
+                                            className="space-y-6 pt-4"
+                                        >
+                                            <div className="grid grid-cols-2 gap-4">
                                                 <FormField
                                                     control={form.control}
-                                                    name={`variants.${index}.name`}
+                                                    name="name"
                                                     render={({ field }) => (
-                                                        <FormItem>
+                                                        <FormItem className="col-span-2">
                                                             <FormLabel>
-                                                                Tên biến thể
+                                                                Tên món
                                                             </FormLabel>
                                                             <FormControl>
                                                                 <Input
-                                                                    placeholder="Ví dụ: Size, Mức đường, Topping..."
+                                                                    placeholder="Ví dụ: Bánh mì đặc biệt"
                                                                     {...field}
                                                                 />
                                                             </FormControl>
@@ -782,95 +488,450 @@ export default function AdminDishesPage() {
                                                     )}
                                                 />
 
-                                                <div className="space-y-2">
-                                                    <FormLabel>
-                                                        Tùy chọn (ngăn cách bằng
-                                                        dấu phẩy)
-                                                    </FormLabel>
-                                                    <FormField
-                                                        control={form.control}
-                                                        name={`variants.${index}.options`}
-                                                        render={({ field }) => (
-                                                            <FormItem>
+                                                <FormField
+                                                    control={form.control}
+                                                    name="category_id"
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel>
+                                                                Danh mục
+                                                            </FormLabel>
+                                                            <Select
+                                                                value={
+                                                                    field.value ||
+                                                                    ''
+                                                                }
+                                                                onValueChange={
+                                                                    field.onChange
+                                                                }
+                                                            >
                                                                 <FormControl>
+                                                                    <SelectTrigger>
+                                                                        <SelectValue placeholder="Chọn danh mục" />
+                                                                    </SelectTrigger>
+                                                                </FormControl>
+                                                                <SelectContent>
+                                                                    {categories.map(
+                                                                        (c) => (
+                                                                            <SelectItem
+                                                                                key={
+                                                                                    c.id
+                                                                                }
+                                                                                value={
+                                                                                    c.id
+                                                                                }
+                                                                            >
+                                                                                {
+                                                                                    c.name
+                                                                                }
+                                                                            </SelectItem>
+                                                                        ),
+                                                                    )}
+                                                                </SelectContent>
+                                                            </Select>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+
+                                                <FormField
+                                                    control={form.control}
+                                                    name="price_vnd"
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel>
+                                                                Giá bán (VNĐ)
+                                                            </FormLabel>
+                                                            <FormControl>
+                                                                <div className="relative">
+                                                                    <span className="absolute left-3 top-2.5 text-muted-foreground text-sm">
+                                                                        ₫
+                                                                    </span>
                                                                     <Input
-                                                                        placeholder="Ví dụ: S, M, L hoặc Trân châu, Thạch..."
-                                                                        defaultValue={
-                                                                            field.value
-                                                                                ?.map(
-                                                                                    (
-                                                                                        o: any,
-                                                                                    ) =>
-                                                                                        o.value,
-                                                                                )
-                                                                                .join(
-                                                                                    ', ',
-                                                                                ) ||
-                                                                            ''
+                                                                        type="number"
+                                                                        className="pl-7"
+                                                                        min={0}
+                                                                        step={
+                                                                            1000
                                                                         }
+                                                                        {...field}
                                                                         onChange={(
                                                                             e,
-                                                                        ) => {
-                                                                            const values =
-                                                                                e.target.value
-                                                                                    .split(
-                                                                                        ',',
-                                                                                    )
-                                                                                    .map(
-                                                                                        (
-                                                                                            v,
-                                                                                        ) => ({
-                                                                                            value: v.trim(),
-                                                                                        }),
-                                                                                    )
-                                                                                    .filter(
-                                                                                        (
-                                                                                            v,
-                                                                                        ) =>
-                                                                                            v.value !==
-                                                                                            '',
-                                                                                    );
+                                                                        ) =>
                                                                             field.onChange(
-                                                                                values,
-                                                                            );
-                                                                        }}
+                                                                                Number(
+                                                                                    e
+                                                                                        .target
+                                                                                        .value,
+                                                                                ),
+                                                                            )
+                                                                        }
                                                                     />
-                                                                </FormControl>
-                                                                <FormMessage />
-                                                                <p className="text-xs text-muted-foreground">
-                                                                    Nhập các lựa
-                                                                    chọn cách
-                                                                    nhau bởi dấu
-                                                                    phẩy.
-                                                                </p>
-                                                            </FormItem>
-                                                        )}
-                                                    />
-                                                </div>
+                                                                </div>
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
                                             </div>
-                                        ))}
-                                    </div>
 
-                                    <div className="flex gap-3 justify-end pt-4 border-t">
-                                        <Button
-                                            type="button"
-                                            variant="ghost"
-                                            onClick={() => setOpen(false)}
-                                        >
-                                            Hủy bỏ
-                                        </Button>
-                                        <Button
-                                            type="submit"
-                                            variant="hero"
-                                            className="min-w-25"
-                                        >
-                                            {editing
-                                                ? 'Lưu thay đổi'
-                                                : 'Tạo món mới'}
-                                        </Button>
-                                    </div>
-                                </form>
-                            </Form>
+                                            <FormField
+                                                control={form.control}
+                                                name="description"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>
+                                                            Mô tả chi tiết
+                                                        </FormLabel>
+                                                        <FormControl>
+                                                            <Textarea
+                                                                rows={3}
+                                                                placeholder="Thành phần, hương vị..."
+                                                                className="resize-none"
+                                                                {...field}
+                                                            />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <FormField
+                                                    control={form.control}
+                                                    name="supplier_id"
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel>
+                                                                Nhà cung cấp
+                                                            </FormLabel>
+                                                            <Select
+                                                                value={
+                                                                    field.value ||
+                                                                    ''
+                                                                }
+                                                                onValueChange={
+                                                                    field.onChange
+                                                                }
+                                                            >
+                                                                <FormControl>
+                                                                    <SelectTrigger>
+                                                                        <SelectValue placeholder="Chọn NCC" />
+                                                                    </SelectTrigger>
+                                                                </FormControl>
+                                                                <SelectContent>
+                                                                    {suppliers.map(
+                                                                        (s) => (
+                                                                            <SelectItem
+                                                                                key={
+                                                                                    s.id
+                                                                                }
+                                                                                value={
+                                                                                    s.id
+                                                                                }
+                                                                            >
+                                                                                {
+                                                                                    s.name
+                                                                                }
+                                                                            </SelectItem>
+                                                                        ),
+                                                                    )}
+                                                                </SelectContent>
+                                                            </Select>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+
+                                                <FormField
+                                                    control={form.control}
+                                                    name="language_id"
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel>
+                                                                Ngôn ngữ
+                                                            </FormLabel>
+                                                            <Select
+                                                                value={
+                                                                    field.value ||
+                                                                    'vi'
+                                                                }
+                                                                onValueChange={
+                                                                    field.onChange
+                                                                }
+                                                            >
+                                                                <FormControl>
+                                                                    <SelectTrigger>
+                                                                        <SelectValue placeholder="Chọn ngôn ngữ" />
+                                                                    </SelectTrigger>
+                                                                </FormControl>
+                                                                <SelectContent>
+                                                                    {languages.map(
+                                                                        (
+                                                                            l: any,
+                                                                        ) => (
+                                                                            <SelectItem
+                                                                                key={
+                                                                                    l.id
+                                                                                }
+                                                                                value={
+                                                                                    l.id
+                                                                                }
+                                                                            >
+                                                                                {
+                                                                                    l.name
+                                                                                }
+                                                                            </SelectItem>
+                                                                        ),
+                                                                    )}
+                                                                </SelectContent>
+                                                            </Select>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+                                            </div>
+
+                                            <FormField
+                                                control={form.control}
+                                                name="image_url"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>
+                                                            Hình ảnh
+                                                        </FormLabel>
+                                                        <FormControl>
+                                                            <ImageUpload
+                                                                value={
+                                                                    field.value
+                                                                }
+                                                                onChange={
+                                                                    field.onChange
+                                                                }
+                                                            />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+
+                                            <FormField
+                                                control={form.control}
+                                                name="is_active"
+                                                render={({ field }) => (
+                                                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 shadow-sm bg-muted/20">
+                                                        <div className="space-y-0.5">
+                                                            <FormLabel className="text-base">
+                                                                Đang kinh doanh
+                                                            </FormLabel>
+                                                            <div className="text-sm text-muted-foreground">
+                                                                Hiển thị món này
+                                                                trên thực đơn
+                                                                của khách hàng.
+                                                            </div>
+                                                        </div>
+                                                        <FormControl>
+                                                            <div className="flex items-center gap-2">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={
+                                                                        field.value
+                                                                    }
+                                                                    onChange={
+                                                                        field.onChange
+                                                                    }
+                                                                    className="h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary"
+                                                                />
+                                                            </div>
+                                                        </FormControl>
+                                                    </FormItem>
+                                                )}
+                                            />
+
+                                            {/* Variants Section */}
+                                            <div className="space-y-4 pt-4 border-t">
+                                                <div className="flex items-center justify-between">
+                                                    <h3 className="font-semibold text-lg">
+                                                        Biến thể (Size, Topping)
+                                                    </h3>
+                                                    <Button
+                                                        type="button"
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            appendVariant({
+                                                                name: '',
+                                                                options: [
+                                                                    {
+                                                                        value: '',
+                                                                    },
+                                                                ],
+                                                            })
+                                                        }
+                                                    >
+                                                        <Plus className="w-4 h-4 mr-2" />
+                                                        Thêm biến thể
+                                                    </Button>
+                                                </div>
+
+                                                {variantFields.map(
+                                                    (field, index) => (
+                                                        <div
+                                                            key={field.id}
+                                                            className="p-4 border rounded-lg space-y-4 bg-muted/10 relative"
+                                                        >
+                                                            <Button
+                                                                type="button"
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                className="absolute top-2 right-2 text-muted-foreground hover:text-destructive"
+                                                                onClick={() =>
+                                                                    removeVariant(
+                                                                        index,
+                                                                    )
+                                                                }
+                                                            >
+                                                                <X className="w-4 h-4" />
+                                                            </Button>
+
+                                                            <FormField
+                                                                control={
+                                                                    form.control
+                                                                }
+                                                                name={`variants.${index}.name`}
+                                                                render={({
+                                                                    field,
+                                                                }) => (
+                                                                    <FormItem>
+                                                                        <FormLabel>
+                                                                            Tên
+                                                                            biến
+                                                                            thể
+                                                                        </FormLabel>
+                                                                        <FormControl>
+                                                                            <Input
+                                                                                placeholder="Ví dụ: Size, Mức đường, Topping..."
+                                                                                {...field}
+                                                                            />
+                                                                        </FormControl>
+                                                                        <FormMessage />
+                                                                    </FormItem>
+                                                                )}
+                                                            />
+
+                                                            <div className="space-y-2">
+                                                                <FormLabel>
+                                                                    Tùy chọn
+                                                                    (ngăn cách
+                                                                    bằng dấu
+                                                                    phẩy)
+                                                                </FormLabel>
+                                                                <FormField
+                                                                    control={
+                                                                        form.control
+                                                                    }
+                                                                    name={`variants.${index}.options`}
+                                                                    render={({
+                                                                        field,
+                                                                    }) => (
+                                                                        <FormItem>
+                                                                            <FormControl>
+                                                                                <Input
+                                                                                    placeholder="Ví dụ: S, M, L hoặc Trân châu, Thạch..."
+                                                                                    defaultValue={
+                                                                                        field.value
+                                                                                            ?.map(
+                                                                                                (
+                                                                                                    o: any,
+                                                                                                ) =>
+                                                                                                    o.value,
+                                                                                            )
+                                                                                            .join(
+                                                                                                ', ',
+                                                                                            ) ||
+                                                                                        ''
+                                                                                    }
+                                                                                    onChange={(
+                                                                                        e,
+                                                                                    ) => {
+                                                                                        const values =
+                                                                                            e.target.value
+                                                                                                .split(
+                                                                                                    ',',
+                                                                                                )
+                                                                                                .map(
+                                                                                                    (
+                                                                                                        v,
+                                                                                                    ) => ({
+                                                                                                        value: v.trim(),
+                                                                                                    }),
+                                                                                                )
+                                                                                                .filter(
+                                                                                                    (
+                                                                                                        v,
+                                                                                                    ) =>
+                                                                                                        v.value !==
+                                                                                                        '',
+                                                                                                );
+                                                                                        field.onChange(
+                                                                                            values,
+                                                                                        );
+                                                                                    }}
+                                                                                />
+                                                                            </FormControl>
+                                                                            <FormMessage />
+                                                                            <p className="text-xs text-muted-foreground">
+                                                                                Nhập
+                                                                                các
+                                                                                lựa
+                                                                                chọn
+                                                                                cách
+                                                                                nhau
+                                                                                bởi
+                                                                                dấu
+                                                                                phẩy.
+                                                                            </p>
+                                                                        </FormItem>
+                                                                    )}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    ),
+                                                )}
+                                            </div>
+
+                                            <div className="flex gap-3 justify-end pt-4 border-t">
+                                                <Button
+                                                    type="button"
+                                                    variant="ghost"
+                                                    onClick={() =>
+                                                        setOpen(false)
+                                                    }
+                                                >
+                                                    Hủy bỏ
+                                                </Button>
+                                                <Button
+                                                    type="submit"
+                                                    variant="hero"
+                                                    className="min-w-25"
+                                                >
+                                                    {editing
+                                                        ? 'Lưu thay đổi'
+                                                        : 'Tạo món mới'}
+                                                </Button>
+                                            </div>
+                                        </form>
+                                    </Form>
+                                </TabsContent>
+                                <TabsContent
+                                    value="ingredients"
+                                    className="pt-4"
+                                >
+                                    {editing && (
+                                        <DishIngredients dishId={editing.id} />
+                                    )}
+                                </TabsContent>
+                            </Tabs>
                         </DialogContent>
                     </Dialog>
                 </div>

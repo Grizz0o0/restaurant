@@ -383,6 +383,14 @@ export class DishRepo {
         skus: {
           include: { variantOptions: true },
         },
+        reviews: {
+          include: {
+            user: {
+              select: { name: true, avatar: true },
+            },
+          },
+          orderBy: { createdAt: 'desc' },
+        },
       },
     })
   }
@@ -398,6 +406,14 @@ export class DishRepo {
         },
         skus: {
           include: { variantOptions: true },
+        },
+        reviews: {
+          include: {
+            user: {
+              select: { name: true, avatar: true },
+            },
+          },
+          orderBy: { createdAt: 'desc' },
         },
       },
     })

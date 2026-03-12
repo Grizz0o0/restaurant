@@ -175,6 +175,18 @@ export const DishDetailResSchema = DishSchema.extend({
         .optional(),
     variants: z.array(VariantSchema).optional(),
     skus: z.array(SKUSchema).optional(),
+    reviews: z.array(
+        z.object({
+            id: z.string(),
+            content: z.string(),
+            rating: z.number(),
+            createdAt: z.date(),
+            user: z.object({
+                name: z.string(),
+                avatar: z.string().nullable().optional(),
+            }),
+        })
+    ).optional(),
 }).nullable();
 
 export type DishDetailResType = z.infer<typeof DishDetailResSchema>;

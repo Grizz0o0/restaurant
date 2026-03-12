@@ -207,44 +207,49 @@ export const MenuClient = () => {
                         </div>
 
                         {/* Categories */}
-                        <div className="flex gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 no-scrollbar">
-                            <Button
-                                variant={
-                                    activeCategoryId === undefined
-                                        ? 'hero'
-                                        : 'outline'
-                                }
-                                size="sm"
-                                onClick={() => handleCategoryChange('all')}
-                                className="whitespace-nowrap"
-                            >
-                                Tất cả
-                            </Button>
-                            {isLoadingCategories
-                                ? // Skeleton loader for categories
-                                  Array.from({ length: 4 }).map((_, i) => (
-                                      <div
-                                          key={i}
-                                          className="h-9 w-24 bg-muted animate-pulse rounded-md"
-                                      />
-                                  ))
-                                : categories.map((category: any) => (
-                                      <Button
-                                          key={category.id}
-                                          variant={
-                                              activeCategoryId === category.id
-                                                  ? 'hero'
-                                                  : 'outline'
-                                          }
-                                          size="sm"
-                                          onClick={() =>
-                                              handleCategoryChange(category.id)
-                                          }
-                                          className="whitespace-nowrap"
-                                      >
-                                          {category.name}
-                                      </Button>
-                                  ))}
+                        <div className="flex-1 md:ml-auto max-w-212">
+                            <div className="flex flex-wrap gap-x-3 gap-y-2 justify-end">
+                                <Button
+                                    variant={
+                                        activeCategoryId === undefined
+                                            ? 'hero'
+                                            : 'outline'
+                                    }
+                                    size="sm"
+                                    onClick={() => handleCategoryChange('all')}
+                                    className="whitespace-nowrap"
+                                >
+                                    Tất cả
+                                </Button>
+                                {isLoadingCategories
+                                    ? // Skeleton loader for categories
+                                      Array.from({ length: 12 }).map((_, i) => (
+                                          <div
+                                              key={i}
+                                              className="h-9 min-w-25 bg-muted animate-pulse rounded-md"
+                                          />
+                                      ))
+                                    : categories.map((category: any) => (
+                                          <Button
+                                              key={category.id}
+                                              variant={
+                                                  activeCategoryId ===
+                                                  category.id
+                                                      ? 'hero'
+                                                      : 'outline'
+                                              }
+                                              size="sm"
+                                              onClick={() =>
+                                                  handleCategoryChange(
+                                                      category.id,
+                                                  )
+                                              }
+                                              className="whitespace-nowrap"
+                                          >
+                                              {category.name}
+                                          </Button>
+                                      ))}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -267,7 +272,8 @@ export const MenuClient = () => {
                             {dishes.map((item: any) => (
                                 <div
                                     key={item.id}
-                                    className="group bg-card rounded-2xl overflow-hidden border border-border hover:shadow-warm transition-all duration-300 flex flex-col"
+                                    className="group bg-card rounded-2xl overflow-hidden border border-border hover:shadow-warm transition-all duration-300 flex flex-col cursor-pointer"
+                                    onClick={() => setSelectedDishId(item.id)}
                                 >
                                     <div className="relative aspect-square overflow-hidden bg-muted">
                                         {item.images?.[0] ? (
