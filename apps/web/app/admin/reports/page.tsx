@@ -29,7 +29,6 @@ import {
 import {
     Download,
     TrendingUp,
-    TrendingDown,
     ShoppingBag,
     DollarSign,
     Award,
@@ -180,6 +179,30 @@ export default function AdminReportsPage() {
         XLSX.writeFile(
             wb,
             `bao-cao-${format(startDate, 'yyyy-MM-dd')}_${format(endDate, 'yyyy-MM-dd')}.xlsx`,
+        );
+    };
+
+    const handleExportTopDishesExcel = () => {
+        if (!data) return;
+
+        const wb = XLSX.utils.book_new();
+
+        const dishRows = [
+            ['#', 'Tên món ăn', 'Số lượng bán', 'Doanh thu (VND)'],
+            ...data.topDishes.map((d, i) => [
+                i + 1,
+                d.dishName,
+                d.totalQuantity,
+                d.totalRevenue,
+            ]),
+        ];
+        const ws = XLSX.utils.aoa_to_sheet(dishRows);
+        ws['!cols'] = [{ wch: 4 }, { wch: 40 }, { wch: 15 }, { wch: 20 }];
+        XLSX.utils.book_append_sheet(wb, ws, 'Món bán chạy');
+
+        XLSX.writeFile(
+            wb,
+            `mon-ban-chay-${format(startDate, 'yyyy-MM-dd')}_${format(endDate, 'yyyy-MM-dd')}.xlsx`,
         );
     };
 
@@ -356,11 +379,12 @@ export default function AdminReportsPage() {
                                     Món ăn bán chạy
                                 </CardTitle>
                                 <CardDescription>
-                                    Top 10 món ăn được đặt nhiều nhất
+                                    Thống kê theo số lượng và doanh thu của tất
+                                    cả các món đã bán
                                 </CardDescription>
                             </div>
                             <Button
-                                onClick={handleExportExcel}
+                                onClick={handleExportTopDishesExcel}
                                 disabled={!data || data.topDishes.length === 0}
                                 variant="ghost"
                                 size="sm"
@@ -376,9 +400,9 @@ export default function AdminReportsPage() {
                                     Không có dữ liệu
                                 </div>
                             ) : (
-                                <div className="overflow-x-auto">
-                                    <table className="w-full">
-                                        <thead className="border-b bg-muted/50">
+                                <div className="overflow-x-auto overflow-y-auto max-h-100px">
+                                    <table className="w-full relative">
+                                        <thead className="border-b bg-muted/95 sticky top-0 z-10 backdrop-blur-sm">
                                             <tr>
                                                 <th className="text-left p-4 text-sm font-semibold">
                                                     #

@@ -34,6 +34,7 @@ const Header = () => {
     const navLinks = [
         { name: 'Trang chủ', href: '/' },
         { name: 'Thực đơn', href: '/menu' },
+        { name: 'Đánh giá', href: '/reviews' },
         { name: 'Về chúng tôi', href: '/about' },
         { name: 'Liên hệ', href: '/contact' },
     ];

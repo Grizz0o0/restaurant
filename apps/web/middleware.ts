@@ -9,7 +9,7 @@ import {
 } from './lib/auth/route-config';
 import { isTokenValid, getUserRoleFromToken } from './lib/auth/jwt';
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const accessToken = request.cookies.get('accessToken')?.value;
 

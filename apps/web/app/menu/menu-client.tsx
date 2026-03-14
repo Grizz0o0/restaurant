@@ -33,7 +33,7 @@ export const MenuClient = () => {
     // Fetch Categories
     const { data: categoriesData, isLoading: isLoadingCategories } =
         trpc.category.list.useQuery({
-            limit: 50, // Get enough categories
+            limit: 50,
             page: 1,
         });
 

@@ -28,7 +28,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { SocketProvider } from '@/providers/socket-provider';
 
 import { AppShell } from '@/components/layout/app-shell';
-import { ChatWidget } from '@/components/chat/chat-widget';
+import { UnifiedChat } from '@/components/chat/UnifiedChat';
 
 export default function RootLayout({
     children,
@@ -49,7 +49,7 @@ export default function RootLayout({
                             <TooltipProvider>
                                 <AppShell>{children}</AppShell>
                             </TooltipProvider>
-                            <ChatWidget />
+                            <UnifiedChat />
                         </SocketProvider>
                     </ThemeProvider>
                 </TRPCProvider>

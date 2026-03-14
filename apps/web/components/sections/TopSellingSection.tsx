@@ -10,12 +10,12 @@ import { formatCurrency } from '@/lib/utils/format';
 import { DishDetailModal } from '@/components/menu/dish-detail-modal';
 import { useAnalytics } from '@/hooks/useAnalytics';
 
-const RecommendationsSection = () => {
+const TopSellingSection = () => {
     const { trackInteraction } = useAnalytics();
     const [selectedDishId, setSelectedDishId] = useState<string | null>(null);
 
     const { data: recommendationsData, isLoading } =
-        trpc.recommendation.getForUser.useQuery(
+        trpc.recommendation.getTopSelling.useQuery(
             { limit: 4 },
             {
                 refetchOnWindowFocus: false,
@@ -27,7 +27,7 @@ const RecommendationsSection = () => {
 
     const handleSelectDish = (dishId: string) => {
         setSelectedDishId(dishId);
-        trackInteraction('VIEW', dishId, { source: 'recommendations' });
+        trackInteraction('VIEW', dishId, { source: 'top-selling' });
     };
 
     if (!isLoading && dishes.length === 0) {
@@ -35,19 +35,19 @@ const RecommendationsSection = () => {
     }
 
     return (
-        <section className="pt-20 pb-10 bg-background/50">
+        <section className="pt-10 pb-20 bg-background/50">
             <div className="container mx-auto px-4">
                 {/* Header */}
                 <div className="text-center max-w-2xl mx-auto mb-12 relative">
-                    <div className="absolute inset-x-0 -top-8 h-32 bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
-                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4 uppercase tracking-wider">
-                        ✨ Dành riêng cho bạn
+                    <div className="absolute inset-x-0 -top-8 h-32 bg-destructive/5 blur-[100px] rounded-full pointer-events-none" />
+                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-destructive/10 text-destructive text-sm font-semibold mb-4 uppercase tracking-wider">
+                        🔥 Trending
                     </span>
                     <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-                        Gợi ý hôm nay
+                        Món bán chạy nhất
                     </h2>
                     <p className="text-muted-foreground text-lg">
-                        Những món ăn được chọn lọc đặc biệt mang đến trải nghiệm tuyệt vời cho bạn.
+                        Những món ăn đang được yêu thích và đặt nhiều nhất tại nhà hàng.
                     </p>
                 </div>
 
@@ -87,7 +87,7 @@ const RecommendationsSection = () => {
                                               className="object-cover group-hover:scale-110 transition-transform duration-500"
                                           />
                                           {dish.reason && (
-                                              <div className="absolute top-3 left-3 bg-primary text-primary-foreground px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm backdrop-blur-md">
+                                              <div className="absolute top-3 left-3 bg-destructive text-destructive-foreground px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm backdrop-blur-md">
                                                   {dish.reason}
                                               </div>
                                           )}
@@ -96,7 +96,7 @@ const RecommendationsSection = () => {
                                       {/* Content */}
                                       <div className="p-4 flex flex-col flex-1">
                                           <h3
-                                              className="font-display text-lg font-semibold text-card-foreground mb-1 cursor-pointer hover:text-primary transition-colors"
+                                              className="font-display text-lg font-semibold text-card-foreground mb-1 cursor-pointer hover:text-destructive transition-colors"
                                               onClick={() =>
                                                   handleSelectDish(dish.id)
                                               }
@@ -109,13 +109,13 @@ const RecommendationsSection = () => {
                                           </p>
 
                                           <div className="flex items-center justify-between mt-auto">
-                                              <span className="text-lg font-bold text-primary">
+                                              <span className="text-lg font-bold text-destructive">
                                                   {formatCurrency(
                                                       dish.basePrice,
                                                   )}
                                               </span>
                                               <Button
-                                                  variant="hero"
+                                                  variant="destructive"
                                                   size="sm"
                                                   onClick={() =>
                                                       handleSelectDish(dish.id)
@@ -141,4 +141,4 @@ const RecommendationsSection = () => {
     );
 };
 
-export default RecommendationsSection;
+export default TopSellingSection;

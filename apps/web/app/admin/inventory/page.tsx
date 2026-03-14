@@ -38,7 +38,6 @@ import {
     CardContent,
     CardDescription,
     CardHeader,
-    CardTitle,
 } from '@/components/ui/card';
 import {
     Dialog,
@@ -72,6 +71,7 @@ import { cn } from '@/lib/utils';
 // Schema
 const inventorySchema = z.object({
     restaurantId: z.string().uuid(),
+    supplierId: z.string().uuid().optional().or(z.literal('')),
     itemName: z.string().trim().min(1, 'Tên mặt hàng không được trống'),
     quantity: z.coerce.number().min(0, 'Số lượng không hợp lệ'),
     unit: z.string().trim().min(1, 'Đơn vị tính không được trống'),
@@ -86,10 +86,14 @@ type InventoryFormValues = z.infer<typeof inventorySchema>;
 interface InventoryItem {
     id: string;
     restaurantId: string;
+    supplierId: string | null;
+    supplier?: {
+        name: string;
+    };
     itemName: string;
-    quantity: number;
+    quantity: number | string;
     unit: string;
-    threshold: number | null;
+    threshold: number | string | null;
     createdAt: string;
     updatedAt: string;
 }
@@ -97,7 +101,9 @@ interface InventoryItem {
 type StatusFilter = 'all' | 'low' | 'ok';
 
 function StockStatusBadge({ item }: { item: InventoryItem }) {
-    const isLow = item.threshold !== null && item.quantity <= item.threshold;
+    const qty = Number(item.quantity);
+    const threshold = Number(item.threshold ?? 0);
+    const isLow = item.threshold !== null && qty <= threshold;
     if (isLow) {
         return (
             <Badge variant="destructive" className="gap-1 whitespace-nowrap">
@@ -118,9 +124,11 @@ function StockStatusBadge({ item }: { item: InventoryItem }) {
 }
 
 function StockProgressBar({ item }: { item: InventoryItem }) {
-    if (!item.threshold || item.threshold === 0) return null;
-    const pct = Math.min((item.quantity / (item.threshold * 3)) * 100, 100);
-    const isLow = item.quantity <= item.threshold;
+    const qty = Number(item.quantity);
+    const threshold = Number(item.threshold ?? 0);
+    if (!threshold || threshold === 0) return null;
+    const pct = Math.min((qty / (threshold * 3)) * 100, 100);
+    const isLow = qty <= threshold;
     return (
         <div className="w-full min-w-20">
             <Progress
@@ -143,6 +151,7 @@ export default function AdminInventoryPage() {
     const restaurantId = restaurants?.items?.[0]?.id;
 
     const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
+    const [suppliers, setSuppliers] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [open, setOpen] = useState(false);
@@ -156,6 +165,7 @@ export default function AdminInventoryPage() {
         resolver: zodResolver(inventorySchema) as Resolver<InventoryFormValues>,
         defaultValues: {
             restaurantId: '',
+            supplierId: '',
             itemName: '',
             quantity: 0,
             unit: 'kg',
@@ -187,8 +197,24 @@ export default function AdminInventoryPage() {
         }
     };
 
+    const fetchSuppliers = async () => {
+        try {
+            const token = localStorage.getItem('accessToken');
+            const res = await fetch(`${getBaseUrl()}/suppliers?limit=100`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setSuppliers(Array.isArray(data) ? data : data.data || []);
+            }
+        } catch (error) {
+            console.error('Failed to fetch suppliers', error);
+        }
+    };
+
     useEffect(() => {
         fetchInventory();
+        fetchSuppliers();
     }, []);
     useEffect(() => {
         if (restaurantId && !editing)
@@ -203,6 +229,7 @@ export default function AdminInventoryPage() {
         setEditing(null);
         form.reset({
             restaurantId,
+            supplierId: '',
             itemName: '',
             quantity: 0,
             unit: 'kg',
@@ -215,10 +242,11 @@ export default function AdminInventoryPage() {
         setEditing(item);
         form.reset({
             restaurantId: item.restaurantId,
+            supplierId: item.supplierId || '',
             itemName: item.itemName,
-            quantity: item.quantity,
+            quantity: Number(item.quantity),
             unit: item.unit,
-            threshold: item.threshold || 0,
+            threshold: Number(item.threshold || 0),
         });
         setOpen(true);
     };
@@ -230,13 +258,20 @@ export default function AdminInventoryPage() {
             const url = editing
                 ? `${getBaseUrl()}/inventories/${editing.id}`
                 : `${getBaseUrl()}/inventories`;
+            const payload = {
+                ...values,
+                supplierId:
+                    values.supplierId === 'none' || !values.supplierId
+                        ? undefined
+                        : values.supplierId,
+            };
             const res = await fetch(url, {
                 method: editing ? 'PATCH' : 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(values),
+                body: JSON.stringify(payload),
             });
             if (!res.ok) {
                 const err = await res.json();
@@ -273,9 +308,11 @@ export default function AdminInventoryPage() {
 
     const stats = useMemo(() => {
         const total = inventoryItems.length;
-        const lowStock = inventoryItems.filter(
-            (i) => i.threshold !== null && i.quantity <= i.threshold,
-        ).length;
+        const lowStock = inventoryItems.filter((i) => {
+            const qty = Number(i.quantity);
+            const threshold = Number(i.threshold ?? 0);
+            return i.threshold !== null && qty <= threshold;
+        }).length;
         const okStock = total - lowStock;
         return { total, lowStock, okStock };
     }, [inventoryItems]);
@@ -285,8 +322,9 @@ export default function AdminInventoryPage() {
             const matchSearch = item.itemName
                 .toLowerCase()
                 .includes(searchQuery.toLowerCase());
-            const isLow =
-                item.threshold !== null && item.quantity <= item.threshold;
+            const qty = Number(item.quantity);
+            const threshold = Number(item.threshold ?? 0);
+            const isLow = item.threshold !== null && qty <= threshold;
             const matchStatus =
                 statusFilter === 'all' ||
                 (statusFilter === 'low' ? isLow : !isLow);
@@ -362,6 +400,48 @@ export default function AdminInventoryPage() {
                                                         {...field}
                                                     />
                                                 </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+
+                                    <FormField
+                                        control={form.control}
+                                        name="supplierId"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>
+                                                    Nhà cung cấp
+                                                </FormLabel>
+                                                <Select
+                                                    onValueChange={
+                                                        field.onChange
+                                                    }
+                                                    value={field.value}
+                                                >
+                                                    <FormControl>
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Chọn nhà cung cấp (không bắt buộc)" />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        <SelectItem value="none">
+                                                            Không chọn
+                                                        </SelectItem>
+                                                        {suppliers.map((s) => (
+                                                            <SelectItem
+                                                                key={s.id}
+                                                                value={s.id}
+                                                            >
+                                                                {s.name}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                                <FormDescription>
+                                                    Gắn mặt hàng này với một nhà
+                                                    cung cấp.
+                                                </FormDescription>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
@@ -651,6 +731,9 @@ export default function AdminInventoryPage() {
                                         <th className="p-4 font-semibold">
                                             Tên mặt hàng
                                         </th>
+                                        <th className="p-4 font-semibold hidden md:table-cell">
+                                            Nhà cung cấp
+                                        </th>
                                         <th className="p-4 font-semibold">
                                             Số lượng
                                         </th>
@@ -673,9 +756,13 @@ export default function AdminInventoryPage() {
                                 </thead>
                                 <tbody className="divide-y">
                                     {filteredItems.map((item) => {
+                                        const qty = Number(item.quantity);
+                                        const threshold = Number(
+                                            item.threshold ?? 0,
+                                        );
                                         const isLow =
                                             item.threshold !== null &&
-                                            item.quantity <= item.threshold;
+                                            qty <= threshold;
                                         return (
                                             <tr
                                                 key={item.id}
@@ -700,11 +787,25 @@ export default function AdminInventoryPage() {
                                                         </span>
                                                     </div>
                                                 </td>
+                                                <td className="p-4 hidden md:table-cell">
+                                                    <span className="text-muted-foreground italic">
+                                                        {item.supplier?.name ||
+                                                            '-'}
+                                                    </span>
+                                                </td>
                                                 <td className="p-4">
                                                     <span
                                                         className={cn(
                                                             'font-bold text-base',
-                                                            isLow
+                                                            Number(
+                                                                item.quantity,
+                                                            ) <=
+                                                                Number(
+                                                                    item.threshold ??
+                                                                        0,
+                                                                ) &&
+                                                                item.threshold !==
+                                                                    null
                                                                 ? 'text-rose-600'
                                                                 : 'text-foreground',
                                                         )}
