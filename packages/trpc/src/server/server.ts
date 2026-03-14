@@ -127,6 +127,8 @@ import {
     GetRecommendationsQuerySchema,
     RecommendationResSchema,
     GetConversationsResSchema,
+    AiChatBodySchema,
+    AiChatResSchema,
 } from '@repo/schema';
 import superjson from 'superjson';
 const t = initTRPC.create({ transformer: superjson });
@@ -703,6 +705,16 @@ const appRouter = t.router({
             .input(GetRecommendationsQuerySchema)
             .output(RecommendationResSchema)
             .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        getTopSelling: publicProcedure
+            .input(GetRecommendationsQuerySchema)
+            .output(RecommendationResSchema)
+            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+    }),
+    aiChat: t.router({
+        chat: publicProcedure
+            .input(AiChatBodySchema)
+            .output(AiChatResSchema)
+            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
     }),
 });
 export type AppRouter = typeof appRouter;

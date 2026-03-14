@@ -232,11 +232,11 @@ export type DishTranslationWhereInput = {
   deletedAt?: Prisma.DateTimeNullableFilter<"DishTranslation"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"DishTranslation"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DishTranslation"> | Date | string
+  createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  deletedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   dish?: Prisma.XOR<Prisma.DishScalarRelationFilter, Prisma.DishWhereInput>
   language?: Prisma.XOR<Prisma.LanguageScalarRelationFilter, Prisma.LanguageWhereInput>
-  createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  deletedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
 export type DishTranslationOrderByWithRelationInput = {
@@ -251,11 +251,11 @@ export type DishTranslationOrderByWithRelationInput = {
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  createdBy?: Prisma.UserOrderByWithRelationInput
+  deletedBy?: Prisma.UserOrderByWithRelationInput
   dish?: Prisma.DishOrderByWithRelationInput
   language?: Prisma.LanguageOrderByWithRelationInput
-  createdBy?: Prisma.UserOrderByWithRelationInput
   updatedBy?: Prisma.UserOrderByWithRelationInput
-  deletedBy?: Prisma.UserOrderByWithRelationInput
 }
 
 export type DishTranslationWhereUniqueInput = Prisma.AtLeast<{
@@ -273,11 +273,11 @@ export type DishTranslationWhereUniqueInput = Prisma.AtLeast<{
   deletedAt?: Prisma.DateTimeNullableFilter<"DishTranslation"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"DishTranslation"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DishTranslation"> | Date | string
+  createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  deletedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   dish?: Prisma.XOR<Prisma.DishScalarRelationFilter, Prisma.DishWhereInput>
   language?: Prisma.XOR<Prisma.LanguageScalarRelationFilter, Prisma.LanguageWhereInput>
-  createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  deletedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id">
 
 export type DishTranslationOrderByWithAggregationInput = {
@@ -321,11 +321,11 @@ export type DishTranslationCreateInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishTranslationsInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishTranslationsInput
   dish: Prisma.DishCreateNestedOneWithoutDishTranslationsInput
   language: Prisma.LanguageCreateNestedOneWithoutDishTranslationsInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishTranslationsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishTranslationsInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishTranslationsInput
 }
 
 export type DishTranslationUncheckedCreateInput = {
@@ -349,11 +349,11 @@ export type DishTranslationUpdateInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishTranslationsNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishTranslationsNestedInput
   dish?: Prisma.DishUpdateOneRequiredWithoutDishTranslationsNestedInput
   language?: Prisma.LanguageUpdateOneRequiredWithoutDishTranslationsNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishTranslationsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishTranslationsNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishTranslationsNestedInput
 }
 
 export type DishTranslationUncheckedUpdateInput = {
@@ -508,17 +508,17 @@ export type DishTranslationCreateNestedManyWithoutCreatedByInput = {
   connect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
 }
 
-export type DishTranslationCreateNestedManyWithoutUpdatedByInput = {
-  create?: Prisma.XOR<Prisma.DishTranslationCreateWithoutUpdatedByInput, Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput> | Prisma.DishTranslationCreateWithoutUpdatedByInput[] | Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.DishTranslationCreateOrConnectWithoutUpdatedByInput | Prisma.DishTranslationCreateOrConnectWithoutUpdatedByInput[]
-  createMany?: Prisma.DishTranslationCreateManyUpdatedByInputEnvelope
-  connect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
-}
-
 export type DishTranslationCreateNestedManyWithoutDeletedByInput = {
   create?: Prisma.XOR<Prisma.DishTranslationCreateWithoutDeletedByInput, Prisma.DishTranslationUncheckedCreateWithoutDeletedByInput> | Prisma.DishTranslationCreateWithoutDeletedByInput[] | Prisma.DishTranslationUncheckedCreateWithoutDeletedByInput[]
   connectOrCreate?: Prisma.DishTranslationCreateOrConnectWithoutDeletedByInput | Prisma.DishTranslationCreateOrConnectWithoutDeletedByInput[]
   createMany?: Prisma.DishTranslationCreateManyDeletedByInputEnvelope
+  connect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
+}
+
+export type DishTranslationCreateNestedManyWithoutUpdatedByInput = {
+  create?: Prisma.XOR<Prisma.DishTranslationCreateWithoutUpdatedByInput, Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput> | Prisma.DishTranslationCreateWithoutUpdatedByInput[] | Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.DishTranslationCreateOrConnectWithoutUpdatedByInput | Prisma.DishTranslationCreateOrConnectWithoutUpdatedByInput[]
+  createMany?: Prisma.DishTranslationCreateManyUpdatedByInputEnvelope
   connect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
 }
 
@@ -529,17 +529,17 @@ export type DishTranslationUncheckedCreateNestedManyWithoutCreatedByInput = {
   connect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
 }
 
-export type DishTranslationUncheckedCreateNestedManyWithoutUpdatedByInput = {
-  create?: Prisma.XOR<Prisma.DishTranslationCreateWithoutUpdatedByInput, Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput> | Prisma.DishTranslationCreateWithoutUpdatedByInput[] | Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.DishTranslationCreateOrConnectWithoutUpdatedByInput | Prisma.DishTranslationCreateOrConnectWithoutUpdatedByInput[]
-  createMany?: Prisma.DishTranslationCreateManyUpdatedByInputEnvelope
-  connect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
-}
-
 export type DishTranslationUncheckedCreateNestedManyWithoutDeletedByInput = {
   create?: Prisma.XOR<Prisma.DishTranslationCreateWithoutDeletedByInput, Prisma.DishTranslationUncheckedCreateWithoutDeletedByInput> | Prisma.DishTranslationCreateWithoutDeletedByInput[] | Prisma.DishTranslationUncheckedCreateWithoutDeletedByInput[]
   connectOrCreate?: Prisma.DishTranslationCreateOrConnectWithoutDeletedByInput | Prisma.DishTranslationCreateOrConnectWithoutDeletedByInput[]
   createMany?: Prisma.DishTranslationCreateManyDeletedByInputEnvelope
+  connect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
+}
+
+export type DishTranslationUncheckedCreateNestedManyWithoutUpdatedByInput = {
+  create?: Prisma.XOR<Prisma.DishTranslationCreateWithoutUpdatedByInput, Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput> | Prisma.DishTranslationCreateWithoutUpdatedByInput[] | Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.DishTranslationCreateOrConnectWithoutUpdatedByInput | Prisma.DishTranslationCreateOrConnectWithoutUpdatedByInput[]
+  createMany?: Prisma.DishTranslationCreateManyUpdatedByInputEnvelope
   connect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
 }
 
@@ -557,20 +557,6 @@ export type DishTranslationUpdateManyWithoutCreatedByNestedInput = {
   deleteMany?: Prisma.DishTranslationScalarWhereInput | Prisma.DishTranslationScalarWhereInput[]
 }
 
-export type DishTranslationUpdateManyWithoutUpdatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.DishTranslationCreateWithoutUpdatedByInput, Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput> | Prisma.DishTranslationCreateWithoutUpdatedByInput[] | Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.DishTranslationCreateOrConnectWithoutUpdatedByInput | Prisma.DishTranslationCreateOrConnectWithoutUpdatedByInput[]
-  upsert?: Prisma.DishTranslationUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.DishTranslationUpsertWithWhereUniqueWithoutUpdatedByInput[]
-  createMany?: Prisma.DishTranslationCreateManyUpdatedByInputEnvelope
-  set?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
-  disconnect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
-  delete?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
-  connect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
-  update?: Prisma.DishTranslationUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.DishTranslationUpdateWithWhereUniqueWithoutUpdatedByInput[]
-  updateMany?: Prisma.DishTranslationUpdateManyWithWhereWithoutUpdatedByInput | Prisma.DishTranslationUpdateManyWithWhereWithoutUpdatedByInput[]
-  deleteMany?: Prisma.DishTranslationScalarWhereInput | Prisma.DishTranslationScalarWhereInput[]
-}
-
 export type DishTranslationUpdateManyWithoutDeletedByNestedInput = {
   create?: Prisma.XOR<Prisma.DishTranslationCreateWithoutDeletedByInput, Prisma.DishTranslationUncheckedCreateWithoutDeletedByInput> | Prisma.DishTranslationCreateWithoutDeletedByInput[] | Prisma.DishTranslationUncheckedCreateWithoutDeletedByInput[]
   connectOrCreate?: Prisma.DishTranslationCreateOrConnectWithoutDeletedByInput | Prisma.DishTranslationCreateOrConnectWithoutDeletedByInput[]
@@ -582,6 +568,20 @@ export type DishTranslationUpdateManyWithoutDeletedByNestedInput = {
   connect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
   update?: Prisma.DishTranslationUpdateWithWhereUniqueWithoutDeletedByInput | Prisma.DishTranslationUpdateWithWhereUniqueWithoutDeletedByInput[]
   updateMany?: Prisma.DishTranslationUpdateManyWithWhereWithoutDeletedByInput | Prisma.DishTranslationUpdateManyWithWhereWithoutDeletedByInput[]
+  deleteMany?: Prisma.DishTranslationScalarWhereInput | Prisma.DishTranslationScalarWhereInput[]
+}
+
+export type DishTranslationUpdateManyWithoutUpdatedByNestedInput = {
+  create?: Prisma.XOR<Prisma.DishTranslationCreateWithoutUpdatedByInput, Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput> | Prisma.DishTranslationCreateWithoutUpdatedByInput[] | Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.DishTranslationCreateOrConnectWithoutUpdatedByInput | Prisma.DishTranslationCreateOrConnectWithoutUpdatedByInput[]
+  upsert?: Prisma.DishTranslationUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.DishTranslationUpsertWithWhereUniqueWithoutUpdatedByInput[]
+  createMany?: Prisma.DishTranslationCreateManyUpdatedByInputEnvelope
+  set?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
+  disconnect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
+  delete?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
+  connect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
+  update?: Prisma.DishTranslationUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.DishTranslationUpdateWithWhereUniqueWithoutUpdatedByInput[]
+  updateMany?: Prisma.DishTranslationUpdateManyWithWhereWithoutUpdatedByInput | Prisma.DishTranslationUpdateManyWithWhereWithoutUpdatedByInput[]
   deleteMany?: Prisma.DishTranslationScalarWhereInput | Prisma.DishTranslationScalarWhereInput[]
 }
 
@@ -599,20 +599,6 @@ export type DishTranslationUncheckedUpdateManyWithoutCreatedByNestedInput = {
   deleteMany?: Prisma.DishTranslationScalarWhereInput | Prisma.DishTranslationScalarWhereInput[]
 }
 
-export type DishTranslationUncheckedUpdateManyWithoutUpdatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.DishTranslationCreateWithoutUpdatedByInput, Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput> | Prisma.DishTranslationCreateWithoutUpdatedByInput[] | Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.DishTranslationCreateOrConnectWithoutUpdatedByInput | Prisma.DishTranslationCreateOrConnectWithoutUpdatedByInput[]
-  upsert?: Prisma.DishTranslationUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.DishTranslationUpsertWithWhereUniqueWithoutUpdatedByInput[]
-  createMany?: Prisma.DishTranslationCreateManyUpdatedByInputEnvelope
-  set?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
-  disconnect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
-  delete?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
-  connect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
-  update?: Prisma.DishTranslationUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.DishTranslationUpdateWithWhereUniqueWithoutUpdatedByInput[]
-  updateMany?: Prisma.DishTranslationUpdateManyWithWhereWithoutUpdatedByInput | Prisma.DishTranslationUpdateManyWithWhereWithoutUpdatedByInput[]
-  deleteMany?: Prisma.DishTranslationScalarWhereInput | Prisma.DishTranslationScalarWhereInput[]
-}
-
 export type DishTranslationUncheckedUpdateManyWithoutDeletedByNestedInput = {
   create?: Prisma.XOR<Prisma.DishTranslationCreateWithoutDeletedByInput, Prisma.DishTranslationUncheckedCreateWithoutDeletedByInput> | Prisma.DishTranslationCreateWithoutDeletedByInput[] | Prisma.DishTranslationUncheckedCreateWithoutDeletedByInput[]
   connectOrCreate?: Prisma.DishTranslationCreateOrConnectWithoutDeletedByInput | Prisma.DishTranslationCreateOrConnectWithoutDeletedByInput[]
@@ -624,6 +610,20 @@ export type DishTranslationUncheckedUpdateManyWithoutDeletedByNestedInput = {
   connect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
   update?: Prisma.DishTranslationUpdateWithWhereUniqueWithoutDeletedByInput | Prisma.DishTranslationUpdateWithWhereUniqueWithoutDeletedByInput[]
   updateMany?: Prisma.DishTranslationUpdateManyWithWhereWithoutDeletedByInput | Prisma.DishTranslationUpdateManyWithWhereWithoutDeletedByInput[]
+  deleteMany?: Prisma.DishTranslationScalarWhereInput | Prisma.DishTranslationScalarWhereInput[]
+}
+
+export type DishTranslationUncheckedUpdateManyWithoutUpdatedByNestedInput = {
+  create?: Prisma.XOR<Prisma.DishTranslationCreateWithoutUpdatedByInput, Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput> | Prisma.DishTranslationCreateWithoutUpdatedByInput[] | Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.DishTranslationCreateOrConnectWithoutUpdatedByInput | Prisma.DishTranslationCreateOrConnectWithoutUpdatedByInput[]
+  upsert?: Prisma.DishTranslationUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.DishTranslationUpsertWithWhereUniqueWithoutUpdatedByInput[]
+  createMany?: Prisma.DishTranslationCreateManyUpdatedByInputEnvelope
+  set?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
+  disconnect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
+  delete?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
+  connect?: Prisma.DishTranslationWhereUniqueInput | Prisma.DishTranslationWhereUniqueInput[]
+  update?: Prisma.DishTranslationUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.DishTranslationUpdateWithWhereUniqueWithoutUpdatedByInput[]
+  updateMany?: Prisma.DishTranslationUpdateManyWithWhereWithoutUpdatedByInput | Prisma.DishTranslationUpdateManyWithWhereWithoutUpdatedByInput[]
   deleteMany?: Prisma.DishTranslationScalarWhereInput | Prisma.DishTranslationScalarWhereInput[]
 }
 
@@ -676,10 +676,10 @@ export type DishTranslationCreateWithoutLanguageInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  dish: Prisma.DishCreateNestedOneWithoutDishTranslationsInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishTranslationsInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishTranslationsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishTranslationsInput
+  dish: Prisma.DishCreateNestedOneWithoutDishTranslationsInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishTranslationsInput
 }
 
 export type DishTranslationUncheckedCreateWithoutLanguageInput = {
@@ -745,10 +745,10 @@ export type DishTranslationCreateWithoutCreatedByInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishTranslationsInput
   dish: Prisma.DishCreateNestedOneWithoutDishTranslationsInput
   language: Prisma.LanguageCreateNestedOneWithoutDishTranslationsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishTranslationsInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishTranslationsInput
 }
 
 export type DishTranslationUncheckedCreateWithoutCreatedByInput = {
@@ -774,42 +774,6 @@ export type DishTranslationCreateManyCreatedByInputEnvelope = {
   skipDuplicates?: boolean
 }
 
-export type DishTranslationCreateWithoutUpdatedByInput = {
-  id?: string
-  name: string
-  description: string
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  dish: Prisma.DishCreateNestedOneWithoutDishTranslationsInput
-  language: Prisma.LanguageCreateNestedOneWithoutDishTranslationsInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishTranslationsInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishTranslationsInput
-}
-
-export type DishTranslationUncheckedCreateWithoutUpdatedByInput = {
-  id?: string
-  dishId: string
-  languageId: string
-  name: string
-  description: string
-  createdById?: string | null
-  deletedById?: string | null
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type DishTranslationCreateOrConnectWithoutUpdatedByInput = {
-  where: Prisma.DishTranslationWhereUniqueInput
-  create: Prisma.XOR<Prisma.DishTranslationCreateWithoutUpdatedByInput, Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput>
-}
-
-export type DishTranslationCreateManyUpdatedByInputEnvelope = {
-  data: Prisma.DishTranslationCreateManyUpdatedByInput | Prisma.DishTranslationCreateManyUpdatedByInput[]
-  skipDuplicates?: boolean
-}
-
 export type DishTranslationCreateWithoutDeletedByInput = {
   id?: string
   name: string
@@ -817,9 +781,9 @@ export type DishTranslationCreateWithoutDeletedByInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishTranslationsInput
   dish: Prisma.DishCreateNestedOneWithoutDishTranslationsInput
   language: Prisma.LanguageCreateNestedOneWithoutDishTranslationsInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishTranslationsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishTranslationsInput
 }
 
@@ -846,6 +810,42 @@ export type DishTranslationCreateManyDeletedByInputEnvelope = {
   skipDuplicates?: boolean
 }
 
+export type DishTranslationCreateWithoutUpdatedByInput = {
+  id?: string
+  name: string
+  description: string
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishTranslationsInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishTranslationsInput
+  dish: Prisma.DishCreateNestedOneWithoutDishTranslationsInput
+  language: Prisma.LanguageCreateNestedOneWithoutDishTranslationsInput
+}
+
+export type DishTranslationUncheckedCreateWithoutUpdatedByInput = {
+  id?: string
+  dishId: string
+  languageId: string
+  name: string
+  description: string
+  createdById?: string | null
+  deletedById?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type DishTranslationCreateOrConnectWithoutUpdatedByInput = {
+  where: Prisma.DishTranslationWhereUniqueInput
+  create: Prisma.XOR<Prisma.DishTranslationCreateWithoutUpdatedByInput, Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput>
+}
+
+export type DishTranslationCreateManyUpdatedByInputEnvelope = {
+  data: Prisma.DishTranslationCreateManyUpdatedByInput | Prisma.DishTranslationCreateManyUpdatedByInput[]
+  skipDuplicates?: boolean
+}
+
 export type DishTranslationUpsertWithWhereUniqueWithoutCreatedByInput = {
   where: Prisma.DishTranslationWhereUniqueInput
   update: Prisma.XOR<Prisma.DishTranslationUpdateWithoutCreatedByInput, Prisma.DishTranslationUncheckedUpdateWithoutCreatedByInput>
@@ -860,22 +860,6 @@ export type DishTranslationUpdateWithWhereUniqueWithoutCreatedByInput = {
 export type DishTranslationUpdateManyWithWhereWithoutCreatedByInput = {
   where: Prisma.DishTranslationScalarWhereInput
   data: Prisma.XOR<Prisma.DishTranslationUpdateManyMutationInput, Prisma.DishTranslationUncheckedUpdateManyWithoutCreatedByInput>
-}
-
-export type DishTranslationUpsertWithWhereUniqueWithoutUpdatedByInput = {
-  where: Prisma.DishTranslationWhereUniqueInput
-  update: Prisma.XOR<Prisma.DishTranslationUpdateWithoutUpdatedByInput, Prisma.DishTranslationUncheckedUpdateWithoutUpdatedByInput>
-  create: Prisma.XOR<Prisma.DishTranslationCreateWithoutUpdatedByInput, Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput>
-}
-
-export type DishTranslationUpdateWithWhereUniqueWithoutUpdatedByInput = {
-  where: Prisma.DishTranslationWhereUniqueInput
-  data: Prisma.XOR<Prisma.DishTranslationUpdateWithoutUpdatedByInput, Prisma.DishTranslationUncheckedUpdateWithoutUpdatedByInput>
-}
-
-export type DishTranslationUpdateManyWithWhereWithoutUpdatedByInput = {
-  where: Prisma.DishTranslationScalarWhereInput
-  data: Prisma.XOR<Prisma.DishTranslationUpdateManyMutationInput, Prisma.DishTranslationUncheckedUpdateManyWithoutUpdatedByInput>
 }
 
 export type DishTranslationUpsertWithWhereUniqueWithoutDeletedByInput = {
@@ -894,6 +878,22 @@ export type DishTranslationUpdateManyWithWhereWithoutDeletedByInput = {
   data: Prisma.XOR<Prisma.DishTranslationUpdateManyMutationInput, Prisma.DishTranslationUncheckedUpdateManyWithoutDeletedByInput>
 }
 
+export type DishTranslationUpsertWithWhereUniqueWithoutUpdatedByInput = {
+  where: Prisma.DishTranslationWhereUniqueInput
+  update: Prisma.XOR<Prisma.DishTranslationUpdateWithoutUpdatedByInput, Prisma.DishTranslationUncheckedUpdateWithoutUpdatedByInput>
+  create: Prisma.XOR<Prisma.DishTranslationCreateWithoutUpdatedByInput, Prisma.DishTranslationUncheckedCreateWithoutUpdatedByInput>
+}
+
+export type DishTranslationUpdateWithWhereUniqueWithoutUpdatedByInput = {
+  where: Prisma.DishTranslationWhereUniqueInput
+  data: Prisma.XOR<Prisma.DishTranslationUpdateWithoutUpdatedByInput, Prisma.DishTranslationUncheckedUpdateWithoutUpdatedByInput>
+}
+
+export type DishTranslationUpdateManyWithWhereWithoutUpdatedByInput = {
+  where: Prisma.DishTranslationScalarWhereInput
+  data: Prisma.XOR<Prisma.DishTranslationUpdateManyMutationInput, Prisma.DishTranslationUncheckedUpdateManyWithoutUpdatedByInput>
+}
+
 export type DishTranslationCreateWithoutDishInput = {
   id?: string
   name: string
@@ -901,10 +901,10 @@ export type DishTranslationCreateWithoutDishInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  language: Prisma.LanguageCreateNestedOneWithoutDishTranslationsInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishTranslationsInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishTranslationsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishTranslationsInput
+  language: Prisma.LanguageCreateNestedOneWithoutDishTranslationsInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishTranslationsInput
 }
 
 export type DishTranslationUncheckedCreateWithoutDishInput = {
@@ -966,10 +966,10 @@ export type DishTranslationUpdateWithoutLanguageInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  dish?: Prisma.DishUpdateOneRequiredWithoutDishTranslationsNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDishTranslationsNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishTranslationsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishTranslationsNestedInput
+  dish?: Prisma.DishUpdateOneRequiredWithoutDishTranslationsNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishTranslationsNestedInput
 }
 
 export type DishTranslationUncheckedUpdateWithoutLanguageInput = {
@@ -1011,19 +1011,6 @@ export type DishTranslationCreateManyCreatedByInput = {
   updatedAt?: Date | string
 }
 
-export type DishTranslationCreateManyUpdatedByInput = {
-  id?: string
-  dishId: string
-  languageId: string
-  name: string
-  description: string
-  createdById?: string | null
-  deletedById?: string | null
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
 export type DishTranslationCreateManyDeletedByInput = {
   id?: string
   dishId: string
@@ -1037,6 +1024,19 @@ export type DishTranslationCreateManyDeletedByInput = {
   updatedAt?: Date | string
 }
 
+export type DishTranslationCreateManyUpdatedByInput = {
+  id?: string
+  dishId: string
+  languageId: string
+  name: string
+  description: string
+  createdById?: string | null
+  deletedById?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
 export type DishTranslationUpdateWithoutCreatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1044,10 +1044,10 @@ export type DishTranslationUpdateWithoutCreatedByInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishTranslationsNestedInput
   dish?: Prisma.DishUpdateOneRequiredWithoutDishTranslationsNestedInput
   language?: Prisma.LanguageUpdateOneRequiredWithoutDishTranslationsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishTranslationsNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishTranslationsNestedInput
 }
 
 export type DishTranslationUncheckedUpdateWithoutCreatedByInput = {
@@ -1076,45 +1076,6 @@ export type DishTranslationUncheckedUpdateManyWithoutCreatedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type DishTranslationUpdateWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  dish?: Prisma.DishUpdateOneRequiredWithoutDishTranslationsNestedInput
-  language?: Prisma.LanguageUpdateOneRequiredWithoutDishTranslationsNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishTranslationsNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishTranslationsNestedInput
-}
-
-export type DishTranslationUncheckedUpdateWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  dishId?: Prisma.StringFieldUpdateOperationsInput | string
-  languageId?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type DishTranslationUncheckedUpdateManyWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  dishId?: Prisma.StringFieldUpdateOperationsInput | string
-  languageId?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
 export type DishTranslationUpdateWithoutDeletedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1122,9 +1083,9 @@ export type DishTranslationUpdateWithoutDeletedByInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishTranslationsNestedInput
   dish?: Prisma.DishUpdateOneRequiredWithoutDishTranslationsNestedInput
   language?: Prisma.LanguageUpdateOneRequiredWithoutDishTranslationsNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishTranslationsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishTranslationsNestedInput
 }
 
@@ -1154,6 +1115,45 @@ export type DishTranslationUncheckedUpdateManyWithoutDeletedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type DishTranslationUpdateWithoutUpdatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishTranslationsNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishTranslationsNestedInput
+  dish?: Prisma.DishUpdateOneRequiredWithoutDishTranslationsNestedInput
+  language?: Prisma.LanguageUpdateOneRequiredWithoutDishTranslationsNestedInput
+}
+
+export type DishTranslationUncheckedUpdateWithoutUpdatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  dishId?: Prisma.StringFieldUpdateOperationsInput | string
+  languageId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type DishTranslationUncheckedUpdateManyWithoutUpdatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  dishId?: Prisma.StringFieldUpdateOperationsInput | string
+  languageId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type DishTranslationCreateManyDishInput = {
   id?: string
   languageId: string
@@ -1174,10 +1174,10 @@ export type DishTranslationUpdateWithoutDishInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  language?: Prisma.LanguageUpdateOneRequiredWithoutDishTranslationsNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDishTranslationsNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishTranslationsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishTranslationsNestedInput
+  language?: Prisma.LanguageUpdateOneRequiredWithoutDishTranslationsNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishTranslationsNestedInput
 }
 
 export type DishTranslationUncheckedUpdateWithoutDishInput = {
@@ -1220,11 +1220,11 @@ export type DishTranslationSelect<ExtArgs extends runtime.Types.Extensions.Inter
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  createdBy?: boolean | Prisma.DishTranslation$createdByArgs<ExtArgs>
+  deletedBy?: boolean | Prisma.DishTranslation$deletedByArgs<ExtArgs>
   dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
   language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
-  createdBy?: boolean | Prisma.DishTranslation$createdByArgs<ExtArgs>
   updatedBy?: boolean | Prisma.DishTranslation$updatedByArgs<ExtArgs>
-  deletedBy?: boolean | Prisma.DishTranslation$deletedByArgs<ExtArgs>
 }, ExtArgs["result"]["dishTranslation"]>
 
 export type DishTranslationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1239,11 +1239,11 @@ export type DishTranslationSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  createdBy?: boolean | Prisma.DishTranslation$createdByArgs<ExtArgs>
+  deletedBy?: boolean | Prisma.DishTranslation$deletedByArgs<ExtArgs>
   dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
   language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
-  createdBy?: boolean | Prisma.DishTranslation$createdByArgs<ExtArgs>
   updatedBy?: boolean | Prisma.DishTranslation$updatedByArgs<ExtArgs>
-  deletedBy?: boolean | Prisma.DishTranslation$deletedByArgs<ExtArgs>
 }, ExtArgs["result"]["dishTranslation"]>
 
 export type DishTranslationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1258,11 +1258,11 @@ export type DishTranslationSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  createdBy?: boolean | Prisma.DishTranslation$createdByArgs<ExtArgs>
+  deletedBy?: boolean | Prisma.DishTranslation$deletedByArgs<ExtArgs>
   dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
   language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
-  createdBy?: boolean | Prisma.DishTranslation$createdByArgs<ExtArgs>
   updatedBy?: boolean | Prisma.DishTranslation$updatedByArgs<ExtArgs>
-  deletedBy?: boolean | Prisma.DishTranslation$deletedByArgs<ExtArgs>
 }, ExtArgs["result"]["dishTranslation"]>
 
 export type DishTranslationSelectScalar = {
@@ -1281,35 +1281,35 @@ export type DishTranslationSelectScalar = {
 
 export type DishTranslationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "dishId" | "languageId" | "name" | "description" | "createdById" | "updatedById" | "deletedById" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["dishTranslation"]>
 export type DishTranslationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  createdBy?: boolean | Prisma.DishTranslation$createdByArgs<ExtArgs>
+  deletedBy?: boolean | Prisma.DishTranslation$deletedByArgs<ExtArgs>
   dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
   language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
-  createdBy?: boolean | Prisma.DishTranslation$createdByArgs<ExtArgs>
   updatedBy?: boolean | Prisma.DishTranslation$updatedByArgs<ExtArgs>
-  deletedBy?: boolean | Prisma.DishTranslation$deletedByArgs<ExtArgs>
 }
 export type DishTranslationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  createdBy?: boolean | Prisma.DishTranslation$createdByArgs<ExtArgs>
+  deletedBy?: boolean | Prisma.DishTranslation$deletedByArgs<ExtArgs>
   dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
   language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
-  createdBy?: boolean | Prisma.DishTranslation$createdByArgs<ExtArgs>
   updatedBy?: boolean | Prisma.DishTranslation$updatedByArgs<ExtArgs>
-  deletedBy?: boolean | Prisma.DishTranslation$deletedByArgs<ExtArgs>
 }
 export type DishTranslationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  createdBy?: boolean | Prisma.DishTranslation$createdByArgs<ExtArgs>
+  deletedBy?: boolean | Prisma.DishTranslation$deletedByArgs<ExtArgs>
   dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
   language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
-  createdBy?: boolean | Prisma.DishTranslation$createdByArgs<ExtArgs>
   updatedBy?: boolean | Prisma.DishTranslation$updatedByArgs<ExtArgs>
-  deletedBy?: boolean | Prisma.DishTranslation$deletedByArgs<ExtArgs>
 }
 
 export type $DishTranslationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "DishTranslation"
   objects: {
+    createdBy: Prisma.$UserPayload<ExtArgs> | null
+    deletedBy: Prisma.$UserPayload<ExtArgs> | null
     dish: Prisma.$DishPayload<ExtArgs>
     language: Prisma.$LanguagePayload<ExtArgs>
-    createdBy: Prisma.$UserPayload<ExtArgs> | null
     updatedBy: Prisma.$UserPayload<ExtArgs> | null
-    deletedBy: Prisma.$UserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1717,11 +1717,11 @@ readonly fields: DishTranslationFieldRefs;
  */
 export interface Prisma__DishTranslationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  createdBy<T extends Prisma.DishTranslation$createdByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DishTranslation$createdByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  deletedBy<T extends Prisma.DishTranslation$deletedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DishTranslation$deletedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   dish<T extends Prisma.DishDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DishDefaultArgs<ExtArgs>>): Prisma.Prisma__DishClient<runtime.Types.Result.GetResult<Prisma.$DishPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   language<T extends Prisma.LanguageDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LanguageDefaultArgs<ExtArgs>>): Prisma.Prisma__LanguageClient<runtime.Types.Result.GetResult<Prisma.$LanguagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  createdBy<T extends Prisma.DishTranslation$createdByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DishTranslation$createdByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   updatedBy<T extends Prisma.DishTranslation$updatedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DishTranslation$updatedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  deletedBy<T extends Prisma.DishTranslation$deletedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DishTranslation$deletedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2177,9 +2177,9 @@ export type DishTranslation$createdByArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * DishTranslation.updatedBy
+ * DishTranslation.deletedBy
  */
-export type DishTranslation$updatedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type DishTranslation$deletedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the User
    */
@@ -2196,9 +2196,9 @@ export type DishTranslation$updatedByArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * DishTranslation.deletedBy
+ * DishTranslation.updatedBy
  */
-export type DishTranslation$deletedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type DishTranslation$updatedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the User
    */

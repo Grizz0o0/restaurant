@@ -27,3 +27,4 @@ export * from './message.schema';
 export * from './payment-transaction.schema';
 export * from './analytics.schema';
 export * from './recommendation.schema';
+export * from './ai-chat.schema';

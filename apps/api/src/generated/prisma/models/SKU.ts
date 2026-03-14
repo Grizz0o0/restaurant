@@ -274,13 +274,13 @@ export type SKUWhereInput = {
   deletedAt?: Prisma.DateTimeNullableFilter<"SKU"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"SKU"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SKU"> | Date | string
-  dish?: Prisma.XOR<Prisma.DishScalarRelationFilter, Prisma.DishWhereInput>
-  variantOptions?: Prisma.VariantOptionListRelationFilter
   cartItems?: Prisma.CartItemListRelationFilter
   dishSKUSnapshots?: Prisma.DishSKUSnapshotListRelationFilter
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   deletedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  dish?: Prisma.XOR<Prisma.DishScalarRelationFilter, Prisma.DishWhereInput>
+  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  variantOptions?: Prisma.VariantOptionListRelationFilter
 }
 
 export type SKUOrderByWithRelationInput = {
@@ -296,13 +296,13 @@ export type SKUOrderByWithRelationInput = {
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  dish?: Prisma.DishOrderByWithRelationInput
-  variantOptions?: Prisma.VariantOptionOrderByRelationAggregateInput
   cartItems?: Prisma.CartItemOrderByRelationAggregateInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotOrderByRelationAggregateInput
   createdBy?: Prisma.UserOrderByWithRelationInput
-  updatedBy?: Prisma.UserOrderByWithRelationInput
   deletedBy?: Prisma.UserOrderByWithRelationInput
+  dish?: Prisma.DishOrderByWithRelationInput
+  updatedBy?: Prisma.UserOrderByWithRelationInput
+  variantOptions?: Prisma.VariantOptionOrderByRelationAggregateInput
 }
 
 export type SKUWhereUniqueInput = Prisma.AtLeast<{
@@ -321,13 +321,13 @@ export type SKUWhereUniqueInput = Prisma.AtLeast<{
   deletedAt?: Prisma.DateTimeNullableFilter<"SKU"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"SKU"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SKU"> | Date | string
-  dish?: Prisma.XOR<Prisma.DishScalarRelationFilter, Prisma.DishWhereInput>
-  variantOptions?: Prisma.VariantOptionListRelationFilter
   cartItems?: Prisma.CartItemListRelationFilter
   dishSKUSnapshots?: Prisma.DishSKUSnapshotListRelationFilter
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   deletedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  dish?: Prisma.XOR<Prisma.DishScalarRelationFilter, Prisma.DishWhereInput>
+  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  variantOptions?: Prisma.VariantOptionListRelationFilter
 }, "id">
 
 export type SKUOrderByWithAggregationInput = {
@@ -377,13 +377,13 @@ export type SKUCreateInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  dish: Prisma.DishCreateNestedOneWithoutSkusInput
-  variantOptions?: Prisma.VariantOptionCreateNestedManyWithoutSkusInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutSkuInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutSkuInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedSKUsInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedSKUsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedSKUsInput
+  dish: Prisma.DishCreateNestedOneWithoutSkusInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedSKUsInput
+  variantOptions?: Prisma.VariantOptionCreateNestedManyWithoutSkusInput
 }
 
 export type SKUUncheckedCreateInput = {
@@ -399,9 +399,9 @@ export type SKUUncheckedCreateInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  variantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutSkusInput
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutSkuInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutSkuInput
+  variantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutSkusInput
 }
 
 export type SKUUpdateInput = {
@@ -413,13 +413,13 @@ export type SKUUpdateInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  dish?: Prisma.DishUpdateOneRequiredWithoutSkusNestedInput
-  variantOptions?: Prisma.VariantOptionUpdateManyWithoutSkusNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutSkuNestedInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutSkuNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedSKUsNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedSKUsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedSKUsNestedInput
+  dish?: Prisma.DishUpdateOneRequiredWithoutSkusNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedSKUsNestedInput
+  variantOptions?: Prisma.VariantOptionUpdateManyWithoutSkusNestedInput
 }
 
 export type SKUUncheckedUpdateInput = {
@@ -435,9 +435,9 @@ export type SKUUncheckedUpdateInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  variantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutSkusNestedInput
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutSkuNestedInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutSkuNestedInput
+  variantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutSkusNestedInput
 }
 
 export type SKUCreateManyInput = {
@@ -561,17 +561,17 @@ export type SKUCreateNestedManyWithoutCreatedByInput = {
   connect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
 }
 
-export type SKUCreateNestedManyWithoutUpdatedByInput = {
-  create?: Prisma.XOR<Prisma.SKUCreateWithoutUpdatedByInput, Prisma.SKUUncheckedCreateWithoutUpdatedByInput> | Prisma.SKUCreateWithoutUpdatedByInput[] | Prisma.SKUUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.SKUCreateOrConnectWithoutUpdatedByInput | Prisma.SKUCreateOrConnectWithoutUpdatedByInput[]
-  createMany?: Prisma.SKUCreateManyUpdatedByInputEnvelope
-  connect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
-}
-
 export type SKUCreateNestedManyWithoutDeletedByInput = {
   create?: Prisma.XOR<Prisma.SKUCreateWithoutDeletedByInput, Prisma.SKUUncheckedCreateWithoutDeletedByInput> | Prisma.SKUCreateWithoutDeletedByInput[] | Prisma.SKUUncheckedCreateWithoutDeletedByInput[]
   connectOrCreate?: Prisma.SKUCreateOrConnectWithoutDeletedByInput | Prisma.SKUCreateOrConnectWithoutDeletedByInput[]
   createMany?: Prisma.SKUCreateManyDeletedByInputEnvelope
+  connect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
+}
+
+export type SKUCreateNestedManyWithoutUpdatedByInput = {
+  create?: Prisma.XOR<Prisma.SKUCreateWithoutUpdatedByInput, Prisma.SKUUncheckedCreateWithoutUpdatedByInput> | Prisma.SKUCreateWithoutUpdatedByInput[] | Prisma.SKUUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.SKUCreateOrConnectWithoutUpdatedByInput | Prisma.SKUCreateOrConnectWithoutUpdatedByInput[]
+  createMany?: Prisma.SKUCreateManyUpdatedByInputEnvelope
   connect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
 }
 
@@ -582,17 +582,17 @@ export type SKUUncheckedCreateNestedManyWithoutCreatedByInput = {
   connect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
 }
 
-export type SKUUncheckedCreateNestedManyWithoutUpdatedByInput = {
-  create?: Prisma.XOR<Prisma.SKUCreateWithoutUpdatedByInput, Prisma.SKUUncheckedCreateWithoutUpdatedByInput> | Prisma.SKUCreateWithoutUpdatedByInput[] | Prisma.SKUUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.SKUCreateOrConnectWithoutUpdatedByInput | Prisma.SKUCreateOrConnectWithoutUpdatedByInput[]
-  createMany?: Prisma.SKUCreateManyUpdatedByInputEnvelope
-  connect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
-}
-
 export type SKUUncheckedCreateNestedManyWithoutDeletedByInput = {
   create?: Prisma.XOR<Prisma.SKUCreateWithoutDeletedByInput, Prisma.SKUUncheckedCreateWithoutDeletedByInput> | Prisma.SKUCreateWithoutDeletedByInput[] | Prisma.SKUUncheckedCreateWithoutDeletedByInput[]
   connectOrCreate?: Prisma.SKUCreateOrConnectWithoutDeletedByInput | Prisma.SKUCreateOrConnectWithoutDeletedByInput[]
   createMany?: Prisma.SKUCreateManyDeletedByInputEnvelope
+  connect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
+}
+
+export type SKUUncheckedCreateNestedManyWithoutUpdatedByInput = {
+  create?: Prisma.XOR<Prisma.SKUCreateWithoutUpdatedByInput, Prisma.SKUUncheckedCreateWithoutUpdatedByInput> | Prisma.SKUCreateWithoutUpdatedByInput[] | Prisma.SKUUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.SKUCreateOrConnectWithoutUpdatedByInput | Prisma.SKUCreateOrConnectWithoutUpdatedByInput[]
+  createMany?: Prisma.SKUCreateManyUpdatedByInputEnvelope
   connect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
 }
 
@@ -610,20 +610,6 @@ export type SKUUpdateManyWithoutCreatedByNestedInput = {
   deleteMany?: Prisma.SKUScalarWhereInput | Prisma.SKUScalarWhereInput[]
 }
 
-export type SKUUpdateManyWithoutUpdatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.SKUCreateWithoutUpdatedByInput, Prisma.SKUUncheckedCreateWithoutUpdatedByInput> | Prisma.SKUCreateWithoutUpdatedByInput[] | Prisma.SKUUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.SKUCreateOrConnectWithoutUpdatedByInput | Prisma.SKUCreateOrConnectWithoutUpdatedByInput[]
-  upsert?: Prisma.SKUUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.SKUUpsertWithWhereUniqueWithoutUpdatedByInput[]
-  createMany?: Prisma.SKUCreateManyUpdatedByInputEnvelope
-  set?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
-  disconnect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
-  delete?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
-  connect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
-  update?: Prisma.SKUUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.SKUUpdateWithWhereUniqueWithoutUpdatedByInput[]
-  updateMany?: Prisma.SKUUpdateManyWithWhereWithoutUpdatedByInput | Prisma.SKUUpdateManyWithWhereWithoutUpdatedByInput[]
-  deleteMany?: Prisma.SKUScalarWhereInput | Prisma.SKUScalarWhereInput[]
-}
-
 export type SKUUpdateManyWithoutDeletedByNestedInput = {
   create?: Prisma.XOR<Prisma.SKUCreateWithoutDeletedByInput, Prisma.SKUUncheckedCreateWithoutDeletedByInput> | Prisma.SKUCreateWithoutDeletedByInput[] | Prisma.SKUUncheckedCreateWithoutDeletedByInput[]
   connectOrCreate?: Prisma.SKUCreateOrConnectWithoutDeletedByInput | Prisma.SKUCreateOrConnectWithoutDeletedByInput[]
@@ -635,6 +621,20 @@ export type SKUUpdateManyWithoutDeletedByNestedInput = {
   connect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
   update?: Prisma.SKUUpdateWithWhereUniqueWithoutDeletedByInput | Prisma.SKUUpdateWithWhereUniqueWithoutDeletedByInput[]
   updateMany?: Prisma.SKUUpdateManyWithWhereWithoutDeletedByInput | Prisma.SKUUpdateManyWithWhereWithoutDeletedByInput[]
+  deleteMany?: Prisma.SKUScalarWhereInput | Prisma.SKUScalarWhereInput[]
+}
+
+export type SKUUpdateManyWithoutUpdatedByNestedInput = {
+  create?: Prisma.XOR<Prisma.SKUCreateWithoutUpdatedByInput, Prisma.SKUUncheckedCreateWithoutUpdatedByInput> | Prisma.SKUCreateWithoutUpdatedByInput[] | Prisma.SKUUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.SKUCreateOrConnectWithoutUpdatedByInput | Prisma.SKUCreateOrConnectWithoutUpdatedByInput[]
+  upsert?: Prisma.SKUUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.SKUUpsertWithWhereUniqueWithoutUpdatedByInput[]
+  createMany?: Prisma.SKUCreateManyUpdatedByInputEnvelope
+  set?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
+  disconnect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
+  delete?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
+  connect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
+  update?: Prisma.SKUUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.SKUUpdateWithWhereUniqueWithoutUpdatedByInput[]
+  updateMany?: Prisma.SKUUpdateManyWithWhereWithoutUpdatedByInput | Prisma.SKUUpdateManyWithWhereWithoutUpdatedByInput[]
   deleteMany?: Prisma.SKUScalarWhereInput | Prisma.SKUScalarWhereInput[]
 }
 
@@ -652,20 +652,6 @@ export type SKUUncheckedUpdateManyWithoutCreatedByNestedInput = {
   deleteMany?: Prisma.SKUScalarWhereInput | Prisma.SKUScalarWhereInput[]
 }
 
-export type SKUUncheckedUpdateManyWithoutUpdatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.SKUCreateWithoutUpdatedByInput, Prisma.SKUUncheckedCreateWithoutUpdatedByInput> | Prisma.SKUCreateWithoutUpdatedByInput[] | Prisma.SKUUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.SKUCreateOrConnectWithoutUpdatedByInput | Prisma.SKUCreateOrConnectWithoutUpdatedByInput[]
-  upsert?: Prisma.SKUUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.SKUUpsertWithWhereUniqueWithoutUpdatedByInput[]
-  createMany?: Prisma.SKUCreateManyUpdatedByInputEnvelope
-  set?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
-  disconnect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
-  delete?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
-  connect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
-  update?: Prisma.SKUUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.SKUUpdateWithWhereUniqueWithoutUpdatedByInput[]
-  updateMany?: Prisma.SKUUpdateManyWithWhereWithoutUpdatedByInput | Prisma.SKUUpdateManyWithWhereWithoutUpdatedByInput[]
-  deleteMany?: Prisma.SKUScalarWhereInput | Prisma.SKUScalarWhereInput[]
-}
-
 export type SKUUncheckedUpdateManyWithoutDeletedByNestedInput = {
   create?: Prisma.XOR<Prisma.SKUCreateWithoutDeletedByInput, Prisma.SKUUncheckedCreateWithoutDeletedByInput> | Prisma.SKUCreateWithoutDeletedByInput[] | Prisma.SKUUncheckedCreateWithoutDeletedByInput[]
   connectOrCreate?: Prisma.SKUCreateOrConnectWithoutDeletedByInput | Prisma.SKUCreateOrConnectWithoutDeletedByInput[]
@@ -677,6 +663,20 @@ export type SKUUncheckedUpdateManyWithoutDeletedByNestedInput = {
   connect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
   update?: Prisma.SKUUpdateWithWhereUniqueWithoutDeletedByInput | Prisma.SKUUpdateWithWhereUniqueWithoutDeletedByInput[]
   updateMany?: Prisma.SKUUpdateManyWithWhereWithoutDeletedByInput | Prisma.SKUUpdateManyWithWhereWithoutDeletedByInput[]
+  deleteMany?: Prisma.SKUScalarWhereInput | Prisma.SKUScalarWhereInput[]
+}
+
+export type SKUUncheckedUpdateManyWithoutUpdatedByNestedInput = {
+  create?: Prisma.XOR<Prisma.SKUCreateWithoutUpdatedByInput, Prisma.SKUUncheckedCreateWithoutUpdatedByInput> | Prisma.SKUCreateWithoutUpdatedByInput[] | Prisma.SKUUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.SKUCreateOrConnectWithoutUpdatedByInput | Prisma.SKUCreateOrConnectWithoutUpdatedByInput[]
+  upsert?: Prisma.SKUUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.SKUUpsertWithWhereUniqueWithoutUpdatedByInput[]
+  createMany?: Prisma.SKUCreateManyUpdatedByInputEnvelope
+  set?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
+  disconnect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
+  delete?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
+  connect?: Prisma.SKUWhereUniqueInput | Prisma.SKUWhereUniqueInput[]
+  update?: Prisma.SKUUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.SKUUpdateWithWhereUniqueWithoutUpdatedByInput[]
+  updateMany?: Prisma.SKUUpdateManyWithWhereWithoutUpdatedByInput | Prisma.SKUUpdateManyWithWhereWithoutUpdatedByInput[]
   deleteMany?: Prisma.SKUScalarWhereInput | Prisma.SKUScalarWhereInput[]
 }
 
@@ -808,12 +808,12 @@ export type SKUCreateWithoutCreatedByInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  dish: Prisma.DishCreateNestedOneWithoutSkusInput
-  variantOptions?: Prisma.VariantOptionCreateNestedManyWithoutSkusInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutSkuInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutSkuInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedSKUsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedSKUsInput
+  dish: Prisma.DishCreateNestedOneWithoutSkusInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedSKUsInput
+  variantOptions?: Prisma.VariantOptionCreateNestedManyWithoutSkusInput
 }
 
 export type SKUUncheckedCreateWithoutCreatedByInput = {
@@ -828,9 +828,9 @@ export type SKUUncheckedCreateWithoutCreatedByInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  variantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutSkusInput
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutSkuInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutSkuInput
+  variantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutSkusInput
 }
 
 export type SKUCreateOrConnectWithoutCreatedByInput = {
@@ -843,50 +843,6 @@ export type SKUCreateManyCreatedByInputEnvelope = {
   skipDuplicates?: boolean
 }
 
-export type SKUCreateWithoutUpdatedByInput = {
-  id?: string
-  value: string
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stock: number
-  images?: Prisma.SKUCreateimagesInput | string[]
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  dish: Prisma.DishCreateNestedOneWithoutSkusInput
-  variantOptions?: Prisma.VariantOptionCreateNestedManyWithoutSkusInput
-  cartItems?: Prisma.CartItemCreateNestedManyWithoutSkuInput
-  dishSKUSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutSkuInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedSKUsInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedSKUsInput
-}
-
-export type SKUUncheckedCreateWithoutUpdatedByInput = {
-  id?: string
-  value: string
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stock: number
-  images?: Prisma.SKUCreateimagesInput | string[]
-  dishId: string
-  createdById?: string | null
-  deletedById?: string | null
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  variantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutSkusInput
-  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutSkuInput
-  dishSKUSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutSkuInput
-}
-
-export type SKUCreateOrConnectWithoutUpdatedByInput = {
-  where: Prisma.SKUWhereUniqueInput
-  create: Prisma.XOR<Prisma.SKUCreateWithoutUpdatedByInput, Prisma.SKUUncheckedCreateWithoutUpdatedByInput>
-}
-
-export type SKUCreateManyUpdatedByInputEnvelope = {
-  data: Prisma.SKUCreateManyUpdatedByInput | Prisma.SKUCreateManyUpdatedByInput[]
-  skipDuplicates?: boolean
-}
-
 export type SKUCreateWithoutDeletedByInput = {
   id?: string
   value: string
@@ -896,12 +852,12 @@ export type SKUCreateWithoutDeletedByInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  dish: Prisma.DishCreateNestedOneWithoutSkusInput
-  variantOptions?: Prisma.VariantOptionCreateNestedManyWithoutSkusInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutSkuInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutSkuInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedSKUsInput
+  dish: Prisma.DishCreateNestedOneWithoutSkusInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedSKUsInput
+  variantOptions?: Prisma.VariantOptionCreateNestedManyWithoutSkusInput
 }
 
 export type SKUUncheckedCreateWithoutDeletedByInput = {
@@ -916,9 +872,9 @@ export type SKUUncheckedCreateWithoutDeletedByInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  variantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutSkusInput
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutSkuInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutSkuInput
+  variantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutSkusInput
 }
 
 export type SKUCreateOrConnectWithoutDeletedByInput = {
@@ -928,6 +884,50 @@ export type SKUCreateOrConnectWithoutDeletedByInput = {
 
 export type SKUCreateManyDeletedByInputEnvelope = {
   data: Prisma.SKUCreateManyDeletedByInput | Prisma.SKUCreateManyDeletedByInput[]
+  skipDuplicates?: boolean
+}
+
+export type SKUCreateWithoutUpdatedByInput = {
+  id?: string
+  value: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  stock: number
+  images?: Prisma.SKUCreateimagesInput | string[]
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutSkuInput
+  dishSKUSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutSkuInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedSKUsInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedSKUsInput
+  dish: Prisma.DishCreateNestedOneWithoutSkusInput
+  variantOptions?: Prisma.VariantOptionCreateNestedManyWithoutSkusInput
+}
+
+export type SKUUncheckedCreateWithoutUpdatedByInput = {
+  id?: string
+  value: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  stock: number
+  images?: Prisma.SKUCreateimagesInput | string[]
+  dishId: string
+  createdById?: string | null
+  deletedById?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutSkuInput
+  dishSKUSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutSkuInput
+  variantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutSkusInput
+}
+
+export type SKUCreateOrConnectWithoutUpdatedByInput = {
+  where: Prisma.SKUWhereUniqueInput
+  create: Prisma.XOR<Prisma.SKUCreateWithoutUpdatedByInput, Prisma.SKUUncheckedCreateWithoutUpdatedByInput>
+}
+
+export type SKUCreateManyUpdatedByInputEnvelope = {
+  data: Prisma.SKUCreateManyUpdatedByInput | Prisma.SKUCreateManyUpdatedByInput[]
   skipDuplicates?: boolean
 }
 
@@ -965,22 +965,6 @@ export type SKUScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"SKU"> | Date | string
 }
 
-export type SKUUpsertWithWhereUniqueWithoutUpdatedByInput = {
-  where: Prisma.SKUWhereUniqueInput
-  update: Prisma.XOR<Prisma.SKUUpdateWithoutUpdatedByInput, Prisma.SKUUncheckedUpdateWithoutUpdatedByInput>
-  create: Prisma.XOR<Prisma.SKUCreateWithoutUpdatedByInput, Prisma.SKUUncheckedCreateWithoutUpdatedByInput>
-}
-
-export type SKUUpdateWithWhereUniqueWithoutUpdatedByInput = {
-  where: Prisma.SKUWhereUniqueInput
-  data: Prisma.XOR<Prisma.SKUUpdateWithoutUpdatedByInput, Prisma.SKUUncheckedUpdateWithoutUpdatedByInput>
-}
-
-export type SKUUpdateManyWithWhereWithoutUpdatedByInput = {
-  where: Prisma.SKUScalarWhereInput
-  data: Prisma.XOR<Prisma.SKUUpdateManyMutationInput, Prisma.SKUUncheckedUpdateManyWithoutUpdatedByInput>
-}
-
 export type SKUUpsertWithWhereUniqueWithoutDeletedByInput = {
   where: Prisma.SKUWhereUniqueInput
   update: Prisma.XOR<Prisma.SKUUpdateWithoutDeletedByInput, Prisma.SKUUncheckedUpdateWithoutDeletedByInput>
@@ -997,6 +981,22 @@ export type SKUUpdateManyWithWhereWithoutDeletedByInput = {
   data: Prisma.XOR<Prisma.SKUUpdateManyMutationInput, Prisma.SKUUncheckedUpdateManyWithoutDeletedByInput>
 }
 
+export type SKUUpsertWithWhereUniqueWithoutUpdatedByInput = {
+  where: Prisma.SKUWhereUniqueInput
+  update: Prisma.XOR<Prisma.SKUUpdateWithoutUpdatedByInput, Prisma.SKUUncheckedUpdateWithoutUpdatedByInput>
+  create: Prisma.XOR<Prisma.SKUCreateWithoutUpdatedByInput, Prisma.SKUUncheckedCreateWithoutUpdatedByInput>
+}
+
+export type SKUUpdateWithWhereUniqueWithoutUpdatedByInput = {
+  where: Prisma.SKUWhereUniqueInput
+  data: Prisma.XOR<Prisma.SKUUpdateWithoutUpdatedByInput, Prisma.SKUUncheckedUpdateWithoutUpdatedByInput>
+}
+
+export type SKUUpdateManyWithWhereWithoutUpdatedByInput = {
+  where: Prisma.SKUScalarWhereInput
+  data: Prisma.XOR<Prisma.SKUUpdateManyMutationInput, Prisma.SKUUncheckedUpdateManyWithoutUpdatedByInput>
+}
+
 export type SKUCreateWithoutDishInput = {
   id?: string
   value: string
@@ -1006,12 +1006,12 @@ export type SKUCreateWithoutDishInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  variantOptions?: Prisma.VariantOptionCreateNestedManyWithoutSkusInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutSkuInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutSkuInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedSKUsInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedSKUsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedSKUsInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedSKUsInput
+  variantOptions?: Prisma.VariantOptionCreateNestedManyWithoutSkusInput
 }
 
 export type SKUUncheckedCreateWithoutDishInput = {
@@ -1026,9 +1026,9 @@ export type SKUUncheckedCreateWithoutDishInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  variantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutSkusInput
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutSkuInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutSkuInput
+  variantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutSkusInput
 }
 
 export type SKUCreateOrConnectWithoutDishInput = {
@@ -1066,12 +1066,12 @@ export type SKUCreateWithoutVariantOptionsInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  dish: Prisma.DishCreateNestedOneWithoutSkusInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutSkuInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutSkuInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedSKUsInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedSKUsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedSKUsInput
+  dish: Prisma.DishCreateNestedOneWithoutSkusInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedSKUsInput
 }
 
 export type SKUUncheckedCreateWithoutVariantOptionsInput = {
@@ -1121,12 +1121,12 @@ export type SKUCreateWithoutCartItemsInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  dish: Prisma.DishCreateNestedOneWithoutSkusInput
-  variantOptions?: Prisma.VariantOptionCreateNestedManyWithoutSkusInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutSkuInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedSKUsInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedSKUsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedSKUsInput
+  dish: Prisma.DishCreateNestedOneWithoutSkusInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedSKUsInput
+  variantOptions?: Prisma.VariantOptionCreateNestedManyWithoutSkusInput
 }
 
 export type SKUUncheckedCreateWithoutCartItemsInput = {
@@ -1142,8 +1142,8 @@ export type SKUUncheckedCreateWithoutCartItemsInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  variantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutSkusInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutSkuInput
+  variantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutSkusInput
 }
 
 export type SKUCreateOrConnectWithoutCartItemsInput = {
@@ -1171,12 +1171,12 @@ export type SKUUpdateWithoutCartItemsInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  dish?: Prisma.DishUpdateOneRequiredWithoutSkusNestedInput
-  variantOptions?: Prisma.VariantOptionUpdateManyWithoutSkusNestedInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutSkuNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedSKUsNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedSKUsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedSKUsNestedInput
+  dish?: Prisma.DishUpdateOneRequiredWithoutSkusNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedSKUsNestedInput
+  variantOptions?: Prisma.VariantOptionUpdateManyWithoutSkusNestedInput
 }
 
 export type SKUUncheckedUpdateWithoutCartItemsInput = {
@@ -1192,8 +1192,8 @@ export type SKUUncheckedUpdateWithoutCartItemsInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  variantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutSkusNestedInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutSkuNestedInput
+  variantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutSkusNestedInput
 }
 
 export type SKUCreateWithoutDishSKUSnapshotsInput = {
@@ -1205,12 +1205,12 @@ export type SKUCreateWithoutDishSKUSnapshotsInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  dish: Prisma.DishCreateNestedOneWithoutSkusInput
-  variantOptions?: Prisma.VariantOptionCreateNestedManyWithoutSkusInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutSkuInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedSKUsInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedSKUsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedSKUsInput
+  dish: Prisma.DishCreateNestedOneWithoutSkusInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedSKUsInput
+  variantOptions?: Prisma.VariantOptionCreateNestedManyWithoutSkusInput
 }
 
 export type SKUUncheckedCreateWithoutDishSKUSnapshotsInput = {
@@ -1226,8 +1226,8 @@ export type SKUUncheckedCreateWithoutDishSKUSnapshotsInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  variantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutSkusInput
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutSkuInput
+  variantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutSkusInput
 }
 
 export type SKUCreateOrConnectWithoutDishSKUSnapshotsInput = {
@@ -1255,12 +1255,12 @@ export type SKUUpdateWithoutDishSKUSnapshotsInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  dish?: Prisma.DishUpdateOneRequiredWithoutSkusNestedInput
-  variantOptions?: Prisma.VariantOptionUpdateManyWithoutSkusNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutSkuNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedSKUsNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedSKUsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedSKUsNestedInput
+  dish?: Prisma.DishUpdateOneRequiredWithoutSkusNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedSKUsNestedInput
+  variantOptions?: Prisma.VariantOptionUpdateManyWithoutSkusNestedInput
 }
 
 export type SKUUncheckedUpdateWithoutDishSKUSnapshotsInput = {
@@ -1276,8 +1276,8 @@ export type SKUUncheckedUpdateWithoutDishSKUSnapshotsInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  variantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutSkusNestedInput
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutSkuNestedInput
+  variantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutSkusNestedInput
 }
 
 export type SKUCreateManyCreatedByInput = {
@@ -1288,20 +1288,6 @@ export type SKUCreateManyCreatedByInput = {
   images?: Prisma.SKUCreateimagesInput | string[]
   dishId: string
   updatedById?: string | null
-  deletedById?: string | null
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type SKUCreateManyUpdatedByInput = {
-  id?: string
-  value: string
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stock: number
-  images?: Prisma.SKUCreateimagesInput | string[]
-  dishId: string
-  createdById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -1322,6 +1308,20 @@ export type SKUCreateManyDeletedByInput = {
   updatedAt?: Date | string
 }
 
+export type SKUCreateManyUpdatedByInput = {
+  id?: string
+  value: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  stock: number
+  images?: Prisma.SKUCreateimagesInput | string[]
+  dishId: string
+  createdById?: string | null
+  deletedById?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
 export type SKUUpdateWithoutCreatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1331,12 +1331,12 @@ export type SKUUpdateWithoutCreatedByInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  dish?: Prisma.DishUpdateOneRequiredWithoutSkusNestedInput
-  variantOptions?: Prisma.VariantOptionUpdateManyWithoutSkusNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutSkuNestedInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutSkuNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedSKUsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedSKUsNestedInput
+  dish?: Prisma.DishUpdateOneRequiredWithoutSkusNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedSKUsNestedInput
+  variantOptions?: Prisma.VariantOptionUpdateManyWithoutSkusNestedInput
 }
 
 export type SKUUncheckedUpdateWithoutCreatedByInput = {
@@ -1351,9 +1351,9 @@ export type SKUUncheckedUpdateWithoutCreatedByInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  variantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutSkusNestedInput
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutSkuNestedInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutSkuNestedInput
+  variantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutSkusNestedInput
 }
 
 export type SKUUncheckedUpdateManyWithoutCreatedByInput = {
@@ -1370,54 +1370,6 @@ export type SKUUncheckedUpdateManyWithoutCreatedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type SKUUpdateWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  value?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stock?: Prisma.IntFieldUpdateOperationsInput | number
-  images?: Prisma.SKUUpdateimagesInput | string[]
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  dish?: Prisma.DishUpdateOneRequiredWithoutSkusNestedInput
-  variantOptions?: Prisma.VariantOptionUpdateManyWithoutSkusNestedInput
-  cartItems?: Prisma.CartItemUpdateManyWithoutSkuNestedInput
-  dishSKUSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutSkuNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedSKUsNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedSKUsNestedInput
-}
-
-export type SKUUncheckedUpdateWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  value?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stock?: Prisma.IntFieldUpdateOperationsInput | number
-  images?: Prisma.SKUUpdateimagesInput | string[]
-  dishId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  variantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutSkusNestedInput
-  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutSkuNestedInput
-  dishSKUSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutSkuNestedInput
-}
-
-export type SKUUncheckedUpdateManyWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  value?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stock?: Prisma.IntFieldUpdateOperationsInput | number
-  images?: Prisma.SKUUpdateimagesInput | string[]
-  dishId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
 export type SKUUpdateWithoutDeletedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1427,12 +1379,12 @@ export type SKUUpdateWithoutDeletedByInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  dish?: Prisma.DishUpdateOneRequiredWithoutSkusNestedInput
-  variantOptions?: Prisma.VariantOptionUpdateManyWithoutSkusNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutSkuNestedInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutSkuNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedSKUsNestedInput
+  dish?: Prisma.DishUpdateOneRequiredWithoutSkusNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedSKUsNestedInput
+  variantOptions?: Prisma.VariantOptionUpdateManyWithoutSkusNestedInput
 }
 
 export type SKUUncheckedUpdateWithoutDeletedByInput = {
@@ -1447,9 +1399,9 @@ export type SKUUncheckedUpdateWithoutDeletedByInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  variantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutSkusNestedInput
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutSkuNestedInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutSkuNestedInput
+  variantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutSkusNestedInput
 }
 
 export type SKUUncheckedUpdateManyWithoutDeletedByInput = {
@@ -1461,6 +1413,54 @@ export type SKUUncheckedUpdateManyWithoutDeletedByInput = {
   dishId?: Prisma.StringFieldUpdateOperationsInput | string
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type SKUUpdateWithoutUpdatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  value?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  stock?: Prisma.IntFieldUpdateOperationsInput | number
+  images?: Prisma.SKUUpdateimagesInput | string[]
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cartItems?: Prisma.CartItemUpdateManyWithoutSkuNestedInput
+  dishSKUSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutSkuNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedSKUsNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedSKUsNestedInput
+  dish?: Prisma.DishUpdateOneRequiredWithoutSkusNestedInput
+  variantOptions?: Prisma.VariantOptionUpdateManyWithoutSkusNestedInput
+}
+
+export type SKUUncheckedUpdateWithoutUpdatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  value?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  stock?: Prisma.IntFieldUpdateOperationsInput | number
+  images?: Prisma.SKUUpdateimagesInput | string[]
+  dishId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutSkuNestedInput
+  dishSKUSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutSkuNestedInput
+  variantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutSkusNestedInput
+}
+
+export type SKUUncheckedUpdateManyWithoutUpdatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  value?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  stock?: Prisma.IntFieldUpdateOperationsInput | number
+  images?: Prisma.SKUUpdateimagesInput | string[]
+  dishId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1489,12 +1489,12 @@ export type SKUUpdateWithoutDishInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  variantOptions?: Prisma.VariantOptionUpdateManyWithoutSkusNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutSkuNestedInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutSkuNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedSKUsNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedSKUsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedSKUsNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedSKUsNestedInput
+  variantOptions?: Prisma.VariantOptionUpdateManyWithoutSkusNestedInput
 }
 
 export type SKUUncheckedUpdateWithoutDishInput = {
@@ -1509,9 +1509,9 @@ export type SKUUncheckedUpdateWithoutDishInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  variantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutSkusNestedInput
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutSkuNestedInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutSkuNestedInput
+  variantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutSkusNestedInput
 }
 
 export type SKUUncheckedUpdateManyWithoutDishInput = {
@@ -1537,12 +1537,12 @@ export type SKUUpdateWithoutVariantOptionsInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  dish?: Prisma.DishUpdateOneRequiredWithoutSkusNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutSkuNestedInput
   dishSKUSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutSkuNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedSKUsNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedSKUsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedSKUsNestedInput
+  dish?: Prisma.DishUpdateOneRequiredWithoutSkusNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedSKUsNestedInput
 }
 
 export type SKUUncheckedUpdateWithoutVariantOptionsInput = {
@@ -1583,15 +1583,15 @@ export type SKUUncheckedUpdateManyWithoutVariantOptionsInput = {
  */
 
 export type SKUCountOutputType = {
-  variantOptions: number
   cartItems: number
   dishSKUSnapshots: number
+  variantOptions: number
 }
 
 export type SKUCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  variantOptions?: boolean | SKUCountOutputTypeCountVariantOptionsArgs
   cartItems?: boolean | SKUCountOutputTypeCountCartItemsArgs
   dishSKUSnapshots?: boolean | SKUCountOutputTypeCountDishSKUSnapshotsArgs
+  variantOptions?: boolean | SKUCountOutputTypeCountVariantOptionsArgs
 }
 
 /**
@@ -1602,13 +1602,6 @@ export type SKUCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensio
    * Select specific fields to fetch from the SKUCountOutputType
    */
   select?: Prisma.SKUCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * SKUCountOutputType without action
- */
-export type SKUCountOutputTypeCountVariantOptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.VariantOptionWhereInput
 }
 
 /**
@@ -1625,6 +1618,13 @@ export type SKUCountOutputTypeCountDishSKUSnapshotsArgs<ExtArgs extends runtime.
   where?: Prisma.DishSKUSnapshotWhereInput
 }
 
+/**
+ * SKUCountOutputType without action
+ */
+export type SKUCountOutputTypeCountVariantOptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VariantOptionWhereInput
+}
+
 
 export type SKUSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1639,13 +1639,13 @@ export type SKUSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
-  variantOptions?: boolean | Prisma.SKU$variantOptionsArgs<ExtArgs>
   cartItems?: boolean | Prisma.SKU$cartItemsArgs<ExtArgs>
   dishSKUSnapshots?: boolean | Prisma.SKU$dishSKUSnapshotsArgs<ExtArgs>
   createdBy?: boolean | Prisma.SKU$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.SKU$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.SKU$deletedByArgs<ExtArgs>
+  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.SKU$updatedByArgs<ExtArgs>
+  variantOptions?: boolean | Prisma.SKU$variantOptionsArgs<ExtArgs>
   _count?: boolean | Prisma.SKUCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sKU"]>
 
@@ -1662,10 +1662,10 @@ export type SKUSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.SKU$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.SKU$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.SKU$deletedByArgs<ExtArgs>
+  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.SKU$updatedByArgs<ExtArgs>
 }, ExtArgs["result"]["sKU"]>
 
 export type SKUSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1681,10 +1681,10 @@ export type SKUSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.SKU$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.SKU$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.SKU$deletedByArgs<ExtArgs>
+  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.SKU$updatedByArgs<ExtArgs>
 }, ExtArgs["result"]["sKU"]>
 
 export type SKUSelectScalar = {
@@ -1704,38 +1704,38 @@ export type SKUSelectScalar = {
 
 export type SKUOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "value" | "price" | "stock" | "images" | "dishId" | "createdById" | "updatedById" | "deletedById" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["sKU"]>
 export type SKUInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
-  variantOptions?: boolean | Prisma.SKU$variantOptionsArgs<ExtArgs>
   cartItems?: boolean | Prisma.SKU$cartItemsArgs<ExtArgs>
   dishSKUSnapshots?: boolean | Prisma.SKU$dishSKUSnapshotsArgs<ExtArgs>
   createdBy?: boolean | Prisma.SKU$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.SKU$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.SKU$deletedByArgs<ExtArgs>
+  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.SKU$updatedByArgs<ExtArgs>
+  variantOptions?: boolean | Prisma.SKU$variantOptionsArgs<ExtArgs>
   _count?: boolean | Prisma.SKUCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SKUIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.SKU$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.SKU$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.SKU$deletedByArgs<ExtArgs>
+  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.SKU$updatedByArgs<ExtArgs>
 }
 export type SKUIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.SKU$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.SKU$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.SKU$deletedByArgs<ExtArgs>
+  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.SKU$updatedByArgs<ExtArgs>
 }
 
 export type $SKUPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SKU"
   objects: {
-    dish: Prisma.$DishPayload<ExtArgs>
-    variantOptions: Prisma.$VariantOptionPayload<ExtArgs>[]
     cartItems: Prisma.$CartItemPayload<ExtArgs>[]
     dishSKUSnapshots: Prisma.$DishSKUSnapshotPayload<ExtArgs>[]
     createdBy: Prisma.$UserPayload<ExtArgs> | null
-    updatedBy: Prisma.$UserPayload<ExtArgs> | null
     deletedBy: Prisma.$UserPayload<ExtArgs> | null
+    dish: Prisma.$DishPayload<ExtArgs>
+    updatedBy: Prisma.$UserPayload<ExtArgs> | null
+    variantOptions: Prisma.$VariantOptionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2144,13 +2144,13 @@ readonly fields: SKUFieldRefs;
  */
 export interface Prisma__SKUClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  dish<T extends Prisma.DishDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DishDefaultArgs<ExtArgs>>): Prisma.Prisma__DishClient<runtime.Types.Result.GetResult<Prisma.$DishPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  variantOptions<T extends Prisma.SKU$variantOptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SKU$variantOptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VariantOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cartItems<T extends Prisma.SKU$cartItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SKU$cartItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   dishSKUSnapshots<T extends Prisma.SKU$dishSKUSnapshotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SKU$dishSKUSnapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DishSKUSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdBy<T extends Prisma.SKU$createdByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SKU$createdByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  updatedBy<T extends Prisma.SKU$updatedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SKU$updatedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   deletedBy<T extends Prisma.SKU$deletedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SKU$deletedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  dish<T extends Prisma.DishDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DishDefaultArgs<ExtArgs>>): Prisma.Prisma__DishClient<runtime.Types.Result.GetResult<Prisma.$DishPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  updatedBy<T extends Prisma.SKU$updatedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SKU$updatedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  variantOptions<T extends Prisma.SKU$variantOptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SKU$variantOptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VariantOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2588,30 +2588,6 @@ export type SKUDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 /**
- * SKU.variantOptions
- */
-export type SKU$variantOptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the VariantOption
-   */
-  select?: Prisma.VariantOptionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the VariantOption
-   */
-  omit?: Prisma.VariantOptionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.VariantOptionInclude<ExtArgs> | null
-  where?: Prisma.VariantOptionWhereInput
-  orderBy?: Prisma.VariantOptionOrderByWithRelationInput | Prisma.VariantOptionOrderByWithRelationInput[]
-  cursor?: Prisma.VariantOptionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.VariantOptionScalarFieldEnum | Prisma.VariantOptionScalarFieldEnum[]
-}
-
-/**
  * SKU.cartItems
  */
 export type SKU$cartItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2679,6 +2655,25 @@ export type SKU$createdByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 /**
+ * SKU.deletedBy
+ */
+export type SKU$deletedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+}
+
+/**
  * SKU.updatedBy
  */
 export type SKU$updatedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2698,22 +2693,27 @@ export type SKU$updatedByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 /**
- * SKU.deletedBy
+ * SKU.variantOptions
  */
-export type SKU$deletedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type SKU$variantOptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the User
+   * Select specific fields to fetch from the VariantOption
    */
-  select?: Prisma.UserSelect<ExtArgs> | null
+  select?: Prisma.VariantOptionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the User
+   * Omit specific fields from the VariantOption
    */
-  omit?: Prisma.UserOmit<ExtArgs> | null
+  omit?: Prisma.VariantOptionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.UserInclude<ExtArgs> | null
-  where?: Prisma.UserWhereInput
+  include?: Prisma.VariantOptionInclude<ExtArgs> | null
+  where?: Prisma.VariantOptionWhereInput
+  orderBy?: Prisma.VariantOptionOrderByWithRelationInput | Prisma.VariantOptionOrderByWithRelationInput[]
+  cursor?: Prisma.VariantOptionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VariantOptionScalarFieldEnum | Prisma.VariantOptionScalarFieldEnum[]
 }
 
 /**

@@ -29,11 +29,35 @@ export class ReviewRepo {
   }
 
   async list(query: GetReviewsQueryType) {
-    const { page, limit, dishId, userId } = query
+    const { page, limit, dishId, userId, categoryId, keyword } = query
 
-    const where = {
+    const where: any = {
       ...(dishId && { dishId }),
       ...(userId && { userId }),
+    }
+
+    if (categoryId) {
+      where.dish = {
+        categories: {
+          some: {
+            id: categoryId,
+          },
+        },
+      }
+    }
+
+    if (keyword) {
+      where.OR = [
+        { content: { contains: keyword, mode: 'insensitive' } },
+        { user: { name: { contains: keyword, mode: 'insensitive' } } },
+        {
+          dish: {
+            dishTranslations: {
+              some: { name: { contains: keyword, mode: 'insensitive' } },
+            },
+          },
+        },
+      ]
     }
 
     return await paginate(

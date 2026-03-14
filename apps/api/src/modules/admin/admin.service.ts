@@ -119,20 +119,28 @@ export class AdminService {
     }))
 
     // Aggregate top dishes
-    const dishMap = new Map<string, { totalQuantity: number; totalRevenue: number }>()
+    const dishMap = new Map<
+      string,
+      { dishId?: string; dishName: string; totalQuantity: number; totalRevenue: number }
+    >()
     for (const order of orders) {
       for (const item of order.items) {
-        const existing = dishMap.get(item.dishName) || { totalQuantity: 0, totalRevenue: 0 }
+        const key = item.dishId || item.dishName
+        const existing = dishMap.get(key) || {
+          dishId: item.dishId || undefined,
+          dishName: item.dishName,
+          totalQuantity: 0,
+          totalRevenue: 0,
+        }
         existing.totalQuantity += item.quantity
         existing.totalRevenue += Number(item.price) * item.quantity
-        dishMap.set(item.dishName, existing)
+        dishMap.set(key, existing)
       }
     }
 
-    const topDishes = Array.from(dishMap.entries())
-      .map(([dishName, val]) => ({ dishName, ...val }))
-      .sort((a, b) => b.totalQuantity - a.totalQuantity)
-      .slice(0, 10)
+    const topDishesRaw = Array.from(dishMap.values()).sort(
+      (a, b) => b.totalQuantity - a.totalQuantity,
+    )
 
     const totalRevenue = orders.reduce((sum, o) => sum + Number(o.totalAmount), 0)
     const totalOrders = orders.length
@@ -148,11 +156,21 @@ export class AdminService {
       _count: { rating: true },
     })
 
-    // Get dish names for those reviews
-    const dishIds = reviewsInPeriod.map((r) => r.dishId)
+    // Get dish names for those reviews AND top dishes
+    const reviewDishIds = reviewsInPeriod.map((r) => r.dishId)
+    const topDishesIds = topDishesRaw.map((d) => d.dishId).filter(Boolean) as string[]
+    const dishIds = Array.from(new Set([...reviewDishIds, ...topDishesIds]))
+
     const dishesInfo = await this.prisma.dish.findMany({
       where: { id: { in: dishIds } },
-      select: { id: true, dishTranslations: { select: { name: true } }, basePrice: true },
+      select: {
+        id: true,
+        dishTranslations: {
+          where: { languageId: 'vi' },
+          select: { name: true },
+        },
+        basePrice: true,
+      },
     })
 
     // Map data
@@ -162,6 +180,54 @@ export class AdminService {
         dishName: dish?.dishTranslations[0]?.name || 'Unknown Dish',
         avgRating: r._avg.rating || 0,
         reviewCount: r._count.rating,
+      }
+    })
+
+    // Handle old orders missing dishId
+    const missingDishNames = topDishesRaw.filter((d) => !d.dishId).map((d) => d.dishName)
+    const fallbackMap = new Map<string, string>()
+
+    if (missingDishNames.length > 0) {
+      const dishesWithMissingNames = await this.prisma.dish.findMany({
+        where: {
+          dishTranslations: {
+            some: {
+              name: { in: missingDishNames },
+            },
+          },
+        },
+        select: {
+          dishTranslations: {
+            select: { languageId: true, name: true },
+          },
+        },
+      })
+
+      for (const dish of dishesWithMissingNames) {
+        const viTranslation = dish.dishTranslations.find((t) => t.languageId === 'vi')
+        if (viTranslation) {
+          for (const t of dish.dishTranslations) {
+            fallbackMap.set(t.name, viTranslation.name)
+          }
+        }
+      }
+    }
+
+    // Map top dishes names
+    const topDishes = topDishesRaw.map((d) => {
+      let finalName = d.dishName
+      if (d.dishId) {
+        const dishInfo = dishesInfo.find((info) => info.id === d.dishId)
+        if (dishInfo && dishInfo.dishTranslations[0]) {
+          finalName = dishInfo.dishTranslations[0].name
+        }
+      } else if (fallbackMap.has(d.dishName)) {
+        finalName = fallbackMap.get(d.dishName)!
+      }
+      return {
+        dishName: finalName,
+        totalQuantity: d.totalQuantity,
+        totalRevenue: d.totalRevenue,
       }
     })
 

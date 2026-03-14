@@ -183,8 +183,8 @@ export const UserInteractionScalarFieldEnum = {
   userId: 'userId',
   dishId: 'dishId',
   action: 'action',
-  metadata: 'metadata',
-  timestamp: 'timestamp'
+  timestamp: 'timestamp',
+  metadata: 'metadata'
 } as const
 
 export type UserInteractionScalarFieldEnum = (typeof UserInteractionScalarFieldEnum)[keyof typeof UserInteractionScalarFieldEnum]
@@ -268,13 +268,13 @@ export const DishScalarFieldEnum = {
   virtualPrice: 'virtualPrice',
   supplierId: 'supplierId',
   images: 'images',
-  isActive: 'isActive',
   createdById: 'createdById',
   updatedById: 'updatedById',
   deletedById: 'deletedById',
   deletedAt: 'deletedAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  isActive: 'isActive'
 } as const
 
 export type DishScalarFieldEnum = (typeof DishScalarFieldEnum)[keyof typeof DishScalarFieldEnum]
@@ -378,18 +378,18 @@ export type SKUScalarFieldEnum = (typeof SKUScalarFieldEnum)[keyof typeof SKUSca
 export const SupplierScalarFieldEnum = {
   id: 'id',
   logo: 'logo',
-  name: 'name',
-  contactName: 'contactName',
-  phoneNumber: 'phoneNumber',
-  email: 'email',
-  website: 'website',
-  rating: 'rating',
   createdById: 'createdById',
   updatedById: 'updatedById',
   deletedById: 'deletedById',
   deletedAt: 'deletedAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  contactName: 'contactName',
+  email: 'email',
+  name: 'name',
+  phoneNumber: 'phoneNumber',
+  rating: 'rating',
+  website: 'website'
 } as const
 
 export type SupplierScalarFieldEnum = (typeof SupplierScalarFieldEnum)[keyof typeof SupplierScalarFieldEnum]
@@ -427,7 +427,6 @@ export type CartItemScalarFieldEnum = (typeof CartItemScalarFieldEnum)[keyof typ
 
 export const DishSKUSnapshotScalarFieldEnum = {
   id: 'id',
-  dishId: 'dishId',
   dishName: 'dishName',
   price: 'price',
   quantity: 'quantity',
@@ -435,7 +434,8 @@ export const DishSKUSnapshotScalarFieldEnum = {
   skuValue: 'skuValue',
   skuId: 'skuId',
   orderId: 'orderId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  dishId: 'dishId'
 } as const
 
 export type DishSKUSnapshotScalarFieldEnum = (typeof DishSKUSnapshotScalarFieldEnum)[keyof typeof DishSKUSnapshotScalarFieldEnum]
@@ -444,7 +444,6 @@ export type DishSKUSnapshotScalarFieldEnum = (typeof DishSKUSnapshotScalarFieldE
 export const OrderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  guestId: 'guestId',
   guestInfo: 'guestInfo',
   status: 'status',
   tableId: 'tableId',
@@ -453,14 +452,15 @@ export const OrderScalarFieldEnum = {
   channel: 'channel',
   totalAmount: 'totalAmount',
   discount: 'discount',
-  paymentStatus: 'paymentStatus',
   paymentMethod: 'paymentMethod',
   createdById: 'createdById',
   updatedById: 'updatedById',
   deletedById: 'deletedById',
   deletedAt: 'deletedAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  guestId: 'guestId',
+  paymentStatus: 'paymentStatus'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -470,11 +470,11 @@ export const ReviewScalarFieldEnum = {
   id: 'id',
   content: 'content',
   rating: 'rating',
-  adminReply: 'adminReply',
   dishId: 'dishId',
   userId: 'userId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  adminReply: 'adminReply'
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
@@ -575,13 +575,13 @@ export const InventoryScalarFieldEnum = {
   itemName: 'itemName',
   quantity: 'quantity',
   unit: 'unit',
-  threshold: 'threshold',
   createdById: 'createdById',
   updatedById: 'updatedById',
   deletedById: 'deletedById',
   deletedAt: 'deletedAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  threshold: 'threshold'
 } as const
 
 export type InventoryScalarFieldEnum = (typeof InventoryScalarFieldEnum)[keyof typeof InventoryScalarFieldEnum]

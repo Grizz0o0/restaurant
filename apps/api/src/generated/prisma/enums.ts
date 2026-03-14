@@ -11,11 +11,11 @@
 
 export const InteractionType = {
   VIEW: 'VIEW',
-  CLICK: 'CLICK',
-  SEARCH: 'SEARCH',
   ADD_CART: 'ADD_CART',
   ORDER: 'ORDER',
-  REVIEW: 'REVIEW'
+  REVIEW: 'REVIEW',
+  CLICK: 'CLICK',
+  SEARCH: 'SEARCH'
 } as const
 
 export type InteractionType = (typeof InteractionType)[keyof typeof InteractionType]
@@ -142,8 +142,8 @@ export const PaymentMethod = {
   CARD: 'CARD',
   QR_PAY: 'QR_PAY',
   BANK_TRANSFER: 'BANK_TRANSFER',
-  MOMO: 'MOMO',
-  OTHER: 'OTHER'
+  OTHER: 'OTHER',
+  MOMO: 'MOMO'
 } as const
 
 export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]

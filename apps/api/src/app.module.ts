@@ -35,6 +35,7 @@ import { RestaurantStaffModule } from './modules/restaurant-staff/restaurant-sta
 import { ReservationModule } from './modules/reservation/reservation.module'
 import { AddressModule } from './modules/address/address.module'
 import { PaymentModule } from './modules/payment/payment.module'
+import { AiChatModule } from './modules/ai-chat/ai-chat.module'
 
 import { EventEmitterModule } from '@nestjs/event-emitter'
 
@@ -85,6 +86,7 @@ import SuperJSON from 'superjson'
     ReservationModule,
     AddressModule,
     PaymentModule,
+    AiChatModule,
 
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],

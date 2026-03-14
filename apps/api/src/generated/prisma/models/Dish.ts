@@ -43,13 +43,13 @@ export type DishMinAggregateOutputType = {
   basePrice: runtime.Decimal | null
   virtualPrice: runtime.Decimal | null
   supplierId: string | null
-  isActive: boolean | null
   createdById: string | null
   updatedById: string | null
   deletedById: string | null
   deletedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  isActive: boolean | null
 }
 
 export type DishMaxAggregateOutputType = {
@@ -57,13 +57,13 @@ export type DishMaxAggregateOutputType = {
   basePrice: runtime.Decimal | null
   virtualPrice: runtime.Decimal | null
   supplierId: string | null
-  isActive: boolean | null
   createdById: string | null
   updatedById: string | null
   deletedById: string | null
   deletedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  isActive: boolean | null
 }
 
 export type DishCountAggregateOutputType = {
@@ -72,13 +72,13 @@ export type DishCountAggregateOutputType = {
   virtualPrice: number
   supplierId: number
   images: number
-  isActive: number
   createdById: number
   updatedById: number
   deletedById: number
   deletedAt: number
   createdAt: number
   updatedAt: number
+  isActive: number
   _all: number
 }
 
@@ -98,13 +98,13 @@ export type DishMinAggregateInputType = {
   basePrice?: true
   virtualPrice?: true
   supplierId?: true
-  isActive?: true
   createdById?: true
   updatedById?: true
   deletedById?: true
   deletedAt?: true
   createdAt?: true
   updatedAt?: true
+  isActive?: true
 }
 
 export type DishMaxAggregateInputType = {
@@ -112,13 +112,13 @@ export type DishMaxAggregateInputType = {
   basePrice?: true
   virtualPrice?: true
   supplierId?: true
-  isActive?: true
   createdById?: true
   updatedById?: true
   deletedById?: true
   deletedAt?: true
   createdAt?: true
   updatedAt?: true
+  isActive?: true
 }
 
 export type DishCountAggregateInputType = {
@@ -127,13 +127,13 @@ export type DishCountAggregateInputType = {
   virtualPrice?: true
   supplierId?: true
   images?: true
-  isActive?: true
   createdById?: true
   updatedById?: true
   deletedById?: true
   deletedAt?: true
   createdAt?: true
   updatedAt?: true
+  isActive?: true
   _all?: true
 }
 
@@ -229,13 +229,13 @@ export type DishGroupByOutputType = {
   virtualPrice: runtime.Decimal
   supplierId: string
   images: string[]
-  isActive: boolean
   createdById: string | null
   updatedById: string | null
   deletedById: string | null
   deletedAt: Date | null
   createdAt: Date
   updatedAt: Date
+  isActive: boolean
   _count: DishCountAggregateOutputType | null
   _avg: DishAvgAggregateOutputType | null
   _sum: DishSumAggregateOutputType | null
@@ -267,26 +267,26 @@ export type DishWhereInput = {
   virtualPrice?: Prisma.DecimalFilter<"Dish"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFilter<"Dish"> | string
   images?: Prisma.StringNullableListFilter<"Dish">
-  isActive?: Prisma.BoolFilter<"Dish"> | boolean
   createdById?: Prisma.StringNullableFilter<"Dish"> | string | null
   updatedById?: Prisma.StringNullableFilter<"Dish"> | string | null
   deletedById?: Prisma.StringNullableFilter<"Dish"> | string | null
   deletedAt?: Prisma.DateTimeNullableFilter<"Dish"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Dish"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Dish"> | Date | string
+  isActive?: Prisma.BoolFilter<"Dish"> | boolean
+  createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  deletedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   supplier?: Prisma.XOR<Prisma.SupplierScalarRelationFilter, Prisma.SupplierWhereInput>
-  categories?: Prisma.DishCategoryListRelationFilter
-  interactions?: Prisma.UserInteractionListRelationFilter
-  variants?: Prisma.VariantListRelationFilter
-  skus?: Prisma.SKUListRelationFilter
-  reviews?: Prisma.ReviewListRelationFilter
-  dishTranslations?: Prisma.DishTranslationListRelationFilter
+  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   dishSkuSnapshots?: Prisma.DishSKUSnapshotListRelationFilter
+  dishTranslations?: Prisma.DishTranslationListRelationFilter
   inventories?: Prisma.InventoryDishListRelationFilter
   recommendations?: Prisma.RecommendationListRelationFilter
-  createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  deletedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  reviews?: Prisma.ReviewListRelationFilter
+  skus?: Prisma.SKUListRelationFilter
+  interactions?: Prisma.UserInteractionListRelationFilter
+  variants?: Prisma.VariantListRelationFilter
+  categories?: Prisma.DishCategoryListRelationFilter
 }
 
 export type DishOrderByWithRelationInput = {
@@ -295,26 +295,26 @@ export type DishOrderByWithRelationInput = {
   virtualPrice?: Prisma.SortOrder
   supplierId?: Prisma.SortOrder
   images?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedById?: Prisma.SortOrderInput | Prisma.SortOrder
   deletedById?: Prisma.SortOrderInput | Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  createdBy?: Prisma.UserOrderByWithRelationInput
+  deletedBy?: Prisma.UserOrderByWithRelationInput
   supplier?: Prisma.SupplierOrderByWithRelationInput
-  categories?: Prisma.DishCategoryOrderByRelationAggregateInput
-  interactions?: Prisma.UserInteractionOrderByRelationAggregateInput
-  variants?: Prisma.VariantOrderByRelationAggregateInput
-  skus?: Prisma.SKUOrderByRelationAggregateInput
-  reviews?: Prisma.ReviewOrderByRelationAggregateInput
-  dishTranslations?: Prisma.DishTranslationOrderByRelationAggregateInput
+  updatedBy?: Prisma.UserOrderByWithRelationInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotOrderByRelationAggregateInput
+  dishTranslations?: Prisma.DishTranslationOrderByRelationAggregateInput
   inventories?: Prisma.InventoryDishOrderByRelationAggregateInput
   recommendations?: Prisma.RecommendationOrderByRelationAggregateInput
-  createdBy?: Prisma.UserOrderByWithRelationInput
-  updatedBy?: Prisma.UserOrderByWithRelationInput
-  deletedBy?: Prisma.UserOrderByWithRelationInput
+  reviews?: Prisma.ReviewOrderByRelationAggregateInput
+  skus?: Prisma.SKUOrderByRelationAggregateInput
+  interactions?: Prisma.UserInteractionOrderByRelationAggregateInput
+  variants?: Prisma.VariantOrderByRelationAggregateInput
+  categories?: Prisma.DishCategoryOrderByRelationAggregateInput
 }
 
 export type DishWhereUniqueInput = Prisma.AtLeast<{
@@ -326,26 +326,26 @@ export type DishWhereUniqueInput = Prisma.AtLeast<{
   virtualPrice?: Prisma.DecimalFilter<"Dish"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFilter<"Dish"> | string
   images?: Prisma.StringNullableListFilter<"Dish">
-  isActive?: Prisma.BoolFilter<"Dish"> | boolean
   createdById?: Prisma.StringNullableFilter<"Dish"> | string | null
   updatedById?: Prisma.StringNullableFilter<"Dish"> | string | null
   deletedById?: Prisma.StringNullableFilter<"Dish"> | string | null
   deletedAt?: Prisma.DateTimeNullableFilter<"Dish"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Dish"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Dish"> | Date | string
+  isActive?: Prisma.BoolFilter<"Dish"> | boolean
+  createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  deletedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   supplier?: Prisma.XOR<Prisma.SupplierScalarRelationFilter, Prisma.SupplierWhereInput>
-  categories?: Prisma.DishCategoryListRelationFilter
-  interactions?: Prisma.UserInteractionListRelationFilter
-  variants?: Prisma.VariantListRelationFilter
-  skus?: Prisma.SKUListRelationFilter
-  reviews?: Prisma.ReviewListRelationFilter
-  dishTranslations?: Prisma.DishTranslationListRelationFilter
+  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   dishSkuSnapshots?: Prisma.DishSKUSnapshotListRelationFilter
+  dishTranslations?: Prisma.DishTranslationListRelationFilter
   inventories?: Prisma.InventoryDishListRelationFilter
   recommendations?: Prisma.RecommendationListRelationFilter
-  createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  deletedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  reviews?: Prisma.ReviewListRelationFilter
+  skus?: Prisma.SKUListRelationFilter
+  interactions?: Prisma.UserInteractionListRelationFilter
+  variants?: Prisma.VariantListRelationFilter
+  categories?: Prisma.DishCategoryListRelationFilter
 }, "id">
 
 export type DishOrderByWithAggregationInput = {
@@ -354,13 +354,13 @@ export type DishOrderByWithAggregationInput = {
   virtualPrice?: Prisma.SortOrder
   supplierId?: Prisma.SortOrder
   images?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedById?: Prisma.SortOrderInput | Prisma.SortOrder
   deletedById?: Prisma.SortOrderInput | Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   _count?: Prisma.DishCountOrderByAggregateInput
   _avg?: Prisma.DishAvgOrderByAggregateInput
   _max?: Prisma.DishMaxOrderByAggregateInput
@@ -377,13 +377,13 @@ export type DishScalarWhereWithAggregatesInput = {
   virtualPrice?: Prisma.DecimalWithAggregatesFilter<"Dish"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringWithAggregatesFilter<"Dish"> | string
   images?: Prisma.StringNullableListFilter<"Dish">
-  isActive?: Prisma.BoolWithAggregatesFilter<"Dish"> | boolean
   createdById?: Prisma.StringNullableWithAggregatesFilter<"Dish"> | string | null
   updatedById?: Prisma.StringNullableWithAggregatesFilter<"Dish"> | string | null
   deletedById?: Prisma.StringNullableWithAggregatesFilter<"Dish"> | string | null
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Dish"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Dish"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Dish"> | Date | string
+  isActive?: Prisma.BoolWithAggregatesFilter<"Dish"> | boolean
 }
 
 export type DishCreateInput = {
@@ -391,23 +391,23 @@ export type DishCreateInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  isActive?: boolean
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
   supplier: Prisma.SupplierCreateNestedOneWithoutDishesInput
-  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
 }
 
 export type DishUncheckedCreateInput = {
@@ -416,22 +416,22 @@ export type DishUncheckedCreateInput = {
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId: string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   createdById?: string | null
   updatedById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  isActive?: boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
 }
 
 export type DishUpdateInput = {
@@ -439,23 +439,23 @@ export type DishUpdateInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
   supplier?: Prisma.SupplierUpdateOneRequiredWithoutDishesNestedInput
-  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
 }
 
 export type DishUncheckedUpdateInput = {
@@ -464,22 +464,22 @@ export type DishUncheckedUpdateInput = {
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
 }
 
 export type DishCreateManyInput = {
@@ -488,13 +488,13 @@ export type DishCreateManyInput = {
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId: string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   createdById?: string | null
   updatedById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  isActive?: boolean
 }
 
 export type DishUpdateManyMutationInput = {
@@ -502,10 +502,10 @@ export type DishUpdateManyMutationInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type DishUncheckedUpdateManyInput = {
@@ -514,13 +514,13 @@ export type DishUncheckedUpdateManyInput = {
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type DishListRelationFilter = {
@@ -552,13 +552,13 @@ export type DishCountOrderByAggregateInput = {
   virtualPrice?: Prisma.SortOrder
   supplierId?: Prisma.SortOrder
   images?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
   deletedById?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
 }
 
 export type DishAvgOrderByAggregateInput = {
@@ -571,13 +571,13 @@ export type DishMaxOrderByAggregateInput = {
   basePrice?: Prisma.SortOrder
   virtualPrice?: Prisma.SortOrder
   supplierId?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
   deletedById?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
 }
 
 export type DishMinOrderByAggregateInput = {
@@ -585,13 +585,13 @@ export type DishMinOrderByAggregateInput = {
   basePrice?: Prisma.SortOrder
   virtualPrice?: Prisma.SortOrder
   supplierId?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
   deletedById?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
 }
 
 export type DishSumOrderByAggregateInput = {
@@ -611,17 +611,17 @@ export type DishCreateNestedManyWithoutCreatedByInput = {
   connect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
 }
 
-export type DishCreateNestedManyWithoutUpdatedByInput = {
-  create?: Prisma.XOR<Prisma.DishCreateWithoutUpdatedByInput, Prisma.DishUncheckedCreateWithoutUpdatedByInput> | Prisma.DishCreateWithoutUpdatedByInput[] | Prisma.DishUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.DishCreateOrConnectWithoutUpdatedByInput | Prisma.DishCreateOrConnectWithoutUpdatedByInput[]
-  createMany?: Prisma.DishCreateManyUpdatedByInputEnvelope
-  connect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
-}
-
 export type DishCreateNestedManyWithoutDeletedByInput = {
   create?: Prisma.XOR<Prisma.DishCreateWithoutDeletedByInput, Prisma.DishUncheckedCreateWithoutDeletedByInput> | Prisma.DishCreateWithoutDeletedByInput[] | Prisma.DishUncheckedCreateWithoutDeletedByInput[]
   connectOrCreate?: Prisma.DishCreateOrConnectWithoutDeletedByInput | Prisma.DishCreateOrConnectWithoutDeletedByInput[]
   createMany?: Prisma.DishCreateManyDeletedByInputEnvelope
+  connect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
+}
+
+export type DishCreateNestedManyWithoutUpdatedByInput = {
+  create?: Prisma.XOR<Prisma.DishCreateWithoutUpdatedByInput, Prisma.DishUncheckedCreateWithoutUpdatedByInput> | Prisma.DishCreateWithoutUpdatedByInput[] | Prisma.DishUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.DishCreateOrConnectWithoutUpdatedByInput | Prisma.DishCreateOrConnectWithoutUpdatedByInput[]
+  createMany?: Prisma.DishCreateManyUpdatedByInputEnvelope
   connect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
 }
 
@@ -632,17 +632,17 @@ export type DishUncheckedCreateNestedManyWithoutCreatedByInput = {
   connect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
 }
 
-export type DishUncheckedCreateNestedManyWithoutUpdatedByInput = {
-  create?: Prisma.XOR<Prisma.DishCreateWithoutUpdatedByInput, Prisma.DishUncheckedCreateWithoutUpdatedByInput> | Prisma.DishCreateWithoutUpdatedByInput[] | Prisma.DishUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.DishCreateOrConnectWithoutUpdatedByInput | Prisma.DishCreateOrConnectWithoutUpdatedByInput[]
-  createMany?: Prisma.DishCreateManyUpdatedByInputEnvelope
-  connect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
-}
-
 export type DishUncheckedCreateNestedManyWithoutDeletedByInput = {
   create?: Prisma.XOR<Prisma.DishCreateWithoutDeletedByInput, Prisma.DishUncheckedCreateWithoutDeletedByInput> | Prisma.DishCreateWithoutDeletedByInput[] | Prisma.DishUncheckedCreateWithoutDeletedByInput[]
   connectOrCreate?: Prisma.DishCreateOrConnectWithoutDeletedByInput | Prisma.DishCreateOrConnectWithoutDeletedByInput[]
   createMany?: Prisma.DishCreateManyDeletedByInputEnvelope
+  connect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
+}
+
+export type DishUncheckedCreateNestedManyWithoutUpdatedByInput = {
+  create?: Prisma.XOR<Prisma.DishCreateWithoutUpdatedByInput, Prisma.DishUncheckedCreateWithoutUpdatedByInput> | Prisma.DishCreateWithoutUpdatedByInput[] | Prisma.DishUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.DishCreateOrConnectWithoutUpdatedByInput | Prisma.DishCreateOrConnectWithoutUpdatedByInput[]
+  createMany?: Prisma.DishCreateManyUpdatedByInputEnvelope
   connect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
 }
 
@@ -660,20 +660,6 @@ export type DishUpdateManyWithoutCreatedByNestedInput = {
   deleteMany?: Prisma.DishScalarWhereInput | Prisma.DishScalarWhereInput[]
 }
 
-export type DishUpdateManyWithoutUpdatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.DishCreateWithoutUpdatedByInput, Prisma.DishUncheckedCreateWithoutUpdatedByInput> | Prisma.DishCreateWithoutUpdatedByInput[] | Prisma.DishUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.DishCreateOrConnectWithoutUpdatedByInput | Prisma.DishCreateOrConnectWithoutUpdatedByInput[]
-  upsert?: Prisma.DishUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.DishUpsertWithWhereUniqueWithoutUpdatedByInput[]
-  createMany?: Prisma.DishCreateManyUpdatedByInputEnvelope
-  set?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
-  disconnect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
-  delete?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
-  connect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
-  update?: Prisma.DishUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.DishUpdateWithWhereUniqueWithoutUpdatedByInput[]
-  updateMany?: Prisma.DishUpdateManyWithWhereWithoutUpdatedByInput | Prisma.DishUpdateManyWithWhereWithoutUpdatedByInput[]
-  deleteMany?: Prisma.DishScalarWhereInput | Prisma.DishScalarWhereInput[]
-}
-
 export type DishUpdateManyWithoutDeletedByNestedInput = {
   create?: Prisma.XOR<Prisma.DishCreateWithoutDeletedByInput, Prisma.DishUncheckedCreateWithoutDeletedByInput> | Prisma.DishCreateWithoutDeletedByInput[] | Prisma.DishUncheckedCreateWithoutDeletedByInput[]
   connectOrCreate?: Prisma.DishCreateOrConnectWithoutDeletedByInput | Prisma.DishCreateOrConnectWithoutDeletedByInput[]
@@ -685,6 +671,20 @@ export type DishUpdateManyWithoutDeletedByNestedInput = {
   connect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
   update?: Prisma.DishUpdateWithWhereUniqueWithoutDeletedByInput | Prisma.DishUpdateWithWhereUniqueWithoutDeletedByInput[]
   updateMany?: Prisma.DishUpdateManyWithWhereWithoutDeletedByInput | Prisma.DishUpdateManyWithWhereWithoutDeletedByInput[]
+  deleteMany?: Prisma.DishScalarWhereInput | Prisma.DishScalarWhereInput[]
+}
+
+export type DishUpdateManyWithoutUpdatedByNestedInput = {
+  create?: Prisma.XOR<Prisma.DishCreateWithoutUpdatedByInput, Prisma.DishUncheckedCreateWithoutUpdatedByInput> | Prisma.DishCreateWithoutUpdatedByInput[] | Prisma.DishUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.DishCreateOrConnectWithoutUpdatedByInput | Prisma.DishCreateOrConnectWithoutUpdatedByInput[]
+  upsert?: Prisma.DishUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.DishUpsertWithWhereUniqueWithoutUpdatedByInput[]
+  createMany?: Prisma.DishCreateManyUpdatedByInputEnvelope
+  set?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
+  disconnect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
+  delete?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
+  connect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
+  update?: Prisma.DishUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.DishUpdateWithWhereUniqueWithoutUpdatedByInput[]
+  updateMany?: Prisma.DishUpdateManyWithWhereWithoutUpdatedByInput | Prisma.DishUpdateManyWithWhereWithoutUpdatedByInput[]
   deleteMany?: Prisma.DishScalarWhereInput | Prisma.DishScalarWhereInput[]
 }
 
@@ -702,20 +702,6 @@ export type DishUncheckedUpdateManyWithoutCreatedByNestedInput = {
   deleteMany?: Prisma.DishScalarWhereInput | Prisma.DishScalarWhereInput[]
 }
 
-export type DishUncheckedUpdateManyWithoutUpdatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.DishCreateWithoutUpdatedByInput, Prisma.DishUncheckedCreateWithoutUpdatedByInput> | Prisma.DishCreateWithoutUpdatedByInput[] | Prisma.DishUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.DishCreateOrConnectWithoutUpdatedByInput | Prisma.DishCreateOrConnectWithoutUpdatedByInput[]
-  upsert?: Prisma.DishUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.DishUpsertWithWhereUniqueWithoutUpdatedByInput[]
-  createMany?: Prisma.DishCreateManyUpdatedByInputEnvelope
-  set?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
-  disconnect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
-  delete?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
-  connect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
-  update?: Prisma.DishUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.DishUpdateWithWhereUniqueWithoutUpdatedByInput[]
-  updateMany?: Prisma.DishUpdateManyWithWhereWithoutUpdatedByInput | Prisma.DishUpdateManyWithWhereWithoutUpdatedByInput[]
-  deleteMany?: Prisma.DishScalarWhereInput | Prisma.DishScalarWhereInput[]
-}
-
 export type DishUncheckedUpdateManyWithoutDeletedByNestedInput = {
   create?: Prisma.XOR<Prisma.DishCreateWithoutDeletedByInput, Prisma.DishUncheckedCreateWithoutDeletedByInput> | Prisma.DishCreateWithoutDeletedByInput[] | Prisma.DishUncheckedCreateWithoutDeletedByInput[]
   connectOrCreate?: Prisma.DishCreateOrConnectWithoutDeletedByInput | Prisma.DishCreateOrConnectWithoutDeletedByInput[]
@@ -727,6 +713,20 @@ export type DishUncheckedUpdateManyWithoutDeletedByNestedInput = {
   connect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
   update?: Prisma.DishUpdateWithWhereUniqueWithoutDeletedByInput | Prisma.DishUpdateWithWhereUniqueWithoutDeletedByInput[]
   updateMany?: Prisma.DishUpdateManyWithWhereWithoutDeletedByInput | Prisma.DishUpdateManyWithWhereWithoutDeletedByInput[]
+  deleteMany?: Prisma.DishScalarWhereInput | Prisma.DishScalarWhereInput[]
+}
+
+export type DishUncheckedUpdateManyWithoutUpdatedByNestedInput = {
+  create?: Prisma.XOR<Prisma.DishCreateWithoutUpdatedByInput, Prisma.DishUncheckedCreateWithoutUpdatedByInput> | Prisma.DishCreateWithoutUpdatedByInput[] | Prisma.DishUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.DishCreateOrConnectWithoutUpdatedByInput | Prisma.DishCreateOrConnectWithoutUpdatedByInput[]
+  upsert?: Prisma.DishUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.DishUpsertWithWhereUniqueWithoutUpdatedByInput[]
+  createMany?: Prisma.DishCreateManyUpdatedByInputEnvelope
+  set?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
+  disconnect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
+  delete?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
+  connect?: Prisma.DishWhereUniqueInput | Prisma.DishWhereUniqueInput[]
+  update?: Prisma.DishUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.DishUpdateWithWhereUniqueWithoutUpdatedByInput[]
+  updateMany?: Prisma.DishUpdateManyWithWhereWithoutUpdatedByInput | Prisma.DishUpdateManyWithWhereWithoutUpdatedByInput[]
   deleteMany?: Prisma.DishScalarWhereInput | Prisma.DishScalarWhereInput[]
 }
 
@@ -948,22 +948,22 @@ export type DishCreateWithoutCreatedByInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  isActive?: boolean
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
   supplier: Prisma.SupplierCreateNestedOneWithoutDishesInput
-  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
 }
 
 export type DishUncheckedCreateWithoutCreatedByInput = {
@@ -972,21 +972,21 @@ export type DishUncheckedCreateWithoutCreatedByInput = {
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId: string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   updatedById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  isActive?: boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
 }
 
 export type DishCreateOrConnectWithoutCreatedByInput = {
@@ -999,83 +999,27 @@ export type DishCreateManyCreatedByInputEnvelope = {
   skipDuplicates?: boolean
 }
 
-export type DishCreateWithoutUpdatedByInput = {
-  id?: string
-  basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
-  virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  supplier: Prisma.SupplierCreateNestedOneWithoutDishesInput
-  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
-  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
-  inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
-  recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
-}
-
-export type DishUncheckedCreateWithoutUpdatedByInput = {
-  id?: string
-  basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
-  virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  supplierId: string
-  images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
-  createdById?: string | null
-  deletedById?: string | null
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
-  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
-  inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
-  recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
-}
-
-export type DishCreateOrConnectWithoutUpdatedByInput = {
-  where: Prisma.DishWhereUniqueInput
-  create: Prisma.XOR<Prisma.DishCreateWithoutUpdatedByInput, Prisma.DishUncheckedCreateWithoutUpdatedByInput>
-}
-
-export type DishCreateManyUpdatedByInputEnvelope = {
-  data: Prisma.DishCreateManyUpdatedByInput | Prisma.DishCreateManyUpdatedByInput[]
-  skipDuplicates?: boolean
-}
-
 export type DishCreateWithoutDeletedByInput = {
   id?: string
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  isActive?: boolean
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
   supplier: Prisma.SupplierCreateNestedOneWithoutDishesInput
-  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
 }
 
 export type DishUncheckedCreateWithoutDeletedByInput = {
@@ -1084,21 +1028,21 @@ export type DishUncheckedCreateWithoutDeletedByInput = {
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId: string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   createdById?: string | null
   updatedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  isActive?: boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
 }
 
 export type DishCreateOrConnectWithoutDeletedByInput = {
@@ -1108,6 +1052,62 @@ export type DishCreateOrConnectWithoutDeletedByInput = {
 
 export type DishCreateManyDeletedByInputEnvelope = {
   data: Prisma.DishCreateManyDeletedByInput | Prisma.DishCreateManyDeletedByInput[]
+  skipDuplicates?: boolean
+}
+
+export type DishCreateWithoutUpdatedByInput = {
+  id?: string
+  basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
+  virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  images?: Prisma.DishCreateimagesInput | string[]
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isActive?: boolean
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
+  supplier: Prisma.SupplierCreateNestedOneWithoutDishesInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
+  recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
+}
+
+export type DishUncheckedCreateWithoutUpdatedByInput = {
+  id?: string
+  basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
+  virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  supplierId: string
+  images?: Prisma.DishCreateimagesInput | string[]
+  createdById?: string | null
+  deletedById?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isActive?: boolean
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
+  recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
+}
+
+export type DishCreateOrConnectWithoutUpdatedByInput = {
+  where: Prisma.DishWhereUniqueInput
+  create: Prisma.XOR<Prisma.DishCreateWithoutUpdatedByInput, Prisma.DishUncheckedCreateWithoutUpdatedByInput>
+}
+
+export type DishCreateManyUpdatedByInputEnvelope = {
+  data: Prisma.DishCreateManyUpdatedByInput | Prisma.DishCreateManyUpdatedByInput[]
   skipDuplicates?: boolean
 }
 
@@ -1136,29 +1136,13 @@ export type DishScalarWhereInput = {
   virtualPrice?: Prisma.DecimalFilter<"Dish"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFilter<"Dish"> | string
   images?: Prisma.StringNullableListFilter<"Dish">
-  isActive?: Prisma.BoolFilter<"Dish"> | boolean
   createdById?: Prisma.StringNullableFilter<"Dish"> | string | null
   updatedById?: Prisma.StringNullableFilter<"Dish"> | string | null
   deletedById?: Prisma.StringNullableFilter<"Dish"> | string | null
   deletedAt?: Prisma.DateTimeNullableFilter<"Dish"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Dish"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Dish"> | Date | string
-}
-
-export type DishUpsertWithWhereUniqueWithoutUpdatedByInput = {
-  where: Prisma.DishWhereUniqueInput
-  update: Prisma.XOR<Prisma.DishUpdateWithoutUpdatedByInput, Prisma.DishUncheckedUpdateWithoutUpdatedByInput>
-  create: Prisma.XOR<Prisma.DishCreateWithoutUpdatedByInput, Prisma.DishUncheckedCreateWithoutUpdatedByInput>
-}
-
-export type DishUpdateWithWhereUniqueWithoutUpdatedByInput = {
-  where: Prisma.DishWhereUniqueInput
-  data: Prisma.XOR<Prisma.DishUpdateWithoutUpdatedByInput, Prisma.DishUncheckedUpdateWithoutUpdatedByInput>
-}
-
-export type DishUpdateManyWithWhereWithoutUpdatedByInput = {
-  where: Prisma.DishScalarWhereInput
-  data: Prisma.XOR<Prisma.DishUpdateManyMutationInput, Prisma.DishUncheckedUpdateManyWithoutUpdatedByInput>
+  isActive?: Prisma.BoolFilter<"Dish"> | boolean
 }
 
 export type DishUpsertWithWhereUniqueWithoutDeletedByInput = {
@@ -1177,27 +1161,43 @@ export type DishUpdateManyWithWhereWithoutDeletedByInput = {
   data: Prisma.XOR<Prisma.DishUpdateManyMutationInput, Prisma.DishUncheckedUpdateManyWithoutDeletedByInput>
 }
 
+export type DishUpsertWithWhereUniqueWithoutUpdatedByInput = {
+  where: Prisma.DishWhereUniqueInput
+  update: Prisma.XOR<Prisma.DishUpdateWithoutUpdatedByInput, Prisma.DishUncheckedUpdateWithoutUpdatedByInput>
+  create: Prisma.XOR<Prisma.DishCreateWithoutUpdatedByInput, Prisma.DishUncheckedCreateWithoutUpdatedByInput>
+}
+
+export type DishUpdateWithWhereUniqueWithoutUpdatedByInput = {
+  where: Prisma.DishWhereUniqueInput
+  data: Prisma.XOR<Prisma.DishUpdateWithoutUpdatedByInput, Prisma.DishUncheckedUpdateWithoutUpdatedByInput>
+}
+
+export type DishUpdateManyWithWhereWithoutUpdatedByInput = {
+  where: Prisma.DishScalarWhereInput
+  data: Prisma.XOR<Prisma.DishUpdateManyMutationInput, Prisma.DishUncheckedUpdateManyWithoutUpdatedByInput>
+}
+
 export type DishCreateWithoutInteractionsInput = {
   id?: string
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  isActive?: boolean
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
   supplier: Prisma.SupplierCreateNestedOneWithoutDishesInput
-  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
-  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
 }
 
 export type DishUncheckedCreateWithoutInteractionsInput = {
@@ -1206,21 +1206,21 @@ export type DishUncheckedCreateWithoutInteractionsInput = {
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId: string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   createdById?: string | null
   updatedById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
-  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  isActive?: boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
 }
 
 export type DishCreateOrConnectWithoutInteractionsInput = {
@@ -1244,22 +1244,22 @@ export type DishUpdateWithoutInteractionsInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
   supplier?: Prisma.SupplierUpdateOneRequiredWithoutDishesNestedInput
-  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
-  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
 }
 
 export type DishUncheckedUpdateWithoutInteractionsInput = {
@@ -1268,21 +1268,21 @@ export type DishUncheckedUpdateWithoutInteractionsInput = {
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
-  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
 }
 
 export type DishCreateWithoutDishTranslationsInput = {
@@ -1290,22 +1290,22 @@ export type DishCreateWithoutDishTranslationsInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  isActive?: boolean
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
   supplier: Prisma.SupplierCreateNestedOneWithoutDishesInput
-  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
 }
 
 export type DishUncheckedCreateWithoutDishTranslationsInput = {
@@ -1314,21 +1314,21 @@ export type DishUncheckedCreateWithoutDishTranslationsInput = {
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId: string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   createdById?: string | null
   updatedById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
+  isActive?: boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
 }
 
 export type DishCreateOrConnectWithoutDishTranslationsInput = {
@@ -1352,22 +1352,22 @@ export type DishUpdateWithoutDishTranslationsInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
   supplier?: Prisma.SupplierUpdateOneRequiredWithoutDishesNestedInput
-  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
 }
 
 export type DishUncheckedUpdateWithoutDishTranslationsInput = {
@@ -1376,21 +1376,21 @@ export type DishUncheckedUpdateWithoutDishTranslationsInput = {
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
 }
 
 export type DishCreateWithoutCategoriesInput = {
@@ -1398,22 +1398,22 @@ export type DishCreateWithoutCategoriesInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  isActive?: boolean
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
   supplier: Prisma.SupplierCreateNestedOneWithoutDishesInput
-  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
 }
 
 export type DishUncheckedCreateWithoutCategoriesInput = {
@@ -1422,21 +1422,21 @@ export type DishUncheckedCreateWithoutCategoriesInput = {
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId: string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   createdById?: string | null
   updatedById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  isActive?: boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
 }
 
 export type DishCreateOrConnectWithoutCategoriesInput = {
@@ -1465,22 +1465,22 @@ export type DishCreateWithoutVariantsInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  isActive?: boolean
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
   supplier: Prisma.SupplierCreateNestedOneWithoutDishesInput
-  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
 }
 
 export type DishUncheckedCreateWithoutVariantsInput = {
@@ -1489,21 +1489,21 @@ export type DishUncheckedCreateWithoutVariantsInput = {
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId: string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   createdById?: string | null
   updatedById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  isActive?: boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
 }
 
 export type DishCreateOrConnectWithoutVariantsInput = {
@@ -1527,22 +1527,22 @@ export type DishUpdateWithoutVariantsInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
   supplier?: Prisma.SupplierUpdateOneRequiredWithoutDishesNestedInput
-  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
 }
 
 export type DishUncheckedUpdateWithoutVariantsInput = {
@@ -1551,21 +1551,21 @@ export type DishUncheckedUpdateWithoutVariantsInput = {
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
 }
 
 export type DishCreateWithoutSkusInput = {
@@ -1573,22 +1573,22 @@ export type DishCreateWithoutSkusInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  isActive?: boolean
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
   supplier: Prisma.SupplierCreateNestedOneWithoutDishesInput
-  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
 }
 
 export type DishUncheckedCreateWithoutSkusInput = {
@@ -1597,21 +1597,21 @@ export type DishUncheckedCreateWithoutSkusInput = {
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId: string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   createdById?: string | null
   updatedById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  isActive?: boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
 }
 
 export type DishCreateOrConnectWithoutSkusInput = {
@@ -1635,22 +1635,22 @@ export type DishUpdateWithoutSkusInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
   supplier?: Prisma.SupplierUpdateOneRequiredWithoutDishesNestedInput
-  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
 }
 
 export type DishUncheckedUpdateWithoutSkusInput = {
@@ -1659,21 +1659,21 @@ export type DishUncheckedUpdateWithoutSkusInput = {
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
 }
 
 export type DishCreateWithoutSupplierInput = {
@@ -1681,22 +1681,22 @@ export type DishCreateWithoutSupplierInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  isActive?: boolean
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
 }
 
 export type DishUncheckedCreateWithoutSupplierInput = {
@@ -1704,22 +1704,22 @@ export type DishUncheckedCreateWithoutSupplierInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   createdById?: string | null
   updatedById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  isActive?: boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
 }
 
 export type DishCreateOrConnectWithoutSupplierInput = {
@@ -1753,22 +1753,22 @@ export type DishCreateWithoutDishSkuSnapshotsInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  isActive?: boolean
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
   supplier: Prisma.SupplierCreateNestedOneWithoutDishesInput
-  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
   dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
 }
 
 export type DishUncheckedCreateWithoutDishSkuSnapshotsInput = {
@@ -1777,21 +1777,21 @@ export type DishUncheckedCreateWithoutDishSkuSnapshotsInput = {
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId: string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   createdById?: string | null
   updatedById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
+  isActive?: boolean
   dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
 }
 
 export type DishCreateOrConnectWithoutDishSkuSnapshotsInput = {
@@ -1815,22 +1815,22 @@ export type DishUpdateWithoutDishSkuSnapshotsInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
   supplier?: Prisma.SupplierUpdateOneRequiredWithoutDishesNestedInput
-  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
   dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
 }
 
 export type DishUncheckedUpdateWithoutDishSkuSnapshotsInput = {
@@ -1839,21 +1839,21 @@ export type DishUncheckedUpdateWithoutDishSkuSnapshotsInput = {
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
 }
 
 export type DishCreateWithoutReviewsInput = {
@@ -1861,22 +1861,22 @@ export type DishCreateWithoutReviewsInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  isActive?: boolean
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
   supplier: Prisma.SupplierCreateNestedOneWithoutDishesInput
-  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
+  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
 }
 
 export type DishUncheckedCreateWithoutReviewsInput = {
@@ -1885,21 +1885,21 @@ export type DishUncheckedCreateWithoutReviewsInput = {
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId: string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   createdById?: string | null
   updatedById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
-  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
-  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  isActive?: boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
   inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
   recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
+  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
+  variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
 }
 
 export type DishCreateOrConnectWithoutReviewsInput = {
@@ -1923,22 +1923,22 @@ export type DishUpdateWithoutReviewsInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
   supplier?: Prisma.SupplierUpdateOneRequiredWithoutDishesNestedInput
-  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
+  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
 }
 
 export type DishUncheckedUpdateWithoutReviewsInput = {
@@ -1947,21 +1947,21 @@ export type DishUncheckedUpdateWithoutReviewsInput = {
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
 }
 
 export type DishCreateWithoutInventoriesInput = {
@@ -1969,22 +1969,22 @@ export type DishCreateWithoutInventoriesInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  isActive?: boolean
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
   supplier: Prisma.SupplierCreateNestedOneWithoutDishesInput
-  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
   interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
   variants?: Prisma.VariantCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
-  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
-  recommendations?: Prisma.RecommendationCreateNestedManyWithoutDishInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
+  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
 }
 
 export type DishUncheckedCreateWithoutInventoriesInput = {
@@ -1993,21 +1993,21 @@ export type DishUncheckedCreateWithoutInventoriesInput = {
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId: string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   createdById?: string | null
   updatedById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
+  isActive?: boolean
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
   interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
   variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
-  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
-  recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
 }
 
 export type DishCreateOrConnectWithoutInventoriesInput = {
@@ -2031,22 +2031,22 @@ export type DishUpdateWithoutInventoriesInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
   supplier?: Prisma.SupplierUpdateOneRequiredWithoutDishesNestedInput
-  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
   interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
   variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
-  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
-  recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
+  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
 }
 
 export type DishUncheckedUpdateWithoutInventoriesInput = {
@@ -2055,21 +2055,21 @@ export type DishUncheckedUpdateWithoutInventoriesInput = {
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
   interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
   variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
-  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
-  recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
 }
 
 export type DishCreateWithoutRecommendationsInput = {
@@ -2077,22 +2077,22 @@ export type DishCreateWithoutRecommendationsInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  isActive?: boolean
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
   supplier: Prisma.SupplierCreateNestedOneWithoutDishesInput
-  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
+  inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
   interactions?: Prisma.UserInteractionCreateNestedManyWithoutDishInput
   variants?: Prisma.VariantCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDishInput
-  dishSkuSnapshots?: Prisma.DishSKUSnapshotCreateNestedManyWithoutDishInput
-  inventories?: Prisma.InventoryDishCreateNestedManyWithoutDishInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDishesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDishesInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDishesInput
+  categories?: Prisma.DishCategoryCreateNestedManyWithoutDishesInput
 }
 
 export type DishUncheckedCreateWithoutRecommendationsInput = {
@@ -2101,21 +2101,21 @@ export type DishUncheckedCreateWithoutRecommendationsInput = {
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId: string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   createdById?: string | null
   updatedById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
+  isActive?: boolean
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
+  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
+  inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
+  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
   interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutDishInput
   variants?: Prisma.VariantUncheckedCreateNestedManyWithoutDishInput
-  skus?: Prisma.SKUUncheckedCreateNestedManyWithoutDishInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDishInput
-  dishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDishInput
-  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedCreateNestedManyWithoutDishInput
-  inventories?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutDishInput
+  categories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDishesInput
 }
 
 export type DishCreateOrConnectWithoutRecommendationsInput = {
@@ -2139,22 +2139,22 @@ export type DishUpdateWithoutRecommendationsInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
   supplier?: Prisma.SupplierUpdateOneRequiredWithoutDishesNestedInput
-  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
   interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
   variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
-  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
-  inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
+  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
 }
 
 export type DishUncheckedUpdateWithoutRecommendationsInput = {
@@ -2163,21 +2163,21 @@ export type DishUncheckedUpdateWithoutRecommendationsInput = {
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
   interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
   variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
-  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
-  inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
 }
 
 export type DishCreateManyCreatedByInput = {
@@ -2186,26 +2186,12 @@ export type DishCreateManyCreatedByInput = {
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId: string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   updatedById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-}
-
-export type DishCreateManyUpdatedByInput = {
-  id?: string
-  basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
-  virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  supplierId: string
-  images?: Prisma.DishCreateimagesInput | string[]
   isActive?: boolean
-  createdById?: string | null
-  deletedById?: string | null
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
 }
 
 export type DishCreateManyDeletedByInput = {
@@ -2214,12 +2200,26 @@ export type DishCreateManyDeletedByInput = {
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId: string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   createdById?: string | null
   updatedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  isActive?: boolean
+}
+
+export type DishCreateManyUpdatedByInput = {
+  id?: string
+  basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
+  virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  supplierId: string
+  images?: Prisma.DishCreateimagesInput | string[]
+  createdById?: string | null
+  deletedById?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isActive?: boolean
 }
 
 export type DishUpdateWithoutCreatedByInput = {
@@ -2227,22 +2227,22 @@ export type DishUpdateWithoutCreatedByInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
   supplier?: Prisma.SupplierUpdateOneRequiredWithoutDishesNestedInput
-  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
 }
 
 export type DishUncheckedUpdateWithoutCreatedByInput = {
@@ -2251,21 +2251,21 @@ export type DishUncheckedUpdateWithoutCreatedByInput = {
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
 }
 
 export type DishUncheckedUpdateManyWithoutCreatedByInput = {
@@ -2274,72 +2274,12 @@ export type DishUncheckedUpdateManyWithoutCreatedByInput = {
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type DishUpdateWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  images?: Prisma.DishUpdateimagesInput | string[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  supplier?: Prisma.SupplierUpdateOneRequiredWithoutDishesNestedInput
-  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
-  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
-  inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
-  recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
-}
-
-export type DishUncheckedUpdateWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  supplierId?: Prisma.StringFieldUpdateOperationsInput | string
-  images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
-  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
-  inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
-  recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
-}
-
-export type DishUncheckedUpdateManyWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  supplierId?: Prisma.StringFieldUpdateOperationsInput | string
-  images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type DishUpdateWithoutDeletedByInput = {
@@ -2347,22 +2287,22 @@ export type DishUpdateWithoutDeletedByInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
   supplier?: Prisma.SupplierUpdateOneRequiredWithoutDishesNestedInput
-  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
 }
 
 export type DishUncheckedUpdateWithoutDeletedByInput = {
@@ -2371,21 +2311,21 @@ export type DishUncheckedUpdateWithoutDeletedByInput = {
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
 }
 
 export type DishUncheckedUpdateManyWithoutDeletedByInput = {
@@ -2394,12 +2334,72 @@ export type DishUncheckedUpdateManyWithoutDeletedByInput = {
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+}
+
+export type DishUpdateWithoutUpdatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  images?: Prisma.DishUpdateimagesInput | string[]
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
+  supplier?: Prisma.SupplierUpdateOneRequiredWithoutDishesNestedInput
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
+  recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
+}
+
+export type DishUncheckedUpdateWithoutUpdatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  supplierId?: Prisma.StringFieldUpdateOperationsInput | string
+  images?: Prisma.DishUpdateimagesInput | string[]
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
+  recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
+}
+
+export type DishUncheckedUpdateManyWithoutUpdatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  supplierId?: Prisma.StringFieldUpdateOperationsInput | string
+  images?: Prisma.DishUpdateimagesInput | string[]
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type DishUpdateWithoutCategoriesInput = {
@@ -2407,22 +2407,22 @@ export type DishUpdateWithoutCategoriesInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
   supplier?: Prisma.SupplierUpdateOneRequiredWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
 }
 
 export type DishUncheckedUpdateWithoutCategoriesInput = {
@@ -2431,21 +2431,21 @@ export type DishUncheckedUpdateWithoutCategoriesInput = {
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
 }
 
 export type DishUncheckedUpdateManyWithoutCategoriesInput = {
@@ -2454,13 +2454,13 @@ export type DishUncheckedUpdateManyWithoutCategoriesInput = {
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   supplierId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type DishCreateManySupplierInput = {
@@ -2468,13 +2468,13 @@ export type DishCreateManySupplierInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishCreateimagesInput | string[]
-  isActive?: boolean
   createdById?: string | null
   updatedById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  isActive?: boolean
 }
 
 export type DishUpdateWithoutSupplierInput = {
@@ -2482,22 +2482,22 @@ export type DishUpdateWithoutSupplierInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUpdateManyWithoutDishNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedDishesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDishesNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDishesNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUpdateManyWithoutDishesNestedInput
 }
 
 export type DishUncheckedUpdateWithoutSupplierInput = {
@@ -2505,22 +2505,22 @@ export type DishUncheckedUpdateWithoutSupplierInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
-  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
-  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
-  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
-  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dishSkuSnapshots?: Prisma.DishSKUSnapshotUncheckedUpdateManyWithoutDishNestedInput
+  dishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDishNestedInput
   inventories?: Prisma.InventoryDishUncheckedUpdateManyWithoutDishNestedInput
   recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDishNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDishNestedInput
+  skus?: Prisma.SKUUncheckedUpdateManyWithoutDishNestedInput
+  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutDishNestedInput
+  variants?: Prisma.VariantUncheckedUpdateManyWithoutDishNestedInput
+  categories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDishesNestedInput
 }
 
 export type DishUncheckedUpdateManyWithoutSupplierInput = {
@@ -2528,13 +2528,13 @@ export type DishUncheckedUpdateManyWithoutSupplierInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   virtualPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   images?: Prisma.DishUpdateimagesInput | string[]
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -2543,27 +2543,27 @@ export type DishUncheckedUpdateManyWithoutSupplierInput = {
  */
 
 export type DishCountOutputType = {
-  categories: number
-  interactions: number
-  variants: number
-  skus: number
-  reviews: number
-  dishTranslations: number
   dishSkuSnapshots: number
+  dishTranslations: number
   inventories: number
   recommendations: number
+  reviews: number
+  skus: number
+  interactions: number
+  variants: number
+  categories: number
 }
 
 export type DishCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  categories?: boolean | DishCountOutputTypeCountCategoriesArgs
-  interactions?: boolean | DishCountOutputTypeCountInteractionsArgs
-  variants?: boolean | DishCountOutputTypeCountVariantsArgs
-  skus?: boolean | DishCountOutputTypeCountSkusArgs
-  reviews?: boolean | DishCountOutputTypeCountReviewsArgs
-  dishTranslations?: boolean | DishCountOutputTypeCountDishTranslationsArgs
   dishSkuSnapshots?: boolean | DishCountOutputTypeCountDishSkuSnapshotsArgs
+  dishTranslations?: boolean | DishCountOutputTypeCountDishTranslationsArgs
   inventories?: boolean | DishCountOutputTypeCountInventoriesArgs
   recommendations?: boolean | DishCountOutputTypeCountRecommendationsArgs
+  reviews?: boolean | DishCountOutputTypeCountReviewsArgs
+  skus?: boolean | DishCountOutputTypeCountSkusArgs
+  interactions?: boolean | DishCountOutputTypeCountInteractionsArgs
+  variants?: boolean | DishCountOutputTypeCountVariantsArgs
+  categories?: boolean | DishCountOutputTypeCountCategoriesArgs
 }
 
 /**
@@ -2579,8 +2579,43 @@ export type DishCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * DishCountOutputType without action
  */
-export type DishCountOutputTypeCountCategoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DishCategoryWhereInput
+export type DishCountOutputTypeCountDishSkuSnapshotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DishSKUSnapshotWhereInput
+}
+
+/**
+ * DishCountOutputType without action
+ */
+export type DishCountOutputTypeCountDishTranslationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DishTranslationWhereInput
+}
+
+/**
+ * DishCountOutputType without action
+ */
+export type DishCountOutputTypeCountInventoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InventoryDishWhereInput
+}
+
+/**
+ * DishCountOutputType without action
+ */
+export type DishCountOutputTypeCountRecommendationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RecommendationWhereInput
+}
+
+/**
+ * DishCountOutputType without action
+ */
+export type DishCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewWhereInput
+}
+
+/**
+ * DishCountOutputType without action
+ */
+export type DishCountOutputTypeCountSkusArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SKUWhereInput
 }
 
 /**
@@ -2600,43 +2635,8 @@ export type DishCountOutputTypeCountVariantsArgs<ExtArgs extends runtime.Types.E
 /**
  * DishCountOutputType without action
  */
-export type DishCountOutputTypeCountSkusArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SKUWhereInput
-}
-
-/**
- * DishCountOutputType without action
- */
-export type DishCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ReviewWhereInput
-}
-
-/**
- * DishCountOutputType without action
- */
-export type DishCountOutputTypeCountDishTranslationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DishTranslationWhereInput
-}
-
-/**
- * DishCountOutputType without action
- */
-export type DishCountOutputTypeCountDishSkuSnapshotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DishSKUSnapshotWhereInput
-}
-
-/**
- * DishCountOutputType without action
- */
-export type DishCountOutputTypeCountInventoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.InventoryDishWhereInput
-}
-
-/**
- * DishCountOutputType without action
- */
-export type DishCountOutputTypeCountRecommendationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.RecommendationWhereInput
+export type DishCountOutputTypeCountCategoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DishCategoryWhereInput
 }
 
 
@@ -2646,26 +2646,26 @@ export type DishSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   virtualPrice?: boolean
   supplierId?: boolean
   images?: boolean
-  isActive?: boolean
   createdById?: boolean
   updatedById?: boolean
   deletedById?: boolean
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isActive?: boolean
+  createdBy?: boolean | Prisma.Dish$createdByArgs<ExtArgs>
+  deletedBy?: boolean | Prisma.Dish$deletedByArgs<ExtArgs>
   supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
-  categories?: boolean | Prisma.Dish$categoriesArgs<ExtArgs>
-  interactions?: boolean | Prisma.Dish$interactionsArgs<ExtArgs>
-  variants?: boolean | Prisma.Dish$variantsArgs<ExtArgs>
-  skus?: boolean | Prisma.Dish$skusArgs<ExtArgs>
-  reviews?: boolean | Prisma.Dish$reviewsArgs<ExtArgs>
-  dishTranslations?: boolean | Prisma.Dish$dishTranslationsArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.Dish$updatedByArgs<ExtArgs>
   dishSkuSnapshots?: boolean | Prisma.Dish$dishSkuSnapshotsArgs<ExtArgs>
+  dishTranslations?: boolean | Prisma.Dish$dishTranslationsArgs<ExtArgs>
   inventories?: boolean | Prisma.Dish$inventoriesArgs<ExtArgs>
   recommendations?: boolean | Prisma.Dish$recommendationsArgs<ExtArgs>
-  createdBy?: boolean | Prisma.Dish$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.Dish$updatedByArgs<ExtArgs>
-  deletedBy?: boolean | Prisma.Dish$deletedByArgs<ExtArgs>
+  reviews?: boolean | Prisma.Dish$reviewsArgs<ExtArgs>
+  skus?: boolean | Prisma.Dish$skusArgs<ExtArgs>
+  interactions?: boolean | Prisma.Dish$interactionsArgs<ExtArgs>
+  variants?: boolean | Prisma.Dish$variantsArgs<ExtArgs>
+  categories?: boolean | Prisma.Dish$categoriesArgs<ExtArgs>
   _count?: boolean | Prisma.DishCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dish"]>
 
@@ -2675,17 +2675,17 @@ export type DishSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   virtualPrice?: boolean
   supplierId?: boolean
   images?: boolean
-  isActive?: boolean
   createdById?: boolean
   updatedById?: boolean
   deletedById?: boolean
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
+  isActive?: boolean
   createdBy?: boolean | Prisma.Dish$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.Dish$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.Dish$deletedByArgs<ExtArgs>
+  supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.Dish$updatedByArgs<ExtArgs>
 }, ExtArgs["result"]["dish"]>
 
 export type DishSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2694,17 +2694,17 @@ export type DishSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   virtualPrice?: boolean
   supplierId?: boolean
   images?: boolean
-  isActive?: boolean
   createdById?: boolean
   updatedById?: boolean
   deletedById?: boolean
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
+  isActive?: boolean
   createdBy?: boolean | Prisma.Dish$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.Dish$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.Dish$deletedByArgs<ExtArgs>
+  supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.Dish$updatedByArgs<ExtArgs>
 }, ExtArgs["result"]["dish"]>
 
 export type DishSelectScalar = {
@@ -2713,61 +2713,61 @@ export type DishSelectScalar = {
   virtualPrice?: boolean
   supplierId?: boolean
   images?: boolean
-  isActive?: boolean
   createdById?: boolean
   updatedById?: boolean
   deletedById?: boolean
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isActive?: boolean
 }
 
-export type DishOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "basePrice" | "virtualPrice" | "supplierId" | "images" | "isActive" | "createdById" | "updatedById" | "deletedById" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["dish"]>
+export type DishOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "basePrice" | "virtualPrice" | "supplierId" | "images" | "createdById" | "updatedById" | "deletedById" | "deletedAt" | "createdAt" | "updatedAt" | "isActive", ExtArgs["result"]["dish"]>
 export type DishInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  createdBy?: boolean | Prisma.Dish$createdByArgs<ExtArgs>
+  deletedBy?: boolean | Prisma.Dish$deletedByArgs<ExtArgs>
   supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
-  categories?: boolean | Prisma.Dish$categoriesArgs<ExtArgs>
-  interactions?: boolean | Prisma.Dish$interactionsArgs<ExtArgs>
-  variants?: boolean | Prisma.Dish$variantsArgs<ExtArgs>
-  skus?: boolean | Prisma.Dish$skusArgs<ExtArgs>
-  reviews?: boolean | Prisma.Dish$reviewsArgs<ExtArgs>
-  dishTranslations?: boolean | Prisma.Dish$dishTranslationsArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.Dish$updatedByArgs<ExtArgs>
   dishSkuSnapshots?: boolean | Prisma.Dish$dishSkuSnapshotsArgs<ExtArgs>
+  dishTranslations?: boolean | Prisma.Dish$dishTranslationsArgs<ExtArgs>
   inventories?: boolean | Prisma.Dish$inventoriesArgs<ExtArgs>
   recommendations?: boolean | Prisma.Dish$recommendationsArgs<ExtArgs>
-  createdBy?: boolean | Prisma.Dish$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.Dish$updatedByArgs<ExtArgs>
-  deletedBy?: boolean | Prisma.Dish$deletedByArgs<ExtArgs>
+  reviews?: boolean | Prisma.Dish$reviewsArgs<ExtArgs>
+  skus?: boolean | Prisma.Dish$skusArgs<ExtArgs>
+  interactions?: boolean | Prisma.Dish$interactionsArgs<ExtArgs>
+  variants?: boolean | Prisma.Dish$variantsArgs<ExtArgs>
+  categories?: boolean | Prisma.Dish$categoriesArgs<ExtArgs>
   _count?: boolean | Prisma.DishCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DishIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.Dish$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.Dish$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.Dish$deletedByArgs<ExtArgs>
+  supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.Dish$updatedByArgs<ExtArgs>
 }
 export type DishIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.Dish$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.Dish$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.Dish$deletedByArgs<ExtArgs>
+  supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.Dish$updatedByArgs<ExtArgs>
 }
 
 export type $DishPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Dish"
   objects: {
+    createdBy: Prisma.$UserPayload<ExtArgs> | null
+    deletedBy: Prisma.$UserPayload<ExtArgs> | null
     supplier: Prisma.$SupplierPayload<ExtArgs>
-    categories: Prisma.$DishCategoryPayload<ExtArgs>[]
-    interactions: Prisma.$UserInteractionPayload<ExtArgs>[]
-    variants: Prisma.$VariantPayload<ExtArgs>[]
-    skus: Prisma.$SKUPayload<ExtArgs>[]
-    reviews: Prisma.$ReviewPayload<ExtArgs>[]
-    dishTranslations: Prisma.$DishTranslationPayload<ExtArgs>[]
+    updatedBy: Prisma.$UserPayload<ExtArgs> | null
     dishSkuSnapshots: Prisma.$DishSKUSnapshotPayload<ExtArgs>[]
+    dishTranslations: Prisma.$DishTranslationPayload<ExtArgs>[]
     inventories: Prisma.$InventoryDishPayload<ExtArgs>[]
     recommendations: Prisma.$RecommendationPayload<ExtArgs>[]
-    createdBy: Prisma.$UserPayload<ExtArgs> | null
-    updatedBy: Prisma.$UserPayload<ExtArgs> | null
-    deletedBy: Prisma.$UserPayload<ExtArgs> | null
+    reviews: Prisma.$ReviewPayload<ExtArgs>[]
+    skus: Prisma.$SKUPayload<ExtArgs>[]
+    interactions: Prisma.$UserInteractionPayload<ExtArgs>[]
+    variants: Prisma.$VariantPayload<ExtArgs>[]
+    categories: Prisma.$DishCategoryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2775,13 +2775,13 @@ export type $DishPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     virtualPrice: runtime.Decimal
     supplierId: string
     images: string[]
-    isActive: boolean
     createdById: string | null
     updatedById: string | null
     deletedById: string | null
     deletedAt: Date | null
     createdAt: Date
     updatedAt: Date
+    isActive: boolean
   }, ExtArgs["result"]["dish"]>
   composites: {}
 }
@@ -3176,19 +3176,19 @@ readonly fields: DishFieldRefs;
  */
 export interface Prisma__DishClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  createdBy<T extends Prisma.Dish$createdByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$createdByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  deletedBy<T extends Prisma.Dish$deletedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$deletedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   supplier<T extends Prisma.SupplierDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SupplierDefaultArgs<ExtArgs>>): Prisma.Prisma__SupplierClient<runtime.Types.Result.GetResult<Prisma.$SupplierPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  categories<T extends Prisma.Dish$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DishCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  interactions<T extends Prisma.Dish$interactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$interactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserInteractionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  variants<T extends Prisma.Dish$variantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$variantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VariantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  skus<T extends Prisma.Dish$skusArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$skusArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SKUPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  reviews<T extends Prisma.Dish$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  dishTranslations<T extends Prisma.Dish$dishTranslationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$dishTranslationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DishTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  updatedBy<T extends Prisma.Dish$updatedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$updatedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   dishSkuSnapshots<T extends Prisma.Dish$dishSkuSnapshotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$dishSkuSnapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DishSKUSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  dishTranslations<T extends Prisma.Dish$dishTranslationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$dishTranslationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DishTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inventories<T extends Prisma.Dish$inventoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$inventoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryDishPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   recommendations<T extends Prisma.Dish$recommendationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$recommendationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecommendationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  createdBy<T extends Prisma.Dish$createdByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$createdByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  updatedBy<T extends Prisma.Dish$updatedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$updatedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  deletedBy<T extends Prisma.Dish$deletedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$deletedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  reviews<T extends Prisma.Dish$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  skus<T extends Prisma.Dish$skusArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$skusArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SKUPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  interactions<T extends Prisma.Dish$interactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$interactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserInteractionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  variants<T extends Prisma.Dish$variantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$variantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VariantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  categories<T extends Prisma.Dish$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dish$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DishCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3223,13 +3223,13 @@ export interface DishFieldRefs {
   readonly virtualPrice: Prisma.FieldRef<"Dish", 'Decimal'>
   readonly supplierId: Prisma.FieldRef<"Dish", 'String'>
   readonly images: Prisma.FieldRef<"Dish", 'String[]'>
-  readonly isActive: Prisma.FieldRef<"Dish", 'Boolean'>
   readonly createdById: Prisma.FieldRef<"Dish", 'String'>
   readonly updatedById: Prisma.FieldRef<"Dish", 'String'>
   readonly deletedById: Prisma.FieldRef<"Dish", 'String'>
   readonly deletedAt: Prisma.FieldRef<"Dish", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Dish", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Dish", 'DateTime'>
+  readonly isActive: Prisma.FieldRef<"Dish", 'Boolean'>
 }
     
 
@@ -3626,147 +3626,60 @@ export type DishDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * Dish.categories
+ * Dish.createdBy
  */
-export type Dish$categoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Dish$createdByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the DishCategory
+   * Select specific fields to fetch from the User
    */
-  select?: Prisma.DishCategorySelect<ExtArgs> | null
+  select?: Prisma.UserSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the DishCategory
+   * Omit specific fields from the User
    */
-  omit?: Prisma.DishCategoryOmit<ExtArgs> | null
+  omit?: Prisma.UserOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.DishCategoryInclude<ExtArgs> | null
-  where?: Prisma.DishCategoryWhereInput
-  orderBy?: Prisma.DishCategoryOrderByWithRelationInput | Prisma.DishCategoryOrderByWithRelationInput[]
-  cursor?: Prisma.DishCategoryWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.DishCategoryScalarFieldEnum | Prisma.DishCategoryScalarFieldEnum[]
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**
- * Dish.interactions
+ * Dish.deletedBy
  */
-export type Dish$interactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Dish$deletedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the UserInteraction
+   * Select specific fields to fetch from the User
    */
-  select?: Prisma.UserInteractionSelect<ExtArgs> | null
+  select?: Prisma.UserSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the UserInteraction
+   * Omit specific fields from the User
    */
-  omit?: Prisma.UserInteractionOmit<ExtArgs> | null
+  omit?: Prisma.UserOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.UserInteractionInclude<ExtArgs> | null
-  where?: Prisma.UserInteractionWhereInput
-  orderBy?: Prisma.UserInteractionOrderByWithRelationInput | Prisma.UserInteractionOrderByWithRelationInput[]
-  cursor?: Prisma.UserInteractionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.UserInteractionScalarFieldEnum | Prisma.UserInteractionScalarFieldEnum[]
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**
- * Dish.variants
+ * Dish.updatedBy
  */
-export type Dish$variantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Dish$updatedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Variant
+   * Select specific fields to fetch from the User
    */
-  select?: Prisma.VariantSelect<ExtArgs> | null
+  select?: Prisma.UserSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Variant
+   * Omit specific fields from the User
    */
-  omit?: Prisma.VariantOmit<ExtArgs> | null
+  omit?: Prisma.UserOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.VariantInclude<ExtArgs> | null
-  where?: Prisma.VariantWhereInput
-  orderBy?: Prisma.VariantOrderByWithRelationInput | Prisma.VariantOrderByWithRelationInput[]
-  cursor?: Prisma.VariantWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.VariantScalarFieldEnum | Prisma.VariantScalarFieldEnum[]
-}
-
-/**
- * Dish.skus
- */
-export type Dish$skusArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the SKU
-   */
-  select?: Prisma.SKUSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the SKU
-   */
-  omit?: Prisma.SKUOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SKUInclude<ExtArgs> | null
-  where?: Prisma.SKUWhereInput
-  orderBy?: Prisma.SKUOrderByWithRelationInput | Prisma.SKUOrderByWithRelationInput[]
-  cursor?: Prisma.SKUWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.SKUScalarFieldEnum | Prisma.SKUScalarFieldEnum[]
-}
-
-/**
- * Dish.reviews
- */
-export type Dish$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Review
-   */
-  select?: Prisma.ReviewSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Review
-   */
-  omit?: Prisma.ReviewOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ReviewInclude<ExtArgs> | null
-  where?: Prisma.ReviewWhereInput
-  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
-  cursor?: Prisma.ReviewWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
-}
-
-/**
- * Dish.dishTranslations
- */
-export type Dish$dishTranslationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the DishTranslation
-   */
-  select?: Prisma.DishTranslationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the DishTranslation
-   */
-  omit?: Prisma.DishTranslationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.DishTranslationInclude<ExtArgs> | null
-  where?: Prisma.DishTranslationWhereInput
-  orderBy?: Prisma.DishTranslationOrderByWithRelationInput | Prisma.DishTranslationOrderByWithRelationInput[]
-  cursor?: Prisma.DishTranslationWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.DishTranslationScalarFieldEnum | Prisma.DishTranslationScalarFieldEnum[]
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**
@@ -3791,6 +3704,30 @@ export type Dish$dishSkuSnapshotsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.DishSKUSnapshotScalarFieldEnum | Prisma.DishSKUSnapshotScalarFieldEnum[]
+}
+
+/**
+ * Dish.dishTranslations
+ */
+export type Dish$dishTranslationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DishTranslation
+   */
+  select?: Prisma.DishTranslationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DishTranslation
+   */
+  omit?: Prisma.DishTranslationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DishTranslationInclude<ExtArgs> | null
+  where?: Prisma.DishTranslationWhereInput
+  orderBy?: Prisma.DishTranslationOrderByWithRelationInput | Prisma.DishTranslationOrderByWithRelationInput[]
+  cursor?: Prisma.DishTranslationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DishTranslationScalarFieldEnum | Prisma.DishTranslationScalarFieldEnum[]
 }
 
 /**
@@ -3842,60 +3779,123 @@ export type Dish$recommendationsArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * Dish.createdBy
+ * Dish.reviews
  */
-export type Dish$createdByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Dish$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the User
+   * Select specific fields to fetch from the Review
    */
-  select?: Prisma.UserSelect<ExtArgs> | null
+  select?: Prisma.ReviewSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the User
+   * Omit specific fields from the Review
    */
-  omit?: Prisma.UserOmit<ExtArgs> | null
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.UserInclude<ExtArgs> | null
-  where?: Prisma.UserWhereInput
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
+  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
 }
 
 /**
- * Dish.updatedBy
+ * Dish.skus
  */
-export type Dish$updatedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Dish$skusArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the User
+   * Select specific fields to fetch from the SKU
    */
-  select?: Prisma.UserSelect<ExtArgs> | null
+  select?: Prisma.SKUSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the User
+   * Omit specific fields from the SKU
    */
-  omit?: Prisma.UserOmit<ExtArgs> | null
+  omit?: Prisma.SKUOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.UserInclude<ExtArgs> | null
-  where?: Prisma.UserWhereInput
+  include?: Prisma.SKUInclude<ExtArgs> | null
+  where?: Prisma.SKUWhereInput
+  orderBy?: Prisma.SKUOrderByWithRelationInput | Prisma.SKUOrderByWithRelationInput[]
+  cursor?: Prisma.SKUWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SKUScalarFieldEnum | Prisma.SKUScalarFieldEnum[]
 }
 
 /**
- * Dish.deletedBy
+ * Dish.interactions
  */
-export type Dish$deletedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Dish$interactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the User
+   * Select specific fields to fetch from the UserInteraction
    */
-  select?: Prisma.UserSelect<ExtArgs> | null
+  select?: Prisma.UserInteractionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the User
+   * Omit specific fields from the UserInteraction
    */
-  omit?: Prisma.UserOmit<ExtArgs> | null
+  omit?: Prisma.UserInteractionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.UserInclude<ExtArgs> | null
-  where?: Prisma.UserWhereInput
+  include?: Prisma.UserInteractionInclude<ExtArgs> | null
+  where?: Prisma.UserInteractionWhereInput
+  orderBy?: Prisma.UserInteractionOrderByWithRelationInput | Prisma.UserInteractionOrderByWithRelationInput[]
+  cursor?: Prisma.UserInteractionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserInteractionScalarFieldEnum | Prisma.UserInteractionScalarFieldEnum[]
+}
+
+/**
+ * Dish.variants
+ */
+export type Dish$variantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Variant
+   */
+  select?: Prisma.VariantSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Variant
+   */
+  omit?: Prisma.VariantOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VariantInclude<ExtArgs> | null
+  where?: Prisma.VariantWhereInput
+  orderBy?: Prisma.VariantOrderByWithRelationInput | Prisma.VariantOrderByWithRelationInput[]
+  cursor?: Prisma.VariantWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VariantScalarFieldEnum | Prisma.VariantScalarFieldEnum[]
+}
+
+/**
+ * Dish.categories
+ */
+export type Dish$categoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DishCategory
+   */
+  select?: Prisma.DishCategorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DishCategory
+   */
+  omit?: Prisma.DishCategoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DishCategoryInclude<ExtArgs> | null
+  where?: Prisma.DishCategoryWhereInput
+  orderBy?: Prisma.DishCategoryOrderByWithRelationInput | Prisma.DishCategoryOrderByWithRelationInput[]
+  cursor?: Prisma.DishCategoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DishCategoryScalarFieldEnum | Prisma.DishCategoryScalarFieldEnum[]
 }
 
 /**

@@ -7,6 +7,7 @@ export const GetRecommendationsQuerySchema = z.object({
 export const RecommendationItemSchema = z.object({
     id: z.string().uuid(),
     name: z.string(),
+    description: z.string().optional(),
     basePrice: z.any(), // Handle raw decimal or parsed number downstream
     images: z.array(z.string()),
     score: z.number().optional(),

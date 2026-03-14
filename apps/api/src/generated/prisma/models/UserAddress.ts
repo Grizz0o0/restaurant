@@ -248,10 +248,10 @@ export type UserAddressWhereInput = {
   deletedAt?: Prisma.DateTimeNullableFilter<"UserAddress"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"UserAddress"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserAddress"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   deletedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type UserAddressOrderByWithRelationInput = {
@@ -268,10 +268,10 @@ export type UserAddressOrderByWithRelationInput = {
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
   createdBy?: Prisma.UserOrderByWithRelationInput
-  updatedBy?: Prisma.UserOrderByWithRelationInput
   deletedBy?: Prisma.UserOrderByWithRelationInput
+  updatedBy?: Prisma.UserOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type UserAddressWhereUniqueInput = Prisma.AtLeast<{
@@ -291,10 +291,10 @@ export type UserAddressWhereUniqueInput = Prisma.AtLeast<{
   deletedAt?: Prisma.DateTimeNullableFilter<"UserAddress"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"UserAddress"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserAddress"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   deletedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
 export type UserAddressOrderByWithAggregationInput = {
@@ -345,10 +345,10 @@ export type UserAddressCreateInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutAddressesInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedAddressesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedAddressesInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedAddressesInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedAddressesInput
+  user: Prisma.UserCreateNestedOneWithoutAddressesInput
 }
 
 export type UserAddressUncheckedCreateInput = {
@@ -377,10 +377,10 @@ export type UserAddressUpdateInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutAddressesNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedAddressesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedAddressesNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedAddressesNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedAddressesNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutAddressesNestedInput
 }
 
 export type UserAddressUncheckedUpdateInput = {
@@ -501,24 +501,10 @@ export type UserAddressMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
-export type UserAddressCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.UserAddressCreateWithoutUserInput, Prisma.UserAddressUncheckedCreateWithoutUserInput> | Prisma.UserAddressCreateWithoutUserInput[] | Prisma.UserAddressUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.UserAddressCreateOrConnectWithoutUserInput | Prisma.UserAddressCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.UserAddressCreateManyUserInputEnvelope
-  connect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
-}
-
 export type UserAddressCreateNestedManyWithoutCreatedByInput = {
   create?: Prisma.XOR<Prisma.UserAddressCreateWithoutCreatedByInput, Prisma.UserAddressUncheckedCreateWithoutCreatedByInput> | Prisma.UserAddressCreateWithoutCreatedByInput[] | Prisma.UserAddressUncheckedCreateWithoutCreatedByInput[]
   connectOrCreate?: Prisma.UserAddressCreateOrConnectWithoutCreatedByInput | Prisma.UserAddressCreateOrConnectWithoutCreatedByInput[]
   createMany?: Prisma.UserAddressCreateManyCreatedByInputEnvelope
-  connect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
-}
-
-export type UserAddressCreateNestedManyWithoutUpdatedByInput = {
-  create?: Prisma.XOR<Prisma.UserAddressCreateWithoutUpdatedByInput, Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput> | Prisma.UserAddressCreateWithoutUpdatedByInput[] | Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.UserAddressCreateOrConnectWithoutUpdatedByInput | Prisma.UserAddressCreateOrConnectWithoutUpdatedByInput[]
-  createMany?: Prisma.UserAddressCreateManyUpdatedByInputEnvelope
   connect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
 }
 
@@ -529,7 +515,14 @@ export type UserAddressCreateNestedManyWithoutDeletedByInput = {
   connect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
 }
 
-export type UserAddressUncheckedCreateNestedManyWithoutUserInput = {
+export type UserAddressCreateNestedManyWithoutUpdatedByInput = {
+  create?: Prisma.XOR<Prisma.UserAddressCreateWithoutUpdatedByInput, Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput> | Prisma.UserAddressCreateWithoutUpdatedByInput[] | Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.UserAddressCreateOrConnectWithoutUpdatedByInput | Prisma.UserAddressCreateOrConnectWithoutUpdatedByInput[]
+  createMany?: Prisma.UserAddressCreateManyUpdatedByInputEnvelope
+  connect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
+}
+
+export type UserAddressCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.UserAddressCreateWithoutUserInput, Prisma.UserAddressUncheckedCreateWithoutUserInput> | Prisma.UserAddressCreateWithoutUserInput[] | Prisma.UserAddressUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.UserAddressCreateOrConnectWithoutUserInput | Prisma.UserAddressCreateOrConnectWithoutUserInput[]
   createMany?: Prisma.UserAddressCreateManyUserInputEnvelope
@@ -543,13 +536,6 @@ export type UserAddressUncheckedCreateNestedManyWithoutCreatedByInput = {
   connect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
 }
 
-export type UserAddressUncheckedCreateNestedManyWithoutUpdatedByInput = {
-  create?: Prisma.XOR<Prisma.UserAddressCreateWithoutUpdatedByInput, Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput> | Prisma.UserAddressCreateWithoutUpdatedByInput[] | Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.UserAddressCreateOrConnectWithoutUpdatedByInput | Prisma.UserAddressCreateOrConnectWithoutUpdatedByInput[]
-  createMany?: Prisma.UserAddressCreateManyUpdatedByInputEnvelope
-  connect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
-}
-
 export type UserAddressUncheckedCreateNestedManyWithoutDeletedByInput = {
   create?: Prisma.XOR<Prisma.UserAddressCreateWithoutDeletedByInput, Prisma.UserAddressUncheckedCreateWithoutDeletedByInput> | Prisma.UserAddressCreateWithoutDeletedByInput[] | Prisma.UserAddressUncheckedCreateWithoutDeletedByInput[]
   connectOrCreate?: Prisma.UserAddressCreateOrConnectWithoutDeletedByInput | Prisma.UserAddressCreateOrConnectWithoutDeletedByInput[]
@@ -557,18 +543,18 @@ export type UserAddressUncheckedCreateNestedManyWithoutDeletedByInput = {
   connect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
 }
 
-export type UserAddressUpdateManyWithoutUserNestedInput = {
+export type UserAddressUncheckedCreateNestedManyWithoutUpdatedByInput = {
+  create?: Prisma.XOR<Prisma.UserAddressCreateWithoutUpdatedByInput, Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput> | Prisma.UserAddressCreateWithoutUpdatedByInput[] | Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.UserAddressCreateOrConnectWithoutUpdatedByInput | Prisma.UserAddressCreateOrConnectWithoutUpdatedByInput[]
+  createMany?: Prisma.UserAddressCreateManyUpdatedByInputEnvelope
+  connect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
+}
+
+export type UserAddressUncheckedCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.UserAddressCreateWithoutUserInput, Prisma.UserAddressUncheckedCreateWithoutUserInput> | Prisma.UserAddressCreateWithoutUserInput[] | Prisma.UserAddressUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.UserAddressCreateOrConnectWithoutUserInput | Prisma.UserAddressCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.UserAddressUpsertWithWhereUniqueWithoutUserInput | Prisma.UserAddressUpsertWithWhereUniqueWithoutUserInput[]
   createMany?: Prisma.UserAddressCreateManyUserInputEnvelope
-  set?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
-  disconnect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
-  delete?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
   connect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
-  update?: Prisma.UserAddressUpdateWithWhereUniqueWithoutUserInput | Prisma.UserAddressUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.UserAddressUpdateManyWithWhereWithoutUserInput | Prisma.UserAddressUpdateManyWithWhereWithoutUserInput[]
-  deleteMany?: Prisma.UserAddressScalarWhereInput | Prisma.UserAddressScalarWhereInput[]
 }
 
 export type UserAddressUpdateManyWithoutCreatedByNestedInput = {
@@ -582,20 +568,6 @@ export type UserAddressUpdateManyWithoutCreatedByNestedInput = {
   connect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
   update?: Prisma.UserAddressUpdateWithWhereUniqueWithoutCreatedByInput | Prisma.UserAddressUpdateWithWhereUniqueWithoutCreatedByInput[]
   updateMany?: Prisma.UserAddressUpdateManyWithWhereWithoutCreatedByInput | Prisma.UserAddressUpdateManyWithWhereWithoutCreatedByInput[]
-  deleteMany?: Prisma.UserAddressScalarWhereInput | Prisma.UserAddressScalarWhereInput[]
-}
-
-export type UserAddressUpdateManyWithoutUpdatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.UserAddressCreateWithoutUpdatedByInput, Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput> | Prisma.UserAddressCreateWithoutUpdatedByInput[] | Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.UserAddressCreateOrConnectWithoutUpdatedByInput | Prisma.UserAddressCreateOrConnectWithoutUpdatedByInput[]
-  upsert?: Prisma.UserAddressUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.UserAddressUpsertWithWhereUniqueWithoutUpdatedByInput[]
-  createMany?: Prisma.UserAddressCreateManyUpdatedByInputEnvelope
-  set?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
-  disconnect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
-  delete?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
-  connect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
-  update?: Prisma.UserAddressUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.UserAddressUpdateWithWhereUniqueWithoutUpdatedByInput[]
-  updateMany?: Prisma.UserAddressUpdateManyWithWhereWithoutUpdatedByInput | Prisma.UserAddressUpdateManyWithWhereWithoutUpdatedByInput[]
   deleteMany?: Prisma.UserAddressScalarWhereInput | Prisma.UserAddressScalarWhereInput[]
 }
 
@@ -613,7 +585,21 @@ export type UserAddressUpdateManyWithoutDeletedByNestedInput = {
   deleteMany?: Prisma.UserAddressScalarWhereInput | Prisma.UserAddressScalarWhereInput[]
 }
 
-export type UserAddressUncheckedUpdateManyWithoutUserNestedInput = {
+export type UserAddressUpdateManyWithoutUpdatedByNestedInput = {
+  create?: Prisma.XOR<Prisma.UserAddressCreateWithoutUpdatedByInput, Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput> | Prisma.UserAddressCreateWithoutUpdatedByInput[] | Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.UserAddressCreateOrConnectWithoutUpdatedByInput | Prisma.UserAddressCreateOrConnectWithoutUpdatedByInput[]
+  upsert?: Prisma.UserAddressUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.UserAddressUpsertWithWhereUniqueWithoutUpdatedByInput[]
+  createMany?: Prisma.UserAddressCreateManyUpdatedByInputEnvelope
+  set?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
+  disconnect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
+  delete?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
+  connect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
+  update?: Prisma.UserAddressUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.UserAddressUpdateWithWhereUniqueWithoutUpdatedByInput[]
+  updateMany?: Prisma.UserAddressUpdateManyWithWhereWithoutUpdatedByInput | Prisma.UserAddressUpdateManyWithWhereWithoutUpdatedByInput[]
+  deleteMany?: Prisma.UserAddressScalarWhereInput | Prisma.UserAddressScalarWhereInput[]
+}
+
+export type UserAddressUpdateManyWithoutUserNestedInput = {
   create?: Prisma.XOR<Prisma.UserAddressCreateWithoutUserInput, Prisma.UserAddressUncheckedCreateWithoutUserInput> | Prisma.UserAddressCreateWithoutUserInput[] | Prisma.UserAddressUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.UserAddressCreateOrConnectWithoutUserInput | Prisma.UserAddressCreateOrConnectWithoutUserInput[]
   upsert?: Prisma.UserAddressUpsertWithWhereUniqueWithoutUserInput | Prisma.UserAddressUpsertWithWhereUniqueWithoutUserInput[]
@@ -641,20 +627,6 @@ export type UserAddressUncheckedUpdateManyWithoutCreatedByNestedInput = {
   deleteMany?: Prisma.UserAddressScalarWhereInput | Prisma.UserAddressScalarWhereInput[]
 }
 
-export type UserAddressUncheckedUpdateManyWithoutUpdatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.UserAddressCreateWithoutUpdatedByInput, Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput> | Prisma.UserAddressCreateWithoutUpdatedByInput[] | Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.UserAddressCreateOrConnectWithoutUpdatedByInput | Prisma.UserAddressCreateOrConnectWithoutUpdatedByInput[]
-  upsert?: Prisma.UserAddressUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.UserAddressUpsertWithWhereUniqueWithoutUpdatedByInput[]
-  createMany?: Prisma.UserAddressCreateManyUpdatedByInputEnvelope
-  set?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
-  disconnect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
-  delete?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
-  connect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
-  update?: Prisma.UserAddressUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.UserAddressUpdateWithWhereUniqueWithoutUpdatedByInput[]
-  updateMany?: Prisma.UserAddressUpdateManyWithWhereWithoutUpdatedByInput | Prisma.UserAddressUpdateManyWithWhereWithoutUpdatedByInput[]
-  deleteMany?: Prisma.UserAddressScalarWhereInput | Prisma.UserAddressScalarWhereInput[]
-}
-
 export type UserAddressUncheckedUpdateManyWithoutDeletedByNestedInput = {
   create?: Prisma.XOR<Prisma.UserAddressCreateWithoutDeletedByInput, Prisma.UserAddressUncheckedCreateWithoutDeletedByInput> | Prisma.UserAddressCreateWithoutDeletedByInput[] | Prisma.UserAddressUncheckedCreateWithoutDeletedByInput[]
   connectOrCreate?: Prisma.UserAddressCreateOrConnectWithoutDeletedByInput | Prisma.UserAddressCreateOrConnectWithoutDeletedByInput[]
@@ -669,48 +641,36 @@ export type UserAddressUncheckedUpdateManyWithoutDeletedByNestedInput = {
   deleteMany?: Prisma.UserAddressScalarWhereInput | Prisma.UserAddressScalarWhereInput[]
 }
 
+export type UserAddressUncheckedUpdateManyWithoutUpdatedByNestedInput = {
+  create?: Prisma.XOR<Prisma.UserAddressCreateWithoutUpdatedByInput, Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput> | Prisma.UserAddressCreateWithoutUpdatedByInput[] | Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.UserAddressCreateOrConnectWithoutUpdatedByInput | Prisma.UserAddressCreateOrConnectWithoutUpdatedByInput[]
+  upsert?: Prisma.UserAddressUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.UserAddressUpsertWithWhereUniqueWithoutUpdatedByInput[]
+  createMany?: Prisma.UserAddressCreateManyUpdatedByInputEnvelope
+  set?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
+  disconnect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
+  delete?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
+  connect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
+  update?: Prisma.UserAddressUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.UserAddressUpdateWithWhereUniqueWithoutUpdatedByInput[]
+  updateMany?: Prisma.UserAddressUpdateManyWithWhereWithoutUpdatedByInput | Prisma.UserAddressUpdateManyWithWhereWithoutUpdatedByInput[]
+  deleteMany?: Prisma.UserAddressScalarWhereInput | Prisma.UserAddressScalarWhereInput[]
+}
+
+export type UserAddressUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.UserAddressCreateWithoutUserInput, Prisma.UserAddressUncheckedCreateWithoutUserInput> | Prisma.UserAddressCreateWithoutUserInput[] | Prisma.UserAddressUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.UserAddressCreateOrConnectWithoutUserInput | Prisma.UserAddressCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.UserAddressUpsertWithWhereUniqueWithoutUserInput | Prisma.UserAddressUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.UserAddressCreateManyUserInputEnvelope
+  set?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
+  disconnect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
+  delete?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
+  connect?: Prisma.UserAddressWhereUniqueInput | Prisma.UserAddressWhereUniqueInput[]
+  update?: Prisma.UserAddressUpdateWithWhereUniqueWithoutUserInput | Prisma.UserAddressUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.UserAddressUpdateManyWithWhereWithoutUserInput | Prisma.UserAddressUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.UserAddressScalarWhereInput | Prisma.UserAddressScalarWhereInput[]
+}
+
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
-}
-
-export type UserAddressCreateWithoutUserInput = {
-  id?: string
-  label: string
-  recipientName: string
-  phoneNumber: string
-  address: string
-  isDefault?: boolean
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedAddressesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedAddressesInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedAddressesInput
-}
-
-export type UserAddressUncheckedCreateWithoutUserInput = {
-  id?: string
-  label: string
-  recipientName: string
-  phoneNumber: string
-  address: string
-  isDefault?: boolean
-  createdById?: string | null
-  updatedById?: string | null
-  deletedById?: string | null
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type UserAddressCreateOrConnectWithoutUserInput = {
-  where: Prisma.UserAddressWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserAddressCreateWithoutUserInput, Prisma.UserAddressUncheckedCreateWithoutUserInput>
-}
-
-export type UserAddressCreateManyUserInputEnvelope = {
-  data: Prisma.UserAddressCreateManyUserInput | Prisma.UserAddressCreateManyUserInput[]
-  skipDuplicates?: boolean
 }
 
 export type UserAddressCreateWithoutCreatedByInput = {
@@ -723,9 +683,9 @@ export type UserAddressCreateWithoutCreatedByInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutAddressesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedAddressesInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedAddressesInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedAddressesInput
+  user: Prisma.UserCreateNestedOneWithoutAddressesInput
 }
 
 export type UserAddressUncheckedCreateWithoutCreatedByInput = {
@@ -753,46 +713,6 @@ export type UserAddressCreateManyCreatedByInputEnvelope = {
   skipDuplicates?: boolean
 }
 
-export type UserAddressCreateWithoutUpdatedByInput = {
-  id?: string
-  label: string
-  recipientName: string
-  phoneNumber: string
-  address: string
-  isDefault?: boolean
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutAddressesInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedAddressesInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedAddressesInput
-}
-
-export type UserAddressUncheckedCreateWithoutUpdatedByInput = {
-  id?: string
-  userId: string
-  label: string
-  recipientName: string
-  phoneNumber: string
-  address: string
-  isDefault?: boolean
-  createdById?: string | null
-  deletedById?: string | null
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type UserAddressCreateOrConnectWithoutUpdatedByInput = {
-  where: Prisma.UserAddressWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserAddressCreateWithoutUpdatedByInput, Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput>
-}
-
-export type UserAddressCreateManyUpdatedByInputEnvelope = {
-  data: Prisma.UserAddressCreateManyUpdatedByInput | Prisma.UserAddressCreateManyUpdatedByInput[]
-  skipDuplicates?: boolean
-}
-
 export type UserAddressCreateWithoutDeletedByInput = {
   id?: string
   label: string
@@ -803,9 +723,9 @@ export type UserAddressCreateWithoutDeletedByInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutAddressesInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedAddressesInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedAddressesInput
+  user: Prisma.UserCreateNestedOneWithoutAddressesInput
 }
 
 export type UserAddressUncheckedCreateWithoutDeletedByInput = {
@@ -833,20 +753,100 @@ export type UserAddressCreateManyDeletedByInputEnvelope = {
   skipDuplicates?: boolean
 }
 
-export type UserAddressUpsertWithWhereUniqueWithoutUserInput = {
+export type UserAddressCreateWithoutUpdatedByInput = {
+  id?: string
+  label: string
+  recipientName: string
+  phoneNumber: string
+  address: string
+  isDefault?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedAddressesInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedAddressesInput
+  user: Prisma.UserCreateNestedOneWithoutAddressesInput
+}
+
+export type UserAddressUncheckedCreateWithoutUpdatedByInput = {
+  id?: string
+  userId: string
+  label: string
+  recipientName: string
+  phoneNumber: string
+  address: string
+  isDefault?: boolean
+  createdById?: string | null
+  deletedById?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type UserAddressCreateOrConnectWithoutUpdatedByInput = {
   where: Prisma.UserAddressWhereUniqueInput
-  update: Prisma.XOR<Prisma.UserAddressUpdateWithoutUserInput, Prisma.UserAddressUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.UserAddressCreateWithoutUpdatedByInput, Prisma.UserAddressUncheckedCreateWithoutUpdatedByInput>
+}
+
+export type UserAddressCreateManyUpdatedByInputEnvelope = {
+  data: Prisma.UserAddressCreateManyUpdatedByInput | Prisma.UserAddressCreateManyUpdatedByInput[]
+  skipDuplicates?: boolean
+}
+
+export type UserAddressCreateWithoutUserInput = {
+  id?: string
+  label: string
+  recipientName: string
+  phoneNumber: string
+  address: string
+  isDefault?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedAddressesInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedAddressesInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedAddressesInput
+}
+
+export type UserAddressUncheckedCreateWithoutUserInput = {
+  id?: string
+  label: string
+  recipientName: string
+  phoneNumber: string
+  address: string
+  isDefault?: boolean
+  createdById?: string | null
+  updatedById?: string | null
+  deletedById?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type UserAddressCreateOrConnectWithoutUserInput = {
+  where: Prisma.UserAddressWhereUniqueInput
   create: Prisma.XOR<Prisma.UserAddressCreateWithoutUserInput, Prisma.UserAddressUncheckedCreateWithoutUserInput>
 }
 
-export type UserAddressUpdateWithWhereUniqueWithoutUserInput = {
-  where: Prisma.UserAddressWhereUniqueInput
-  data: Prisma.XOR<Prisma.UserAddressUpdateWithoutUserInput, Prisma.UserAddressUncheckedUpdateWithoutUserInput>
+export type UserAddressCreateManyUserInputEnvelope = {
+  data: Prisma.UserAddressCreateManyUserInput | Prisma.UserAddressCreateManyUserInput[]
+  skipDuplicates?: boolean
 }
 
-export type UserAddressUpdateManyWithWhereWithoutUserInput = {
+export type UserAddressUpsertWithWhereUniqueWithoutCreatedByInput = {
+  where: Prisma.UserAddressWhereUniqueInput
+  update: Prisma.XOR<Prisma.UserAddressUpdateWithoutCreatedByInput, Prisma.UserAddressUncheckedUpdateWithoutCreatedByInput>
+  create: Prisma.XOR<Prisma.UserAddressCreateWithoutCreatedByInput, Prisma.UserAddressUncheckedCreateWithoutCreatedByInput>
+}
+
+export type UserAddressUpdateWithWhereUniqueWithoutCreatedByInput = {
+  where: Prisma.UserAddressWhereUniqueInput
+  data: Prisma.XOR<Prisma.UserAddressUpdateWithoutCreatedByInput, Prisma.UserAddressUncheckedUpdateWithoutCreatedByInput>
+}
+
+export type UserAddressUpdateManyWithWhereWithoutCreatedByInput = {
   where: Prisma.UserAddressScalarWhereInput
-  data: Prisma.XOR<Prisma.UserAddressUpdateManyMutationInput, Prisma.UserAddressUncheckedUpdateManyWithoutUserInput>
+  data: Prisma.XOR<Prisma.UserAddressUpdateManyMutationInput, Prisma.UserAddressUncheckedUpdateManyWithoutCreatedByInput>
 }
 
 export type UserAddressScalarWhereInput = {
@@ -868,20 +868,20 @@ export type UserAddressScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"UserAddress"> | Date | string
 }
 
-export type UserAddressUpsertWithWhereUniqueWithoutCreatedByInput = {
+export type UserAddressUpsertWithWhereUniqueWithoutDeletedByInput = {
   where: Prisma.UserAddressWhereUniqueInput
-  update: Prisma.XOR<Prisma.UserAddressUpdateWithoutCreatedByInput, Prisma.UserAddressUncheckedUpdateWithoutCreatedByInput>
-  create: Prisma.XOR<Prisma.UserAddressCreateWithoutCreatedByInput, Prisma.UserAddressUncheckedCreateWithoutCreatedByInput>
+  update: Prisma.XOR<Prisma.UserAddressUpdateWithoutDeletedByInput, Prisma.UserAddressUncheckedUpdateWithoutDeletedByInput>
+  create: Prisma.XOR<Prisma.UserAddressCreateWithoutDeletedByInput, Prisma.UserAddressUncheckedCreateWithoutDeletedByInput>
 }
 
-export type UserAddressUpdateWithWhereUniqueWithoutCreatedByInput = {
+export type UserAddressUpdateWithWhereUniqueWithoutDeletedByInput = {
   where: Prisma.UserAddressWhereUniqueInput
-  data: Prisma.XOR<Prisma.UserAddressUpdateWithoutCreatedByInput, Prisma.UserAddressUncheckedUpdateWithoutCreatedByInput>
+  data: Prisma.XOR<Prisma.UserAddressUpdateWithoutDeletedByInput, Prisma.UserAddressUncheckedUpdateWithoutDeletedByInput>
 }
 
-export type UserAddressUpdateManyWithWhereWithoutCreatedByInput = {
+export type UserAddressUpdateManyWithWhereWithoutDeletedByInput = {
   where: Prisma.UserAddressScalarWhereInput
-  data: Prisma.XOR<Prisma.UserAddressUpdateManyMutationInput, Prisma.UserAddressUncheckedUpdateManyWithoutCreatedByInput>
+  data: Prisma.XOR<Prisma.UserAddressUpdateManyMutationInput, Prisma.UserAddressUncheckedUpdateManyWithoutDeletedByInput>
 }
 
 export type UserAddressUpsertWithWhereUniqueWithoutUpdatedByInput = {
@@ -900,35 +900,20 @@ export type UserAddressUpdateManyWithWhereWithoutUpdatedByInput = {
   data: Prisma.XOR<Prisma.UserAddressUpdateManyMutationInput, Prisma.UserAddressUncheckedUpdateManyWithoutUpdatedByInput>
 }
 
-export type UserAddressUpsertWithWhereUniqueWithoutDeletedByInput = {
+export type UserAddressUpsertWithWhereUniqueWithoutUserInput = {
   where: Prisma.UserAddressWhereUniqueInput
-  update: Prisma.XOR<Prisma.UserAddressUpdateWithoutDeletedByInput, Prisma.UserAddressUncheckedUpdateWithoutDeletedByInput>
-  create: Prisma.XOR<Prisma.UserAddressCreateWithoutDeletedByInput, Prisma.UserAddressUncheckedCreateWithoutDeletedByInput>
+  update: Prisma.XOR<Prisma.UserAddressUpdateWithoutUserInput, Prisma.UserAddressUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.UserAddressCreateWithoutUserInput, Prisma.UserAddressUncheckedCreateWithoutUserInput>
 }
 
-export type UserAddressUpdateWithWhereUniqueWithoutDeletedByInput = {
+export type UserAddressUpdateWithWhereUniqueWithoutUserInput = {
   where: Prisma.UserAddressWhereUniqueInput
-  data: Prisma.XOR<Prisma.UserAddressUpdateWithoutDeletedByInput, Prisma.UserAddressUncheckedUpdateWithoutDeletedByInput>
+  data: Prisma.XOR<Prisma.UserAddressUpdateWithoutUserInput, Prisma.UserAddressUncheckedUpdateWithoutUserInput>
 }
 
-export type UserAddressUpdateManyWithWhereWithoutDeletedByInput = {
+export type UserAddressUpdateManyWithWhereWithoutUserInput = {
   where: Prisma.UserAddressScalarWhereInput
-  data: Prisma.XOR<Prisma.UserAddressUpdateManyMutationInput, Prisma.UserAddressUncheckedUpdateManyWithoutDeletedByInput>
-}
-
-export type UserAddressCreateManyUserInput = {
-  id?: string
-  label: string
-  recipientName: string
-  phoneNumber: string
-  address: string
-  isDefault?: boolean
-  createdById?: string | null
-  updatedById?: string | null
-  deletedById?: string | null
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  data: Prisma.XOR<Prisma.UserAddressUpdateManyMutationInput, Prisma.UserAddressUncheckedUpdateManyWithoutUserInput>
 }
 
 export type UserAddressCreateManyCreatedByInput = {
@@ -940,21 +925,6 @@ export type UserAddressCreateManyCreatedByInput = {
   address: string
   isDefault?: boolean
   updatedById?: string | null
-  deletedById?: string | null
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type UserAddressCreateManyUpdatedByInput = {
-  id?: string
-  userId: string
-  label: string
-  recipientName: string
-  phoneNumber: string
-  address: string
-  isDefault?: boolean
-  createdById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -976,49 +946,34 @@ export type UserAddressCreateManyDeletedByInput = {
   updatedAt?: Date | string
 }
 
-export type UserAddressUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
-  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.StringFieldUpdateOperationsInput | string
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedAddressesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedAddressesNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedAddressesNestedInput
+export type UserAddressCreateManyUpdatedByInput = {
+  id?: string
+  userId: string
+  label: string
+  recipientName: string
+  phoneNumber: string
+  address: string
+  isDefault?: boolean
+  createdById?: string | null
+  deletedById?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
-export type UserAddressUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
-  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.StringFieldUpdateOperationsInput | string
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type UserAddressUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
-  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.StringFieldUpdateOperationsInput | string
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+export type UserAddressCreateManyUserInput = {
+  id?: string
+  label: string
+  recipientName: string
+  phoneNumber: string
+  address: string
+  isDefault?: boolean
+  createdById?: string | null
+  updatedById?: string | null
+  deletedById?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type UserAddressUpdateWithoutCreatedByInput = {
@@ -1031,9 +986,9 @@ export type UserAddressUpdateWithoutCreatedByInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutAddressesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedAddressesNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedAddressesNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedAddressesNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutAddressesNestedInput
 }
 
 export type UserAddressUncheckedUpdateWithoutCreatedByInput = {
@@ -1066,51 +1021,6 @@ export type UserAddressUncheckedUpdateManyWithoutCreatedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type UserAddressUpdateWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
-  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.StringFieldUpdateOperationsInput | string
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutAddressesNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedAddressesNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedAddressesNestedInput
-}
-
-export type UserAddressUncheckedUpdateWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
-  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.StringFieldUpdateOperationsInput | string
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type UserAddressUncheckedUpdateManyWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
-  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.StringFieldUpdateOperationsInput | string
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
 export type UserAddressUpdateWithoutDeletedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1121,9 +1031,9 @@ export type UserAddressUpdateWithoutDeletedByInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutAddressesNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedAddressesNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedAddressesNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutAddressesNestedInput
 }
 
 export type UserAddressUncheckedUpdateWithoutDeletedByInput = {
@@ -1156,6 +1066,96 @@ export type UserAddressUncheckedUpdateManyWithoutDeletedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type UserAddressUpdateWithoutUpdatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedAddressesNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedAddressesNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutAddressesNestedInput
+}
+
+export type UserAddressUncheckedUpdateWithoutUpdatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type UserAddressUncheckedUpdateManyWithoutUpdatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type UserAddressUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedAddressesNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedAddressesNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedAddressesNestedInput
+}
+
+export type UserAddressUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type UserAddressUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  recipientName?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 
 
 export type UserAddressSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1172,10 +1172,10 @@ export type UserAddressSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserAddress$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.UserAddress$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.UserAddress$deletedByArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.UserAddress$updatedByArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userAddress"]>
 
 export type UserAddressSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1192,10 +1192,10 @@ export type UserAddressSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserAddress$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.UserAddress$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.UserAddress$deletedByArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.UserAddress$updatedByArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userAddress"]>
 
 export type UserAddressSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1212,10 +1212,10 @@ export type UserAddressSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserAddress$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.UserAddress$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.UserAddress$deletedByArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.UserAddress$updatedByArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userAddress"]>
 
 export type UserAddressSelectScalar = {
@@ -1236,31 +1236,31 @@ export type UserAddressSelectScalar = {
 
 export type UserAddressOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "label" | "recipientName" | "phoneNumber" | "address" | "isDefault" | "createdById" | "updatedById" | "deletedById" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["userAddress"]>
 export type UserAddressInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserAddress$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.UserAddress$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.UserAddress$deletedByArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.UserAddress$updatedByArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type UserAddressIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserAddress$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.UserAddress$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.UserAddress$deletedByArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.UserAddress$updatedByArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type UserAddressIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserAddress$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.UserAddress$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.UserAddress$deletedByArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.UserAddress$updatedByArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $UserAddressPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "UserAddress"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
     createdBy: Prisma.$UserPayload<ExtArgs> | null
-    updatedBy: Prisma.$UserPayload<ExtArgs> | null
     deletedBy: Prisma.$UserPayload<ExtArgs> | null
+    updatedBy: Prisma.$UserPayload<ExtArgs> | null
+    user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1670,10 +1670,10 @@ readonly fields: UserAddressFieldRefs;
  */
 export interface Prisma__UserAddressClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   createdBy<T extends Prisma.UserAddress$createdByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAddress$createdByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  updatedBy<T extends Prisma.UserAddress$updatedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAddress$updatedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   deletedBy<T extends Prisma.UserAddress$deletedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAddress$deletedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  updatedBy<T extends Prisma.UserAddress$updatedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAddress$updatedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2131,9 +2131,9 @@ export type UserAddress$createdByArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
- * UserAddress.updatedBy
+ * UserAddress.deletedBy
  */
-export type UserAddress$updatedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UserAddress$deletedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the User
    */
@@ -2150,9 +2150,9 @@ export type UserAddress$updatedByArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
- * UserAddress.deletedBy
+ * UserAddress.updatedBy
  */
-export type UserAddress$deletedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UserAddress$updatedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the User
    */

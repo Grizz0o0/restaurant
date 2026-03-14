@@ -274,11 +274,11 @@ export type RecommendationWhereInput = {
   deletedAt?: Prisma.DateTimeNullableFilter<"Recommendation"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Recommendation"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Recommendation"> | Date | string
-  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  dish?: Prisma.XOR<Prisma.DishScalarRelationFilter, Prisma.DishWhereInput>
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   deletedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  dish?: Prisma.XOR<Prisma.DishScalarRelationFilter, Prisma.DishWhereInput>
+  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
 export type RecommendationOrderByWithRelationInput = {
@@ -294,11 +294,11 @@ export type RecommendationOrderByWithRelationInput = {
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
-  dish?: Prisma.DishOrderByWithRelationInput
   createdBy?: Prisma.UserOrderByWithRelationInput
-  updatedBy?: Prisma.UserOrderByWithRelationInput
   deletedBy?: Prisma.UserOrderByWithRelationInput
+  dish?: Prisma.DishOrderByWithRelationInput
+  updatedBy?: Prisma.UserOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type RecommendationWhereUniqueInput = Prisma.AtLeast<{
@@ -317,11 +317,11 @@ export type RecommendationWhereUniqueInput = Prisma.AtLeast<{
   deletedAt?: Prisma.DateTimeNullableFilter<"Recommendation"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Recommendation"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Recommendation"> | Date | string
-  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  dish?: Prisma.XOR<Prisma.DishScalarRelationFilter, Prisma.DishWhereInput>
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   deletedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  dish?: Prisma.XOR<Prisma.DishScalarRelationFilter, Prisma.DishWhereInput>
+  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id">
 
 export type RecommendationOrderByWithAggregationInput = {
@@ -370,11 +370,11 @@ export type RecommendationCreateInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user?: Prisma.UserCreateNestedOneWithoutRecommendationsInput
-  dish: Prisma.DishCreateNestedOneWithoutRecommendationsInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedRecommendationsInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedRecommendationsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedRecommendationsInput
+  dish: Prisma.DishCreateNestedOneWithoutRecommendationsInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedRecommendationsInput
+  user?: Prisma.UserCreateNestedOneWithoutRecommendationsInput
 }
 
 export type RecommendationUncheckedCreateInput = {
@@ -400,11 +400,11 @@ export type RecommendationUpdateInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneWithoutRecommendationsNestedInput
-  dish?: Prisma.DishUpdateOneRequiredWithoutRecommendationsNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedRecommendationsNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedRecommendationsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedRecommendationsNestedInput
+  dish?: Prisma.DishUpdateOneRequiredWithoutRecommendationsNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedRecommendationsNestedInput
+  user?: Prisma.UserUpdateOneWithoutRecommendationsNestedInput
 }
 
 export type RecommendationUncheckedUpdateInput = {
@@ -525,24 +525,10 @@ export type RecommendationSumOrderByAggregateInput = {
   score?: Prisma.SortOrder
 }
 
-export type RecommendationCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.RecommendationCreateWithoutUserInput, Prisma.RecommendationUncheckedCreateWithoutUserInput> | Prisma.RecommendationCreateWithoutUserInput[] | Prisma.RecommendationUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.RecommendationCreateOrConnectWithoutUserInput | Prisma.RecommendationCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.RecommendationCreateManyUserInputEnvelope
-  connect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
-}
-
 export type RecommendationCreateNestedManyWithoutCreatedByInput = {
   create?: Prisma.XOR<Prisma.RecommendationCreateWithoutCreatedByInput, Prisma.RecommendationUncheckedCreateWithoutCreatedByInput> | Prisma.RecommendationCreateWithoutCreatedByInput[] | Prisma.RecommendationUncheckedCreateWithoutCreatedByInput[]
   connectOrCreate?: Prisma.RecommendationCreateOrConnectWithoutCreatedByInput | Prisma.RecommendationCreateOrConnectWithoutCreatedByInput[]
   createMany?: Prisma.RecommendationCreateManyCreatedByInputEnvelope
-  connect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
-}
-
-export type RecommendationCreateNestedManyWithoutUpdatedByInput = {
-  create?: Prisma.XOR<Prisma.RecommendationCreateWithoutUpdatedByInput, Prisma.RecommendationUncheckedCreateWithoutUpdatedByInput> | Prisma.RecommendationCreateWithoutUpdatedByInput[] | Prisma.RecommendationUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.RecommendationCreateOrConnectWithoutUpdatedByInput | Prisma.RecommendationCreateOrConnectWithoutUpdatedByInput[]
-  createMany?: Prisma.RecommendationCreateManyUpdatedByInputEnvelope
   connect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
 }
 
@@ -553,7 +539,14 @@ export type RecommendationCreateNestedManyWithoutDeletedByInput = {
   connect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
 }
 
-export type RecommendationUncheckedCreateNestedManyWithoutUserInput = {
+export type RecommendationCreateNestedManyWithoutUpdatedByInput = {
+  create?: Prisma.XOR<Prisma.RecommendationCreateWithoutUpdatedByInput, Prisma.RecommendationUncheckedCreateWithoutUpdatedByInput> | Prisma.RecommendationCreateWithoutUpdatedByInput[] | Prisma.RecommendationUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.RecommendationCreateOrConnectWithoutUpdatedByInput | Prisma.RecommendationCreateOrConnectWithoutUpdatedByInput[]
+  createMany?: Prisma.RecommendationCreateManyUpdatedByInputEnvelope
+  connect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
+}
+
+export type RecommendationCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.RecommendationCreateWithoutUserInput, Prisma.RecommendationUncheckedCreateWithoutUserInput> | Prisma.RecommendationCreateWithoutUserInput[] | Prisma.RecommendationUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.RecommendationCreateOrConnectWithoutUserInput | Prisma.RecommendationCreateOrConnectWithoutUserInput[]
   createMany?: Prisma.RecommendationCreateManyUserInputEnvelope
@@ -567,13 +560,6 @@ export type RecommendationUncheckedCreateNestedManyWithoutCreatedByInput = {
   connect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
 }
 
-export type RecommendationUncheckedCreateNestedManyWithoutUpdatedByInput = {
-  create?: Prisma.XOR<Prisma.RecommendationCreateWithoutUpdatedByInput, Prisma.RecommendationUncheckedCreateWithoutUpdatedByInput> | Prisma.RecommendationCreateWithoutUpdatedByInput[] | Prisma.RecommendationUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.RecommendationCreateOrConnectWithoutUpdatedByInput | Prisma.RecommendationCreateOrConnectWithoutUpdatedByInput[]
-  createMany?: Prisma.RecommendationCreateManyUpdatedByInputEnvelope
-  connect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
-}
-
 export type RecommendationUncheckedCreateNestedManyWithoutDeletedByInput = {
   create?: Prisma.XOR<Prisma.RecommendationCreateWithoutDeletedByInput, Prisma.RecommendationUncheckedCreateWithoutDeletedByInput> | Prisma.RecommendationCreateWithoutDeletedByInput[] | Prisma.RecommendationUncheckedCreateWithoutDeletedByInput[]
   connectOrCreate?: Prisma.RecommendationCreateOrConnectWithoutDeletedByInput | Prisma.RecommendationCreateOrConnectWithoutDeletedByInput[]
@@ -581,18 +567,18 @@ export type RecommendationUncheckedCreateNestedManyWithoutDeletedByInput = {
   connect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
 }
 
-export type RecommendationUpdateManyWithoutUserNestedInput = {
+export type RecommendationUncheckedCreateNestedManyWithoutUpdatedByInput = {
+  create?: Prisma.XOR<Prisma.RecommendationCreateWithoutUpdatedByInput, Prisma.RecommendationUncheckedCreateWithoutUpdatedByInput> | Prisma.RecommendationCreateWithoutUpdatedByInput[] | Prisma.RecommendationUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.RecommendationCreateOrConnectWithoutUpdatedByInput | Prisma.RecommendationCreateOrConnectWithoutUpdatedByInput[]
+  createMany?: Prisma.RecommendationCreateManyUpdatedByInputEnvelope
+  connect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
+}
+
+export type RecommendationUncheckedCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.RecommendationCreateWithoutUserInput, Prisma.RecommendationUncheckedCreateWithoutUserInput> | Prisma.RecommendationCreateWithoutUserInput[] | Prisma.RecommendationUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.RecommendationCreateOrConnectWithoutUserInput | Prisma.RecommendationCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.RecommendationUpsertWithWhereUniqueWithoutUserInput | Prisma.RecommendationUpsertWithWhereUniqueWithoutUserInput[]
   createMany?: Prisma.RecommendationCreateManyUserInputEnvelope
-  set?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
-  disconnect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
-  delete?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
   connect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
-  update?: Prisma.RecommendationUpdateWithWhereUniqueWithoutUserInput | Prisma.RecommendationUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.RecommendationUpdateManyWithWhereWithoutUserInput | Prisma.RecommendationUpdateManyWithWhereWithoutUserInput[]
-  deleteMany?: Prisma.RecommendationScalarWhereInput | Prisma.RecommendationScalarWhereInput[]
 }
 
 export type RecommendationUpdateManyWithoutCreatedByNestedInput = {
@@ -606,20 +592,6 @@ export type RecommendationUpdateManyWithoutCreatedByNestedInput = {
   connect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
   update?: Prisma.RecommendationUpdateWithWhereUniqueWithoutCreatedByInput | Prisma.RecommendationUpdateWithWhereUniqueWithoutCreatedByInput[]
   updateMany?: Prisma.RecommendationUpdateManyWithWhereWithoutCreatedByInput | Prisma.RecommendationUpdateManyWithWhereWithoutCreatedByInput[]
-  deleteMany?: Prisma.RecommendationScalarWhereInput | Prisma.RecommendationScalarWhereInput[]
-}
-
-export type RecommendationUpdateManyWithoutUpdatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.RecommendationCreateWithoutUpdatedByInput, Prisma.RecommendationUncheckedCreateWithoutUpdatedByInput> | Prisma.RecommendationCreateWithoutUpdatedByInput[] | Prisma.RecommendationUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.RecommendationCreateOrConnectWithoutUpdatedByInput | Prisma.RecommendationCreateOrConnectWithoutUpdatedByInput[]
-  upsert?: Prisma.RecommendationUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.RecommendationUpsertWithWhereUniqueWithoutUpdatedByInput[]
-  createMany?: Prisma.RecommendationCreateManyUpdatedByInputEnvelope
-  set?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
-  disconnect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
-  delete?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
-  connect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
-  update?: Prisma.RecommendationUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.RecommendationUpdateWithWhereUniqueWithoutUpdatedByInput[]
-  updateMany?: Prisma.RecommendationUpdateManyWithWhereWithoutUpdatedByInput | Prisma.RecommendationUpdateManyWithWhereWithoutUpdatedByInput[]
   deleteMany?: Prisma.RecommendationScalarWhereInput | Prisma.RecommendationScalarWhereInput[]
 }
 
@@ -637,7 +609,21 @@ export type RecommendationUpdateManyWithoutDeletedByNestedInput = {
   deleteMany?: Prisma.RecommendationScalarWhereInput | Prisma.RecommendationScalarWhereInput[]
 }
 
-export type RecommendationUncheckedUpdateManyWithoutUserNestedInput = {
+export type RecommendationUpdateManyWithoutUpdatedByNestedInput = {
+  create?: Prisma.XOR<Prisma.RecommendationCreateWithoutUpdatedByInput, Prisma.RecommendationUncheckedCreateWithoutUpdatedByInput> | Prisma.RecommendationCreateWithoutUpdatedByInput[] | Prisma.RecommendationUncheckedCreateWithoutUpdatedByInput[]
+  connectOrCreate?: Prisma.RecommendationCreateOrConnectWithoutUpdatedByInput | Prisma.RecommendationCreateOrConnectWithoutUpdatedByInput[]
+  upsert?: Prisma.RecommendationUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.RecommendationUpsertWithWhereUniqueWithoutUpdatedByInput[]
+  createMany?: Prisma.RecommendationCreateManyUpdatedByInputEnvelope
+  set?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
+  disconnect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
+  delete?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
+  connect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
+  update?: Prisma.RecommendationUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.RecommendationUpdateWithWhereUniqueWithoutUpdatedByInput[]
+  updateMany?: Prisma.RecommendationUpdateManyWithWhereWithoutUpdatedByInput | Prisma.RecommendationUpdateManyWithWhereWithoutUpdatedByInput[]
+  deleteMany?: Prisma.RecommendationScalarWhereInput | Prisma.RecommendationScalarWhereInput[]
+}
+
+export type RecommendationUpdateManyWithoutUserNestedInput = {
   create?: Prisma.XOR<Prisma.RecommendationCreateWithoutUserInput, Prisma.RecommendationUncheckedCreateWithoutUserInput> | Prisma.RecommendationCreateWithoutUserInput[] | Prisma.RecommendationUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.RecommendationCreateOrConnectWithoutUserInput | Prisma.RecommendationCreateOrConnectWithoutUserInput[]
   upsert?: Prisma.RecommendationUpsertWithWhereUniqueWithoutUserInput | Prisma.RecommendationUpsertWithWhereUniqueWithoutUserInput[]
@@ -665,6 +651,20 @@ export type RecommendationUncheckedUpdateManyWithoutCreatedByNestedInput = {
   deleteMany?: Prisma.RecommendationScalarWhereInput | Prisma.RecommendationScalarWhereInput[]
 }
 
+export type RecommendationUncheckedUpdateManyWithoutDeletedByNestedInput = {
+  create?: Prisma.XOR<Prisma.RecommendationCreateWithoutDeletedByInput, Prisma.RecommendationUncheckedCreateWithoutDeletedByInput> | Prisma.RecommendationCreateWithoutDeletedByInput[] | Prisma.RecommendationUncheckedCreateWithoutDeletedByInput[]
+  connectOrCreate?: Prisma.RecommendationCreateOrConnectWithoutDeletedByInput | Prisma.RecommendationCreateOrConnectWithoutDeletedByInput[]
+  upsert?: Prisma.RecommendationUpsertWithWhereUniqueWithoutDeletedByInput | Prisma.RecommendationUpsertWithWhereUniqueWithoutDeletedByInput[]
+  createMany?: Prisma.RecommendationCreateManyDeletedByInputEnvelope
+  set?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
+  disconnect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
+  delete?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
+  connect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
+  update?: Prisma.RecommendationUpdateWithWhereUniqueWithoutDeletedByInput | Prisma.RecommendationUpdateWithWhereUniqueWithoutDeletedByInput[]
+  updateMany?: Prisma.RecommendationUpdateManyWithWhereWithoutDeletedByInput | Prisma.RecommendationUpdateManyWithWhereWithoutDeletedByInput[]
+  deleteMany?: Prisma.RecommendationScalarWhereInput | Prisma.RecommendationScalarWhereInput[]
+}
+
 export type RecommendationUncheckedUpdateManyWithoutUpdatedByNestedInput = {
   create?: Prisma.XOR<Prisma.RecommendationCreateWithoutUpdatedByInput, Prisma.RecommendationUncheckedCreateWithoutUpdatedByInput> | Prisma.RecommendationCreateWithoutUpdatedByInput[] | Prisma.RecommendationUncheckedCreateWithoutUpdatedByInput[]
   connectOrCreate?: Prisma.RecommendationCreateOrConnectWithoutUpdatedByInput | Prisma.RecommendationCreateOrConnectWithoutUpdatedByInput[]
@@ -679,17 +679,17 @@ export type RecommendationUncheckedUpdateManyWithoutUpdatedByNestedInput = {
   deleteMany?: Prisma.RecommendationScalarWhereInput | Prisma.RecommendationScalarWhereInput[]
 }
 
-export type RecommendationUncheckedUpdateManyWithoutDeletedByNestedInput = {
-  create?: Prisma.XOR<Prisma.RecommendationCreateWithoutDeletedByInput, Prisma.RecommendationUncheckedCreateWithoutDeletedByInput> | Prisma.RecommendationCreateWithoutDeletedByInput[] | Prisma.RecommendationUncheckedCreateWithoutDeletedByInput[]
-  connectOrCreate?: Prisma.RecommendationCreateOrConnectWithoutDeletedByInput | Prisma.RecommendationCreateOrConnectWithoutDeletedByInput[]
-  upsert?: Prisma.RecommendationUpsertWithWhereUniqueWithoutDeletedByInput | Prisma.RecommendationUpsertWithWhereUniqueWithoutDeletedByInput[]
-  createMany?: Prisma.RecommendationCreateManyDeletedByInputEnvelope
+export type RecommendationUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.RecommendationCreateWithoutUserInput, Prisma.RecommendationUncheckedCreateWithoutUserInput> | Prisma.RecommendationCreateWithoutUserInput[] | Prisma.RecommendationUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.RecommendationCreateOrConnectWithoutUserInput | Prisma.RecommendationCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.RecommendationUpsertWithWhereUniqueWithoutUserInput | Prisma.RecommendationUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.RecommendationCreateManyUserInputEnvelope
   set?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
   disconnect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
   delete?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
   connect?: Prisma.RecommendationWhereUniqueInput | Prisma.RecommendationWhereUniqueInput[]
-  update?: Prisma.RecommendationUpdateWithWhereUniqueWithoutDeletedByInput | Prisma.RecommendationUpdateWithWhereUniqueWithoutDeletedByInput[]
-  updateMany?: Prisma.RecommendationUpdateManyWithWhereWithoutDeletedByInput | Prisma.RecommendationUpdateManyWithWhereWithoutDeletedByInput[]
+  update?: Prisma.RecommendationUpdateWithWhereUniqueWithoutUserInput | Prisma.RecommendationUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.RecommendationUpdateManyWithWhereWithoutUserInput | Prisma.RecommendationUpdateManyWithWhereWithoutUserInput[]
   deleteMany?: Prisma.RecommendationScalarWhereInput | Prisma.RecommendationScalarWhereInput[]
 }
 
@@ -735,44 +735,6 @@ export type RecommendationUncheckedUpdateManyWithoutDishNestedInput = {
   deleteMany?: Prisma.RecommendationScalarWhereInput | Prisma.RecommendationScalarWhereInput[]
 }
 
-export type RecommendationCreateWithoutUserInput = {
-  id?: string
-  score: runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: string | null
-  model: string
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  dish: Prisma.DishCreateNestedOneWithoutRecommendationsInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedRecommendationsInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedRecommendationsInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedRecommendationsInput
-}
-
-export type RecommendationUncheckedCreateWithoutUserInput = {
-  id?: string
-  dishId: string
-  score: runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: string | null
-  model: string
-  createdById?: string | null
-  updatedById?: string | null
-  deletedById?: string | null
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type RecommendationCreateOrConnectWithoutUserInput = {
-  where: Prisma.RecommendationWhereUniqueInput
-  create: Prisma.XOR<Prisma.RecommendationCreateWithoutUserInput, Prisma.RecommendationUncheckedCreateWithoutUserInput>
-}
-
-export type RecommendationCreateManyUserInputEnvelope = {
-  data: Prisma.RecommendationCreateManyUserInput | Prisma.RecommendationCreateManyUserInput[]
-  skipDuplicates?: boolean
-}
-
 export type RecommendationCreateWithoutCreatedByInput = {
   id?: string
   score: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -781,10 +743,10 @@ export type RecommendationCreateWithoutCreatedByInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user?: Prisma.UserCreateNestedOneWithoutRecommendationsInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedRecommendationsInput
   dish: Prisma.DishCreateNestedOneWithoutRecommendationsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedRecommendationsInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedRecommendationsInput
+  user?: Prisma.UserCreateNestedOneWithoutRecommendationsInput
 }
 
 export type RecommendationUncheckedCreateWithoutCreatedByInput = {
@@ -811,44 +773,6 @@ export type RecommendationCreateManyCreatedByInputEnvelope = {
   skipDuplicates?: boolean
 }
 
-export type RecommendationCreateWithoutUpdatedByInput = {
-  id?: string
-  score: runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: string | null
-  model: string
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  user?: Prisma.UserCreateNestedOneWithoutRecommendationsInput
-  dish: Prisma.DishCreateNestedOneWithoutRecommendationsInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedRecommendationsInput
-  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedRecommendationsInput
-}
-
-export type RecommendationUncheckedCreateWithoutUpdatedByInput = {
-  id?: string
-  userId?: string | null
-  dishId: string
-  score: runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: string | null
-  model: string
-  createdById?: string | null
-  deletedById?: string | null
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type RecommendationCreateOrConnectWithoutUpdatedByInput = {
-  where: Prisma.RecommendationWhereUniqueInput
-  create: Prisma.XOR<Prisma.RecommendationCreateWithoutUpdatedByInput, Prisma.RecommendationUncheckedCreateWithoutUpdatedByInput>
-}
-
-export type RecommendationCreateManyUpdatedByInputEnvelope = {
-  data: Prisma.RecommendationCreateManyUpdatedByInput | Prisma.RecommendationCreateManyUpdatedByInput[]
-  skipDuplicates?: boolean
-}
-
 export type RecommendationCreateWithoutDeletedByInput = {
   id?: string
   score: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -857,10 +781,10 @@ export type RecommendationCreateWithoutDeletedByInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user?: Prisma.UserCreateNestedOneWithoutRecommendationsInput
-  dish: Prisma.DishCreateNestedOneWithoutRecommendationsInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedRecommendationsInput
+  dish: Prisma.DishCreateNestedOneWithoutRecommendationsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedRecommendationsInput
+  user?: Prisma.UserCreateNestedOneWithoutRecommendationsInput
 }
 
 export type RecommendationUncheckedCreateWithoutDeletedByInput = {
@@ -887,20 +811,96 @@ export type RecommendationCreateManyDeletedByInputEnvelope = {
   skipDuplicates?: boolean
 }
 
-export type RecommendationUpsertWithWhereUniqueWithoutUserInput = {
+export type RecommendationCreateWithoutUpdatedByInput = {
+  id?: string
+  score: runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: string | null
+  model: string
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedRecommendationsInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedRecommendationsInput
+  dish: Prisma.DishCreateNestedOneWithoutRecommendationsInput
+  user?: Prisma.UserCreateNestedOneWithoutRecommendationsInput
+}
+
+export type RecommendationUncheckedCreateWithoutUpdatedByInput = {
+  id?: string
+  userId?: string | null
+  dishId: string
+  score: runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: string | null
+  model: string
+  createdById?: string | null
+  deletedById?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type RecommendationCreateOrConnectWithoutUpdatedByInput = {
   where: Prisma.RecommendationWhereUniqueInput
-  update: Prisma.XOR<Prisma.RecommendationUpdateWithoutUserInput, Prisma.RecommendationUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.RecommendationCreateWithoutUpdatedByInput, Prisma.RecommendationUncheckedCreateWithoutUpdatedByInput>
+}
+
+export type RecommendationCreateManyUpdatedByInputEnvelope = {
+  data: Prisma.RecommendationCreateManyUpdatedByInput | Prisma.RecommendationCreateManyUpdatedByInput[]
+  skipDuplicates?: boolean
+}
+
+export type RecommendationCreateWithoutUserInput = {
+  id?: string
+  score: runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: string | null
+  model: string
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedRecommendationsInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedRecommendationsInput
+  dish: Prisma.DishCreateNestedOneWithoutRecommendationsInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedRecommendationsInput
+}
+
+export type RecommendationUncheckedCreateWithoutUserInput = {
+  id?: string
+  dishId: string
+  score: runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: string | null
+  model: string
+  createdById?: string | null
+  updatedById?: string | null
+  deletedById?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type RecommendationCreateOrConnectWithoutUserInput = {
+  where: Prisma.RecommendationWhereUniqueInput
   create: Prisma.XOR<Prisma.RecommendationCreateWithoutUserInput, Prisma.RecommendationUncheckedCreateWithoutUserInput>
 }
 
-export type RecommendationUpdateWithWhereUniqueWithoutUserInput = {
-  where: Prisma.RecommendationWhereUniqueInput
-  data: Prisma.XOR<Prisma.RecommendationUpdateWithoutUserInput, Prisma.RecommendationUncheckedUpdateWithoutUserInput>
+export type RecommendationCreateManyUserInputEnvelope = {
+  data: Prisma.RecommendationCreateManyUserInput | Prisma.RecommendationCreateManyUserInput[]
+  skipDuplicates?: boolean
 }
 
-export type RecommendationUpdateManyWithWhereWithoutUserInput = {
+export type RecommendationUpsertWithWhereUniqueWithoutCreatedByInput = {
+  where: Prisma.RecommendationWhereUniqueInput
+  update: Prisma.XOR<Prisma.RecommendationUpdateWithoutCreatedByInput, Prisma.RecommendationUncheckedUpdateWithoutCreatedByInput>
+  create: Prisma.XOR<Prisma.RecommendationCreateWithoutCreatedByInput, Prisma.RecommendationUncheckedCreateWithoutCreatedByInput>
+}
+
+export type RecommendationUpdateWithWhereUniqueWithoutCreatedByInput = {
+  where: Prisma.RecommendationWhereUniqueInput
+  data: Prisma.XOR<Prisma.RecommendationUpdateWithoutCreatedByInput, Prisma.RecommendationUncheckedUpdateWithoutCreatedByInput>
+}
+
+export type RecommendationUpdateManyWithWhereWithoutCreatedByInput = {
   where: Prisma.RecommendationScalarWhereInput
-  data: Prisma.XOR<Prisma.RecommendationUpdateManyMutationInput, Prisma.RecommendationUncheckedUpdateManyWithoutUserInput>
+  data: Prisma.XOR<Prisma.RecommendationUpdateManyMutationInput, Prisma.RecommendationUncheckedUpdateManyWithoutCreatedByInput>
 }
 
 export type RecommendationScalarWhereInput = {
@@ -921,20 +921,20 @@ export type RecommendationScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Recommendation"> | Date | string
 }
 
-export type RecommendationUpsertWithWhereUniqueWithoutCreatedByInput = {
+export type RecommendationUpsertWithWhereUniqueWithoutDeletedByInput = {
   where: Prisma.RecommendationWhereUniqueInput
-  update: Prisma.XOR<Prisma.RecommendationUpdateWithoutCreatedByInput, Prisma.RecommendationUncheckedUpdateWithoutCreatedByInput>
-  create: Prisma.XOR<Prisma.RecommendationCreateWithoutCreatedByInput, Prisma.RecommendationUncheckedCreateWithoutCreatedByInput>
+  update: Prisma.XOR<Prisma.RecommendationUpdateWithoutDeletedByInput, Prisma.RecommendationUncheckedUpdateWithoutDeletedByInput>
+  create: Prisma.XOR<Prisma.RecommendationCreateWithoutDeletedByInput, Prisma.RecommendationUncheckedCreateWithoutDeletedByInput>
 }
 
-export type RecommendationUpdateWithWhereUniqueWithoutCreatedByInput = {
+export type RecommendationUpdateWithWhereUniqueWithoutDeletedByInput = {
   where: Prisma.RecommendationWhereUniqueInput
-  data: Prisma.XOR<Prisma.RecommendationUpdateWithoutCreatedByInput, Prisma.RecommendationUncheckedUpdateWithoutCreatedByInput>
+  data: Prisma.XOR<Prisma.RecommendationUpdateWithoutDeletedByInput, Prisma.RecommendationUncheckedUpdateWithoutDeletedByInput>
 }
 
-export type RecommendationUpdateManyWithWhereWithoutCreatedByInput = {
+export type RecommendationUpdateManyWithWhereWithoutDeletedByInput = {
   where: Prisma.RecommendationScalarWhereInput
-  data: Prisma.XOR<Prisma.RecommendationUpdateManyMutationInput, Prisma.RecommendationUncheckedUpdateManyWithoutCreatedByInput>
+  data: Prisma.XOR<Prisma.RecommendationUpdateManyMutationInput, Prisma.RecommendationUncheckedUpdateManyWithoutDeletedByInput>
 }
 
 export type RecommendationUpsertWithWhereUniqueWithoutUpdatedByInput = {
@@ -953,20 +953,20 @@ export type RecommendationUpdateManyWithWhereWithoutUpdatedByInput = {
   data: Prisma.XOR<Prisma.RecommendationUpdateManyMutationInput, Prisma.RecommendationUncheckedUpdateManyWithoutUpdatedByInput>
 }
 
-export type RecommendationUpsertWithWhereUniqueWithoutDeletedByInput = {
+export type RecommendationUpsertWithWhereUniqueWithoutUserInput = {
   where: Prisma.RecommendationWhereUniqueInput
-  update: Prisma.XOR<Prisma.RecommendationUpdateWithoutDeletedByInput, Prisma.RecommendationUncheckedUpdateWithoutDeletedByInput>
-  create: Prisma.XOR<Prisma.RecommendationCreateWithoutDeletedByInput, Prisma.RecommendationUncheckedCreateWithoutDeletedByInput>
+  update: Prisma.XOR<Prisma.RecommendationUpdateWithoutUserInput, Prisma.RecommendationUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.RecommendationCreateWithoutUserInput, Prisma.RecommendationUncheckedCreateWithoutUserInput>
 }
 
-export type RecommendationUpdateWithWhereUniqueWithoutDeletedByInput = {
+export type RecommendationUpdateWithWhereUniqueWithoutUserInput = {
   where: Prisma.RecommendationWhereUniqueInput
-  data: Prisma.XOR<Prisma.RecommendationUpdateWithoutDeletedByInput, Prisma.RecommendationUncheckedUpdateWithoutDeletedByInput>
+  data: Prisma.XOR<Prisma.RecommendationUpdateWithoutUserInput, Prisma.RecommendationUncheckedUpdateWithoutUserInput>
 }
 
-export type RecommendationUpdateManyWithWhereWithoutDeletedByInput = {
+export type RecommendationUpdateManyWithWhereWithoutUserInput = {
   where: Prisma.RecommendationScalarWhereInput
-  data: Prisma.XOR<Prisma.RecommendationUpdateManyMutationInput, Prisma.RecommendationUncheckedUpdateManyWithoutDeletedByInput>
+  data: Prisma.XOR<Prisma.RecommendationUpdateManyMutationInput, Prisma.RecommendationUncheckedUpdateManyWithoutUserInput>
 }
 
 export type RecommendationCreateWithoutDishInput = {
@@ -977,10 +977,10 @@ export type RecommendationCreateWithoutDishInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user?: Prisma.UserCreateNestedOneWithoutRecommendationsInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedRecommendationsInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedRecommendationsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedRecommendationsInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedRecommendationsInput
+  user?: Prisma.UserCreateNestedOneWithoutRecommendationsInput
 }
 
 export type RecommendationUncheckedCreateWithoutDishInput = {
@@ -1023,20 +1023,6 @@ export type RecommendationUpdateManyWithWhereWithoutDishInput = {
   data: Prisma.XOR<Prisma.RecommendationUpdateManyMutationInput, Prisma.RecommendationUncheckedUpdateManyWithoutDishInput>
 }
 
-export type RecommendationCreateManyUserInput = {
-  id?: string
-  dishId: string
-  score: runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: string | null
-  model: string
-  createdById?: string | null
-  updatedById?: string | null
-  deletedById?: string | null
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
 export type RecommendationCreateManyCreatedByInput = {
   id?: string
   userId?: string | null
@@ -1045,20 +1031,6 @@ export type RecommendationCreateManyCreatedByInput = {
   reason?: string | null
   model: string
   updatedById?: string | null
-  deletedById?: string | null
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type RecommendationCreateManyUpdatedByInput = {
-  id?: string
-  userId?: string | null
-  dishId: string
-  score: runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: string | null
-  model: string
-  createdById?: string | null
   deletedById?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -1079,46 +1051,32 @@ export type RecommendationCreateManyDeletedByInput = {
   updatedAt?: Date | string
 }
 
-export type RecommendationUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  score?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  model?: Prisma.StringFieldUpdateOperationsInput | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  dish?: Prisma.DishUpdateOneRequiredWithoutRecommendationsNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedRecommendationsNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedRecommendationsNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedRecommendationsNestedInput
+export type RecommendationCreateManyUpdatedByInput = {
+  id?: string
+  userId?: string | null
+  dishId: string
+  score: runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: string | null
+  model: string
+  createdById?: string | null
+  deletedById?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
-export type RecommendationUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  dishId?: Prisma.StringFieldUpdateOperationsInput | string
-  score?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  model?: Prisma.StringFieldUpdateOperationsInput | string
-  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type RecommendationUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  dishId?: Prisma.StringFieldUpdateOperationsInput | string
-  score?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  model?: Prisma.StringFieldUpdateOperationsInput | string
-  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+export type RecommendationCreateManyUserInput = {
+  id?: string
+  dishId: string
+  score: runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: string | null
+  model: string
+  createdById?: string | null
+  updatedById?: string | null
+  deletedById?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type RecommendationUpdateWithoutCreatedByInput = {
@@ -1129,10 +1087,10 @@ export type RecommendationUpdateWithoutCreatedByInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneWithoutRecommendationsNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedRecommendationsNestedInput
   dish?: Prisma.DishUpdateOneRequiredWithoutRecommendationsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedRecommendationsNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedRecommendationsNestedInput
+  user?: Prisma.UserUpdateOneWithoutRecommendationsNestedInput
 }
 
 export type RecommendationUncheckedUpdateWithoutCreatedByInput = {
@@ -1163,48 +1121,6 @@ export type RecommendationUncheckedUpdateManyWithoutCreatedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type RecommendationUpdateWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  score?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  model?: Prisma.StringFieldUpdateOperationsInput | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneWithoutRecommendationsNestedInput
-  dish?: Prisma.DishUpdateOneRequiredWithoutRecommendationsNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedRecommendationsNestedInput
-  deletedBy?: Prisma.UserUpdateOneWithoutDeletedRecommendationsNestedInput
-}
-
-export type RecommendationUncheckedUpdateWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dishId?: Prisma.StringFieldUpdateOperationsInput | string
-  score?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  model?: Prisma.StringFieldUpdateOperationsInput | string
-  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type RecommendationUncheckedUpdateManyWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dishId?: Prisma.StringFieldUpdateOperationsInput | string
-  score?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  model?: Prisma.StringFieldUpdateOperationsInput | string
-  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
 export type RecommendationUpdateWithoutDeletedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1213,10 +1129,10 @@ export type RecommendationUpdateWithoutDeletedByInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneWithoutRecommendationsNestedInput
-  dish?: Prisma.DishUpdateOneRequiredWithoutRecommendationsNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedRecommendationsNestedInput
+  dish?: Prisma.DishUpdateOneRequiredWithoutRecommendationsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedRecommendationsNestedInput
+  user?: Prisma.UserUpdateOneWithoutRecommendationsNestedInput
 }
 
 export type RecommendationUncheckedUpdateWithoutDeletedByInput = {
@@ -1247,6 +1163,90 @@ export type RecommendationUncheckedUpdateManyWithoutDeletedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type RecommendationUpdateWithoutUpdatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  score?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.StringFieldUpdateOperationsInput | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedRecommendationsNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedRecommendationsNestedInput
+  dish?: Prisma.DishUpdateOneRequiredWithoutRecommendationsNestedInput
+  user?: Prisma.UserUpdateOneWithoutRecommendationsNestedInput
+}
+
+export type RecommendationUncheckedUpdateWithoutUpdatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dishId?: Prisma.StringFieldUpdateOperationsInput | string
+  score?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type RecommendationUncheckedUpdateManyWithoutUpdatedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dishId?: Prisma.StringFieldUpdateOperationsInput | string
+  score?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type RecommendationUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  score?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.StringFieldUpdateOperationsInput | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedRecommendationsNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedRecommendationsNestedInput
+  dish?: Prisma.DishUpdateOneRequiredWithoutRecommendationsNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedRecommendationsNestedInput
+}
+
+export type RecommendationUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  dishId?: Prisma.StringFieldUpdateOperationsInput | string
+  score?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type RecommendationUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  dishId?: Prisma.StringFieldUpdateOperationsInput | string
+  score?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type RecommendationCreateManyDishInput = {
   id?: string
   userId?: string | null
@@ -1269,10 +1269,10 @@ export type RecommendationUpdateWithoutDishInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneWithoutRecommendationsNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedRecommendationsNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedRecommendationsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedRecommendationsNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedRecommendationsNestedInput
+  user?: Prisma.UserUpdateOneWithoutRecommendationsNestedInput
 }
 
 export type RecommendationUncheckedUpdateWithoutDishInput = {
@@ -1318,11 +1318,11 @@ export type RecommendationSelect<ExtArgs extends runtime.Types.Extensions.Intern
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.Recommendation$userArgs<ExtArgs>
-  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.Recommendation$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.Recommendation$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.Recommendation$deletedByArgs<ExtArgs>
+  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.Recommendation$updatedByArgs<ExtArgs>
+  user?: boolean | Prisma.Recommendation$userArgs<ExtArgs>
 }, ExtArgs["result"]["recommendation"]>
 
 export type RecommendationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1338,11 +1338,11 @@ export type RecommendationSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.Recommendation$userArgs<ExtArgs>
-  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.Recommendation$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.Recommendation$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.Recommendation$deletedByArgs<ExtArgs>
+  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.Recommendation$updatedByArgs<ExtArgs>
+  user?: boolean | Prisma.Recommendation$userArgs<ExtArgs>
 }, ExtArgs["result"]["recommendation"]>
 
 export type RecommendationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1358,11 +1358,11 @@ export type RecommendationSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.Recommendation$userArgs<ExtArgs>
-  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.Recommendation$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.Recommendation$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.Recommendation$deletedByArgs<ExtArgs>
+  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.Recommendation$updatedByArgs<ExtArgs>
+  user?: boolean | Prisma.Recommendation$userArgs<ExtArgs>
 }, ExtArgs["result"]["recommendation"]>
 
 export type RecommendationSelectScalar = {
@@ -1382,35 +1382,35 @@ export type RecommendationSelectScalar = {
 
 export type RecommendationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "dishId" | "score" | "reason" | "model" | "createdById" | "updatedById" | "deletedById" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["recommendation"]>
 export type RecommendationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.Recommendation$userArgs<ExtArgs>
-  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.Recommendation$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.Recommendation$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.Recommendation$deletedByArgs<ExtArgs>
+  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.Recommendation$updatedByArgs<ExtArgs>
+  user?: boolean | Prisma.Recommendation$userArgs<ExtArgs>
 }
 export type RecommendationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.Recommendation$userArgs<ExtArgs>
-  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.Recommendation$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.Recommendation$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.Recommendation$deletedByArgs<ExtArgs>
+  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.Recommendation$updatedByArgs<ExtArgs>
+  user?: boolean | Prisma.Recommendation$userArgs<ExtArgs>
 }
 export type RecommendationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.Recommendation$userArgs<ExtArgs>
-  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.Recommendation$createdByArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.Recommendation$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.Recommendation$deletedByArgs<ExtArgs>
+  dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.Recommendation$updatedByArgs<ExtArgs>
+  user?: boolean | Prisma.Recommendation$userArgs<ExtArgs>
 }
 
 export type $RecommendationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Recommendation"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs> | null
-    dish: Prisma.$DishPayload<ExtArgs>
     createdBy: Prisma.$UserPayload<ExtArgs> | null
-    updatedBy: Prisma.$UserPayload<ExtArgs> | null
     deletedBy: Prisma.$UserPayload<ExtArgs> | null
+    dish: Prisma.$DishPayload<ExtArgs>
+    updatedBy: Prisma.$UserPayload<ExtArgs> | null
+    user: Prisma.$UserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1819,11 +1819,11 @@ readonly fields: RecommendationFieldRefs;
  */
 export interface Prisma__RecommendationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.Recommendation$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Recommendation$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  dish<T extends Prisma.DishDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DishDefaultArgs<ExtArgs>>): Prisma.Prisma__DishClient<runtime.Types.Result.GetResult<Prisma.$DishPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   createdBy<T extends Prisma.Recommendation$createdByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Recommendation$createdByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  updatedBy<T extends Prisma.Recommendation$updatedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Recommendation$updatedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   deletedBy<T extends Prisma.Recommendation$deletedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Recommendation$deletedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  dish<T extends Prisma.DishDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DishDefaultArgs<ExtArgs>>): Prisma.Prisma__DishClient<runtime.Types.Result.GetResult<Prisma.$DishPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  updatedBy<T extends Prisma.Recommendation$updatedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Recommendation$updatedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.Recommendation$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Recommendation$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2261,9 +2261,9 @@ export type RecommendationDeleteManyArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
- * Recommendation.user
+ * Recommendation.createdBy
  */
-export type Recommendation$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Recommendation$createdByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the User
    */
@@ -2280,9 +2280,9 @@ export type Recommendation$userArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * Recommendation.createdBy
+ * Recommendation.deletedBy
  */
-export type Recommendation$createdByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Recommendation$deletedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the User
    */
@@ -2318,9 +2318,9 @@ export type Recommendation$updatedByArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
- * Recommendation.deletedBy
+ * Recommendation.user
  */
-export type Recommendation$deletedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Recommendation$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the User
    */

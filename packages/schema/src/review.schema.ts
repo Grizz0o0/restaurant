@@ -34,6 +34,8 @@ export type CreateReviewBodyType = z.infer<typeof CreateReviewBodySchema>;
 export const GetReviewsQuerySchema = z.object({
     page: z.number().default(1),
     limit: z.number().default(10),
+    keyword: z.string().optional(),
+    categoryId: z.string().optional(),
     dishId: z.string().optional(),
     userId: z.string().optional(),
 });

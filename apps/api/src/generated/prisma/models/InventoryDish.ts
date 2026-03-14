@@ -202,16 +202,16 @@ export type InventoryDishWhereInput = {
   inventoryId?: Prisma.StringFilter<"InventoryDish"> | string
   dishId?: Prisma.StringFilter<"InventoryDish"> | string
   quantityUsed?: Prisma.DecimalFilter<"InventoryDish"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  inventory?: Prisma.XOR<Prisma.InventoryScalarRelationFilter, Prisma.InventoryWhereInput>
   dish?: Prisma.XOR<Prisma.DishScalarRelationFilter, Prisma.DishWhereInput>
+  inventory?: Prisma.XOR<Prisma.InventoryScalarRelationFilter, Prisma.InventoryWhereInput>
 }
 
 export type InventoryDishOrderByWithRelationInput = {
   inventoryId?: Prisma.SortOrder
   dishId?: Prisma.SortOrder
   quantityUsed?: Prisma.SortOrder
-  inventory?: Prisma.InventoryOrderByWithRelationInput
   dish?: Prisma.DishOrderByWithRelationInput
+  inventory?: Prisma.InventoryOrderByWithRelationInput
 }
 
 export type InventoryDishWhereUniqueInput = Prisma.AtLeast<{
@@ -222,8 +222,8 @@ export type InventoryDishWhereUniqueInput = Prisma.AtLeast<{
   inventoryId?: Prisma.StringFilter<"InventoryDish"> | string
   dishId?: Prisma.StringFilter<"InventoryDish"> | string
   quantityUsed?: Prisma.DecimalFilter<"InventoryDish"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  inventory?: Prisma.XOR<Prisma.InventoryScalarRelationFilter, Prisma.InventoryWhereInput>
   dish?: Prisma.XOR<Prisma.DishScalarRelationFilter, Prisma.DishWhereInput>
+  inventory?: Prisma.XOR<Prisma.InventoryScalarRelationFilter, Prisma.InventoryWhereInput>
 }, "inventoryId_dishId">
 
 export type InventoryDishOrderByWithAggregationInput = {
@@ -248,8 +248,8 @@ export type InventoryDishScalarWhereWithAggregatesInput = {
 
 export type InventoryDishCreateInput = {
   quantityUsed: runtime.Decimal | runtime.DecimalJsLike | number | string
-  inventory: Prisma.InventoryCreateNestedOneWithoutDishesInput
   dish: Prisma.DishCreateNestedOneWithoutInventoriesInput
+  inventory: Prisma.InventoryCreateNestedOneWithoutDishesInput
 }
 
 export type InventoryDishUncheckedCreateInput = {
@@ -260,8 +260,8 @@ export type InventoryDishUncheckedCreateInput = {
 
 export type InventoryDishUpdateInput = {
   quantityUsed?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  inventory?: Prisma.InventoryUpdateOneRequiredWithoutDishesNestedInput
   dish?: Prisma.DishUpdateOneRequiredWithoutInventoriesNestedInput
+  inventory?: Prisma.InventoryUpdateOneRequiredWithoutDishesNestedInput
 }
 
 export type InventoryDishUncheckedUpdateInput = {
@@ -538,24 +538,24 @@ export type InventoryDishSelect<ExtArgs extends runtime.Types.Extensions.Interna
   inventoryId?: boolean
   dishId?: boolean
   quantityUsed?: boolean
-  inventory?: boolean | Prisma.InventoryDefaultArgs<ExtArgs>
   dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  inventory?: boolean | Prisma.InventoryDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["inventoryDish"]>
 
 export type InventoryDishSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   inventoryId?: boolean
   dishId?: boolean
   quantityUsed?: boolean
-  inventory?: boolean | Prisma.InventoryDefaultArgs<ExtArgs>
   dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  inventory?: boolean | Prisma.InventoryDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["inventoryDish"]>
 
 export type InventoryDishSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   inventoryId?: boolean
   dishId?: boolean
   quantityUsed?: boolean
-  inventory?: boolean | Prisma.InventoryDefaultArgs<ExtArgs>
   dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  inventory?: boolean | Prisma.InventoryDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["inventoryDish"]>
 
 export type InventoryDishSelectScalar = {
@@ -566,23 +566,23 @@ export type InventoryDishSelectScalar = {
 
 export type InventoryDishOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"inventoryId" | "dishId" | "quantityUsed", ExtArgs["result"]["inventoryDish"]>
 export type InventoryDishInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  inventory?: boolean | Prisma.InventoryDefaultArgs<ExtArgs>
   dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  inventory?: boolean | Prisma.InventoryDefaultArgs<ExtArgs>
 }
 export type InventoryDishIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  inventory?: boolean | Prisma.InventoryDefaultArgs<ExtArgs>
   dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  inventory?: boolean | Prisma.InventoryDefaultArgs<ExtArgs>
 }
 export type InventoryDishIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  inventory?: boolean | Prisma.InventoryDefaultArgs<ExtArgs>
   dish?: boolean | Prisma.DishDefaultArgs<ExtArgs>
+  inventory?: boolean | Prisma.InventoryDefaultArgs<ExtArgs>
 }
 
 export type $InventoryDishPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "InventoryDish"
   objects: {
-    inventory: Prisma.$InventoryPayload<ExtArgs>
     dish: Prisma.$DishPayload<ExtArgs>
+    inventory: Prisma.$InventoryPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     inventoryId: string
@@ -982,8 +982,8 @@ readonly fields: InventoryDishFieldRefs;
  */
 export interface Prisma__InventoryDishClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  inventory<T extends Prisma.InventoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InventoryDefaultArgs<ExtArgs>>): Prisma.Prisma__InventoryClient<runtime.Types.Result.GetResult<Prisma.$InventoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   dish<T extends Prisma.DishDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DishDefaultArgs<ExtArgs>>): Prisma.Prisma__DishClient<runtime.Types.Result.GetResult<Prisma.$DishPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  inventory<T extends Prisma.InventoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InventoryDefaultArgs<ExtArgs>>): Prisma.Prisma__InventoryClient<runtime.Types.Result.GetResult<Prisma.$InventoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

@@ -54,6 +54,13 @@ export class RecommendationService {
         id: true,
         basePrice: true,
         images: true,
+        dishTranslations: {
+          select: {
+            name: true,
+            description: true,
+            languageId: true,
+          },
+        },
       },
     })
 
@@ -63,14 +70,20 @@ export class RecommendationService {
     }
 
     return {
-      items: recommendations.map((r, i) => ({
-        id: r.id,
-        name: 'Dish ' + r.id.substring(0, 4), // Placeholder since name is localized
-        basePrice: Number(r.basePrice || 0),
-        images: r.images || [],
-        score: 1.0 - i * 0.1, // Mocked relevancy score
-        reason: 'Based on your recent interactions',
-      })),
+      items: recommendations.map((r, i) => {
+        const translation =
+          r.dishTranslations.find((t) => t.languageId === 'vi') || r.dishTranslations[0]
+
+        return {
+          id: r.id,
+          name: translation?.name || 'Dish ' + r.id.substring(0, 4),
+          description: translation?.description || '',
+          basePrice: Number(r.basePrice || 0),
+          images: r.images || [],
+          score: 1.0 - i * 0.1, // Mocked relevancy score
+          reason: '✨ Món ngon phải thử',
+        }
+      }),
     }
   }
 
@@ -82,17 +95,104 @@ export class RecommendationService {
         id: true,
         basePrice: true,
         images: true,
+        dishTranslations: {
+          select: {
+            name: true,
+            description: true,
+            languageId: true,
+          },
+        },
       },
     })
     return {
-      items: dishes.map((d) => ({
-        id: d.id,
-        name: 'Dish ' + d.id.substring(0, 4), // Placeholder since name is localized
-        basePrice: Number(d.basePrice || 0),
-        images: d.images || [],
-        score: 0.8,
-        reason: 'Popular right now',
-      })),
+      items: dishes.map((d) => {
+        const translation =
+          d.dishTranslations.find((t) => t.languageId === 'vi') || d.dishTranslations[0]
+
+        return {
+          id: d.id,
+          name: translation?.name || 'Dish ' + d.id.substring(0, 4),
+          description: translation?.description || '',
+          basePrice: Number(d.basePrice || 0),
+          images: d.images || [],
+          score: 0.8,
+          reason: '✨ Món ngon phải thử',
+        }
+      }),
     }
+  }
+
+  async getTopSelling(query: GetRecommendationsQueryType) {
+    const { limit } = query
+
+    // Aggregating top sold dishes over completed orders
+    const topSoldDishes = await this.prisma.dishSKUSnapshot.groupBy({
+      by: ['dishId'],
+      where: {
+        order: {
+          status: 'COMPLETED',
+        },
+        dishId: { not: null },
+      },
+      _sum: {
+        quantity: true,
+      },
+      orderBy: {
+        _sum: {
+          quantity: 'desc',
+        },
+      },
+      take: limit,
+    })
+
+    const dishIds = topSoldDishes.map((t) => t.dishId!).filter(Boolean)
+
+    if (dishIds.length === 0) {
+      return this.getFallbackRecommendations(limit)
+    }
+
+    const dishes = await this.prisma.dish.findMany({
+      where: {
+        id: { in: dishIds },
+      },
+      select: {
+        id: true,
+        basePrice: true,
+        images: true,
+        dishTranslations: {
+          select: {
+            name: true,
+            description: true,
+            languageId: true,
+          },
+        },
+      },
+    })
+
+    // Create a map to keep the sorting order from the aggregation
+    const dishMap = new Map(dishes.map((d) => [d.id, d]))
+
+    // Map the results back to the ordered array, calculate scores
+    const items = topSoldDishes
+      .map((soldData, index) => {
+        const d = dishMap.get(soldData.dishId!)
+        if (!d) return null
+
+        const translation =
+          d.dishTranslations.find((t) => t.languageId === 'vi') || d.dishTranslations[0]
+
+        return {
+          id: d.id,
+          name: translation?.name || 'Dish ' + d.id.substring(0, 4),
+          description: translation?.description || '',
+          basePrice: Number(d.basePrice || 0),
+          images: d.images || [],
+          score: 1.0 - index * 0.1, // Higher score for higher rank
+          reason: `🔥 Đã bán ${soldData._sum.quantity || 0}`,
+        }
+      })
+      .filter((item) => item !== null) as any[]
+
+    return { items }
   }
 }

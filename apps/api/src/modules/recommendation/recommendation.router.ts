@@ -20,4 +20,12 @@ export class RecommendationRouter {
     const userId = ctx.user?.userId
     return this.recommendationService.getForUser(userId, input)
   }
+
+  @Query({
+    input: GetRecommendationsQuerySchema,
+    output: RecommendationResSchema,
+  })
+  async getTopSelling(@Input() input: GetRecommendationsQueryType) {
+    return this.recommendationService.getTopSelling(input)
+  }
 }

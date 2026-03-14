@@ -70,6 +70,9 @@ const configSchema = z.object({
   MOMO_IPN_URL: z.string().url(),
   MOMO_REDIRECT_URL: z.string().url(),
   MOMO_ENDPOINT: z.string().url(),
+
+  // ===== AI =====
+  GEMINI_API_KEY: z.string().min(1),
 })
 
 const configServer = configSchema.safeParse(process.env)
