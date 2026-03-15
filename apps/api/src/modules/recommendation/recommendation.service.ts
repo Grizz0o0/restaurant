@@ -72,25 +72,30 @@ export class RecommendationService {
     return {
       items: recommendations.map((r, i) => {
         const translation =
-          r.dishTranslations.find((t) => t.languageId === 'vi') || r.dishTranslations[0]
+          r.dishTranslations.find((t: any) => t.languageId === 'vi') || r.dishTranslations[0]
+
+        // Rule-based score: High baseline for personalized recommendations, decaying slowly
+        const score = Number((0.95 - (i / Math.max(recommendations.length, 1)) * 0.2).toFixed(2))
 
         return {
           id: r.id,
-          name: translation?.name || 'Dish ' + r.id.substring(0, 4),
+          name: translation?.name || 'Món ăn không tên',
           description: translation?.description || '',
           basePrice: Number(r.basePrice || 0),
           images: r.images || [],
-          score: 1.0 - i * 0.1, // Mocked relevancy score
-          reason: '✨ Món ngon phải thử',
+          score,
+          reason: '✨ Gợi ý riêng cho bạn',
         }
       }),
     }
   }
 
   private async getFallbackRecommendations(limit: number) {
-    // Top 5 generally popular dishes (using mock logic or random)
+    // Basic fallback to newest active dishes to break recursive loops
     const dishes = await this.prisma.dish.findMany({
       take: limit,
+      where: { isActive: true },
+      orderBy: { createdAt: 'desc' },
       select: {
         id: true,
         basePrice: true,
@@ -104,19 +109,23 @@ export class RecommendationService {
         },
       },
     })
+
     return {
-      items: dishes.map((d) => {
+      items: dishes.map((d, i) => {
         const translation =
-          d.dishTranslations.find((t) => t.languageId === 'vi') || d.dishTranslations[0]
+          d.dishTranslations.find((t: any) => t.languageId === 'vi') || d.dishTranslations[0]
+
+        // Rule-based score: decreasing progressively based on index
+        const score = Number((0.8 - (i / Math.max(dishes.length, 1)) * 0.3).toFixed(2))
 
         return {
           id: d.id,
-          name: translation?.name || 'Dish ' + d.id.substring(0, 4),
+          name: translation?.name || 'Món ăn không tên',
           description: translation?.description || '',
           basePrice: Number(d.basePrice || 0),
           images: d.images || [],
-          score: 0.8,
-          reason: '✨ Món ngon phải thử',
+          score,
+          reason: '✨ Món mới đáng thử',
         }
       }),
     }
@@ -179,15 +188,18 @@ export class RecommendationService {
         if (!d) return null
 
         const translation =
-          d.dishTranslations.find((t) => t.languageId === 'vi') || d.dishTranslations[0]
+          d.dishTranslations?.find((t: any) => t.languageId === 'vi') || d.dishTranslations?.[0]
+
+        // Rule-based score for top selling: baseline based on popularity rank
+        const score = Number((1.0 - (index / Math.max(topSoldDishes.length, 1)) * 0.4).toFixed(2))
 
         return {
           id: d.id,
-          name: translation?.name || 'Dish ' + d.id.substring(0, 4),
+          name: translation?.name || 'Món ăn không tên',
           description: translation?.description || '',
           basePrice: Number(d.basePrice || 0),
           images: d.images || [],
-          score: 1.0 - index * 0.1, // Higher score for higher rank
+          score,
           reason: `🔥 Đã bán ${soldData._sum.quantity || 0}`,
         }
       })
