@@ -20,6 +20,9 @@
         "db:push": {
             "cache": false,
             "interactive": true
+        },
+        "check-types": {
+            "dependsOn": ["^build", "^db:generate"]
         }
     }
 }
