@@ -55,3 +55,25 @@ export const GetReportResponseSchema = z.object({
 });
 
 export type GetReportResponseType = z.infer<typeof GetReportResponseSchema>;
+
+export const AdminStatsSchema = z.object({
+    totalRevenue: z.number(),
+    todaysRevenue: z.number(),
+    totalOrders: z.number(),
+    newOrdersToday: z.number(),
+    totalCustomers: z.number(),
+    activeDishes: z.number(),
+    recentOrders: z.array(
+        z.object({
+            id: z.string(),
+            code: z.string(),
+            user: z.string(),
+            itemsSummary: z.string(),
+            totalAmount: z.number(),
+            status: z.string(),
+            createdAt: z.date(),
+        }),
+    ),
+});
+
+export type AdminStatsType = z.infer<typeof AdminStatsSchema>;

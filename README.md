@@ -1,135 +1,141 @@
-# Turborepo starter
+# Restaurant Management Monorepo
 
-This Turborepo starter is maintained by the Turborepo core team.
+Đây là hệ thống quản lý nhà hàng Fullstack sử dụng kiến trúc Monorepo (quản lý bằng [Turborepo](https://turbo.build/repo/docs) và [pnpm](https://pnpm.io/workspaces)).
 
-## Using this example
+## 🏗 Kiến trúc Monorepo
 
-Run the following command:
+Hệ thống được chia thành các ứng dụng (apps) và gói chia sẻ (packages) độc lập để dễ bảo trì và tái sử dụng code:
 
-```sh
-npx create-turbo@latest
+### Apps
+
+- `apps/web`: Ứng dụng Frontend cho khách hàng đặt món và dashboard cho quản trị viên (Next.js 14, App Router, tRPC React).
+- `apps/api`: REST API backend (NestJS) kết hợp `nestjs-trpc` phục vụ API an toàn, định nghĩa chung type với web. Chứa cả thư mục `prisma` để quản lý giao tiếp cơ sở dữ liệu (PostgreSQL).
+
+### Packages (Shared)
+
+- `packages/schema`: Chứa Zod schemas (`*.schema.ts`) dùng chung cho cả backend validation (NestJS/tRPC) và frontend data types.
+- `packages/trpc`: Chứa code cấu hình tRPC router, exported types/routers dùng để ghép nối end-to-end type safety.
+- `packages/constants`: Các hằng số, metadata phân quyền (`role.constant.ts`, v.v) dùng chung cho cả backend và frontend.
+- `packages/ui` (nếu có): Chứa UI components có thể tái sử dụng.
+- Vài config packages khác: `packages/eslint-config`, `packages/typescript-config`.
+
+---
+
+## 🛠 Cài đặt & Chạy dự án
+
+### 1. Chuẩn bị biến môi trường
+
+Mỗi môi trường sẽ cần thiết lập `.env` cho cả `apps/api` và `apps/web`. Tham khảo `.env.example` ở mỗi thư mục.
+
+- Sao chép `apps/api/.env.example` thành `apps/api/.env`
+- Sao chép `apps/web/.env.example` thành `apps/web/.env`
+
+### 2. Cài đặt Dependencies
+
+Sử dụng `pnpm` từ thư mục gốc:
+
+```bash
+pnpm install
 ```
 
-## What's inside?
+### 3. Database Migration & Seeding
 
-This Turborepo includes the following packages/apps:
+Ứng dụng backend được quản lý bởi Prisma nằm trực tiếp bên trong `apps/api`.
+Đảm bảo đã cấu hình `DATABASE_URL` trong `apps/api/.env` trước khi khởi tạo database và nạp dữ liệu mẫu.
 
-### Apps and Packages
+Chạy lần lượt:
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+```bash
+# Push schema lên database
+pnpm --filter api db:push
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+# Generate Prisma client
+pnpm --filter api db:generate
 
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+# Chạy seed dữ liệu ban đầu cơ bản (Roles, Admin User)
+pnpm --filter api db:seed
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+### 4. Chạy môi trường Development
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+Để chạy đồng thời cả `web` và `api` với hot-reload:
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+```bash
+pnpm run dev
 ```
 
-### Develop
+- API sẽ chạy tại: `http://localhost:3052`
+- Web sẽ chạy tại: `http://localhost:3000`
+- Có thể mở Prisma Studio chạy localhost để xem database: `pnpm --filter api db:studio`
 
-To develop all apps and packages, run the following command:
+### 5. Build & Chạy môi trường Production
 
-```
-cd my-turborepo
+Build toàn bộ các apps và packages từ thư mục gốc:
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
+```bash
+pnpm run build
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+Sau đó, để chạy Prod cho thiết bị riêng biệt, có thể chạy:
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+```bash
+pnpm --filter api start:prod
+pnpm --filter web start
 ```
 
-### Remote Caching
+---
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+## 📝 Checklist Biến môi trường
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+### Môi trường Development:
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+- [ ] Database credentials (`DATABASE_URL`) trỏ về `localhost` hoặc database cloud development.
+- [ ] Chỉnh `NODE_ENV=development`.
+- [ ] Các config OAuth, Cloudinary có thể dùng tài khoản test.
 
-```
-cd my-turborepo
+### Môi trường Production:
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
+- [ ] Đảm bảo `DATABASE_URL` dùng connection pool hoặc URL database xịn.
+- [ ] `NODE_ENV=production`.
+- [ ] **Bắt buộc** các giá trị `SECRET_API_KEY`, `AUTH_ACCESS_TOKEN_SECRET`, `AUTH_REFRESH_TOKEN_SECRET`, và `JWT_SECRET` phải thiết lập dạng chuỗi bảo mật ngẫu nhiên mạnh.
+- [ ] Firebase ID & private key trỏ đúng project production.
+- [ ] Các Webhook của Momo (`MOMO_IPN_URL`, `MOMO_REDIRECT_URL`) phải trỏ về URL public của Web Thay vì `localhost`.
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
+---
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## 🛑 Troubleshooting (Xử lý lỗi thường gặp)
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+### 1. Lỗi Database Connection (`PrismaClientInitializationError`)
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
+- **Triệu chứng:** Console báo không kết nối được DB, server API timeout.
+- **Khắc phục:**
+    - Kiểm tra `DATABASE_URL` trong `apps/api/.env` đã đúng format chưa (`postgresql://user:pass@host:port/db_name`).
+    - Kiểm tra kết nối mạng (thử connect trực tiếp nếu deploy backend bằng vercel).
+    - Nếu báo vượt quá số connection pool limit, hãy xem biến `DATABASE_URL_POOL_MAX`.
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
+### 2. Authentication Secret (`jwt malformed` / `invalid signature`)
 
-## Useful Links
+- **Triệu chứng:** Không login được do token decode lỗi hoặc server API crash lúc khởi tạo module do thiếu JWT_SECRET.
+- **Khắc phục:**
+    - Đồng bộ `AUTH_ACCESS_TOKEN_SECRET` và `AUTH_REFRESH_TOKEN_SECRET` giữa code và `.env`.
+    - Thay đổi JWT secret đồng nghĩa mọi token cũ sẽ logout (refresh token mất tác dụng).
 
-Learn more about the power of Turborepo:
+### 3. Cloudinary Upload thất bại
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+- **Triệu chứng:** Client không hiển thị hình ảnh hoặc thao tác upload báo lỗi API `400/401 Unauthorized`.
+- **Khắc phục:**
+    - `CLOUD_NAME`, `CLOUD_API_KEY`, và `CLOUD_API_SECRET` ở `apps/api/.env` cần đồng bộ 100%. Tốt nhất là dùng copy paste từ dashboard cloudinary, và đừng quên set `CLOUD_URL`.
+
+### 4. Lỗi Firebase (Notification/Auth)
+
+- **Triệu chứng:** Console server báo `Invalid URL` hoặc mã `Credential implementation provided to initializeApp() is invalid`.
+- **Khắc phục:**
+    - Đảm bảo biến `FIREBASE_PRIVATE_KEY` được escape đúng (vd `\n` cho newline).
+    - Hoặc nếu chạy docker, truyền dấu nháy `""` bọc ngoài biến môi trường private key đa phần sẽ giải quyết được vấn đề JSON parse lỗi.
+
+### 5. Lỗi Tích hợp MoMo (Invalid Signature)
+
+- **Triệu chứng:** Thanh toán Momo báo lỗi `Chữ ký không hợp lệ`.
+- **Khắc phục:**
+    - Đảm bảo `MOMO_ACCESS_KEY` và `MOMO_SECRET_KEY` lấy chính xác từ cổng merchant (chú ý môi trường Test vs Prod của MoMo).
+    - Việc build chuỗi chữ ký (`signature`) phải theo sát hướng dẫn chính thức, đúng thứ tự param và sử dụng HMAC-SHA256 chuẩn.

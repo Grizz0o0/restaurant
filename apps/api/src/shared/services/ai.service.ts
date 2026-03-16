@@ -9,13 +9,13 @@ export class AiService implements OnModuleInit {
 
   onModuleInit() {
     this.genAI = new GoogleGenerativeAI(envConfig.GEMINI_API_KEY)
-    this.model = this.genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+    this.model = this.genAI.getGenerativeModel({ model: 'gemini-flash-latest' })
   }
 
   async generateText(prompt: string): Promise<string> {
     try {
       const result = await this.model.generateContent(prompt)
-      const response = await result.response
+      const response = result.response
       return response.text()
     } catch (error) {
       console.error('Gemini API Error:', error)
@@ -29,7 +29,7 @@ export class AiService implements OnModuleInit {
         prompt,
         '\n\nReturn the response in strictly valid JSON format without markdown code blocks.',
       ])
-      const response = await result.response
+      const response = result.response
       const text = response.text().trim()
 
       // Basic cleaning in case the model still includes code blocks

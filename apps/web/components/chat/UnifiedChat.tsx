@@ -19,6 +19,8 @@ import { useAIChat } from '@/hooks/use-ai-chat';
 import { useAuth } from '@/hooks/domain/use-auth';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 type ChatMode = 'AI' | 'ADMIN';
 
@@ -217,7 +219,20 @@ export const UnifiedChat = () => {
                                                                 : 'bg-muted/50 text-foreground rounded-tl-none border border-border/30',
                                                         )}
                                                     >
-                                                        {text}
+                                                        {mode === 'AI' &&
+                                                        !isFromMe ? (
+                                                            <div className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-relaxed prose-pre:bg-muted-foreground/10 prose-pre:p-2 prose-pre:rounded-lg">
+                                                                <ReactMarkdown
+                                                                    remarkPlugins={[
+                                                                        remarkGfm,
+                                                                    ]}
+                                                                >
+                                                                    {text}
+                                                                </ReactMarkdown>
+                                                            </div>
+                                                        ) : (
+                                                            text
+                                                        )}
                                                     </div>
                                                     <span
                                                         className={cn(

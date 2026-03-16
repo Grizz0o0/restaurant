@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { PaymentService } from './payment.service'
 import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
 import { Context } from '@/trpc/context'
+import { DynamicAuthMiddleware } from '@/trpc/middlewares/dynamic-auth.middleware'
 import {
   CheckPaymentStatusInputSchema,
   CheckPaymentStatusOutputSchema,
@@ -54,8 +55,8 @@ export class PaymentRouter {
     input: RefundPaymentInputSchema,
     output: RefundPaymentOutputSchema,
   })
+  @UseMiddlewares(DynamicAuthMiddleware)
   async refund(@Input() input: { orderId: string }) {
-    // TODO: Add Admin/Manager Guard here
     return this.paymentService.refundTransaction(input.orderId)
   }
 
@@ -63,8 +64,8 @@ export class PaymentRouter {
     input: GetTransactionsQuerySchema,
     output: GetTransactionsResSchema,
   })
+  @UseMiddlewares(DynamicAuthMiddleware)
   async transactions(@Input() input: GetTransactionsQueryType) {
-    // TODO: Add AdminRoleMiddleware securely
     return this.paymentService.listTransactions(input)
   }
 }

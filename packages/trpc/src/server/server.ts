@@ -1,4 +1,4 @@
-import { initTRPC } from '@trpc/server';
+import { initTRPC, TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import {
     RegisterBodySchema,
@@ -112,12 +112,10 @@ import {
     RefundPaymentInputSchema,
     RefundPaymentOutputSchema,
     GetRestaurantStaffParamsSchema,
-    GetRestaurantStaffResSchema,
     CreateRestaurantStaffBodySchema,
     UpdateRestaurantStaffBodySchema,
     CreateInventoryDishBodySchema,
     UpdateInventoryDishBodySchema,
-    GetDishIngredientsResSchema,
     SendMessageBodySchema,
     GetHistoryParamsSchema,
     GetHistoryResSchema,
@@ -129,94 +127,111 @@ import {
     GetConversationsResSchema,
     AiChatBodySchema,
     AiChatResSchema,
+    MessageResSchema,
+    AdminStatsSchema,
+    GetLanguagesResSchema,
+    RestaurantStaffSchema,
+    GetRestaurantStaffResSchema,
+    GetDishIngredientsResSchema,
+    InventoryDishSchema,
+    MessageSchema,
 } from '@repo/schema';
 import superjson from 'superjson';
 const t = initTRPC.create({ transformer: superjson });
 const publicProcedure = t.procedure;
+
+const notImplemented = async () => {
+    throw new TRPCError({
+        code: 'METHOD_NOT_SUPPORTED',
+        message:
+            'This @repo/trpc contract procedure is declared but not bound to a concrete backend implementation yet.',
+    });
+};
+
 const appRouter = t.router({
     auth: t.router({
         register: publicProcedure
             .input(RegisterBodySchema)
             .output(RegisterResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         login: publicProcedure
             .input(LoginBodySchema)
             .output(LoginResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         refreshToken: publicProcedure
             .input(RefreshTokenBodySchema)
             .output(RefreshTokenResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         sendOTP: publicProcedure
             .input(SendOTPBodySchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         logout: publicProcedure
             .input(LogoutBodySchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         forgotPassword: publicProcedure
             .input(ForgotPasswordBodySchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         googleUrl: publicProcedure
             .output(GetAuthorizationUrlResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         googleCallback: publicProcedure
             .input(GoogleCallbackBodySchema)
             .output(LoginResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         getActiveSessions: publicProcedure
             .output(GetSessionsResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         revokeSession: publicProcedure
             .input(RevokeSessionBodySchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         revokeAllSessions: publicProcedure
             .output(RevokeAllSessionsResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         changePassword: publicProcedure
             .input(ChangePasswordBodySchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         guestLogin: publicProcedure
             .input(GuestLoginBodySchema)
             .output(LoginResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         setup2FA: publicProcedure
             .output(TwoFactorSetupResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         disable2FA: publicProcedure
             .input(DisableTwoFactorAuthBodySchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
     }),
     admin: t.router({
         banUser: publicProcedure
             .input(BanUserBodySchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         unbanUser: publicProcedure
             .input(UnbanUserBodySchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         forceLogout: publicProcedure
             .input(ForceLogoutBodySchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         getStats: publicProcedure
-            .output(z.any())
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(AdminStatsSchema)
+            .query(notImplemented),
         getReport: publicProcedure
             .input(GetReportQuerySchema)
             .output(GetReportResponseSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
     }),
     permission: t.router({
         list: publicProcedure
             .input(GetPermissionsQuerySchema)
             .output(GetPermissionsResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         detail: publicProcedure
             .input(GetPermissionParamsSchema)
             .output(GetPermissionDetailResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         create: publicProcedure
             .input(CreatePermissionBodySchema)
             .output(GetPermissionDetailResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         update: publicProcedure
             .input(
                 z.object({
@@ -225,25 +240,25 @@ const appRouter = t.router({
                 }),
             )
             .output(GetPermissionDetailResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         delete: publicProcedure
             .input(GetPermissionParamsSchema)
             .output(z.object({ message: z.string() }))
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
     }),
     role: t.router({
         list: publicProcedure
             .input(GetRolesQuerySchema)
             .output(GetRolesResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         detail: publicProcedure
             .input(GetRoleDetailParamsSchema)
             .output(GetRoleDetailResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         create: publicProcedure
             .input(CreateRoleBodySchema)
             .output(GetRoleDetailResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         update: publicProcedure
             .input(
                 z.object({
@@ -252,29 +267,29 @@ const appRouter = t.router({
                 }),
             )
             .output(GetRoleDetailResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         delete: publicProcedure
             .input(GetRoleDetailParamsSchema)
             .output(z.object({ message: z.string() }))
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         assignPermissions: publicProcedure
             .input(AssignPermissionsSchema)
             .output(GetRoleDetailResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
     }),
     user: t.router({
         list: publicProcedure
             .input(GetUsersQuerySchema)
             .output(GetUsersResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         detail: publicProcedure
             .input(GetUserDetailParamsSchema)
             .output(UserDetailResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         create: publicProcedure
             .input(CreateUserBodySchema)
             .output(UserDetailResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         update: publicProcedure
             .input(
                 z.object({
@@ -283,34 +298,34 @@ const appRouter = t.router({
                 }),
             )
             .output(UserDetailResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         delete: publicProcedure
             .input(GetUserDetailParamsSchema)
             .output(z.object({ message: z.string() }))
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
     }),
     profile: t.router({
         getProfile: publicProcedure
             .output(ProfileDetailResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         updateProfile: publicProcedure
             .input(UpdateProfileBodySchema)
             .output(ProfileDetailResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
     }),
     dish: t.router({
         list: publicProcedure
             .input(GetDishesQuerySchema)
             .output(GetDishesResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         detail: publicProcedure
             .input(z.object({ id: z.string() }))
             .output(DishDetailResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         create: publicProcedure
             .input(CreateDishBodySchema)
             .output(DishDetailResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         checkVariantUpdate: publicProcedure
             .input(
                 z.object({
@@ -319,7 +334,7 @@ const appRouter = t.router({
                 }),
             )
             .output(z.array(z.object({ id: z.string(), value: z.string() })))
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         update: publicProcedure
             .input(
                 z.object({
@@ -328,25 +343,25 @@ const appRouter = t.router({
                 }),
             )
             .output(DishDetailResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         delete: publicProcedure
             .input(z.object({ id: z.string() }))
-            .output(z.any())
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(MessageResSchema)
+            .mutation(notImplemented),
     }),
     category: t.router({
         list: publicProcedure
             .input(GetCategoriesQuerySchema)
             .output(GetCategoriesResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         detail: publicProcedure
             .input(z.object({ id: z.string() }))
             .output(CategoryDetailResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         create: publicProcedure
             .input(CreateCategoryBodySchema)
             .output(CategoryDetailResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         update: publicProcedure
             .input(
                 z.object({
@@ -355,25 +370,25 @@ const appRouter = t.router({
                 }),
             )
             .output(CategoryDetailResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         delete: publicProcedure
             .input(z.object({ id: z.string() }))
-            .output(z.any())
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(MessageResSchema)
+            .mutation(notImplemented),
     }),
     table: t.router({
         list: publicProcedure
             .input(GetTablesQuerySchema)
             .output(GetTablesResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         detail: publicProcedure
             .input(z.object({ id: z.string() }))
             .output(RestaurantTableSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         create: publicProcedure
             .input(CreateTableBodySchema)
             .output(RestaurantTableSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         update: publicProcedure
             .input(
                 z.object({
@@ -382,124 +397,122 @@ const appRouter = t.router({
                 }),
             )
             .output(RestaurantTableSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         delete: publicProcedure
             .input(z.object({ id: z.string() }))
-            .output(z.any())
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(MessageResSchema)
+            .mutation(notImplemented),
     }),
     order: t.router({
         create: publicProcedure
             .input(CreateOrderBodySchema)
             .output(OrderSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         list: publicProcedure
             .input(GetOrdersQuerySchema)
             .output(GetOrdersResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         createFromCart: publicProcedure
             .input(CreateOrderFromCartSchema)
             .output(OrderSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         updateStatus: publicProcedure
             .input(UpdateOrderStatusSchema)
             .output(OrderSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         myOrders: publicProcedure
             .input(GetOrdersQuerySchema)
             .output(GetOrdersResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
     }),
     notification: t.router({
         sendPush: publicProcedure
             .input(SendPushNotificationSchema)
             .output(SendPushNotificationSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         getNotifications: publicProcedure
             .output(z.array(NotificationSchema))
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         markAsRead: publicProcedure
             .input(MarkAsReadSchema)
             .output(z.boolean())
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
     }),
     review: t.router({
         create: publicProcedure
             .input(CreateReviewBodySchema)
             .output(ReviewDetailResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         list: publicProcedure
             .input(GetReviewsQuerySchema)
             .output(GetReviewsResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         myReviews: publicProcedure
             .input(GetReviewsQuerySchema)
             .output(GetReviewsResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         delete: publicProcedure
             .input(z.object({ id: z.string() }))
-            .output(z.any())
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(MessageResSchema)
+            .mutation(notImplemented),
         reply: publicProcedure
             .input(ReplyReviewBodySchema)
             .output(ReviewDetailResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
     }),
     promotion: t.router({
         create: publicProcedure
             .input(CreatePromotionSchema)
             .output(PromotionSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         list: publicProcedure
             .output(z.array(PromotionSchema))
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         get: publicProcedure
             .input(z.object({ id: z.string() }))
             .output(PromotionSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         update: publicProcedure
             .input(z.object({ id: z.string(), data: UpdatePromotionSchema }))
             .output(PromotionSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         delete: publicProcedure
             .input(z.object({ id: z.string() }))
             .output(PromotionSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         applyCode: publicProcedure
             .input(ApplyPromotionSchema)
             .output(ApplyPromotionResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
     }),
     cart: t.router({
-        get: publicProcedure
-            .output(GetCartResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+        get: publicProcedure.output(GetCartResSchema).query(notImplemented),
         add: publicProcedure
             .input(AddCartItemSchema)
             .output(CartItemSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         update: publicProcedure
             .input(UpdateCartItemSchema)
             .output(CartItemSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         remove: publicProcedure
             .input(RemoveCartItemSchema)
             .output(CartItemSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
     }),
     language: t.router({
         list: publicProcedure
             .input(GetLanguagesQuerySchema)
-            .output(z.any())
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(GetLanguagesResSchema)
+            .query(notImplemented),
         detail: publicProcedure
             .input(z.object({ id: z.string() }))
             .output(LanguageResponseSchema.nullable())
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         create: publicProcedure
             .input(CreateLanguageBodySchema)
             .output(LanguageResponseSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         update: publicProcedure
             .input(
                 z.object({
@@ -508,28 +521,30 @@ const appRouter = t.router({
                 }),
             )
             .output(LanguageResponseSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         delete: publicProcedure
             .input(z.object({ id: z.string() }))
-            .output(z.any())
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(MessageResSchema)
+            .mutation(notImplemented),
     }),
     restaurant: t.router({
         list: publicProcedure
             .input(GetRestaurantsQuerySchema)
             .output(GetRestaurantsResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         detail: publicProcedure
             .input(z.object({ id: z.string() }))
-            .output(RestaurantSchema.extend({ staff: z.any().optional() }))
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
-        getMain: publicProcedure
-            .output(RestaurantSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(
+                RestaurantSchema.extend({
+                    staff: z.array(RestaurantStaffSchema).optional(),
+                }),
+            )
+            .query(notImplemented),
+        getMain: publicProcedure.output(RestaurantSchema).query(notImplemented),
         create: publicProcedure
             .input(CreateRestaurantBodySchema)
             .output(RestaurantSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         update: publicProcedure
             .input(
                 z.object({
@@ -538,33 +553,33 @@ const appRouter = t.router({
                 }),
             )
             .output(RestaurantSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         delete: publicProcedure
             .input(z.object({ id: z.string() }))
-            .output(z.any())
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(MessageResSchema)
+            .mutation(notImplemented),
         assignStaff: publicProcedure
             .input(AssignStaffBodySchema)
-            .output(z.any())
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(MessageResSchema)
+            .mutation(notImplemented),
         removeStaff: publicProcedure
             .input(RemoveStaffBodySchema)
-            .output(z.any())
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(MessageResSchema)
+            .mutation(notImplemented),
     }),
     reservation: t.router({
         list: publicProcedure
             .input(GetReservationsQuerySchema)
             .output(GetReservationsResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         checkAvailability: publicProcedure
             .input(CheckAvailabilityQuerySchema)
             .output(z.object({ available: z.boolean() }))
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         create: publicProcedure
             .input(CreateReservationBodySchema)
             .output(ReservationSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         update: publicProcedure
             .input(
                 z.object({
@@ -573,49 +588,49 @@ const appRouter = t.router({
                 }),
             )
             .output(ReservationSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
     }),
     address: t.router({
         create: publicProcedure
             .input(CreateAddressBodySchema)
             .output(AddressSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         list: publicProcedure
             .input(GetAddressesQuerySchema)
             .output(z.array(AddressSchema))
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         update: publicProcedure
             .input(UpdateAddressBodySchema)
             .output(AddressSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         delete: publicProcedure
             .input(z.object({ id: z.string() }))
             .output(AddressSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         setDefault: publicProcedure
             .input(z.object({ id: z.string() }))
             .output(AddressSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
     }),
     payment: t.router({
         initiate: publicProcedure
             .input(InitiatePaymentInputSchema)
             .output(InitiatePaymentOutputSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         checkStatus: publicProcedure
             .input(CheckPaymentStatusInputSchema)
             .output(CheckPaymentStatusOutputSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
         refund: publicProcedure
             .input(RefundPaymentInputSchema)
             .output(RefundPaymentOutputSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
     }),
     restaurantStaff: t.router({
         getStaffs: publicProcedure
             .input(z.object({ restaurantId: z.string().uuid() }))
-            .output(z.any())
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(GetRestaurantStaffResSchema)
+            .query(notImplemented),
         assignStaff: publicProcedure
             .input(
                 z.object({
@@ -623,8 +638,8 @@ const appRouter = t.router({
                     data: CreateRestaurantStaffBodySchema,
                 }),
             )
-            .output(z.any())
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(RestaurantStaffSchema)
+            .mutation(notImplemented),
         updateStaffPosition: publicProcedure
             .input(
                 z.object({
@@ -633,8 +648,8 @@ const appRouter = t.router({
                     data: UpdateRestaurantStaffBodySchema,
                 }),
             )
-            .output(z.any())
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(RestaurantStaffSchema)
+            .mutation(notImplemented),
         removeStaff: publicProcedure
             .input(
                 z.object({
@@ -642,18 +657,18 @@ const appRouter = t.router({
                     userId: z.string().uuid(),
                 }),
             )
-            .output(z.any())
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(MessageResSchema)
+            .mutation(notImplemented),
     }),
     inventoryDish: t.router({
         getDishIngredients: publicProcedure
             .input(z.object({ dishId: z.string().uuid() }))
-            .output(z.any())
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(GetDishIngredientsResSchema)
+            .query(notImplemented),
         addIngredientToDish: publicProcedure
             .input(CreateInventoryDishBodySchema)
-            .output(z.any())
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(InventoryDishSchema)
+            .mutation(notImplemented),
         updateIngredientQuantity: publicProcedure
             .input(
                 z.object({
@@ -662,8 +677,8 @@ const appRouter = t.router({
                     data: UpdateInventoryDishBodySchema,
                 }),
             )
-            .output(z.any())
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(InventoryDishSchema)
+            .mutation(notImplemented),
         removeIngredientFromDish: publicProcedure
             .input(
                 z.object({
@@ -671,50 +686,50 @@ const appRouter = t.router({
                     dishId: z.string().uuid(),
                 }),
             )
-            .output(z.any())
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(MessageResSchema)
+            .mutation(notImplemented),
     }),
     message: t.router({
         send: publicProcedure
             .input(SendMessageBodySchema)
-            .output(z.any())
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(MessageSchema)
+            .mutation(notImplemented),
         getHistory: publicProcedure
             .input(GetHistoryParamsSchema)
             .output(GetHistoryResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         getConversations: publicProcedure
             .output(GetConversationsResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         getAdmin: publicProcedure
             .output(z.object({ id: z.string() }).nullable())
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
     }),
     analytics: t.router({
         log: publicProcedure
             .input(LogInteractionBodySchema)
-            .output(z.any())
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .output(MessageResSchema)
+            .mutation(notImplemented),
         getTopDishes: publicProcedure
             .input(TopDishesQuerySchema)
             .output(TopDishesResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
     }),
     recommendation: t.router({
         getForUser: publicProcedure
             .input(GetRecommendationsQuerySchema)
             .output(RecommendationResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
         getTopSelling: publicProcedure
             .input(GetRecommendationsQuerySchema)
             .output(RecommendationResSchema)
-            .query(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .query(notImplemented),
     }),
     aiChat: t.router({
         chat: publicProcedure
             .input(AiChatBodySchema)
             .output(AiChatResSchema)
-            .mutation(async () => 'PLACEHOLDER_DO_NOT_REMOVE' as any),
+            .mutation(notImplemented),
     }),
 });
 export type AppRouter = typeof appRouter;

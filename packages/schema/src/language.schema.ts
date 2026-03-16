@@ -24,6 +24,14 @@ export const GetLanguagesQuerySchema = z.object({
     search: z.string().optional(),
 });
 
+export const GetLanguagesResSchema = z.object({
+    data: z.array(LanguageResponseSchema),
+    total: z.number(),
+    page: z.number(),
+    limit: z.number(),
+});
+
 export type CreateLanguageBodyType = z.infer<typeof CreateLanguageBodySchema>;
 export type UpdateLanguageBodyType = z.infer<typeof UpdateLanguageBodySchema>;
 export type GetLanguagesQueryType = z.infer<typeof GetLanguagesQuerySchema>;
+export type GetLanguagesResType = z.infer<typeof GetLanguagesResSchema>;
