@@ -135,7 +135,15 @@ import {
     GetDishIngredientsResSchema,
     InventoryDishSchema,
     MessageSchema,
+    GetSuppliersQuerySchema,
+    CreateSupplierBodySchema,
+    UpdateSupplierBodySchema,
+    GetInventoriesQuerySchema,
+    CreateInventoryBodySchema,
+    UpdateInventoryBodySchema,
+    GetInventoryTransactionsQuerySchema,
 } from '@repo/schema';
+
 import superjson from 'superjson';
 const t = initTRPC.create({ transformer: superjson });
 const publicProcedure = t.procedure;
@@ -659,6 +667,94 @@ const appRouter = t.router({
             )
             .output(MessageResSchema)
             .mutation(notImplemented),
+    }),
+    supplier: t.router({
+        list: publicProcedure
+            .input(GetSuppliersQuerySchema)
+            .output(z.object({
+                data: z.array(z.any()),
+                pagination: z.object({
+                    totalItems: z.number(),
+                    totalPages: z.number(),
+                    page: z.number(),
+                    limit: z.number(),
+                    hasNext: z.boolean(),
+                    hasPrev: z.boolean(),
+                }),
+            }))
+            .query(notImplemented),
+        detail: publicProcedure
+            .input(z.object({ id: z.string() }))
+            .output(z.any())
+            .query(notImplemented),
+        create: publicProcedure
+            .input(CreateSupplierBodySchema)
+            .output(z.any())
+            .mutation(notImplemented),
+        update: publicProcedure
+            .input(
+                z.object({
+                    id: z.string(),
+                    data: UpdateSupplierBodySchema,
+                }),
+            )
+            .output(z.any())
+            .mutation(notImplemented),
+        delete: publicProcedure
+            .input(z.object({ id: z.string() }))
+            .output(z.any())
+            .mutation(notImplemented),
+    }),
+    inventory: t.router({
+        list: publicProcedure
+            .input(GetInventoriesQuerySchema)
+            .output(z.object({
+                data: z.array(z.any()),
+                pagination: z.object({
+                    totalItems: z.number(),
+                    totalPages: z.number(),
+                    page: z.number(),
+                    limit: z.number(),
+                    hasNext: z.boolean(),
+                    hasPrev: z.boolean(),
+                }),
+            }))
+            .query(notImplemented),
+        detail: publicProcedure
+            .input(z.object({ id: z.string() }))
+            .output(z.any())
+            .query(notImplemented),
+        create: publicProcedure
+            .input(CreateInventoryBodySchema)
+            .output(z.any())
+            .mutation(notImplemented),
+        update: publicProcedure
+            .input(
+                z.object({
+                    id: z.string(),
+                    data: UpdateInventoryBodySchema,
+                }),
+            )
+            .output(z.any())
+            .mutation(notImplemented),
+        delete: publicProcedure
+            .input(z.object({ id: z.string() }))
+            .output(z.any())
+            .mutation(notImplemented),
+        listTransactions: publicProcedure
+            .input(GetInventoryTransactionsQuerySchema)
+            .output(z.object({
+                data: z.array(z.any()),
+                pagination: z.object({
+                    totalItems: z.number(),
+                    totalPages: z.number(),
+                    page: z.number(),
+                    limit: z.number(),
+                    hasNext: z.boolean(),
+                    hasPrev: z.boolean(),
+                }),
+            }))
+            .query(notImplemented),
     }),
     inventoryDish: t.router({
         getDishIngredients: publicProcedure

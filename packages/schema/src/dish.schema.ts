@@ -1,26 +1,37 @@
 import { z } from 'zod';
 
+const toNumber = (val: unknown) => {
+    if (val && typeof val === 'object' && 'toNumber' in (val as any)) {
+        return (val as any).toNumber();
+    }
+    if (typeof val === 'string') {
+        const trimmed = val.trim();
+        if (trimmed !== '' && !Number.isNaN(Number(trimmed))) {
+            return Number(trimmed);
+        }
+    }
+    return val;
+};
+
+const stringArray = z.preprocess(
+    (val) =>
+        Array.isArray(val)
+            ? val.filter((item) => typeof item === 'string')
+            : val,
+    z.array(z.string()),
+);
+
 export const DishSchema = z.object({
     id: z.string(),
-    basePrice: z.preprocess((val) => {
-        if (val && typeof val === 'object' && 'toNumber' in val) {
-            return (val as any).toNumber();
-        }
-        return val;
-    }, z.number()),
+    basePrice: z.preprocess(toNumber, z.number()),
     virtualPrice: z
-        .preprocess((val) => {
-            if (val && typeof val === 'object' && 'toNumber' in val) {
-                return (val as any).toNumber();
-            }
-            return val;
-        }, z.number())
+        .preprocess(toNumber, z.number())
         .nullable()
         .optional(),
     supplierId: z.string(),
-    images: z.array(z.string()),
-    createdAt: z.date(),
-    updatedAt: z.date(),
+    images: stringArray,
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date(),
     name: z.string().optional(),
     description: z.string().optional(),
     isActive: z.boolean(),
@@ -144,15 +155,9 @@ export const VariantSchema = z.object({
 export const SKUSchema = z.object({
     id: z.string(),
     value: z.string(),
-    price: z
-        .custom<any>(
-            (val) =>
-                typeof val === 'object' && val !== null && 'toNumber' in val,
-        )
-        .transform((v) => v.toNumber())
-        .or(z.number()),
+    price: z.preprocess(toNumber, z.number()),
     stock: z.number(),
-    images: z.array(z.string()),
+    images: stringArray,
     variantOptions: z.array(VariantOptionSchema).optional(),
 });
 
@@ -180,7 +185,7 @@ export const DishDetailResSchema = DishSchema.extend({
             id: z.string(),
             content: z.string(),
             rating: z.number(),
-            createdAt: z.date(),
+            createdAt: z.coerce.date(),
             user: z.object({
                 name: z.string(),
                 avatar: z.string().nullable().optional(),

@@ -4,6 +4,7 @@ import { useMemo, useState, useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import Image from 'next/image';
 import {
     Plus,
     Pencil,
@@ -135,42 +136,13 @@ export default function AdminDishesPage() {
         ? languagesRaw
         : languagesRaw?.data || [];
 
-    // Fetch Suppliers REST
-    const [suppliers, setSuppliers] = useState<any[]>([]);
-    useEffect(() => {
-        const fetchSuppliers = async () => {
-            try {
-                // Determine API URL
-                // If using standard Vite proxy, /v1/api should work if configured
-                // Or try 3052 if local
-                // We'll use a safer approach for local dev:
-                const trpcUrl =
-                    process.env.NEXT_PUBLIC_API_URL ||
-                    'http://localhost:3052/v1/api/trpc';
-                // Remove /trpc tail to get base API
-                const apiUrl = trpcUrl.replace(/\/trpc\/?$/, '');
+    // Fetch Suppliers via TRPC
+    const { data: suppliersData } = trpc.supplier.list.useQuery({
+        page: 1,
+        limit: 100,
+    });
 
-                const token = localStorage.getItem('accessToken');
-
-                const res = await fetch(`${apiUrl}/suppliers?limit=100`, {
-                    headers: {
-                        Authorization: token ? `Bearer ${token}` : '',
-                    },
-                });
-
-                if (res.ok) {
-                    const data = await res.json();
-                    setSuppliers(Array.isArray(data) ? data : data.data || []);
-                } else {
-                    console.error('Failed to fetch suppliers', res.status);
-                }
-            } catch (err) {
-                console.error('Failed to fetch suppliers', err);
-            }
-        };
-        fetchSuppliers();
-    }, []);
-
+    const suppliers: any[] = suppliersData?.data ?? [];
     const categories = categoriesData?.data || [];
     const dishes = dishesData?.data || [];
 
@@ -1063,105 +1035,149 @@ export default function AdminDishesPage() {
                         </Button>
                     </div>
                 ) : (
-                    filteredDishes.map((dish) => (
-                        <div
-                            key={dish.id}
-                            className="group relative flex flex-col bg-card border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/50"
-                        >
-                            {/* Image Area */}
-                            <div className="aspect-4/3 bg-muted relative overflow-hidden">
-                                {dish.images && dish.images.length > 0 ? (
-                                    <img
-                                        src={dish.images[0]}
-                                        alt={dish.name}
-                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center bg-secondary/30 text-muted-foreground">
-                                        <UtensilsCrossed className="h-10 w-10 opacity-20" />
-                                    </div>
-                                )}
+                    filteredDishes.map((dish) => {
+                        const dishName: string = dish.name ?? 'Món ăn';
+                        const rawImage = dish.images?.[0];
+                        const imageSrc =
+                            typeof rawImage === 'string' ? rawImage.trim() : '';
 
-                                <div className="absolute top-2 right-2">
-                                    {!dish.isActive && (
-                                        <Badge
-                                            variant="destructive"
-                                            className="shadow-sm"
-                                        >
-                                            Đang ẩn
-                                        </Badge>
+                        const allowedRemoteHosts = new Set([
+                            'res.cloudinary.com',
+                            'api.dicebear.com',
+                            'lh3.googleusercontent.com',
+                        ]);
+
+                        const canUseNextImage = (() => {
+                            if (!imageSrc) return false;
+                            if (imageSrc.startsWith('/')) return true;
+                            try {
+                                const u = new URL(imageSrc);
+                                return (
+                                    (u.protocol === 'https:' ||
+                                        u.protocol === 'http:') &&
+                                    allowedRemoteHosts.has(u.hostname)
+                                );
+                            } catch {
+                                return false;
+                            }
+                        })();
+
+                        return (
+                            <div
+                                key={dish.id}
+                                className="group relative flex flex-col bg-card border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/50"
+                            >
+                                {/* Image Area */}
+                                <div className="aspect-4/3 bg-muted relative overflow-hidden">
+                                    {imageSrc ? (
+                                        canUseNextImage ? (
+                                            <Image
+                                                src={imageSrc}
+                                                alt={dishName}
+                                                fill
+                                                sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                            />
+                                        ) : (
+                                            // eslint-disable-next-line @next/next/no-img-element
+                                            <img
+                                                src={imageSrc}
+                                                alt={dishName}
+                                                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                                loading="lazy"
+                                            />
+                                        )
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center bg-secondary/30 text-muted-foreground">
+                                            <UtensilsCrossed className="h-10 w-10 opacity-20" />
+                                        </div>
                                     )}
-                                </div>
-                            </div>
 
-                            {/* Content */}
-                            <div className="flex-1 p-4 flex flex-col gap-3">
-                                <div className="flex justify-between items-start gap-2">
-                                    <h3 className="font-semibold text-lg line-clamp-1 group-hover:text-primary transition-colors">
-                                        {dish.name}
-                                    </h3>
-                                </div>
-                                <div className="flex flex-wrap gap-2">
-                                    {dish.categories?.map((c) => {
-                                        const catName =
-                                            c.name ||
-                                            categoryNameById.get(c.id) ||
-                                            'N/A';
-                                        return (
+                                    <div className="absolute top-2 right-2">
+                                        {!dish.isActive && (
                                             <Badge
-                                                key={c.id}
-                                                variant="secondary"
-                                                className="px-2 py-0 h-6 font-normal text-xs bg-muted/80 text-muted-foreground"
+                                                variant="destructive"
+                                                className="shadow-sm"
                                             >
-                                                {catName}
+                                                Đang ẩn
                                             </Badge>
-                                        );
-                                    })}
-                                    {(!dish.categories ||
-                                        dish.categories.length === 0) && (
-                                        <span className="text-xs text-muted-foreground italic">
-                                            Chưa phân loại
-                                        </span>
-                                    )}
+                                        )}
+                                    </div>
                                 </div>
 
-                                <p className="text-sm text-muted-foreground line-clamp-2 min-h-10">
-                                    {dish.description || 'Chưa có mô tả...'}
-                                </p>
-
-                                <div className="mt-auto pt-3 flex items-center justify-between border-t">
-                                    <span className="font-display font-bold text-lg text-primary">
-                                        {formatVnd(Number(dish.basePrice))}
-                                    </span>
-
-                                    <div className="flex gap-1">
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/10"
-                                            onClick={() => openEdit(dish)}
-                                        >
-                                            <Pencil className="w-4 h-4" />
-                                            <span className="sr-only">Sửa</span>
-                                        </Button>
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-                                            onClick={() =>
-                                                handleToggleActive(dish)
-                                            }
-                                        >
-                                            <Trash2 className="w-4 h-4" />
-                                            <span className="sr-only">
-                                                {dish.isActive ? 'Ẩn' : 'Hiện'}
+                                {/* Content */}
+                                <div className="flex-1 p-4 flex flex-col gap-3">
+                                    <div className="flex justify-between items-start gap-2">
+                                        <h3 className="font-semibold text-lg line-clamp-1 group-hover:text-primary transition-colors">
+                                            {dishName}
+                                        </h3>
+                                    </div>
+                                    <div className="flex flex-wrap gap-2">
+                                        {dish.categories?.map((c) => {
+                                            const catName =
+                                                c.name ||
+                                                categoryNameById.get(c.id) ||
+                                                'N/A';
+                                            return (
+                                                <Badge
+                                                    key={c.id}
+                                                    variant="secondary"
+                                                    className="px-2 py-0 h-6 font-normal text-xs bg-muted/80 text-muted-foreground"
+                                                >
+                                                    {catName}
+                                                </Badge>
+                                            );
+                                        })}
+                                        {(!dish.categories ||
+                                            dish.categories.length === 0) && (
+                                            <span className="text-xs text-muted-foreground italic">
+                                                Chưa phân loại
                                             </span>
-                                        </Button>
+                                        )}
+                                    </div>
+
+                                    <p className="text-sm text-muted-foreground line-clamp-2 min-h-10">
+                                        {dish.description || 'Chưa có mô tả...'}
+                                    </p>
+
+                                    <div className="mt-auto pt-3 flex items-center justify-between border-t">
+                                        <span className="font-display font-bold text-lg text-primary">
+                                            {formatVnd(Number(dish.basePrice))}
+                                        </span>
+
+                                        <div className="flex gap-1">
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/10"
+                                                onClick={() => openEdit(dish)}
+                                            >
+                                                <Pencil className="w-4 h-4" />
+                                                <span className="sr-only">
+                                                    Sửa
+                                                </span>
+                                            </Button>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                                                onClick={() =>
+                                                    handleToggleActive(dish)
+                                                }
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                                <span className="sr-only">
+                                                    {dish.isActive
+                                                        ? 'Ẩn'
+                                                        : 'Hiện'}
+                                                </span>
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    ))
+                        );
+                    })
                 )}
             </div>
 

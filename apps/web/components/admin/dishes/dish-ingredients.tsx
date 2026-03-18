@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { trpc } from '@/lib/trpc/client';
 import { Button } from '@/components/ui/button';
 import {
@@ -33,44 +33,11 @@ export function DishIngredients({ dishId }: DishIngredientsProps) {
     const { data: ingredientsData, isLoading: isLoadingIngredients } =
         trpc.inventoryDish.getDishIngredients.useQuery({ dishId });
 
-    // Fetch all available inventory options
-    const [inventoryItems, setInventoryItems] = useState<any[]>([]);
-    const [isLoadingInventory, setIsLoadingInventory] = useState(true);
+    // Fetch all available inventory options via TRPC
+    const { data: inventoryData, isLoading: isLoadingInventory } =
+        trpc.inventory.list.useQuery({ page: 1, limit: 1000 });
+    const inventoryItems: any[] = inventoryData?.data ?? [];
 
-    useEffect(() => {
-        const fetchInventories = async () => {
-            try {
-                setIsLoadingInventory(true);
-                const trpcUrl =
-                    process.env.NEXT_PUBLIC_API_URL ||
-                    'http://localhost:3052/v1/api/trpc';
-                const apiUrl = trpcUrl.replace(/\/trpc\/?$/, '');
-                const token = localStorage.getItem('accessToken');
-
-                const res = await fetch(`${apiUrl}/inventories?limit=1000`, {
-                    headers: {
-                        Authorization: token ? `Bearer ${token}` : '',
-                    },
-                });
-
-                if (res.ok) {
-                    const data = await res.json();
-                    setInventoryItems(
-                        Array.isArray(data) ? data : data.data || [],
-                    );
-                } else {
-                    console.error('Failed to fetch inventories', res.status);
-                    toast.error('Lỗi khi tải danh sách nguyên liệu');
-                }
-            } catch (err) {
-                console.error('Failed to fetch inventories', err);
-                toast.error('Lỗi kết nối khi tải nguyên liệu');
-            } finally {
-                setIsLoadingInventory(false);
-            }
-        };
-        fetchInventories();
-    }, []);
 
     const ingredients = ingredientsData?.data || [];
 

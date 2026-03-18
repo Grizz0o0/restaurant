@@ -3,25 +3,34 @@ import { UserStatus } from '@repo/constants';
 import { TypeOfValidationCode } from '@repo/constants';
 export { TypeOfValidationCode };
 
-export const UserSchema = z.object({
+const UserBaseSchema = z.object({
     id: z.string(),
-    email: z.string().email(),
-    name: z.string().min(1).max(100),
-    password: z.string().min(6).max(100),
-    phoneNumber: z.string().min(9).max(15),
+    email: z.string(),
+    name: z.string(),
+    password: z.string(),
+    phoneNumber: z.string(),
     avatar: z.string().nullable(),
     totpSecret: z.string().nullable(),
-    failedLoginAttempts: z.number(),
-    lockedAt: z.date().nullable(),
+    failedLoginAttempts: z.coerce.number(),
+    lockedAt: z.coerce.date().nullable(),
     status: z.nativeEnum(UserStatus),
     roleId: z.string(),
     createdById: z.string().nullable(),
     updatedById: z.string().nullable(),
     deletedById: z.string().nullable(),
-    deletedAt: z.date().nullable(),
-    createdAt: z.date(),
-    updatedAt: z.date(),
+    deletedAt: z.coerce.date().nullable(),
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date(),
 });
+
+export const UserSchema = UserBaseSchema.extend({
+    email: z.string().email(),
+    name: z.string().min(1).max(100),
+    password: z.string().min(6).max(100),
+    phoneNumber: z.string().min(9).max(15),
+});
+
+export const UserOutputSchema = UserBaseSchema;
 export type UserType = z.infer<typeof UserSchema>;
 
 export const GuestLoginBodySchema = z.object({

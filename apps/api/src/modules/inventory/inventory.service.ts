@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../shared/prisma/prisma.service'
 import { Prisma } from 'src/generated/prisma/client'
 import { CreateInventoryBodyType, UpdateInventoryBodyType } from '@repo/schema'
+import { paginate } from '@/shared/utils/prisma.util'
 
 @Injectable()
 export class InventoryService {
@@ -29,23 +30,23 @@ export class InventoryService {
   }
 
   async findAll(params: {
-    skip?: number
-    take?: number
-    cursor?: Prisma.InventoryWhereUniqueInput
+    page?: number
+    limit?: number
     where?: Prisma.InventoryWhereInput
     orderBy?: Prisma.InventoryOrderByWithRelationInput
   }) {
-    const { skip, take, cursor, where, orderBy } = params
-    return this.prisma.inventory.findMany({
-      skip,
-      take,
-      cursor,
-      where,
-      orderBy,
-      include: {
-        supplier: true,
+    const { page = 1, limit = 10 } = params
+    return paginate(
+      this.prisma.inventory,
+      {
+        where: params.where,
+        orderBy: params.orderBy || { createdAt: 'desc' },
+        include: {
+          supplier: true,
+        },
       },
-    })
+      { page, limit },
+    )
   }
 
   async findOne(id: string) {
@@ -78,4 +79,29 @@ export class InventoryService {
       where: { id },
     })
   }
+
+  async findAllTransactions(params: {
+    inventoryId?: string
+    page?: number
+    limit?: number
+  }) {
+    const { page = 1, limit = 20, inventoryId } = params
+    return paginate(
+      this.prisma.inventoryTransaction,
+      {
+        where: inventoryId ? { inventoryId } : undefined,
+        orderBy: { timestamp: 'desc' },
+        include: {
+          inventory: {
+            select: {
+              itemName: true,
+              unit: true,
+            },
+          },
+        },
+      },
+      { page, limit },
+    )
+  }
 }
+

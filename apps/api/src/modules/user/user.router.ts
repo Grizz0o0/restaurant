@@ -28,12 +28,19 @@ export class UserRouter {
     output: GetUsersResSchema,
   })
   async list(@Input() input: GetUsersQueryType) {
-    return this.userService.list({
+    const result = await this.userService.list({
       limit: input.limit,
       page: input.page,
       roleId: input.roleId,
       status: input.status,
     })
+    
+    const parsed = GetUsersResSchema.safeParse(result)
+    if (!parsed.success) {
+      console.error('User list validation error:', JSON.stringify(parsed.error.format(), null, 2))
+    }
+    
+    return result
   }
 
   @Query({

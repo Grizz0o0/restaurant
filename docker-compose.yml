@@ -1,0 +1,60 @@
+services:
+  # ============================================
+  # PostgreSQL Database
+  # ============================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: restaurant-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-restaurant}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-restaurant_password}
+      POSTGRES_DB: ${POSTGRES_DB:-restaurant_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-restaurant}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================
+  # NestJS API Backend
+  # ============================================
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: restaurant-api
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-3052}:3052"
+    env_file:
+      - ./apps/api/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Override DATABASE_URL to use the Docker network hostname
+      DATABASE_URL: postgresql://${POSTGRES_USER:-restaurant}:${POSTGRES_PASSWORD:-restaurant_password}@postgres:5432/${POSTGRES_DB:-restaurant_db}
+
+  # ============================================
+  # Next.js Web Frontend
+  # ============================================
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: restaurant-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./apps/web/.env
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:

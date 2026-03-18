@@ -20,11 +20,10 @@ export class InventoryController {
   @Get()
   findAll(@Query('page') page?: string, @Query('limit') limit?: string) {
     return this.inventoryService.findAll({
-      skip: page ? (Number(page) - 1) * Number(limit) : undefined,
-      take: limit ? Number(limit) : undefined,
+      page: page ? Number(page) : undefined,
+      limit: limit ? Number(limit) : undefined,
     })
   }
-
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.inventoryService.findOne(id)

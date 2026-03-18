@@ -40,7 +40,7 @@ export const useAdminChat = () => {
 
     useEffect(() => {
         if (historyData?.messages) {
-            setMessages(historyData.messages.reverse());
+            setMessages(historyData.messages);
             // Invalidate conversations to clear unread counts
             utils.message.getConversations.invalidate();
         } else {

@@ -1,0 +1,17 @@
+node_modules
+.next
+dist
+.turbo
+.git
+.gitignore
+.vscode
+*.md
+.env
+.env.*
+!.env.example
+coverage
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+*.pem

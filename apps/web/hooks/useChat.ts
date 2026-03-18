@@ -37,7 +37,7 @@ export const useChat = (isOpen: boolean) => {
 
     useEffect(() => {
         if (historyData?.messages) {
-            setMessages(historyData.messages.reverse()); // Oldest first for chat display
+            setMessages(historyData.messages); // API already returns newest last
         }
     }, [historyData]);
 

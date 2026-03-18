@@ -1,6 +1,7 @@
 'use client';
 
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState } from 'react';
+import Image from 'next/image';
 import { useForm, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -27,7 +28,6 @@ import { trpc } from '@/lib/trpc/client';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import {
     Card,
     CardContent,
@@ -51,7 +51,6 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import { ImageUpload } from '@/components/ui/image-upload';
-import { Controller } from 'react-hook-form';
 
 const supplierSchema = z.object({
     name: z
@@ -77,8 +76,7 @@ const supplierSchema = z.object({
 type SupplierFormValues = z.infer<typeof supplierSchema>;
 
 export default function AdminSuppliersPage() {
-    const [suppliers, setSuppliers] = useState<any[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const utils = trpc.useUtils();
     const [open, setOpen] = useState(false);
     const [editing, setEditing] = useState<any | null>(null);
     const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -96,36 +94,44 @@ export default function AdminSuppliersPage() {
         },
     });
 
-    // Fetch suppliers via REST API
-    const fetchSuppliers = async () => {
-        try {
-            setIsLoading(true);
-            const trpcUrl =
-                process.env.NEXT_PUBLIC_API_URL ||
-                'http://localhost:3052/v1/api/trpc';
-            const apiUrl = trpcUrl.replace(/\/trpc\/?$/, '');
-            const token = localStorage.getItem('accessToken');
+    // Fetch suppliers via TRPC
+    const { data: suppliersData, isLoading } = trpc.supplier.list.useQuery({
+        page: 1,
+        limit: 100,
+    });
 
-            const res = await fetch(`${apiUrl}/suppliers?limit=100`, {
-                headers: {
-                    Authorization: token ? `Bearer ${token}` : '',
-                },
-            });
+    const suppliers: any[] = suppliersData?.data ?? [];
 
-            if (res.ok) {
-                const data = await res.json();
-                setSuppliers(Array.isArray(data) ? data : data.data || []);
-            }
-        } catch (err) {
-            console.error('Failed to fetch suppliers', err);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    // Mutations
+    const createMutation = trpc.supplier.create.useMutation({
+        onSuccess: () => {
+            toast.success('Đã tạo nhà cung cấp mới');
+            utils.supplier.list.invalidate();
+            setOpen(false);
+            form.reset();
+        },
+        onError: (err) => toast.error(err.message || 'Có lỗi xảy ra'),
+    });
 
-    useEffect(() => {
-        fetchSuppliers();
-    }, []);
+    const updateMutation = trpc.supplier.update.useMutation({
+        onSuccess: () => {
+            toast.success('Đã cập nhật nhà cung cấp');
+            utils.supplier.list.invalidate();
+            setOpen(false);
+            setEditing(null);
+            form.reset();
+        },
+        onError: (err) => toast.error(err.message || 'Có lỗi xảy ra'),
+    });
+
+    const deleteMutation = trpc.supplier.delete.useMutation({
+        onSuccess: () => {
+            toast.success('Đã xóa nhà cung cấp');
+            utils.supplier.list.invalidate();
+            setDeleteId(null);
+        },
+        onError: (err) => toast.error(err.message || 'Có lỗi xảy ra'),
+    });
 
     // Handlers
     const openCreate = () => {
@@ -156,77 +162,16 @@ export default function AdminSuppliersPage() {
         setOpen(true);
     };
 
-    const onSubmit = async (values: SupplierFormValues) => {
-        try {
-            const trpcUrl =
-                process.env.NEXT_PUBLIC_API_URL ||
-                'http://localhost:3052/v1/api/trpc';
-            const apiUrl = trpcUrl.replace(/\/trpc\/?$/, '');
-            const token = localStorage.getItem('accessToken');
-
-            const url = editing
-                ? `${apiUrl}/suppliers/${editing.id}`
-                : `${apiUrl}/suppliers`;
-            const method = editing ? 'PATCH' : 'POST';
-
-            const res = await fetch(url, {
-                method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: token ? `Bearer ${token}` : '',
-                },
-                body: JSON.stringify(values),
-            });
-
-            if (res.ok) {
-                toast.success(
-                    editing
-                        ? 'Đã cập nhật nhà cung cấp'
-                        : 'Đã tạo nhà cung cấp mới',
-                );
-                fetchSuppliers();
-                setOpen(false);
-                setEditing(null);
-                form.reset();
-            } else {
-                toast.error('Có lỗi xảy ra');
-            }
-        } catch (err) {
-            toast.error('Có lỗi xảy ra');
+    const onSubmit = (values: SupplierFormValues) => {
+        if (editing) {
+            updateMutation.mutate({ id: editing.id, data: values });
+        } else {
+            createMutation.mutate(values);
         }
     };
 
-    const handleDelete = (id: string) => {
-        setDeleteId(id);
-    };
-
-    const confirmDelete = async () => {
-        if (!deleteId) return;
-
-        try {
-            const trpcUrl =
-                process.env.NEXT_PUBLIC_API_URL ||
-                'http://localhost:3052/v1/api/trpc';
-            const apiUrl = trpcUrl.replace(/\/trpc\/?$/, '');
-            const token = localStorage.getItem('accessToken');
-
-            const res = await fetch(`${apiUrl}/suppliers/${deleteId}`, {
-                method: 'DELETE',
-                headers: {
-                    Authorization: token ? `Bearer ${token}` : '',
-                },
-            });
-
-            if (res.ok) {
-                toast.success('Đã xóa nhà cung cấp');
-                fetchSuppliers();
-                setDeleteId(null);
-            } else {
-                toast.error('Có lỗi xảy ra');
-            }
-        } catch (err) {
-            toast.error('Có lỗi xảy ra');
-        }
+    const confirmDelete = () => {
+        if (deleteId) deleteMutation.mutate({ id: deleteId });
     };
 
     // Filtering Logic
@@ -251,6 +196,8 @@ export default function AdminSuppliersPage() {
         return { total, avgRating: avgRating.toFixed(1) };
     }, [suppliers]);
 
+    const isPending = createMutation.isPending || updateMutation.isPending;
+
     return (
         <div className="flex flex-col p-6 w-full max-w-7xl mx-auto space-y-8">
             {/* Header */}
@@ -264,7 +211,10 @@ export default function AdminSuppliersPage() {
                     </p>
                 </div>
                 <div className="flex items-center gap-2">
-                    <Button variant="outline" onClick={fetchSuppliers}>
+                    <Button
+                        variant="outline"
+                        onClick={() => utils.supplier.list.invalidate()}
+                    >
                         Làm mới
                     </Button>
                     <Dialog
@@ -444,7 +394,13 @@ export default function AdminSuppliersPage() {
                                         >
                                             Hủy
                                         </Button>
-                                        <Button type="submit">
+                                        <Button
+                                            type="submit"
+                                            disabled={isPending}
+                                        >
+                                            {isPending && (
+                                                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                            )}
                                             {editing ? 'Cập nhật' : 'Tạo mới'}
                                         </Button>
                                     </div>
@@ -554,9 +510,14 @@ export default function AdminSuppliersPage() {
                                             <td className="p-4">
                                                 <div className="flex items-center gap-3">
                                                     {supplier.logo ? (
-                                                        <img
+                                                        <Image
                                                             src={supplier.logo}
-                                                            alt={supplier.name}
+                                                            alt={
+                                                                supplier.name ??
+                                                                'Supplier'
+                                                            }
+                                                            width={36}
+                                                            height={36}
                                                             className="h-9 w-9 rounded-md object-cover border shrink-0"
                                                         />
                                                     ) : (
@@ -605,7 +566,7 @@ export default function AdminSuppliersPage() {
                                                         size="icon"
                                                         className="text-destructive hover:text-destructive hover:bg-destructive/10"
                                                         onClick={() =>
-                                                            handleDelete(
+                                                            setDeleteId(
                                                                 supplier.id,
                                                             )
                                                         }
@@ -643,7 +604,11 @@ export default function AdminSuppliersPage() {
                         <AlertDialogAction
                             onClick={confirmDelete}
                             className="bg-destructive hover:bg-destructive/90"
+                            disabled={deleteMutation.isPending}
                         >
+                            {deleteMutation.isPending && (
+                                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            )}
                             Xóa
                         </AlertDialogAction>
                     </AlertDialogFooter>

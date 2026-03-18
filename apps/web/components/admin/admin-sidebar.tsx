@@ -91,7 +91,7 @@ const sidebarItems = [
         icon: MessageSquareText,
     },
     {
-        title: 'Báo cáo',
+        title: 'Thống kê',
         href: '/admin/reports',
         icon: BarChart3,
     },

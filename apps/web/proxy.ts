@@ -9,7 +9,7 @@ import {
 } from './lib/auth/route-config';
 import { isTokenValid, getUserRoleFromToken } from './lib/auth/jwt';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const accessToken = request.cookies.get('accessToken')?.value;
 
@@ -59,7 +59,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
 }
 
-// Configure which routes to run middleware on
 export const config = {
     matcher: [
         /*

@@ -4,30 +4,23 @@ import Cookies from 'js-cookie';
 const COOKIE_CONFIG = {
     ACCESS_TOKEN: 'accessToken',
     REFRESH_TOKEN: 'refreshToken',
-    // 7 days for access token (adjust as needed)
-    ACCESS_TOKEN_EXPIRES: 7,
-    // 30 days for refresh token
-    REFRESH_TOKEN_EXPIRES: 30,
-    // Cookie options for accessToken (readable by JS for client-side use)
+    ACCESS_TOKEN_EXPIRES: 1 / (24 * 60),
+    REFRESH_TOKEN_EXPIRES: 7,
     ACCESS_TOKEN_OPTIONS: {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax' as const,
         path: '/',
-        // httpOnly: false - allows client-side JavaScript to read
     },
-    // Cookie options for refreshToken (httpOnly for security)
     REFRESH_TOKEN_OPTIONS: {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax' as const,
         path: '/',
-        httpOnly: true, // Cannot be read by JavaScript - more secure
+        httpOnly: true,
     },
 };
 
 /**
  * Set authentication tokens in cookies
- * - accessToken: readable by JS (for client-side auth checks)
- * - refreshToken: httpOnly (more secure, only sent with requests)
  */
 export const setAuthTokens = (
     accessToken: string,

@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
-import { Loader2, MapPin, CreditCard, ShieldCheck } from 'lucide-react';
+import { Loader2, MapPin, CreditCard, ShieldCheck, Ticket } from 'lucide-react';
 import Image from 'next/image';
 import { AddressForm } from '@/components/profile/address-form';
 
@@ -24,6 +24,12 @@ export default function CheckoutPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [selectedAddressId, setSelectedAddressId] = useState<string>('');
     const [isAddressFormOpen, setIsAddressFormOpen] = useState(false);
+    const [promotionInput, setPromotionInput] = useState('');
+    const [appliedPromotion, setAppliedPromotion] = useState<{
+        id: string;
+        code: string;
+        discountAmount: number;
+    } | null>(null);
 
     // Fetch Cart Data to display summary
     const { data: cartData, isLoading: isCartLoading } = trpc.cart.get.useQuery(
@@ -53,7 +59,6 @@ export default function CheckoutPage() {
     const createOrderMutation = trpc.order.createFromCart.useMutation({
         onSuccess: (order) => {
             toast.success('Đặt hàng thành công!');
-            toast.success('Đặt hàng thành công!');
             utils.cart.get.invalidate();
 
             if (paymentMethod === 'MOMO') {
@@ -78,6 +83,44 @@ export default function CheckoutPage() {
         },
     });
 
+    const applyPromotionMutation = trpc.promotion.applyCode.useMutation({
+        onSuccess: (data) => {
+            if (data.isValid) {
+                setAppliedPromotion({
+                    id: data.promotionId,
+                    code: data.code,
+                    discountAmount: data.discountAmount,
+                });
+                toast.success('Áp dụng mã khuyến mãi thành công!');
+                setPromotionInput('');
+            } else {
+                toast.error('Mã khuyến mãi không hợp lệ');
+                setAppliedPromotion(null);
+            }
+        },
+        onError: (error) => {
+            toast.error(error.message || 'Lỗi khi áp dụng mã khuyến mãi');
+            setAppliedPromotion(null);
+        },
+    });
+
+    const handleApplyPromotion = () => {
+        if (!promotionInput.trim()) {
+            toast.error('Vui lòng nhập mã khuyến mãi');
+            return;
+        }
+        if (!cartData) return;
+        applyPromotionMutation.mutate({
+            code: promotionInput.trim(),
+            orderValue: cartData.total || 0,
+        });
+    };
+
+    const handleRemovePromotion = () => {
+        setAppliedPromotion(null);
+        setPromotionInput('');
+    };
+
     const handlePlaceOrder = () => {
         if (!selectedAddressId) {
             toast.error('Vui lòng chọn địa chỉ giao hàng');
@@ -91,7 +134,7 @@ export default function CheckoutPage() {
                 paymentMethod: paymentMethod,
                 phoneNumber: user?.phoneNumber,
             },
-            promotionCode: undefined, // Add logic for this later if needed
+            promotionCode: appliedPromotion?.code,
         });
     };
 
@@ -123,8 +166,9 @@ export default function CheckoutPage() {
     }
 
     const subtotal = cartData.total || 0;
+    const discount = appliedPromotion ? appliedPromotion.discountAmount : 0;
     const deliveryFee = subtotal > 100000 ? 0 : 15000;
-    const total = subtotal + deliveryFee;
+    const total = Math.max(0, subtotal - discount) + deliveryFee;
 
     const formatPrice = (price: number) =>
         new Intl.NumberFormat('vi-VN', {
@@ -351,6 +395,17 @@ export default function CheckoutPage() {
                                                 : formatPrice(deliveryFee)}
                                         </span>
                                     </div>
+                                    {appliedPromotion && (
+                                        <div className="flex justify-between text-sm text-green-600">
+                                            <span>Giảm giá</span>
+                                            <span>
+                                                -
+                                                {formatPrice(
+                                                    appliedPromotion.discountAmount,
+                                                )}
+                                            </span>
+                                        </div>
+                                    )}
                                     <Separator className="my-2" />
                                     <div className="flex justify-between text-lg font-bold">
                                         <span>Tổng cộng</span>
@@ -358,6 +413,64 @@ export default function CheckoutPage() {
                                             {formatPrice(total)}
                                         </span>
                                     </div>
+                                </div>
+
+                                {/* Promotion Code */}
+                                <div className="space-y-3">
+                                    <Label
+                                        htmlFor="promo-code"
+                                        className="flex items-center gap-2"
+                                    >
+                                        <Ticket className="h-4 w-4" />
+                                        Mã khuyến mãi
+                                    </Label>
+                                    {!appliedPromotion ? (
+                                        <div className="flex space-x-2">
+                                            <Input
+                                                id="promo-code"
+                                                placeholder="Nhập mã..."
+                                                value={promotionInput}
+                                                onChange={(e) =>
+                                                    setPromotionInput(
+                                                        e.target.value,
+                                                    )
+                                                }
+                                            />
+                                            <Button
+                                                type="button"
+                                                variant="secondary"
+                                                onClick={handleApplyPromotion}
+                                                disabled={
+                                                    applyPromotionMutation.isPending ||
+                                                    !promotionInput.trim()
+                                                }
+                                            >
+                                                {applyPromotionMutation.isPending ? (
+                                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                                ) : (
+                                                    'Áp dụng'
+                                                )}
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <div className="flex items-center justify-between p-3 border rounded-lg bg-green-50/50 border-green-200">
+                                            <div className="flex items-center gap-2">
+                                                <Ticket className="h-4 w-4 text-green-600" />
+                                                <span className="font-medium text-green-700">
+                                                    {appliedPromotion.code}
+                                                </span>
+                                            </div>
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="sm"
+                                                className="h-8 text-muted-foreground hover:text-destructive"
+                                                onClick={handleRemovePromotion}
+                                            >
+                                                Gỡ bỏ
+                                            </Button>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <Button

@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    output: 'standalone',
     turbopack: {
         root: '../../',
     },
@@ -14,6 +15,10 @@ const nextConfig = {
                 hostname: 'api.dicebear.com',
                 port: '',
                 pathname: '/7.x/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'lh3.googleusercontent.com',
             },
         ],
     },

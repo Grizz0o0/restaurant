@@ -1,5 +1,5 @@
 import z from 'zod';
-import { UserSchema } from './auth.schema';
+import { UserSchema, UserOutputSchema } from './auth.schema';
 
 // Query schemas
 export const GetUsersQuerySchema = z
@@ -16,7 +16,7 @@ export const GetUserDetailParamsSchema = z.object({
 });
 
 // Response schemas
-export const UserDetailResSchema = UserSchema.omit({
+export const UserDetailResSchema = UserOutputSchema.omit({
     password: true,
     totpSecret: true,
 }).extend({

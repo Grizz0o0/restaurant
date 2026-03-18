@@ -10,8 +10,8 @@ const COOKIE_OPTIONS = {
     path: '/',
 };
 
-const ACCESS_TOKEN_MAX_AGE = 7 * 24 * 60 * 60; // 7 days in seconds
-const REFRESH_TOKEN_MAX_AGE = 30 * 24 * 60 * 60; // 30 days in seconds
+const ACCESS_TOKEN_MAX_AGE = 1 * 24 * 60 * 60; // 1 days in seconds
+const REFRESH_TOKEN_MAX_AGE = 7 * 24 * 60 * 60; // 7 days in seconds
 
 export async function POST(request: NextRequest) {
     try {

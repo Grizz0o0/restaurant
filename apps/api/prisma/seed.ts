@@ -427,6 +427,7 @@ async function main() {
         name: 'Bamicha Supplies',
         contactName: 'Mr. Supplier',
         rating: 4.5,
+        logo: 'https://res.cloudinary.com/dr1dzw92r/image/upload/v1772869640/restaurant-app/suppliers/ffodnv3q1quqppas2xdq.png',
         supplierTranslations: {
           create: [
             {
@@ -1873,7 +1874,7 @@ async function main() {
       vi: { name: 'Trà sen vàng', desc: 'Trà sen vàng thượng hạng' },
       en: { name: 'Golden Lotus Tea', desc: 'Premium lotus tea' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828534/restaurant-app/dishes/cts37hpxw3wrnh9mj69d.jpg',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773761344/Tr%C3%A0_sen_v%C3%A0ng_lcbvzi.png',
       ],
       price: 35000,
       catId: traCat.id,
@@ -1886,7 +1887,7 @@ async function main() {
       vi: { name: 'Trà đào cam sả', desc: 'Trà đào cam sả tươi mát' },
       en: { name: 'Peach Orange Lemongrass Tea', desc: 'Refreshing peach tea' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828534/restaurant-app/dishes/cts37hpxw3wrnh9mj69d.jpg',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773761344/Tr%C3%A0_%C4%91%C3%A0o_cam_s%E1%BA%A3_ajiuq5.png',
       ],
       price: 35000,
       catId: traCat.id,
@@ -1901,7 +1902,7 @@ async function main() {
       vi: { name: 'Trà nhài nha đam', desc: 'Trà nhài thơm mát kèm nha đam' },
       en: { name: 'Jasmine Aloe Vera Tea', desc: 'Jasmine tea with aloe vera' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828534/restaurant-app/dishes/cts37hpxw3wrnh9mj69d.jpg',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773761345/Tr%C3%A0_nh%C3%A0i_nha_%C4%91am_gmtipv.png',
       ],
       price: 30000,
       catId: traCat.id,
@@ -1911,10 +1912,10 @@ async function main() {
       ],
     },
     {
-      vi: { name: 'Trà sữa trân châu', desc: 'Trà sữa truyền thống' },
+      vi: { name: 'Trà sữa trân châu đen', desc: 'Trà sữa truyền thống' },
       en: { name: 'Boba Milk Tea', desc: 'Traditional milk tea' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828534/restaurant-app/dishes/cts37hpxw3wrnh9mj69d.jpg',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773758682/Tr%C3%A0_s%E1%BB%AFa_c%C3%A1c_v%E1%BB%8B_ap1hyw.png',
       ],
       price: 30000,
       catId: traSuaCat.id,
@@ -1929,7 +1930,7 @@ async function main() {
       vi: { name: 'Trà sữa matcha', desc: 'Trà sữa vị matcha' },
       en: { name: 'Matcha Milk Tea', desc: 'Matcha flavored milk tea' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828534/restaurant-app/dishes/cts37hpxw3wrnh9mj69d.jpg',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773758682/Tr%C3%A0_s%E1%BB%AFa_matcha_sv2pps.png',
       ],
       price: 35000,
       catId: traSuaCat.id,
@@ -1944,7 +1945,7 @@ async function main() {
       vi: { name: 'Cafe đen đá', desc: 'Cà phê nguyên chất' },
       en: { name: 'Iced Black Coffee', desc: 'Pure black coffee' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828480/restaurant-app/dishes/utpftxpwkiyd92pgz4oc.jpg',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773759865/C%C3%A0_ph%C3%AA_%C4%91en_%C4%91%C3%A1_uz2w1a.png',
       ],
       price: 20000,
       catId: cafeCat.id,
@@ -1957,7 +1958,7 @@ async function main() {
       vi: { name: 'Cafe sữa đá', desc: 'Cà phê sữa đá pha phin' },
       en: { name: 'Iced Milk Coffee', desc: 'Vietnamese milk coffee' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828480/restaurant-app/dishes/utpftxpwkiyd92pgz4oc.jpg',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773759865/C%C3%A0_ph%C3%AA_s%E1%BB%AFa_%C4%91%C3%A1_gbx3hn.png',
       ],
       price: 25000,
       catId: cafeCat.id,
@@ -1970,7 +1971,7 @@ async function main() {
       vi: { name: 'Bạc xỉu', desc: 'Bạc xỉu nóng/đá' },
       en: { name: 'Bac Xiu', desc: 'White coffee' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770828480/restaurant-app/dishes/utpftxpwkiyd92pgz4oc.jpg',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773759866/B%E1%BA%A1c_x%E1%BB%89u_nvtdrx.png',
       ],
       price: 25000,
       catId: cafeCat.id,
@@ -2152,7 +2153,9 @@ async function main() {
         desc: 'Tàu hũ mềm mịn kèm nha đam và trân châu',
       },
       en: { name: 'Tofu Pudding with Aloe Vera & Boba', desc: 'Tofu with aloe vera and pearls' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773764871/T%C3%A0u_h%C5%A9_nha_%C4%91am_tr%C3%A2n_ch%C3%A2u_c%E1%BB%91t_d%E1%BB%ABa_bi5zis.png',
+      ],
       price: 20000,
       catId: tauHuCat.id,
       recipe: [
@@ -2167,7 +2170,9 @@ async function main() {
         desc: 'Tàu hũ Milo đậm đà kèm trân châu',
       },
       en: { name: 'Milo Tofu Pudding with Boba', desc: 'Milo tofu with brown sugar pearls' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773764872/T%C3%A0u_h%C5%A9_Milo_tr%C3%A2n_ch%C3%A2u_%C4%91%C6%B0%E1%BB%9Dng_%C4%91en_c%E1%BB%91t_d%E1%BB%ABa_retdmm.png',
+      ],
       price: 20000,
       catId: tauHuCat.id,
       recipe: [
@@ -2179,7 +2184,9 @@ async function main() {
     {
       vi: { name: 'Tàu hũ caramen trân châu cốt dừa', desc: 'Tàu hũ caramen béo ngậy' },
       en: { name: 'Caramel Tofu Pudding with Boba', desc: 'Tofu with flan and pearls' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773764873/T%C3%A0u_h%C5%A9_caramen_tr%C3%A2n_ch%C3%A2u_c%E1%BB%91t_d%E1%BB%ABa_zpdwtr.png',
+      ],
       price: 25000,
       catId: tauHuCat.id,
       recipe: [
@@ -2191,7 +2198,9 @@ async function main() {
     {
       vi: { name: 'Tàu hũ hoa quả trân châu cốt dừa', desc: 'Tàu hũ mix hoa quả tươi' },
       en: { name: 'Fruit Tofu Pudding with Boba', desc: 'Tofu with mixed fruits' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773764873/T%C3%A0u_h%C5%A9_hoa_qu%E1%BA%A3_tr%C3%A2n_ch%C3%A2u_c%E1%BB%91t_d%E1%BB%ABa_s7keqy.png',
+      ],
       price: 25000,
       catId: tauHuCat.id,
       recipe: [
@@ -2206,7 +2215,9 @@ async function main() {
         desc: 'Tàu hũ đặc biệt đầy đủ topping',
       },
       en: { name: 'Special Mixed Tofu Pudding', desc: 'Tofu with fruits, flan and pearls' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773764876/T%C3%A0u_h%C5%A9_hoa_qu%E1%BA%A3_caramen_tr%C3%A2n_ch%C3%A2u_c%E1%BB%91t_d%E1%BB%ABa_a5o0pe.png',
+      ],
       price: 30000,
       catId: tauHuCat.id,
       recipe: [
@@ -2219,7 +2230,9 @@ async function main() {
     {
       vi: { name: 'Tàu hũ cốt dừa hộp mini', desc: 'Tàu hũ mini tiện lợi' },
       en: { name: 'Mini Tofu Pudding', desc: 'Small serving tofu' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773764877/T%C3%A0u_h%C5%A9_c%E1%BB%91t_d%E1%BB%ABa_h%E1%BB%99p_mini_jvwy8f.png',
+      ],
       price: 5000,
       catId: tauHuCat.id,
       recipe: [{ ingredientName: 'Cốt dừa', quantity: 0.03 }],
@@ -2229,7 +2242,9 @@ async function main() {
     {
       vi: { name: 'Sữa chua đánh đá', desc: 'Sữa chua kết hợp đá bào giải nhiệt' },
       en: { name: 'Iced Yogurt', desc: 'Refreshing yogurt with crushed ice' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773763166/S%E1%BB%AFa_chua_%C4%91%C3%A1nh_%C4%91%C3%A1_ubyplo.png',
+      ],
       price: 15000,
       catId: suaChuaCat.id,
       recipe: [
@@ -2241,7 +2256,9 @@ async function main() {
     {
       vi: { name: 'Sữa chua trân châu đánh đá', desc: 'Sữa chua đánh đá kèm trân châu đen' },
       en: { name: 'Iced Yogurt with Boba', desc: 'Iced yogurt with pearls' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773763529/S%E1%BB%AFa_chua_tr%C3%A2n_ch%C3%A2u_%C4%91%C3%A1nh_%C4%91%C3%A1_bllo25.png',
+      ],
       price: 20000,
       catId: suaChuaCat.id,
       recipe: [
@@ -2253,7 +2270,9 @@ async function main() {
     {
       vi: { name: 'Sữa chua nha đam đánh đá', desc: 'Sữa chua đánh đá kèm nha đam' },
       en: { name: 'Iced Yogurt with Aloe Vera', desc: 'Iced yogurt with aloe vera' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773763167/S%E1%BB%AFa_chua_nha_%C4%91am_%C4%91%C3%A1nh_%C4%91%C3%A1_yepghb.png',
+      ],
       price: 20000,
       catId: suaChuaCat.id,
       recipe: [
@@ -2265,7 +2284,9 @@ async function main() {
     {
       vi: { name: 'Sữa chua trân châu nha đam', desc: 'Sữa chua mix trân châu và nha đam' },
       en: { name: 'Yogurt with Boba & Aloe Vera', desc: 'Yogurt with pearls and aloe vera' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773763166/S%E1%BB%AFa_chua_tr%C3%A2n_ch%C3%A2u_nha_%C4%91am_ljp0f6.png',
+      ],
       price: 25000,
       catId: suaChuaCat.id,
       recipe: [
@@ -2277,7 +2298,9 @@ async function main() {
     {
       vi: { name: 'Sữa chua trân châu caramen', desc: 'Sữa chua mix trân châu và caramen' },
       en: { name: 'Yogurt with Boba & Flan', desc: 'Yogurt with pearls and caramel' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773763172/S%E1%BB%AFa_chua_tr%C3%A2n_ch%C3%A2u_caramen_azcgiv.png',
+      ],
       price: 25000,
       catId: suaChuaCat.id,
       recipe: [
@@ -2289,7 +2312,9 @@ async function main() {
     {
       vi: { name: 'Sữa chua trân châu hoa quả', desc: 'Sữa chua mix trân châu và hoa quả' },
       en: { name: 'Yogurt with Boba & Fruit', desc: 'Yogurt with pearls and mixed fruits' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773763170/S%E1%BB%AFa_chua_tr%C3%A2n_ch%C3%A2u_hoa_qu%E1%BA%A3_i3tbzg.png',
+      ],
       price: 25000,
       catId: suaChuaCat.id,
       recipe: [
@@ -2301,7 +2326,9 @@ async function main() {
     {
       vi: { name: 'Sữa chua caramen hoa quả', desc: 'Sữa chua đặc biệt đầy đủ topping' },
       en: { name: 'Special Mixed Yogurt', desc: 'Yogurt with flan and fruits' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773763171/S%E1%BB%AFa_chua_caramen_hoa_qu%E1%BA%A3_vsxv8i.png',
+      ],
       price: 30000,
       catId: suaChuaCat.id,
       recipe: [
@@ -2313,7 +2340,9 @@ async function main() {
     {
       vi: { name: 'Sữa chua lắc vị Việt quất', desc: 'Sữa chua lắc vị việt quất tươi mát' },
       en: { name: 'Blueberry Yogurt Shake', desc: 'Blueberry flavored yogurt shake' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773763172/S%E1%BB%AFa_chua_l%E1%BA%AFc_v%E1%BB%8B_Vi%E1%BB%87t_qu%E1%BA%A5t_zlhaqx.png',
+      ],
       price: 20000,
       catId: suaChuaCat.id,
       recipe: [
@@ -2325,7 +2354,9 @@ async function main() {
     {
       vi: { name: 'Sữa chua lắc vị Dâu', desc: 'Sữa chua lắc vị dâu tây' },
       en: { name: 'Strawberry Yogurt Shake', desc: 'Strawberry flavored yogurt shake' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773763173/S%E1%BB%AFa_chua_l%E1%BA%AFc_v%E1%BB%8B_D%C3%A2u_j8gy6k.png',
+      ],
       price: 20000,
       catId: suaChuaCat.id,
       recipe: [
@@ -2337,7 +2368,9 @@ async function main() {
     {
       vi: { name: 'Sữa chua lắc vị Xoài', desc: 'Sữa chua lắc vị xoài' },
       en: { name: 'Mango Yogurt Shake', desc: 'Mango flavored yogurt shake' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773763176/S%E1%BB%AFa_chua_l%E1%BA%AFc_v%E1%BB%8B_Xo%C3%A0i_zb9hfb.png',
+      ],
       price: 20000,
       catId: suaChuaCat.id,
       recipe: [
@@ -2349,7 +2382,9 @@ async function main() {
     {
       vi: { name: 'Sữa chua lắc vị Đào', desc: 'Sữa chua lắc vị đào' },
       en: { name: 'Peach Yogurt Shake', desc: 'Peach flavored yogurt shake' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773763177/S%E1%BB%AFa_chua_l%E1%BA%AFc_v%E1%BB%8B_%C4%90%C3%A0o_j2hkg8.png',
+      ],
       price: 20000,
       catId: suaChuaCat.id,
       recipe: [
@@ -2361,7 +2396,9 @@ async function main() {
     {
       vi: { name: 'Caramen hộp', desc: 'Bánh flan caramen đóng hộp' },
       en: { name: 'Caramel Flan Box', desc: 'Boxed caramel flan' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773763179/Caramen_h%E1%BB%99p_ka1o5h.png',
+      ],
       price: 7000,
       catId: suaChuaCat.id,
       recipe: [{ ingredientName: 'Caramen (Bánh flan)', quantity: 1 }],
@@ -2374,7 +2411,9 @@ async function main() {
         desc: 'Trà chanh mát lạnh kèm nha đam hoặc thạch con cá',
       },
       en: { name: 'Iced Lemon Tea with Aloe/Jelly', desc: 'Lemon tea with toppings' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773761345/Tr%C3%A0_chanh_nha_%C4%91am_xgt2qe.png',
+      ],
       price: 25000,
       catId: traCat.id,
       recipe: [
@@ -2387,7 +2426,9 @@ async function main() {
     {
       vi: { name: 'Trà tắc', desc: 'Trà tắc truyền thống thơm mát' },
       en: { name: 'Kumquat Tea', desc: 'Traditional kumquat tea' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773761348/Tr%C3%A0_t%E1%BA%AFc_rrgw27.png',
+      ],
       price: 15000,
       catId: traCat.id,
       recipe: [
@@ -2400,7 +2441,9 @@ async function main() {
     {
       vi: { name: 'Trà tắc nha đam/con cá', desc: 'Trà tắc kèm topping nha đam hoặc thạch' },
       en: { name: 'Kumquat Tea with Aloe/Jelly', desc: 'Kumquat tea with toppings' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773761473/Tr%C3%A0_t%E1%BA%AFc_nha_%C4%91am_con_c%C3%A1_mcqrgu.png',
+      ],
       price: 25000,
       catId: traCat.id,
       recipe: [
@@ -2413,7 +2456,9 @@ async function main() {
     {
       vi: { name: 'Trà đào nha đam', desc: 'Trà đào thơm nồng kèm nha đam giòn sần sật' },
       en: { name: 'Peach Tea with Aloe Vera', desc: 'Peach tea with aloe topping' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773761474/Tr%C3%A0_%C4%91%C3%A0o_nha_%C4%91am_u8twce.png',
+      ],
       price: 30000,
       catId: traCat.id,
       recipe: [
@@ -2426,7 +2471,9 @@ async function main() {
     {
       vi: { name: 'Trà hoa quả nhiệt đới', desc: 'Tổng hợp các loại hoa quả tươi mát' },
       en: { name: 'Tropical Fruit Tea', desc: 'Mixed fresh fruit tea' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773761475/Tr%C3%A0_hoa_qu%E1%BA%A3_nhi%E1%BB%87t_%C4%91%E1%BB%9Bi_idk1t7.png',
+      ],
       price: 35000,
       catId: traCat.id,
       recipe: [
@@ -2440,7 +2487,9 @@ async function main() {
     {
       vi: { name: 'Trà xoài chanh leo', desc: 'Sự kết hợp giữa xoài và chanh leo' },
       en: { name: 'Mango Passion Fruit Tea', desc: 'Mango and passion fruit blend' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773761476/Tr%C3%A0_xo%C3%A0i_chanh_leo_ayuzgj.png',
+      ],
       price: 30000,
       catId: traCat.id,
       recipe: [
@@ -2453,7 +2502,9 @@ async function main() {
     {
       vi: { name: 'Trà táo đỏ long nhãn', desc: 'Trà thảo mộc thanh lọc cơ thể' },
       en: { name: 'Red Date & Longan Tea', desc: 'Herbal tea with dates and longan' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773761477/Tr%C3%A0_t%C3%A1o_%C4%91%E1%BB%8F_long_nh%C3%A3n_fhyz5m.png',
+      ],
       price: 30000,
       catId: traCat.id,
       recipe: [
@@ -2466,7 +2517,9 @@ async function main() {
     {
       vi: { name: 'Trà mãng cầu', desc: 'Trà mãng cầu xiêm tươi mới' },
       en: { name: 'Soursop Tea', desc: 'Fresh soursop tea' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773761478/Tr%C3%A0_m%C3%A3ng_c%E1%BA%A7u_jbsu3p.png',
+      ],
       price: 30000,
       catId: traCat.id,
       recipe: [
@@ -2479,7 +2532,9 @@ async function main() {
     {
       vi: { name: 'Hồng trà kem cheese', desc: 'Hồng trà đậm vị kèm lớp kem cheese béo ngậy' },
       en: { name: 'Black Tea with Cream Cheese', desc: 'Black tea with cheese foam' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773761484/H%E1%BB%93ng_tr%C3%A0_kem_cheese_dudd8x.png',
+      ],
       price: 35000,
       catId: traCat.id,
       recipe: [
@@ -2492,7 +2547,9 @@ async function main() {
     {
       vi: { name: 'Trà xanh kem cheese', desc: 'Trà xanh thanh mát kèm kem cheese' },
       en: { name: 'Green Tea with Cream Cheese', desc: 'Green tea with cheese foam' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773761485/Tr%C3%A0_xanh_kem_cheese_j89f2i.png',
+      ],
       price: 35000,
       catId: traCat.id,
       recipe: [
@@ -2505,9 +2562,11 @@ async function main() {
 
     // --- TRÀ SỮA (MILK TEAS) ---
     {
-      vi: { name: 'Trà sữa trân châu', desc: 'Trà sữa truyền thống với các loại trân châu' },
+      vi: { name: 'Trà sữa trân châu trắng', desc: 'Trà sữa truyền thống với các loại trân châu' },
       en: { name: 'Pearl Milk Tea', desc: 'Classic milk tea with pearl options' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773758682/Tr%C3%A0_s%E1%BB%AFa_tr%C3%A2n_ch%C3%A2u_tr%E1%BA%AFng_alchsc.png',
+      ],
       price: 25000,
       catId: traSuaCat.id,
       variants: [
@@ -2529,7 +2588,9 @@ async function main() {
     {
       vi: { name: 'Trà sữa các vị', desc: 'Trà sữa với nhiều lựa chọn hương vị trái cây và hạt' },
       en: { name: 'Flavored Milk Tea', desc: 'Milk tea with various flavor options' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773758682/Tr%C3%A0_s%E1%BB%AFa_tr%C3%A2n_ch%C3%A2u_%C4%91en_imrcvq.png',
+      ],
       price: 30000,
       catId: traSuaCat.id,
       variants: [
@@ -2560,7 +2621,9 @@ async function main() {
         desc: 'Sữa tươi kết hợp vị ngọt của trân châu đường đen',
       },
       en: { name: 'Brown Sugar Pearl Fresh Milk', desc: 'Fresh milk with brown sugar boba' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773759281/S%E1%BB%AFa_t%C6%B0%C6%A1i_tr%C3%A2n_ch%C3%A2u_%C4%91%C6%B0%E1%BB%9Dng_%C4%91en_ytlcup.png',
+      ],
       price: 35000,
       catId: suaTuoiCat.id,
       recipe: [
@@ -2576,7 +2639,9 @@ async function main() {
         name: 'Matcha Brown Sugar Pearl Fresh Milk',
         desc: 'Matcha and fresh milk with brown sugar boba',
       },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773759283/Matcha_tr%C3%A2n_ch%C3%A2u_%C4%91%C6%B0%E1%BB%9Dng_%C4%91en_qlpyxg.png',
+      ],
       price: 35000,
       catId: suaTuoiCat.id,
       recipe: [
@@ -2590,7 +2655,9 @@ async function main() {
     {
       vi: { name: 'Matcha latte', desc: 'Sữa tươi trà xanh thơm mát' },
       en: { name: 'Matcha Latte', desc: 'Matcha with fresh milk' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773759288/Matcha_latte_rngymr.png',
+      ],
       price: 30000,
       catId: suaTuoiCat.id,
       recipe: [
@@ -2603,7 +2670,9 @@ async function main() {
     {
       vi: { name: 'Cacao latte', desc: 'Sữa tươi cacao đậm đà' },
       en: { name: 'Cacao Latte', desc: 'Cacao with fresh milk' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773759289/Cacao_latte_xgdwtf.png',
+      ],
       price: 30000,
       catId: suaTuoiCat.id,
       recipe: [
@@ -2616,7 +2685,9 @@ async function main() {
     {
       vi: { name: 'Sữa tươi cafe', desc: 'Sữa tươi cafe với nhiều lựa chọn topping' },
       en: { name: 'Fresh Milk Coffee', desc: 'Coffee with fresh milk and toppings' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773759289/S%E1%BB%AFa_t%C6%B0%C6%A1i_cafe_ridnzm.png',
+      ],
       price: 30000,
       catId: suaTuoiCat.id,
       variants: [
@@ -2641,7 +2712,9 @@ async function main() {
     {
       vi: { name: 'Cafe muối', desc: 'Cafe đậm đà kèm lớp kem muối béo mặn' },
       en: { name: 'Salted Coffee', desc: 'Coffee with salted cream foam' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773759866/C%C3%A0_ph%C3%AA_mu%E1%BB%91i_kqrtv9.png',
+      ],
       price: 30000,
       catId: cafeCat.id,
       recipe: [
@@ -2655,7 +2728,9 @@ async function main() {
     {
       vi: { name: 'Cafe cốt dừa', desc: 'Cafe hòa quyện cùng cốt dừa đá xay béo ngậy' },
       en: { name: 'Coconut Coffee', desc: 'Coffee with coconut milk slushie' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773759868/C%C3%A0_ph%C3%AA_c%E1%BB%91t_d%E1%BB%ABa_yv8tzi.png',
+      ],
       price: 35000,
       catId: cafeCat.id,
       recipe: [
@@ -2670,7 +2745,9 @@ async function main() {
     {
       vi: { name: 'Nước chanh tươi', desc: 'Nước chanh tươi nguyên chất mát lạnh' },
       en: { name: 'Fresh Lemonade', desc: 'Fresh squeezed lime juice' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773765878/N%C6%B0%E1%BB%9Bc_chanh_t%C6%B0%C6%A1i_pckvhv.png',
+      ],
       price: 20000,
       catId: drinkCat.id,
       variants: [
@@ -2692,7 +2769,9 @@ async function main() {
     {
       vi: { name: 'Nước dừa tươi', desc: 'Nước dừa tươi nguyên quả' },
       en: { name: 'Fresh Coconut Water', desc: 'Fresh coconut water from fruit' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773765878/N%C6%B0%E1%BB%9Bc_d%E1%BB%ABa_k3l5ua.png',
+      ],
       price: 30000,
       catId: drinkCat.id,
       recipe: [{ ingredientName: 'Quả dừa tươi', quantity: 1 }],
@@ -2700,7 +2779,9 @@ async function main() {
     {
       vi: { name: 'Cacao lắc đá', desc: 'Cacao béo ngậy được lắc đều cùng đá' },
       en: { name: 'Shaken Iced Cacao', desc: 'Creamy cacao shaken with ice' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773765879/Cacao_l%E1%BA%AFc_%C4%91%C3%A1_cjarqa.png',
+      ],
       price: 30000,
       catId: drinkCat.id,
       recipe: [
@@ -2713,7 +2794,9 @@ async function main() {
     {
       vi: { name: 'Milo lắc đá', desc: 'Sữa Milo lắc đá mát lạnh' },
       en: { name: 'Shaken Iced Milo', desc: 'Milo chocolate drink shaken with ice' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773765879/Milo_l%E1%BA%AFc_%C4%91%C3%A1_nlgt3z.png',
+      ],
       price: 30000,
       catId: drinkCat.id,
       recipe: [
@@ -2726,7 +2809,9 @@ async function main() {
     {
       vi: { name: 'Milo đá bào full topping', desc: 'Milo đá bào cực đã với nhiều loại topping' },
       en: { name: 'Full Topping Milo Slushie', desc: 'Shaved ice Milo with various toppings' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773765883/Milo_%C4%91%C3%A1_b%C3%A0o_full_toping_xpy1le.png',
+      ],
       price: 35000,
       catId: drinkCat.id,
       recipe: [
@@ -2740,7 +2825,9 @@ async function main() {
     {
       vi: { name: 'Coca', desc: 'Coca Cola lon 330ml' },
       en: { name: 'Coca Cola', desc: '330ml can of Coca Cola' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773765884/Coca_330ml_zbvsv0.png',
+      ],
       price: 15000,
       catId: drinkCat.id,
       recipe: [{ ingredientName: 'Coca lon', quantity: 1 }],
@@ -2748,7 +2835,7 @@ async function main() {
     {
       vi: { name: 'Lavie', desc: 'Nước khoáng Lavie chai 500ml' },
       en: { name: 'Lavie Water', desc: '500ml bottle of Lavie mineral water' },
-      images: [''],
+      images: ['https://res.cloudinary.com/dr1dzw92r/image/upload/v1773765885/Lavie_utjx3g.png'],
       price: 10000,
       catId: drinkCat.id,
       recipe: [{ ingredientName: 'Nước khoáng Lavie', quantity: 1 }],
@@ -2758,7 +2845,9 @@ async function main() {
     {
       vi: { name: 'Sữa đậu nóng', desc: 'Sữa đậu nành nguyên chất đun nóng thơm lừng' },
       en: { name: 'Hot Soy Milk', desc: 'Freshly boiled hot soy milk' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773759389/S%E1%BB%AFa_%C4%91%E1%BA%ADu_n%C3%B3ng_f23dai.png',
+      ],
       price: 15000,
       catId: hotDrinkCat.id,
       recipe: [{ ingredientName: 'Sữa đậu nành', quantity: 0.2 }], // 200ml
@@ -2766,7 +2855,9 @@ async function main() {
     {
       vi: { name: 'Trà sữa nóng', desc: 'Trà sữa nóng với nhiều lựa chọn hương vị' },
       en: { name: 'Hot Milk Tea', desc: 'Hot milk tea with various flavors' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773759392/Tr%C3%A0_s%E1%BB%AFa_n%C3%B3ng_nvotuk.png',
+      ],
       price: 30000,
       catId: hotDrinkCat.id,
       variants: [
@@ -2790,7 +2881,9 @@ async function main() {
     {
       vi: { name: 'Trà gừng nóng', desc: 'Trà gừng ấm áp, tốt cho sức khỏe' },
       en: { name: 'Hot Ginger Tea', desc: 'Warming and healthy ginger tea' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773759393/Tr%C3%A0_g%E1%BB%ABng_n%C3%B3ng_xx1oon.png',
+      ],
       price: 20000,
       catId: hotDrinkCat.id,
       recipe: [
@@ -2801,7 +2894,9 @@ async function main() {
     {
       vi: { name: 'Trà quất mật ong nóng', desc: 'Trà quất mật ong thanh cổ, ấm bụng' },
       en: { name: 'Hot Kumquat Honey Tea', desc: 'Soothing hot kumquat and honey tea' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773759395/Tr%C3%A0_qu%E1%BA%A5t_m%E1%BA%ADt_ong_n%C3%B3ng_cfkrk8.png',
+      ],
       price: 25000,
       catId: hotDrinkCat.id,
       recipe: [
@@ -2818,7 +2913,9 @@ async function main() {
         name: 'Hot Red Date & Longan Black Tea',
         desc: 'Calming black tea with dates and longan',
       },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773759399/H%E1%BB%93ng_tr%C3%A0_t%C3%A1o_long_nh%C3%A3n_n%C3%B3ng_nsiwhj.png',
+      ],
       price: 30000,
       catId: hotDrinkCat.id,
       recipe: [

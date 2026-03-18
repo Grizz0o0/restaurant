@@ -1,5 +1,5 @@
 import z from 'zod';
-import { UserSchema } from './auth.schema';
+import { UserOutputSchema, UserSchema } from './auth.schema';
 import { PermissionSchema } from './permission.schema';
 
 // User Translation Schema
@@ -10,7 +10,7 @@ const UserTranslationSchema = z.object({
 });
 
 // Profile detail response with role and permissions
-export const ProfileDetailResSchema = UserSchema.omit({
+export const ProfileDetailResSchema = UserOutputSchema.omit({
     password: true,
     totpSecret: true,
 }).extend({

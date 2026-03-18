@@ -1,6 +1,13 @@
 import { z } from 'zod';
 
-export const createSupplierBody = z.object({
+export const GetSuppliersQuerySchema = z.object({
+    page: z.number().int().min(1).optional().default(1),
+    limit: z.number().int().min(1).max(1000).optional().default(20),
+});
+
+export type GetSuppliersQueryType = z.infer<typeof GetSuppliersQuerySchema>;
+
+export const CreateSupplierBodySchema = z.object({
     name: z.string().min(1),
     logo: z.string().optional(),
     contactName: z.string().optional(),
@@ -18,8 +25,8 @@ export const createSupplierBody = z.object({
         .optional(),
 });
 
-export type CreateSupplierBodyType = z.infer<typeof createSupplierBody>;
+export type CreateSupplierBodyType = z.infer<typeof CreateSupplierBodySchema>;
 
-export const updateSupplierBody = createSupplierBody.partial();
+export const UpdateSupplierBodySchema = CreateSupplierBodySchema.partial();
 
-export type UpdateSupplierBodyType = z.infer<typeof updateSupplierBody>;
+export type UpdateSupplierBodyType = z.infer<typeof UpdateSupplierBodySchema>;
