@@ -80,6 +80,14 @@ export function PaymentModal({
         null,
     );
 
+    // Promotion state
+    const [promoCode, setPromoCode] = useState('');
+    const [appliedPromotion, setAppliedPromotion] = useState<{
+        id: string;
+        code: string;
+        discountAmount: number;
+    } | null>(null);
+
     const clearCart = usePosStore((s) => s.clearCart);
 
     const formatVnd = (amount: number) =>
@@ -88,13 +96,44 @@ export function PaymentModal({
             currency: 'VND',
         }).format(amount);
 
+    const currentTotal = totalAmount - (appliedPromotion?.discountAmount || 0);
     const parsedCash = parseInt(cashInput.replace(/\D/g, ''), 10) || 0;
-    const change = parsedCash - totalAmount;
-    const isEnough = method !== 'CASH' || parsedCash >= totalAmount;
+    const change = parsedCash - currentTotal;
+    const isEnough = method !== 'CASH' || parsedCash >= currentTotal;
 
     const utils = trpc.useUtils();
 
     const updateStatusMutation = trpc.order.updateStatus.useMutation();
+    const applyPromotionMutation = trpc.promotion.applyCode.useMutation({
+        onSuccess: (res) => {
+            if (res.isValid) {
+                setAppliedPromotion({
+                    id: res.promotionId,
+                    code: res.code,
+                    discountAmount: res.discountAmount,
+                });
+                toast.success(
+                    `Đã áp dụng mã ${res.code}: -${formatVnd(res.discountAmount)}`,
+                );
+                setPromoCode('');
+            }
+        },
+        onError: (err) => {
+            toast.error(err.message || 'Mã giảm giá không hợp lệ');
+        },
+    });
+
+    const handleApplyPromo = () => {
+        if (!promoCode.trim()) return;
+        applyPromotionMutation.mutate({
+            code: promoCode.trim(),
+            orderValue: totalAmount,
+        });
+    };
+
+    const handleRemovePromo = () => {
+        setAppliedPromotion(null);
+    };
 
     // Query to get all order items across the selected active orders
     const { data: ordersData } = trpc.order.list.useQuery(
@@ -140,7 +179,11 @@ export function PaymentModal({
             for (const orderId of orderIds) {
                 await updateStatusMutation.mutateAsync({
                     orderId,
-                    status: 'PAID',
+                    status: 'COMPLETED',
+                    promotionId: appliedPromotion?.id,
+                    discount: appliedPromotion
+                        ? appliedPromotion.discountAmount / orderIds.length
+                        : 0,
                 });
             }
 
@@ -149,8 +192,9 @@ export function PaymentModal({
                 orderIds,
                 tableName,
                 items: allItems,
-                totalAmount,
-                cashGiven: parsedCash > 0 ? parsedCash : totalAmount,
+                totalAmount, // This is the subtotal
+                discount: appliedPromotion?.discountAmount || 0,
+                cashGiven: parsedCash > 0 ? parsedCash : currentTotal,
                 change: parsedCash > 0 ? change : 0,
                 paymentMethod: method,
             });
@@ -159,7 +203,9 @@ export function PaymentModal({
 
             // Print then close modal
             setTimeout(() => {
+                document.body.classList.add('printing-receipt');
                 window.print();
+                document.body.classList.remove('printing-receipt');
 
                 setTimeout(() => {
                     clearCart();
@@ -170,6 +216,8 @@ export function PaymentModal({
                     setIsSuccess(false);
                     setCashInput('');
                     setReceiptData(null);
+                    setAppliedPromotion(null);
+                    setPromoCode('');
                 }, 500);
             }, 300);
         } catch (err: any) {
@@ -188,7 +236,7 @@ export function PaymentModal({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-lg p-0 overflow-hidden gap-0">
+            <DialogContent className="sm:max-w-lg p-0 overflow-hidden gap-0 print:hidden">
                 <DialogHeader className="px-6 pt-6 pb-4 bg-linear-to-r from-emerald-600 to-emerald-500 text-white">
                     <DialogTitle className="text-white text-xl font-bold flex items-center gap-2">
                         💳 Thanh Toán — {tableName}
@@ -197,9 +245,16 @@ export function PaymentModal({
                         <span className="text-emerald-100 text-sm">
                             Tổng cộng
                         </span>
-                        <span className="text-3xl font-black text-white">
-                            {formatVnd(totalAmount)}
-                        </span>
+                        <div className="flex flex-col items-end">
+                            {appliedPromotion && (
+                                <span className="text-xs text-emerald-200 line-through decoration-emerald-300/50">
+                                    {formatVnd(totalAmount)}
+                                </span>
+                            )}
+                            <span className="text-3xl font-black text-white">
+                                {formatVnd(currentTotal)}
+                            </span>
+                        </div>
                     </div>
                 </DialogHeader>
 
@@ -220,6 +275,74 @@ export function PaymentModal({
                     </div>
                 ) : (
                     <div className="p-6 space-y-5">
+                        {/* Promotion Section */}
+                        <div className="space-y-2">
+                            <Label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+                                Khuyến mãi / Mã giảm giá
+                            </Label>
+                            {appliedPromotion ? (
+                                <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-50 border border-emerald-200 border-dashed animate-in fade-in slide-in-from-top-1">
+                                    <div className="flex items-center gap-2">
+                                        <div className="bg-emerald-500 text-white p-1 rounded-md">
+                                            <QrCode className="h-4 w-4" />
+                                        </div>
+                                        <div>
+                                            <p className="text-sm font-bold text-emerald-700 leading-none">
+                                                {appliedPromotion.code}
+                                            </p>
+                                            <p className="text-xs text-emerald-600 mt-1">
+                                                Đã giảm:{' '}
+                                                {formatVnd(
+                                                    appliedPromotion.discountAmount,
+                                                )}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="h-8 text-rose-500 hover:text-rose-600 hover:bg-rose-50"
+                                        onClick={handleRemovePromo}
+                                    >
+                                        Gỡ bỏ
+                                    </Button>
+                                </div>
+                            ) : (
+                                <div className="flex gap-2">
+                                    <Input
+                                        placeholder="Nhập mã giảm giá..."
+                                        value={promoCode}
+                                        onChange={(e) =>
+                                            setPromoCode(
+                                                e.target.value.toUpperCase(),
+                                            )
+                                        }
+                                        className="h-10 uppercase font-mono"
+                                        onKeyDown={(e) =>
+                                            e.key === 'Enter' &&
+                                            handleApplyPromo()
+                                        }
+                                    />
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        className="h-10 border-emerald-200 text-emerald-600 hover:bg-emerald-50"
+                                        onClick={handleApplyPromo}
+                                        disabled={
+                                            !promoCode.trim() ||
+                                            applyPromotionMutation.isPending
+                                        }
+                                    >
+                                        {applyPromotionMutation.isPending ? (
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                        ) : (
+                                            'Áp dụng'
+                                        )}
+                                    </Button>
+                                </div>
+                            )}
+                        </div>
+
                         {/* Payment Method Selection */}
                         <div className="space-y-2">
                             <Label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
@@ -331,7 +454,7 @@ export function PaymentModal({
                                         {isEnough ? (
                                             <>
                                                 <p className="text-xs text-emerald-600 font-medium">
-                                                    Tiền thối lại
+                                                    Tiền trả lại
                                                 </p>
                                                 <p className="text-2xl font-black text-emerald-700">
                                                     {formatVnd(change)}

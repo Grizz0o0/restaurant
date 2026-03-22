@@ -14,6 +14,7 @@ interface PosState {
     // Current Table
     selectedTableId: string | null;
     selectedTableName: string | null;
+    isTakeaway: boolean;
 
     // Cart
     cartItems: CartItem[];
@@ -24,6 +25,7 @@ interface PosState {
 
     // Actions
     setSelectedTable: (id: string | null, name: string | null) => void;
+    setTakeaway: () => void;
     setCategory: (id: string | 'all') => void;
     setSearchQuery: (query: string) => void;
 
@@ -42,6 +44,7 @@ interface PosState {
 export const usePosStore = create<PosState>((set, get) => ({
     selectedTableId: null,
     selectedTableName: null,
+    isTakeaway: false,
 
     cartItems: [],
 
@@ -49,7 +52,17 @@ export const usePosStore = create<PosState>((set, get) => ({
     searchQuery: '',
 
     setSelectedTable: (id, name) =>
-        set({ selectedTableId: id, selectedTableName: name }),
+        set({
+            selectedTableId: id,
+            selectedTableName: name,
+            isTakeaway: false,
+        }),
+    setTakeaway: () =>
+        set({
+            selectedTableId: null,
+            selectedTableName: 'Mang về',
+            isTakeaway: true,
+        }),
     setCategory: (id) => set({ selectedCategoryId: id }),
     setSearchQuery: (query) => set({ searchQuery: query }),
 
@@ -107,7 +120,12 @@ export const usePosStore = create<PosState>((set, get) => ({
         })),
 
     clearCart: () =>
-        set({ cartItems: [], selectedTableId: null, selectedTableName: null }),
+        set({
+            cartItems: [],
+            selectedTableId: null,
+            selectedTableName: null,
+            isTakeaway: false,
+        }),
 
     getTotalPrice: () => {
         const { cartItems } = get();

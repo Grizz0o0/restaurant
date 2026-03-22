@@ -5,6 +5,7 @@ import { trpc } from '@/lib/trpc/client';
 import { Loader2, Search, UtensilsCrossed } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
 import { useMemo } from 'react';
 import Image from 'next/image';
 
@@ -26,7 +27,7 @@ export function PosMenu() {
     const { data: dishesData, isLoading: loadingDishes } =
         trpc.dish.list.useQuery({
             page: 1,
-            limit: 200,
+            limit: 500,
         });
 
     const categories = categoriesData?.data || [];
@@ -72,7 +73,7 @@ export function PosMenu() {
                 </div>
 
                 {/* Categories Tabs */}
-                <div className="flex gap-2 px-3 pb-3 overflow-x-auto no-scrollbar scroll-smooth">
+                <div className="flex gap-2 px-3 pb-3 overflow-x-auto scroll-smooth custom-scrollbar">
                     <button
                         onClick={() => setCategory('all')}
                         className={cn(
@@ -127,13 +128,22 @@ export function PosMenu() {
                             >
                                 <div className="aspect-4/3 w-full bg-muted relative overflow-hidden">
                                     {dish.images && dish.images.length > 0 ? (
-                                        <Image
-                                            src={dish.images[0] as string}
-                                            alt={dish.name || 'Dish'}
-                                            fill
-                                            className="object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
-                                            sizes="(max-width: 768px) 50vw, 33vw"
-                                        />
+                                        <>
+                                            <Image
+                                                src={dish.images[0] as string}
+                                                alt={dish.name || 'Dish'}
+                                                fill
+                                                className="object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
+                                                sizes="(max-width: 768px) 50vw, 33vw"
+                                            />
+                                            {dish.isAvailable === false && (
+                                                <div className="absolute top-2 right-2 z-10 pointer-events-none">
+                                                    <Badge variant="destructive" className="shadow-md text-[10px] px-1.5 py-0 h-4 uppercase opacity-90">
+                                                        Thiếu kho
+                                                    </Badge>
+                                                </div>
+                                            )}
+                                        </>
                                     ) : (
                                         <div className="absolute inset-0 flex items-center justify-center bg-primary/5">
                                             <UtensilsCrossed className="h-8 w-8 text-primary/20" />

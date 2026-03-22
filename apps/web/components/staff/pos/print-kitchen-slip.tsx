@@ -25,7 +25,7 @@ export function PrintKitchenSlip({
     time = new Date(),
 }: PrintKitchenSlipProps) {
     return (
-        <div className="hidden print:block text-black bg-white w-[78mm] mx-auto py-2 font-mono">
+        <div className="print-kitchen-slip hidden print:block text-black bg-white w-[78mm] mx-auto py-2 font-mono">
             {/* 
                 CSS specific for K80 printing 
                 - Removes margins
@@ -34,7 +34,15 @@ export function PrintKitchenSlip({
             <style type="text/css" media="print">
                 {`
                     @page { size: 80mm auto; margin: 0; }
-                    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: transparent !important; }
+                    body.printing-kitchen * { visibility: hidden !important; }
+                    body.printing-kitchen .print-kitchen-slip, 
+                    body.printing-kitchen .print-kitchen-slip * { visibility: visible !important; }
+                    .print-kitchen-slip { 
+                        position: relative !important; 
+                        margin: 0 auto !important; 
+                        width: 80mm !important; 
+                        display: block !important;
+                    }
                 `}
             </style>
 

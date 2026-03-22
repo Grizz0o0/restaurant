@@ -29,6 +29,7 @@ export function PosCart() {
         cartItems,
         selectedTableId,
         selectedTableName,
+        isTakeaway,
         updateQuantity,
         updateNote,
         removeFromCart,
@@ -37,6 +38,11 @@ export function PosCart() {
 
     const [activeTab, setActiveTab] = useState<TabType>('new-order');
     const [paymentOpen, setPaymentOpen] = useState(false);
+    const [manualPayment, setManualPayment] = useState<{
+        orderIds: string[];
+        total: number;
+        name: string;
+    } | null>(null);
     const [noteDialog, setNoteDialog] = useState<{
         open: boolean;
         itemId: string;
@@ -77,7 +83,10 @@ export function PosCart() {
 
             // Wait for React to render the slip, then print
             setTimeout(() => {
+                document.body.classList.add('printing-kitchen');
                 window.print();
+                document.body.classList.remove('printing-kitchen');
+                setSlipData(null);
                 clearCart();
             }, 300);
 
@@ -90,8 +99,8 @@ export function PosCart() {
     });
 
     const handleSendToKitchen = () => {
-        if (!selectedTableId) {
-            toast.error('Vui lòng chọn bàn trước khi order!');
+        if (!selectedTableId && !isTakeaway) {
+            toast.error('Vui lòng chọn bàn hoặc chọn Mang về!');
             return;
         }
         if (cartItems.length === 0) {
@@ -100,7 +109,7 @@ export function PosCart() {
         }
 
         createOrderMutation.mutate({
-            tableId: selectedTableId,
+            tableId: selectedTableId || undefined,
             items: cartItems.map((item) => ({
                 dishId: item.dishId,
                 quantity: item.quantity,
@@ -127,8 +136,8 @@ export function PosCart() {
     const activeTableOrders = (tableOrdersData?.data || []).filter((o) =>
         [
             'PENDING_CONFIRMATION',
-            'CONFIRMED',
-            'PROCESSING',
+            'PREPARING',
+            'READY_FOR_PICKUP',
             'DELIVERED',
         ].includes(o.status),
     );
@@ -147,17 +156,21 @@ export function PosCart() {
                 <div className="p-3 border-b bg-primary/5 flex items-center justify-between shrink-0">
                     <div>
                         <h2 className="font-semibold text-primary text-base leading-none">
-                            {selectedTableName
-                                ? `Bàn: ${selectedTableName}`
-                                : 'Chưa chọn bàn'}
+                            {isTakeaway
+                                ? '🛒 Đơn mang về'
+                                : selectedTableName
+                                  ? `Bàn: ${selectedTableName}`
+                                  : 'Chưa chọn bàn'}
                         </h2>
                         <p className="text-xs text-muted-foreground mt-1">
                             {cartItems.length > 0
                                 ? `${cartItems.reduce((s, i) => s + i.quantity, 0)} món trong giỏ`
-                                : 'Chọn bàn và thêm món'}
+                                : isTakeaway
+                                  ? 'Thêm món vào giỏ hàng'
+                                  : 'Chọn bàn và thêm món'}
                         </p>
                     </div>
-                    {selectedTableId && (
+                    {(selectedTableId || isTakeaway) && (
                         <Button
                             variant="ghost"
                             size="sm"
@@ -170,8 +183,8 @@ export function PosCart() {
                     )}
                 </div>
 
-                {/* Tabs (shown when table selected) */}
-                {selectedTableId && (
+                {/* Tabs (shown when table selected or for takeaway) */}
+                {(selectedTableId || isTakeaway) && (
                     <div className="flex border-b shrink-0">
                         <button
                             className={cn(
@@ -200,17 +213,21 @@ export function PosCart() {
                             onClick={() => setActiveTab('table-orders')}
                         >
                             <ClipboardList className="h-3.5 w-3.5" />
-                            Đơn Tại Bàn
+                            {isTakeaway ? 'Đơn Mang Về' : 'Đơn Tại Bàn'}
                         </button>
                     </div>
                 )}
 
-                {/* Tab: Đơn Tại Bàn */}
-                {activeTab === 'table-orders' && selectedTableId ? (
+                {/* Tab: Đơn Tại Bàn / Đơn Mang Về */}
+                {activeTab === 'table-orders' && (selectedTableId || isTakeaway) ? (
                     <div className="flex-1 overflow-y-auto p-3">
                         <TableOrderPanel
-                            tableId={selectedTableId}
+                            tableId={selectedTableId || undefined}
                             tableName={selectedTableName || ''}
+                            onPayment={(orderIds, total, name) => {
+                                setManualPayment({ orderIds, total, name });
+                                setPaymentOpen(true);
+                            }}
                         />
                     </div>
                 ) : (
@@ -392,10 +409,13 @@ export function PosCart() {
                                 <Button
                                     className="py-5 font-semibold bg-emerald-600 hover:bg-emerald-700 text-white active:scale-[0.98]"
                                     disabled={
-                                        !selectedTableId ||
+                                        (!selectedTableId && !isTakeaway) ||
                                         activeOrderIds.length === 0
                                     }
-                                    onClick={() => setPaymentOpen(true)}
+                                    onClick={() => {
+                                        setManualPayment(null);
+                                        setPaymentOpen(true);
+                                    }}
                                 >
                                     Thanh Toán
                                 </Button>
@@ -421,19 +441,21 @@ export function PosCart() {
             )}
 
             {/* Payment Modal */}
-            {selectedTableId && (
-                <PaymentModal
-                    open={paymentOpen}
-                    onOpenChange={setPaymentOpen}
-                    orderIds={activeOrderIds}
-                    totalAmount={activeTableTotal}
-                    tableName={selectedTableName || ''}
-                    onPaymentComplete={() => {
-                        clearCart();
-                        setActiveTab('new-order');
-                    }}
-                />
-            )}
+            <PaymentModal
+                open={paymentOpen}
+                onOpenChange={(open) => {
+                    setPaymentOpen(open);
+                    if (!open) setManualPayment(null);
+                }}
+                orderIds={manualPayment?.orderIds || activeOrderIds}
+                totalAmount={manualPayment?.total || activeTableTotal}
+                tableName={manualPayment?.name || selectedTableName || ''}
+                onPaymentComplete={() => {
+                    clearCart();
+                    setActiveTab('new-order');
+                    setManualPayment(null);
+                }}
+            />
 
             {/* Hidden Kitchen Slip Rendered on Print */}
             {slipData && <PrintKitchenSlip {...slipData} />}

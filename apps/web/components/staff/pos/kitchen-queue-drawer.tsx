@@ -22,8 +22,7 @@ export function KitchenQueueDrawer() {
     const { data: ordersData, isLoading } = trpc.order.list.useQuery(
         { page: 1, limit: 100 },
         {
-            enabled: open,
-            refetchInterval: open ? 5000 : false, // Auto refresh every 5s when open
+            refetchInterval: 15000, // Refresh every 15s to keep badge updated
         },
     );
 
@@ -51,8 +50,9 @@ export function KitchenQueueDrawer() {
         },
     });
 
-    const markAsReady = (orderId: string) => {
-        updateStatusMutation.mutate({ orderId, status: 'READY_FOR_PICKUP' });
+    const markAsReady = (order: any) => {
+        const nextStatus = order.tableId ? 'DELIVERED' : 'READY_FOR_PICKUP';
+        updateStatusMutation.mutate({ orderId: order.id, status: nextStatus });
     };
 
     return (
@@ -65,13 +65,15 @@ export function KitchenQueueDrawer() {
                 >
                     <ChefHat className="w-4 h-4 mr-2" />
                     Chờ bếp
-                    {/* Notification Dot - simplified to always ping if there are any active orders, even when real polling isn't on */}
-                    <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-4 w-4 bg-rose-500 text-[9px] text-white items-center justify-center font-bold">
-                            !
+                    {/* Notification Dot - only show if there are active orders */}
+                    {activeOrders.length > 0 && (
+                        <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-4 w-4 bg-rose-500 text-[9px] text-white items-center justify-center font-bold">
+                                {activeOrders.length}
+                            </span>
                         </span>
-                    </span>
+                    )}
                 </Button>
             </SheetTrigger>
             <SheetContent
@@ -164,9 +166,7 @@ export function KitchenQueueDrawer() {
                                         <Button
                                             size="sm"
                                             className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm"
-                                            onClick={() =>
-                                                markAsReady(order.id)
-                                            }
+                                            onClick={() => markAsReady(order)}
                                             disabled={
                                                 updateStatusMutation.isPending
                                             }

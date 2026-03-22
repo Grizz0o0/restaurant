@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { KitchenQueueDrawer } from './pos/kitchen-queue-drawer';
+import Link from 'next/link';
 
 export function StaffHeader() {
     const { user, logout } = useAuth();
@@ -44,9 +45,12 @@ export function StaffHeader() {
     return (
         <header className="flex h-14 items-center justify-between border-b bg-background px-4 shadow-sm shrink-0">
             <div className="flex items-center gap-4">
-                <div className="font-display text-xl font-bold text-primary">
+                <Link 
+                    href="/" 
+                    className="font-display text-xl font-bold text-primary hover:opacity-80 transition-opacity"
+                >
                     POS System
-                </div>
+                </Link>
                 <div className="h-4 w-px bg-border" />
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Clock className="h-4 w-4" />

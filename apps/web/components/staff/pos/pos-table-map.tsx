@@ -2,12 +2,13 @@
 
 import { usePosStore } from '@/store/pos-store';
 import { trpc } from '@/lib/trpc/client';
-import { Loader2, Users } from 'lucide-react';
+import { Loader2, Users, ShoppingCart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 
 export function PosTableMap() {
-    const { selectedTableId, setSelectedTable } = usePosStore();
+    const { selectedTableId, setSelectedTable, isTakeaway, setTakeaway } =
+        usePosStore();
 
     const { data: tablesData, isLoading } = trpc.table.list.useQuery({
         page: 1,
@@ -54,7 +55,39 @@ export function PosTableMap() {
             </div>
 
             {/* List */}
-            <div className="flex-1 overflow-y-auto p-3 bg-muted/20">
+            <div className="flex-1 overflow-y-auto p-3 bg-muted/20 space-y-4">
+                {/* Takeaway Button */}
+                <button
+                    onClick={() => setTakeaway()}
+                    className={cn(
+                        'w-full p-4 rounded-xl border-2 flex items-center justify-between transition-all duration-200 active:scale-95 group mb-4',
+                        isTakeaway
+                            ? 'border-primary bg-primary/5 shadow-md'
+                            : 'border-dashed border-muted-foreground/30 bg-background hover:border-primary/50 shadow-sm',
+                    )}
+                >
+                    <div className="flex items-center gap-3">
+                        <div
+                            className={cn(
+                                'p-2 rounded-full transition-colors',
+                                isTakeaway
+                                    ? 'bg-primary text-primary-foreground'
+                                    : 'bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary',
+                            )}
+                        >
+                            <ShoppingCart className="w-5 h-5" />
+                        </div>
+                        <div className="text-left">
+                            <p className="font-bold text-base text-foreground">
+                                Bán mang về
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                                Đơn hàng không tại bàn
+                            </p>
+                        </div>
+                    </div>
+                </button>
+
                 <div className="grid grid-cols-2 gap-3">
                     {tables.map((table) => {
                         const isSelected = selectedTableId === table.id;

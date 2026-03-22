@@ -12,6 +12,7 @@ export interface PrintReceiptProps {
         price: number;
     }[];
     totalAmount: number;
+    discount?: number;
     cashGiven?: number;
     change?: number;
     paymentMethod: string;
@@ -27,6 +28,7 @@ export function PrintReceipt({
     tableName,
     items,
     totalAmount,
+    discount = 0,
     cashGiven,
     change,
     paymentMethod,
@@ -38,8 +40,10 @@ export function PrintReceipt({
             currency: 'VND',
         }).format(amount);
 
+    const finalTotal = totalAmount - discount;
+
     return (
-        <div className="hidden print:block text-black bg-white w-[78mm] mx-auto py-2 font-mono">
+        <div className="print-main-receipt hidden print:block text-black bg-white w-[78mm] mx-auto py-2 font-mono">
             {/* 
                 CSS specific for K80 printing 
                 - Removes margins
@@ -48,7 +52,15 @@ export function PrintReceipt({
             <style type="text/css" media="print">
                 {`
                     @page { size: 80mm auto; margin: 0; }
-                    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: transparent !important; }
+                    body.printing-receipt * { visibility: hidden !important; }
+                    body.printing-receipt .print-main-receipt, 
+                    body.printing-receipt .print-main-receipt * { visibility: visible !important; }
+                    .print-main-receipt { 
+                        position: relative !important; 
+                        margin: 0 auto !important; 
+                        width: 80mm !important; 
+                        display: block !important;
+                    }
                 `}
             </style>
 
@@ -134,13 +146,15 @@ export function PrintReceipt({
                     <span>Cộng tiền hàng:</span>
                     <span>{formatVnd(totalAmount)}</span>
                 </div>
-                <div className="flex justify-between">
-                    <span>Giảm giá:</span>
-                    <span>0 ₫</span>
-                </div>
+                {discount > 0 && (
+                    <div className="flex justify-between">
+                        <span>Giảm giá:</span>
+                        <span>-{formatVnd(discount)}</span>
+                    </div>
+                )}
                 <div className="flex justify-between font-bold text-lg pt-1 mt-1 border-t border-black border-dashed">
                     <span className="uppercase">Tổng cộng:</span>
-                    <span>{formatVnd(totalAmount)}</span>
+                    <span>{formatVnd(finalTotal)}</span>
                 </div>
             </div>
 
@@ -166,7 +180,7 @@ export function PrintReceipt({
                             </span>
                         </div>
                         <div className="flex justify-between text-xs text-gray-600 mt-1">
-                            <span>Thối lại:</span>
+                            <span>Trả lại:</span>
                             <span className="font-semibold text-black">
                                 {formatVnd(change || 0)}
                             </span>
