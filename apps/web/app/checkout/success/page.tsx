@@ -42,7 +42,7 @@ export default function CheckoutSuccessPage() {
                     )}
 
                     <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
-                        <Link href="/profile">
+                        <Link href="/profile/order">
                             <Button
                                 variant="outline"
                                 className="w-full sm:w-auto"

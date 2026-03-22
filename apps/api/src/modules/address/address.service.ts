@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { AddressRepo } from './address.repo'
-import { CreateAddressBodyType, UpdateAddressBodyType, GetAddressesQueryType } from '@repo/schema'
+import { CreateAddressBodyType, UpdateAddressBodyType } from '@repo/schema'
 
 @Injectable()
 export class AddressService {
@@ -10,9 +10,6 @@ export class AddressService {
     if (data.isDefault) {
       await this.addressRepo.unsetAllDefaults(userId)
     }
-    // If this is the first address, make it default automatically?
-    // Maybe better to leave it to specific logic or user choice.
-    // Let's check if user has any address, if not, make this default.
     const existing = await this.addressRepo.list(userId)
     if (existing.length === 0) {
       data.isDefault = true

@@ -26,6 +26,7 @@ import { toast } from 'sonner';
 import { useAuth } from '@/hooks/domain/use-auth';
 import Image from 'next/image';
 import { useAnalytics } from '@/hooks/useAnalytics';
+import { cn } from '@/lib/utils';
 
 interface DishDetailModalProps {
     isOpen: boolean;
@@ -48,6 +49,7 @@ export function DishDetailModal({
     const [selectedOptions, setSelectedOptions] = useState<
         Record<string, string>
     >({});
+    const [note, setNote] = useState('');
 
     // Sync currentDishId when dishId prop changes or modal opens
     useEffect(() => {
@@ -60,6 +62,7 @@ export function DishDetailModal({
     useEffect(() => {
         setQuantity(1);
         setSelectedOptions({});
+        setNote('');
     }, [currentDishId]);
 
     const { data: dish, isLoading } = trpc.dish.detail.useQuery(
@@ -68,6 +71,19 @@ export function DishDetailModal({
             enabled: !!currentDishId && isOpen,
         },
     );
+
+    // Auto-select first option for each variant
+    useEffect(() => {
+        if (dish?.variants && dish.variants.length > 0) {
+            const initialOptions: Record<string, string> = {};
+            dish.variants.forEach((variant: any) => {
+                if (variant.options && variant.options.length > 0) {
+                    initialOptions[variant.id] = variant.options[0].id;
+                }
+            });
+            setSelectedOptions(initialOptions);
+        }
+    }, [dish]);
 
     const relatedDishesQuery = trpc.dish.list.useQuery(
         {
@@ -135,6 +151,7 @@ export function DishDetailModal({
             trackInteraction('ADD_CART', currentDishId as string, {
                 quantity,
                 skuId: matchingSku?.id,
+                note: note || undefined,
             });
             utils.cart.get.invalidate();
             onClose();
@@ -184,6 +201,7 @@ export function DishDetailModal({
             addToCartMutation.mutate({
                 skuId: skuIdToAdd,
                 quantity: quantity,
+                note: note.trim() || undefined,
             });
         }
     };
@@ -212,10 +230,23 @@ export function DishDetailModal({
                                                 src={dish.images[0]}
                                                 alt={dishName}
                                                 fill
-                                                className="object-cover"
+                                                className={cn(
+                                                    'object-cover',
+                                                    dish.isAvailable ===
+                                                        false &&
+                                                        'grayscale opacity-80',
+                                                )}
                                                 priority
                                                 sizes="(max-width: 640px) 100vw, 800px"
                                             />
+                                            {/* Sold Out Overlay */}
+                                            {dish.isAvailable === false && (
+                                                <div className="absolute inset-0 flex items-center justify-center z-20">
+                                                    <div className="bg-black/60 backdrop-blur-md text-white px-6 py-3 rounded-full font-black text-lg uppercase tracking-widest shadow-2xl border border-white/20">
+                                                        Tạm hết hàng
+                                                    </div>
+                                                </div>
+                                            )}
                                             {/* Badges Overlay on Image */}
                                             <div className="absolute top-4 left-4 z-10 flex gap-2">
                                                 <div className="bg-orange-500/90 backdrop-blur-md text-white text-[10px] uppercase font-black px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm">
@@ -276,7 +307,11 @@ export function DishDetailModal({
                                                 {variant.name}
                                             </Label>
                                             <span className="text-[10px] uppercase font-bold text-muted-foreground bg-muted px-2 py-0.5 rounded-sm">
-                                                Bắt buộc
+                                                {variant.name
+                                                    .toLowerCase()
+                                                    .includes('topping')
+                                                    ? 'Tùy chọn'
+                                                    : 'Bắt buộc'}
                                             </span>
                                         </div>
                                         <RadioGroup
@@ -354,6 +389,24 @@ export function DishDetailModal({
                                             <Plus className="h-4 w-4" />
                                         </Button>
                                     </div>
+                                </div>
+                                
+                                {/* Item Note */}
+                                <div className="space-y-3 pt-4 border-t border-border/50">
+                                    <div className="flex items-center gap-2">
+                                        <Label className="text-[15px] font-black text-foreground/90 uppercase tracking-wider">
+                                            Ghi chú món ăn
+                                        </Label>
+                                        <span className="text-[10px] uppercase font-bold text-muted-foreground bg-muted px-2 py-0.5 rounded-sm">
+                                            Tùy chọn
+                                        </span>
+                                    </div>
+                                    <textarea
+                                        className="w-full min-h-24 p-4 rounded-2xl bg-muted/30 border border-border/50 focus:border-primary/50 focus:ring-4 focus:ring-primary/5 outline-none transition-all text-sm resize-none placeholder:text-muted-foreground/50 font-medium"
+                                        placeholder="Ví dụ: Ít đường, nhiều đá, không hành..."
+                                        value={note}
+                                        onChange={(e) => setNote(e.target.value)}
+                                    />
                                 </div>
 
                                 {/* Placeholder for Reviews */}
@@ -522,7 +575,12 @@ export function DishDetailModal({
                                                                         'Dish'
                                                                     }
                                                                     fill
-                                                                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                                                    className={cn(
+                                                                        'object-cover group-hover:scale-110 transition-transform duration-500',
+                                                                        relatedDish.isAvailable ===
+                                                                            false &&
+                                                                            'grayscale opacity-70',
+                                                                    )}
                                                                     sizes="144px"
                                                                 />
                                                             ) : (
@@ -531,6 +589,14 @@ export function DishDetailModal({
                                                                         Không
                                                                         ảnh
                                                                     </span>
+                                                                </div>
+                                                            )}
+                                                            {relatedDish.isAvailable ===
+                                                                false && (
+                                                                <div className="absolute inset-0 flex items-center justify-center z-10 p-2">
+                                                                    <div className="bg-black/50 backdrop-blur-sm text-white px-2 py-1 rounded-lg font-bold text-[8px] uppercase tracking-tighter text-center">
+                                                                        Hết hàng
+                                                                    </div>
                                                                 </div>
                                                             )}
                                                         </div>
@@ -564,6 +630,7 @@ export function DishDetailModal({
                                 size="lg"
                                 onClick={handleAddToCart}
                                 disabled={
+                                    dish.isAvailable === false ||
                                     !currentPrice ||
                                     addToCartMutation.isPending ||
                                     (dish.variants &&
@@ -577,15 +644,21 @@ export function DishDetailModal({
                                     <ShoppingBag className="mr-2 h-5 w-5" />
                                 )}
                                 <div className="flex flex-1 items-center justify-between px-2">
-                                    <span>Thêm vào giỏ</span>
-                                    <span className="font-black text-lg">
-                                        {currentPrice
-                                            ? formatCurrency(
-                                                  Number(currentPrice) *
-                                                      quantity,
-                                              )
-                                            : 'Chọn tùy chọn'}
+                                    <span>
+                                        {dish.isAvailable === false
+                                            ? 'Hiện đã hết hàng'
+                                            : 'Thêm vào giỏ'}
                                     </span>
+                                    {dish.isAvailable !== false && (
+                                        <span className="font-black text-lg">
+                                            {currentPrice
+                                                ? formatCurrency(
+                                                      Number(currentPrice) *
+                                                          quantity,
+                                                  )
+                                                : 'Chọn tùy chọn'}
+                                        </span>
+                                    )}
                                 </div>
                             </Button>
                         </div>

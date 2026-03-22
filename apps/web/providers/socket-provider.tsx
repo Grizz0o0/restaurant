@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useAuth } from '@/hooks/domain/use-auth';
 import { getAccessToken } from '@/lib/auth/cookies';
@@ -20,54 +20,103 @@ export const useSocket = () => {
 };
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, isLoading } = useAuth();
     const [socket, setSocket] = useState<Socket | null>(null);
     const [isConnected, setIsConnected] = useState(false);
+    // Dùng ref để tránh recreate socket khi re-render
+    const socketRef = useRef<Socket | null>(null);
+    const isRefreshingRef = useRef(false);
+
+    // Hàm refresh access token
+    const refreshToken = async (): Promise<string | null> => {
+        if (isRefreshingRef.current) return null;
+        isRefreshingRef.current = true;
+        try {
+            const res = await fetch('/api/auth/refresh', { method: 'POST' });
+            if (!res.ok) return null;
+            // Sau khi refresh, đọc lại token từ cookie
+            return getAccessToken() || null;
+        } catch {
+            return null;
+        } finally {
+            isRefreshingRef.current = false;
+        }
+    };
 
     useEffect(() => {
+        // Đợi auth query xong trước khi khởi tạo socket
+        if (isLoading) return;
+
         if (!isAuthenticated) {
-            if (socket) {
-                socket.disconnect();
+            // User đã logout → disconnect socket nếu đang có
+            if (socketRef.current) {
+                socketRef.current.disconnect();
+                socketRef.current = null;
                 setSocket(null);
                 setIsConnected(false);
             }
             return;
         }
 
-        const token = getAccessToken();
+        // Nếu đã có socket đang chạy thì không tạo mới
+        if (socketRef.current?.connected) return;
+
         const socketInstance = io(
             process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3052',
             {
-                auth: {
-                    token,
+                auth: (cb) => {
+                    // Luôn lấy token mới nhất từ cookie khi reconnect
+                    cb({ token: getAccessToken() });
                 },
                 withCredentials: true,
-                transports: ['websocket'],
+                // WebSocket trước, fallback sang polling nếu ws bị block
+                transports: ['websocket', 'polling'],
+                reconnection: true,
+                reconnectionAttempts: Infinity,
                 reconnectionDelay: 1000,
+                reconnectionDelayMax: 10000,
+                timeout: 20000,
             },
         );
 
         socketInstance.on('connect', () => {
-            console.log('Socket connected:', socketInstance.id);
+            console.log('[Socket] Connected:', socketInstance.id);
             setIsConnected(true);
         });
 
-        socketInstance.on('disconnect', () => {
-            console.log('Socket disconnected');
+        socketInstance.on('disconnect', (reason) => {
+            console.log('[Socket] Disconnected:', reason);
             setIsConnected(false);
         });
 
         socketInstance.on('connect_error', (error) => {
-            console.error('Socket connection error:', error);
+            console.error('[Socket] Connection error:', error.message);
             setIsConnected(false);
         });
 
+        // Xử lý token hết hạn: refresh token rồi reconnect
+        socketInstance.on('token_expired', async () => {
+            console.warn('[Socket] Token expired, attempting refresh...');
+            socketInstance.disconnect();
+
+            const newToken = await refreshToken();
+            if (newToken) {
+                console.log('[Socket] Token refreshed, reconnecting...');
+                socketInstance.connect();
+            } else {
+                console.error('[Socket] Token refresh failed. User may need to re-login.');
+            }
+        });
+
+        socketRef.current = socketInstance;
         setSocket(socketInstance);
 
         return () => {
             socketInstance.disconnect();
+            socketRef.current = null;
         };
-    }, [isAuthenticated]);
+    // Chỉ chạy khi isAuthenticated thay đổi THẬT SỰ, không phải khi isLoading thay đổi
+    }, [isAuthenticated, isLoading]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <SocketContext.Provider value={{ socket, isConnected }}>

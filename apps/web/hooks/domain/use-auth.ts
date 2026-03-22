@@ -86,7 +86,7 @@ export const useAuth = () => {
     // Logout using Next.js API route
     const logout = async () => {
         try {
-            fetch('/api/auth/logout', { method: 'POST' });
+            await fetch('/api/auth/logout', { method: 'POST' });
             clearAuthTokens();
             toast.success('Đăng xuất thành công');
             window.location.href = '/auth/login';

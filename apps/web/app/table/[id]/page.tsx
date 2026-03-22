@@ -106,7 +106,7 @@ export default function GuestTablePage() {
     } = trpc.dish.list.useQuery(
         {
             page: 1,
-            limit: 100, // Fetch more for scrolling
+            limit: 500, // Fetch more for scrolling
         },
         {
             enabled: isLoggedIn,
@@ -271,12 +271,26 @@ export default function GuestTablePage() {
                                 {/* Image Section */}
                                 <div className="aspect-4/3 relative bg-gray-100 w-full">
                                     {dish.images?.[0] ? (
-                                        <Image
-                                            src={dish.images[0]}
-                                            alt={dish.name}
-                                            fill
-                                            className="object-cover transition-transform duration-500 group-hover:scale-110"
-                                        />
+                                        <>
+                                            <Image
+                                                src={dish.images[0]}
+                                                alt={dish.name}
+                                                fill
+                                                className={cn(
+                                                    'object-cover transition-transform duration-500',
+                                                    dish.isAvailable !== false
+                                                        ? 'group-hover:scale-110'
+                                                        : 'grayscale opacity-70',
+                                                )}
+                                            />
+                                            {dish.isAvailable === false && (
+                                                <div className="absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-[1px]">
+                                                    <Badge variant="destructive" className="shadow-lg uppercase tracking-wide px-3 py-1">
+                                                        Tạm hết hàng
+                                                    </Badge>
+                                                </div>
+                                            )}
+                                        </>
                                     ) : (
                                         <div className="absolute inset-0 flex items-center justify-center text-gray-300">
                                             <UtensilsCrossed className="w-10 h-10" />
@@ -304,8 +318,12 @@ export default function GuestTablePage() {
                                         </span>
                                         <Button
                                             size="icon"
-                                            className="h-8 w-8 rounded-full shadow-sm shrink-0"
+                                            className={cn(
+                                                'h-8 w-8 rounded-full shadow-sm shrink-0',
+                                                dish.isAvailable === false && 'opacity-50',
+                                            )}
                                             onClick={() => addToCart(dish)}
+                                            disabled={dish.isAvailable === false}
                                         >
                                             <Plus className="w-4 h-4" />
                                         </Button>

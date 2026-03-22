@@ -63,12 +63,18 @@ export class NotificationService implements OnModuleInit {
   }
 
   async send(
-    userId: string,
+    userId: string | null | undefined,
     title: string,
     body: string,
     type: 'ORDER_UPDATE' | 'PROMOTION' | 'LOW_STOCK',
     data?: any,
   ) {
+    // Guard: bỏ qua nếu không có userId (ví dụ đơn hàng POS tại bàn không có user)
+    if (!userId) {
+      this.logger.debug(`Skipping notification (no userId) - type: ${type}, title: ${title}`)
+      return
+    }
+
     // 1. Save to Database
     const notification = await this.prisma.notification.create({
       data: {

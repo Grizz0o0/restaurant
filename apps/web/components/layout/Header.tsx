@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ShoppingCart, User } from 'lucide-react';
+import { Menu, X, ShoppingCart, User, LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CartButton } from '@/components/cart/cart-button';
 import { ModeToggle } from '@/components/mode-toggle';
@@ -20,7 +20,13 @@ const Header = () => {
     const { hasRole } = usePermission();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
     const pathname = usePathname();
+
+    // Handle initial mount
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     // Handle scroll effect
     useEffect(() => {
@@ -106,13 +112,14 @@ const Header = () => {
                         <Link href="/menu">
                             <Button
                                 size="sm"
-                                className="rounded-full font-bold bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg transition-all px-6"
+                                className="rounded-full font-bold bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg transition-all px-4 sm:px-6"
                             >
-                                Đặt hàng ngay
+                                <span className="hidden xs:inline">Đặt hàng ngay</span>
+                                <span className="xs:hidden font-semibold">Đặt món</span>
                             </Button>
                         </Link>
                         <div className="hidden sm:block">
-                            {isLoading ? (
+                            {!isMounted || isLoading ? (
                                 <div className="h-9 w-20 bg-muted/50 animate-pulse rounded-md" />
                             ) : isAuthenticated ? (
                                 <UserNav />
@@ -164,11 +171,25 @@ const Header = () => {
                             ))}
                             <div className="h-px bg-border/50 my-2" />
                             <div className="flex flex-col gap-2 px-2">
-                                {isAuthenticated ? (
+                                {!isMounted || isLoading ? (
+                                    <div className="h-10 w-full bg-muted/50 animate-pulse rounded-xl" />
+                                ) : isAuthenticated ? (
                                     <div className="flex flex-col gap-2">
                                         <div className="px-4 py-2 text-sm font-medium text-foreground">
                                             Chào, {user?.name}
                                         </div>
+                                        <Link
+                                            href="/profile"
+                                            onClick={() => setIsMenuOpen(false)}
+                                        >
+                                            <Button
+                                                variant="ghost"
+                                                className="w-full justify-start rounded-xl"
+                                            >
+                                                <User className="mr-2 h-4 w-4" />
+                                                Hồ sơ cá nhân
+                                            </Button>
+                                        </Link>
                                         {(hasRole('ADMIN') ||
                                             hasRole('MANAGER')) && (
                                             <Link
@@ -181,9 +202,7 @@ const Header = () => {
                                                     variant="ghost"
                                                     className="w-full justify-start rounded-xl mb-2"
                                                 >
-                                                    <span className="mr-2">
-                                                        ⚡
-                                                    </span>{' '}
+                                                    <LayoutDashboard className="mr-2 h-4 w-4 text-primary" />
                                                     Quản lý hệ thống
                                                 </Button>
                                             </Link>

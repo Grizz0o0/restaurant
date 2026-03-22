@@ -61,7 +61,18 @@ export class AdminService {
         orderBy: { createdAt: 'desc' },
         include: {
           user: { select: { name: true, email: true } },
-          items: true,
+          items: {
+            include: {
+              dish: {
+                include: {
+                  dishTranslations: {
+                    where: { languageId: 'vi' },
+                    select: { name: true },
+                  },
+                },
+              },
+            },
+          },
         },
       }),
     ])
@@ -77,7 +88,12 @@ export class AdminService {
         id: order.id,
         code: order.id.slice(-6).toUpperCase(), // Simpler short code
         user: order.user?.name || 'Guest',
-        itemsSummary: order.items.map((i) => `${i.quantity} x ${i.dishName}`).join(', '),
+        itemsSummary: order.items
+          .map((i) => {
+            const viName = (i.dish as any)?.dishTranslations?.[0]?.name
+            return `${i.quantity} x ${viName || i.dishName}`
+          })
+          .join(', '),
         totalAmount: Number(order.totalAmount),
         status: order.status,
         createdAt: order.createdAt,

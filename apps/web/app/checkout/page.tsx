@@ -306,7 +306,7 @@ export default function CheckoutPage() {
                                             />
                                         </Label>
                                     </div>
-                                    <div className="flex items-center space-x-2 border rounded-lg p-4 cursor-pointer hover:bg-muted/50 transition-colors [&:has(:checked)]:border-primary [&:has(:checked)]:bg-primary/5">
+                                    {/* <div className="flex items-center space-x-2 border rounded-lg p-4 cursor-pointer hover:bg-muted/50 transition-colors [&:has(:checked)]:border-primary [&:has(:checked)]:bg-primary/5">
                                         <RadioGroupItem
                                             value="BANK_TRANSFER"
                                             id="banking"
@@ -317,7 +317,7 @@ export default function CheckoutPage() {
                                         >
                                             Chuyển khoản ngân hàng
                                         </Label>
-                                    </div>
+                                    </div> */}
                                 </RadioGroup>
                             </CardContent>
                         </Card>

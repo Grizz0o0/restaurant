@@ -2,7 +2,16 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Minus, Plus, Trash2, ShoppingBag, Loader2 } from 'lucide-react';
+import {
+    Minus,
+    Plus,
+    Trash2,
+    ShoppingBag,
+    Loader2,
+    Pencil,
+    Check,
+    X,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
     Sheet,
@@ -14,6 +23,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUIStore } from '@/stores/use-ui-store';
 import { formatCurrency } from '@/lib/utils/format';
 import { trpc } from '@/lib/trpc/client';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks/domain/use-auth';
 
@@ -21,6 +31,8 @@ export function CartDrawer() {
     const { isCartOpen, setCartOpen } = useUIStore();
     const utils = trpc.useUtils();
     const { user } = useAuth();
+    const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
+    const [tempNote, setTempNote] = useState('');
 
     const { data: cart, isLoading } = trpc.cart.get.useQuery(undefined, {
         enabled: isCartOpen && !!user,
@@ -54,6 +66,22 @@ export function CartDrawer() {
             itemId: itemId,
             quantity: newQuantity,
         });
+    };
+
+    const handleUpdateNote = (itemId: string) => {
+        updateQuantityMutation.mutate(
+            {
+                itemId: itemId,
+                quantity: items.find((i) => i.id === itemId)?.quantity || 1,
+                note: tempNote,
+            },
+            {
+                onSuccess: () => {
+                    setEditingNoteId(null);
+                    toast.success('Đã cập nhật ghi chú');
+                },
+            },
+        );
     };
 
     const handleRemoveItem = (itemId: string) => {
@@ -145,9 +173,96 @@ export function CartDrawer() {
                                         {/* The API returns `sku.value` which might be the variant string or we construct it manually if needed. 
                                             For now, just showing sku.value if it differs from default/empty */}
 
-                                        <p className="text-xs text-muted-foreground mb-2">
+                                        <p className="text-xs text-muted-foreground mb-1">
                                             {item.sku.value}
                                         </p>
+
+                                        {item.note &&
+                                            editingNoteId !== item.id && (
+                                                <div className="flex items-center group/note">
+                                                    <p className="text-xs text-amber-600 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/50 rounded px-2 py-1 mb-2 italic flex-1">
+                                                        📝 {item.note}
+                                                    </p>
+                                                    <button
+                                                        onClick={() => {
+                                                            setEditingNoteId(
+                                                                item.id,
+                                                            );
+                                                            setTempNote(
+                                                                item.note || '',
+                                                            );
+                                                        }}
+                                                        className="ml-2 mb-2 p-1 text-muted-foreground hover:text-primary opacity-0 group-hover/note:opacity-100 transition-opacity"
+                                                    >
+                                                        <Pencil className="w-3 h-3" />
+                                                    </button>
+                                                </div>
+                                            )}
+
+                                        {!item.note &&
+                                            editingNoteId !== item.id && (
+                                                <button
+                                                    onClick={() => {
+                                                        setEditingNoteId(
+                                                            item.id,
+                                                        );
+                                                        setTempNote('');
+                                                    }}
+                                                    className="text-[12px] text-muted-foreground hover:text-primary mb-2 flex items-center gap-1"
+                                                >
+                                                    <Plus className="w-3 h-3" />{' '}
+                                                    Thêm ghi chú
+                                                </button>
+                                            )}
+
+                                        {editingNoteId === item.id && (
+                                            <div className="mb-3 space-y-2 animate-in fade-in slide-in-from-top-1 duration-200">
+                                                <textarea
+                                                    className="w-full p-2 text-xs rounded-md border border-primary/30 bg-primary/5 focus:outline-none focus:ring-1 focus:ring-primary min-h-15 resize-none"
+                                                    value={tempNote}
+                                                    onChange={(e) =>
+                                                        setTempNote(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                    placeholder="Ví dụ: Ít cay, không hành..."
+                                                    autoFocus
+                                                />
+                                                <div className="flex justify-end gap-1">
+                                                    <Button
+                                                        size="icon"
+                                                        variant="ghost"
+                                                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                                                        onClick={() =>
+                                                            setEditingNoteId(
+                                                                null,
+                                                            )
+                                                        }
+                                                    >
+                                                        <X className="w-3 h-3" />
+                                                    </Button>
+                                                    <Button
+                                                        size="icon"
+                                                        variant="default"
+                                                        className="h-7 w-7 bg-primary text-white"
+                                                        onClick={() =>
+                                                            handleUpdateNote(
+                                                                item.id,
+                                                            )
+                                                        }
+                                                        disabled={
+                                                            updateQuantityMutation.isPending
+                                                        }
+                                                    >
+                                                        {updateQuantityMutation.isPending ? (
+                                                            <Loader2 className="w-3 h-3 animate-spin" />
+                                                        ) : (
+                                                            <Check className="w-3 h-3" />
+                                                        )}
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        )}
 
                                         <div className="flex items-center justify-between mt-2">
                                             <div className="flex items-center gap-2">

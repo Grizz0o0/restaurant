@@ -146,7 +146,7 @@ export class CategoryRepo {
       this.prisma.dishCategory,
       {
         where,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: 'asc' },
         include: {
           dishCategoryTranslations: {
             where: { deletedAt: null },

@@ -18,6 +18,9 @@ import envConfig from '@/shared/config'
     origin: envConfig.FRONTEND_URL,
     credentials: true,
   },
+  // Tăng timeout để tránh disconnect do network lag
+  pingTimeout: 60000,
+  pingInterval: 25000,
 })
 export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server
@@ -51,14 +54,30 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         return
       }
 
-      const payload = await this.tokenService.verifyAccessToken(token)
-      client.data[REQUEST_USER_KEY] = payload
+      try {
+        const payload = await this.tokenService.verifyAccessToken(token)
+        client.data[REQUEST_USER_KEY] = payload
 
-      // Join user specific room
-      await client.join(`user:${payload.userId}`)
+        // Join user specific room
+        await client.join(`user:${payload.userId}`)
 
-      this.logger.log(`Client connected: ${client.id} - User: ${payload.userId}`)
-    } catch (error) {
+        this.logger.log(`Client connected: ${client.id} - User: ${payload.userId}`)
+      } catch (tokenError: any) {
+        // Token hết hạn: thông báo cho client để refresh token, không disconnect ngay
+        if (
+          tokenError?.name === 'TokenExpiredError' ||
+          tokenError?.message?.includes('expired') ||
+          tokenError?.message?.includes('jwt expired')
+        ) {
+          this.logger.warn(`Token expired for client ${client.id}. Sending token_expired event.`)
+          client.emit('token_expired', { message: 'Access token expired. Please refresh.' })
+          client.disconnect()
+        } else {
+          this.logger.error(`Auth error for client ${client.id}: ${tokenError.message}`)
+          client.disconnect()
+        }
+      }
+    } catch (error: any) {
       this.logger.error(`Connection error for client ${client.id}: ${error.message}`)
       client.disconnect()
     }
@@ -70,19 +89,17 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
 
   @SubscribeMessage('ping')
   handlePing(client: Socket, data: any) {
-    this.logger.log(`Received ping from ${client.id}: ${JSON.stringify(data)}`)
-    client.emit('pong', { message: 'Server received your ping!', time: new Date() })
+    this.logger.debug(`Received ping from ${client.id}`)
+    client.emit('pong', { message: 'pong', time: new Date() })
   }
 
-  // Example of emitting to all
+  // Emit to all connected clients
   sendToAll(event: string, data: any) {
     this.server.emit(event, data)
   }
 
-  // Example of emitting to a specific user
+  // Emit to a specific user (via room)
   sendToUser(userId: string, event: string, data: any) {
-    // Note: You might need a mapping of userId to socketId for more efficient targeting
-    // For now, this is a simple broadcasting with filter or you can join rooms
     this.server.to(`user:${userId}`).emit(event, data)
   }
 }

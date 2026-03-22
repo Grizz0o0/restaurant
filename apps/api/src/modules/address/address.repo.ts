@@ -7,7 +7,6 @@ export class AddressRepo {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(userId: string, data: CreateAddressBodyType) {
-    // If setting as default, unset others first (better handled in service transaction, but repo can do basic create)
     return await this.prisma.userAddress.create({
       data: {
         userId,
@@ -45,8 +44,6 @@ export class AddressRepo {
   }
 
   async setDefault(userId: string, id: string) {
-    // This might need transaction if done purely here, but service usually handles transaction.
-    // We'll provide a method to set default for a specific ID, assumming others are unset by service.
     return await this.prisma.userAddress.update({
       where: { id, userId },
       data: { isDefault: true },

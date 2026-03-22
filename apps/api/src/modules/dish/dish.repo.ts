@@ -166,13 +166,6 @@ export class DishRepo {
       const existingVariant = existingDish.variants.find((ex) => ex.id === v.id)
       if (!existingVariant) continue // ID provided but not found? Ignore or error.
 
-      // In the existing variant, find options that match the new strings OR we can't really map strings to IDs easily if simply array of strings is passed.
-      // Wait, the schema strictly says `options: string[]`.
-      // So we can only match by VALUE for existing options?
-      // OR we assume that if the user provides `v.id`, they want to update that variant.
-      // But for options, we don't have IDs in the input.
-      // So effectively: Any existing option for this variant whose VALUE is not in `v.options` is considered DELETED.
-
       for (const existingOpt of existingVariant.variantOptions) {
         if (v.options.includes(existingOpt.value)) {
           keptOptionIds.add(existingOpt.id)
@@ -181,8 +174,6 @@ export class DishRepo {
     }
 
     // 2. Find all option IDs currently used by SKUs
-    // We actually need to find SKUs that use options NOT in keptOptionIds
-
     // Get all current option IDs for this dish
     const allCurrentOptionIds = existingDish.variants.flatMap((v) =>
       v.variantOptions.map((o) => o.id),
@@ -274,9 +265,6 @@ export class DishRepo {
           variantId = newVariant.id
         }
 
-        // Sync Options
-        // Delete options not in vData.options
-        // But matching by value since we don't have Option IDs in input
         await client.variantOption.deleteMany({
           where: {
             variantId: variantId,
@@ -320,7 +308,13 @@ export class DishRepo {
       // But for now, the Repo just does the update. Validation happened before calling this.
     }
 
-    return dish
+    return {
+      ...dish,
+      variants: dish.variants.map((v) => ({
+        ...v,
+        options: v.variantOptions,
+      })),
+    }
   }
 
   async upsertDishTranslation(
@@ -370,9 +364,9 @@ export class DishRepo {
     }
   }
 
-  findByIdOrThrow(id: string, tx?: Prisma.TransactionClient) {
+  async findByIdOrThrow(id: string, tx?: Prisma.TransactionClient) {
     const client = tx ?? this.prisma
-    return client.dish.findUniqueOrThrow({
+    const dish = await client.dish.findUniqueOrThrow({
       where: { id },
       include: {
         dishTranslations: true,
@@ -391,12 +385,31 @@ export class DishRepo {
           },
           orderBy: { createdAt: 'desc' },
         },
+        inventories: {
+          include: { inventory: true },
+        },
       },
     })
+
+    let isAvailable = true
+    if (dish.inventories && dish.inventories.length > 0) {
+      isAvailable = dish.inventories.every(
+        (invDish) => Number(invDish.inventory.quantity) >= Number(invDish.quantityUsed),
+      )
+    }
+
+    return {
+      ...dish,
+      isAvailable,
+      variants: dish.variants.map((v) => ({
+        ...v,
+        options: v.variantOptions,
+      })),
+    }
   }
 
-  findById(id: string) {
-    return this.prisma.dish.findUnique({
+  async findById(id: string) {
+    const dish = await this.prisma.dish.findUnique({
       where: { id },
       include: {
         dishTranslations: true,
@@ -415,12 +428,33 @@ export class DishRepo {
           },
           orderBy: { createdAt: 'desc' },
         },
+        inventories: {
+          include: { inventory: true },
+        },
       },
     })
+
+    if (!dish) return null
+    let isAvailable = true
+    if (dish.inventories && dish.inventories.length > 0) {
+      isAvailable = dish.inventories.every(
+        (invDish) =>
+          Number(invDish.inventory.quantity.toString()) >= Number(invDish.quantityUsed.toString()),
+      )
+    }
+
+    return {
+      ...dish,
+      isAvailable,
+      variants: dish.variants.map((v) => ({
+        ...v,
+        options: v.variantOptions,
+      })),
+    }
   }
 
-  findByIds(ids: string[]) {
-    return this.prisma.dish.findMany({
+  async findByIds(ids: string[]) {
+    const dishes = await this.prisma.dish.findMany({
       where: { id: { in: ids } },
       include: {
         dishTranslations: true,
@@ -431,8 +465,18 @@ export class DishRepo {
         skus: {
           include: { variantOptions: true },
         },
+        inventories: {
+          include: { inventory: true },
+        },
       },
     })
+    return dishes.map((dish) => ({
+      ...dish,
+      variants: dish.variants.map((v) => ({
+        ...v,
+        options: v.variantOptions,
+      })),
+    }))
   }
 
   async list(query: GetDishesQueryType) {
@@ -456,6 +500,9 @@ export class DishRepo {
       categories: true,
       variants: { include: { variantOptions: true } },
       skus: true,
+      inventories: {
+        include: { inventory: true },
+      },
     }
 
     // Type inference helper
@@ -464,7 +511,7 @@ export class DishRepo {
     }
     type DishWithRelations = NonNullable<Awaited<ReturnType<typeof getDishesWithRelations>>>
 
-    return await paginate<DishWithRelations>(
+    const result = await paginate<DishWithRelations>(
       this.prisma.dish,
       {
         where,
@@ -473,6 +520,34 @@ export class DishRepo {
       },
       { page, limit },
     )
+
+    const computedData = result.data.map((dish) => {
+      let isAvailable = true
+
+      const viName = dish.dishTranslations?.find((t) => t.languageId === 'vi')?.name || 'Unknown'
+
+      if (dish.inventories && dish.inventories.length > 0) {
+        isAvailable = dish.inventories.every((invDish) => {
+          if (!invDish.inventory) return false
+          const stock = Number(invDish.inventory.quantity.toString())
+          const used = Number(invDish.quantityUsed.toString())
+          return stock >= used
+        })
+      } else if (dish.skus && dish.skus.length > 0) {
+        const totalStock = dish.skus.reduce((sum, s) => sum + (s.stock || 0), 0)
+        isAvailable = totalStock > 0
+      }
+
+      return {
+        ...dish,
+        isAvailable,
+      }
+    })
+
+    return {
+      ...result,
+      data: computedData,
+    }
   }
   async delete(id: string, deletedById: string) {
     return this.prisma.extended.dish.softDelete({ id, deletedById })

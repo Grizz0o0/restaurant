@@ -94,7 +94,8 @@ export class AuthService {
         phoneNumber: body.phoneNumber,
         password: hashedPassword,
         roleId: clientRoleId,
-      })
+        status: UserStatus.ACTIVE,
+      } as any)
 
       // Create new device
       const device = await this.authRepository.createDevice({
@@ -407,13 +408,13 @@ export class AuthService {
   async getActiveSessions(userId: string) {
     const sessions = await this.authRepository.findSessionsByUserId(userId)
     return sessions.map((session) => ({
-      id: session.id, // RefreshToken ID (or Device ID depending on requirement, usually session ID linked to token)
+      id: session.id,
       deviceId: session.deviceId,
       userAgent: session.device.userAgent,
       ip: session.device.ip,
       lastActive: session.device.lastActive,
       expiresAt: session.expiresAt,
-      isCurrent: false, // You might want to pass current session ID to flag this
+      isCurrent: false,
     }))
   }
 
@@ -461,9 +462,9 @@ export class AuthService {
 
     // 2. Generate Access Token (No Refresh Token for Guest)
     const accessToken = this.tokenService.signAccessToken({
-      userId: `guest-${table.id}`, // Placeholder ID
+      userId: `guest-${table.id}`,
       deviceId: 'guest-device',
-      roleId: '', // No Role ID for guest? Or should we create a virtual Guest Role?
+      roleId: '',
       roleName: 'GUEST',
       tableId: table.id,
     })

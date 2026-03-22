@@ -9,6 +9,7 @@ import envConfig from '@/shared/config'
 import { HashingService } from '@/shared/services/hashing.service'
 import { AuthService } from '@/modules/auth/auth.service'
 import { GoogleUserInfoError } from './auth.error'
+import { UserStatus } from 'src/generated/prisma/client'
 
 @Injectable()
 export class GoogleService {
@@ -87,7 +88,22 @@ export class GoogleService {
           password: hashedPassword,
           roleId: clientRoleId,
           avatar: data.picture || null,
+          status: UserStatus.ACTIVE,
+        } as any)
+      } else if (user.status === UserStatus.INACTIVE) {
+        // Nếu user đã tồn tại nhưng đang inactive (do mặc định của hệ thống), hãy kích hoạt họ
+        await this.authRepository.updateUser(user.id, {
+          status: UserStatus.ACTIVE,
         })
+        // Refresh user data (including role)
+        const updatedUser = await this.authRepository.findUniqueUserIncludeRole({ id: user.id })
+        if (updatedUser) {
+          user = updatedUser
+        }
+      }
+
+      if (!user) {
+        throw new Error('Không thể tìm hoặc tạo người dùng Google')
       }
 
       const device = await this.authRepository.createDevice({

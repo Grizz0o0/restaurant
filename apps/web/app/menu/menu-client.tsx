@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import { trpc } from '@/lib/trpc/client';
 import { formatCurrency } from '@/lib/utils/format';
+import { cn } from '@/lib/utils';
 import { DishDetailModal } from '@/components/menu/dish-detail-modal';
 import { useDebounce } from '@/hooks/use-debounce';
 import {
@@ -207,8 +208,8 @@ export const MenuClient = () => {
                         </div>
 
                         {/* Categories */}
-                        <div className="flex-1 md:ml-auto max-w-212">
-                            <div className="flex flex-wrap gap-x-3 gap-y-2 justify-end">
+                        <div className="flex-1 w-full md:ml-auto max-w-full md:max-w-212 overflow-hidden">
+                            <div className="flex overflow-x-auto pb-1 md:pb-0 no-scrollbar gap-x-3 md:flex-wrap md:justify-end">
                                 <Button
                                     variant={
                                         activeCategoryId === undefined
@@ -217,7 +218,7 @@ export const MenuClient = () => {
                                     }
                                     size="sm"
                                     onClick={() => handleCategoryChange('all')}
-                                    className="whitespace-nowrap"
+                                    className="whitespace-nowrap mb-2"
                                 >
                                     Tất cả
                                 </Button>
@@ -226,7 +227,7 @@ export const MenuClient = () => {
                                       Array.from({ length: 12 }).map((_, i) => (
                                           <div
                                               key={i}
-                                              className="h-9 min-w-25 bg-muted animate-pulse rounded-md"
+                                              className="h-9 min-w-25 bg-muted animate-pulse rounded-md shrink-0"
                                           />
                                       ))
                                     : categories.map((category: any) => (
@@ -244,7 +245,7 @@ export const MenuClient = () => {
                                                       category.id,
                                                   )
                                               }
-                                              className="whitespace-nowrap"
+                                              className="whitespace-nowrap shrink-0"
                                           >
                                               {category.name}
                                           </Button>
@@ -272,7 +273,11 @@ export const MenuClient = () => {
                             {dishes.map((item: any) => (
                                 <div
                                     key={item.id}
-                                    className="group bg-card rounded-2xl overflow-hidden border border-border hover:shadow-warm transition-all duration-300 flex flex-col cursor-pointer"
+                                    className={cn(
+                                        'group bg-card rounded-2xl overflow-hidden border border-border hover:shadow-warm transition-all duration-300 flex flex-col cursor-pointer',
+                                        item.isAvailable === false &&
+                                            'opacity-75',
+                                    )}
                                     onClick={() => setSelectedDishId(item.id)}
                                 >
                                     <div className="relative aspect-square overflow-hidden bg-muted">
@@ -281,11 +286,23 @@ export const MenuClient = () => {
                                                 src={item.images[0]}
                                                 alt={item.name || 'Món ăn'}
                                                 fill
-                                                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                                className={cn(
+                                                    'object-cover group-hover:scale-105 transition-transform duration-500',
+                                                    item.isAvailable ===
+                                                        false &&
+                                                        'grayscale opacity-80',
+                                                )}
                                             />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                                                 No Image
+                                            </div>
+                                        )}
+                                        {item.isAvailable === false && (
+                                            <div className="absolute inset-0 flex items-center justify-center z-10">
+                                                <div className="bg-black/60 backdrop-blur-sm text-white px-4 py-2 rounded-full font-bold text-sm uppercase tracking-wider">
+                                                    Tạm hết hàng
+                                                </div>
                                             </div>
                                         )}
                                     </div>
@@ -303,11 +320,17 @@ export const MenuClient = () => {
                                             <Button
                                                 variant="warm"
                                                 size="sm"
-                                                onClick={() => {
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
                                                     setSelectedDishId(item.id);
                                                 }}
+                                                disabled={
+                                                    item.isAvailable === false
+                                                }
                                             >
-                                                Thêm
+                                                {item.isAvailable === false
+                                                    ? 'Hết hàng'
+                                                    : 'Thêm'}
                                             </Button>
                                         </div>
                                     </div>

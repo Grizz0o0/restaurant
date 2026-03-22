@@ -197,8 +197,8 @@ export default function PaymentResultPage() {
                             onClick={() =>
                                 router.push(
                                     internalOrderId
-                                        ? `/profile/orders/${internalOrderId}`
-                                        : '/profile/orders',
+                                        ? `/profile/orders`
+                                        : '/profile',
                                 )
                             }
                         >

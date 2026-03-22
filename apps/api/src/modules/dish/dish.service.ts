@@ -89,12 +89,15 @@ export class DishService {
         dish.dishTranslations?.find((t) => t.languageId === 'en') ??
         dish.dishTranslations?.[0]
 
+      const name = translation?.name ?? ''
+      
       return {
         ...dish,
-        name: translation?.name ?? '',
+        name,
         description: translation?.description ?? '',
         languageId: translation?.languageId ?? 'vi',
         dishTranslations: dish.dishTranslations,
+        isAvailable: dish.isAvailable, // Explicit assignment
       }
     })
 

@@ -16,7 +16,7 @@ import { TableService } from './table.service'
 import { z } from 'zod'
 
 @Router({ alias: 'table' })
-@UseMiddlewares(AuthMiddleware, AdminRoleMiddleware) // Only Admin can manage tables
+@UseMiddlewares(AuthMiddleware)
 export class TableRouter {
   constructor(private readonly tableService: TableService) {}
 
@@ -40,6 +40,7 @@ export class TableRouter {
     input: CreateTableBodySchema,
     output: RestaurantTableSchema,
   })
+  @UseMiddlewares(AdminRoleMiddleware)
   async create(@Input() input: CreateTableBodyType, @Ctx() ctx: Context) {
     return this.tableService.create({ ...input, createdById: ctx.user!.userId })
   }
@@ -51,6 +52,7 @@ export class TableRouter {
     }),
     output: RestaurantTableSchema,
   })
+  @UseMiddlewares(AdminRoleMiddleware)
   async update(@Input() input: { id: string; data: UpdateTableBodyType }, @Ctx() ctx: Context) {
     return this.tableService.update(input.id, {
       ...input.data,
@@ -62,6 +64,7 @@ export class TableRouter {
     input: z.object({ id: z.string() }),
     output: z.any(),
   })
+  @UseMiddlewares(AdminRoleMiddleware)
   async delete(@Input('id') id: string, @Ctx() ctx: Context) {
     return this.tableService.delete(id, ctx.user!.userId)
   }

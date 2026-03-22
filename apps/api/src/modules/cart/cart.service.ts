@@ -25,18 +25,13 @@ export class CartService {
     })
 
     const formattedItems = items.map((item) => {
-      // Find English translation or fallback to first one, or just assume frontend handles it.
-      // Ideally we should filter translations based on language, but for now let's just return structure matching schema.
-      // The schema expects dish to have 'name', but dishTranslations has 'name'.
-      // We might need to adjust the schema or the response.
-
-      // For now, let's map it simply.
       const dishName = item.sku.dish.dishTranslations[0]?.name || 'Unknown Dish'
 
       return {
         id: item.id,
         quantity: item.quantity,
         skuId: item.skuId,
+        note: item.note,
         sku: {
           id: item.sku.id,
           value: item.sku.value,
@@ -66,6 +61,7 @@ export class CartService {
       id: item.id,
       quantity: item.quantity,
       skuId: item.skuId,
+      note: item.note,
       sku: {
         id: item.sku.id,
         value: item.sku.value,
@@ -82,7 +78,7 @@ export class CartService {
   }
 
   async addToCart(userId: string, input: AddCartItemType) {
-    const { skuId, quantity } = input
+    const { skuId, quantity, note } = input
 
     // Check if SKU exists
     const sku = await this.prisma.sKU.findUnique({
@@ -92,11 +88,12 @@ export class CartService {
       throw new NotFoundException('SKU not found')
     }
 
-    // Check if item already exists in cart
+    // Check if item already exists in cart WITH SAME NOTE
     const existingItem = await this.prisma.cartItem.findFirst({
       where: {
         userId,
         skuId,
+        note: note || null, // Only group items if notes match
       },
     })
 
@@ -125,6 +122,7 @@ export class CartService {
           userId,
           skuId,
           quantity,
+          note: note || null,
         },
         include: {
           sku: {
@@ -144,7 +142,7 @@ export class CartService {
   }
 
   async updateCartItem(userId: string, input: UpdateCartItemType) {
-    const { itemId, quantity } = input
+    const { itemId, quantity, note } = input
 
     const item = await this.prisma.cartItem.findUnique({
       where: { id: itemId },
@@ -156,7 +154,10 @@ export class CartService {
 
     const result = await this.prisma.cartItem.update({
       where: { id: itemId },
-      data: { quantity },
+      data: {
+        quantity,
+        note: note !== undefined ? note || null : undefined,
+      },
       include: {
         sku: {
           include: {

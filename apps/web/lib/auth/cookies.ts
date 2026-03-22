@@ -4,8 +4,8 @@ import Cookies from 'js-cookie';
 const COOKIE_CONFIG = {
     ACCESS_TOKEN: 'accessToken',
     REFRESH_TOKEN: 'refreshToken',
-    ACCESS_TOKEN_EXPIRES: 1 / (24 * 60),
-    REFRESH_TOKEN_EXPIRES: 7,
+    ACCESS_TOKEN_EXPIRES: 1, // 1 day
+    REFRESH_TOKEN_EXPIRES: 7, // 7 days
     ACCESS_TOKEN_OPTIONS: {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax' as const,
@@ -15,7 +15,6 @@ const COOKIE_CONFIG = {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax' as const,
         path: '/',
-        httpOnly: true,
     },
 };
 
