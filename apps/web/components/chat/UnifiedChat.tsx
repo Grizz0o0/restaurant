@@ -58,15 +58,17 @@ export const UnifiedChat = () => {
 
     const handleSend = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!input.trim()) return;
+        const message = input.trim();
+        if (!message) return;
+
+        setInput('');
 
         if (mode === 'AI') {
             if (isAILoading) return;
-            await sendAIMessage(input);
+            await sendAIMessage(message);
         } else {
-            sendAdminMessage(input);
+            sendAdminMessage(message);
         }
-        setInput('');
     };
 
     if (!isAuthenticated) return null;
