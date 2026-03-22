@@ -45,39 +45,41 @@ export function ProfileSidebar({
     return (
         <nav
             className={cn(
-                'flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1',
+                'flex overflow-x-auto pb-4 mb-2 lg:mb-0 lg:pb-0 lg:flex-col lg:space-x-0 lg:space-y-1 no-scrollbar',
                 className,
             )}
             {...props}
         >
-            {sidebarNavItems.map((item) => (
-                <Link
-                    key={item.href}
-                    href={item.href}
-                    className={cn(
-                        'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-all',
-                        pathname === item.href
-                            ? 'bg-accent text-accent-foreground shadow-sm'
-                            : 'text-muted-foreground',
-                    )}
-                >
-                    <item.icon className="h-4 w-4" />
-                    {item.title}
-                </Link>
-            ))}
-            <div className="lg:pt-4 lg:mt-4 lg:border-t">
-                <button
-                    onClick={() => {
-                        logout();
-                        router.push('/auth/login');
-                    }}
-                    className={cn(
-                        'w-full flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-red-50 hover:text-red-600 transition-all',
-                    )}
-                >
-                    <LogOut className="h-4 w-4" />
-                    Đăng xuất
-                </button>
+            <div className="flex lg:flex-col gap-2 w-max lg:w-full">
+                {sidebarNavItems.map((item) => (
+                    <Link
+                        key={item.href}
+                        href={item.href}
+                        className={cn(
+                            'flex items-center gap-2 lg:gap-3 rounded-lg px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-all shrink-0 whitespace-nowrap',
+                            pathname === item.href
+                                ? 'bg-accent text-accent-foreground shadow-sm'
+                                : 'text-muted-foreground',
+                        )}
+                    >
+                        <item.icon className="h-4 w-4" />
+                        {item.title}
+                    </Link>
+                ))}
+                <div className="lg:pt-4 lg:mt-4 lg:border-t flex lg:block">
+                    <button
+                        onClick={() => {
+                            logout();
+                            router.push('/auth/login');
+                        }}
+                        className={cn(
+                            'flex shrink-0 whitespace-nowrap items-center gap-2 lg:gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-red-50 hover:text-red-600 transition-all',
+                        )}
+                    >
+                        <LogOut className="h-4 w-4" />
+                        <span className="lg:inline">Đăng xuất</span>
+                    </button>
+                </div>
             </div>
         </nav>
     );

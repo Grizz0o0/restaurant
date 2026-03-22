@@ -51,7 +51,8 @@ export function InventoryHistory() {
             </CardHeader>
             <CardContent className="px-0">
                 <div className="rounded-xl border bg-card overflow-hidden">
-                    <Table>
+                    <div className="overflow-x-auto">
+                        <Table>
                         <TableHeader className="bg-muted/50">
                             <TableRow>
                                 <TableHead className="font-semibold">Thời gian</TableHead>
@@ -103,6 +104,7 @@ export function InventoryHistory() {
                         </TableBody>
                     </Table>
                 </div>
+            </div>
             </CardContent>
         </Card>
     );

@@ -250,7 +250,8 @@ export default function AdminReviewsPage() {
             result = result.filter(
                 (r: any) =>
                     (r.content ?? '').toLowerCase().includes(q) ||
-                    (r.user?.name ?? '').toLowerCase().includes(q),
+                    (r.user?.name ?? '').toLowerCase().includes(q) ||
+                    (r.dish?.dishTranslations?.[0]?.name ?? '').toLowerCase().includes(q),
             );
         }
         result.sort((a: any, b: any) => {
@@ -302,6 +303,7 @@ export default function AdminReviewsPage() {
             [
                 'Khách hàng',
                 'Điểm',
+                'Món ăn',
                 'Nội dung',
                 'Phản hồi Admin',
                 'Ngày đánh giá',
@@ -309,6 +311,7 @@ export default function AdminReviewsPage() {
             ...processedReviews.map((r: any) => [
                 r.user?.name || 'Ẩn danh',
                 r.rating,
+                r.dish?.dishTranslations?.[0]?.name || '',
                 r.content,
                 r.adminReply || '',
                 format(new Date(r.createdAt), 'dd/MM/yyyy HH:mm'),
@@ -318,6 +321,7 @@ export default function AdminReviewsPage() {
         ws['!cols'] = [
             { wch: 20 },
             { wch: 8 },
+            { wch: 25 },
             { wch: 60 },
             { wch: 40 },
             { wch: 18 },
@@ -655,6 +659,14 @@ export default function AdminReviewsPage() {
                                                                     review.rating
                                                                 }
                                                             />
+                                                            {review.dish?.dishTranslations?.[0]?.name && (
+                                                                <div className="mt-1">
+                                                                    <span className="text-xs text-muted-foreground mr-1">Món:</span>
+                                                                    <span className="text-xs font-medium text-foreground">
+                                                                        {review.dish.dishTranslations[0].name}
+                                                                    </span>
+                                                                </div>
+                                                            )}
                                                         </div>
                                                         <div className="flex items-center gap-1 shrink-0">
                                                             <span className="text-xs text-muted-foreground">

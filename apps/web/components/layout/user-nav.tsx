@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/hooks/domain/use-auth';
 import { usePermission } from '@/hooks/use-permission';
-import { LayoutDashboard, LogOut, User } from 'lucide-react';
+import { LayoutDashboard, LogOut, Store, User } from 'lucide-react';
 import Link from 'next/link';
 
 export function UserNav() {
@@ -63,6 +63,16 @@ export function UserNav() {
                             <DropdownMenuItem>
                                 <LayoutDashboard className="mr-2 h-4 w-4" />
                                 <span>Quản lý</span>
+                            </DropdownMenuItem>
+                        </Link>
+                    )}
+                    {(hasRole('ADMIN') ||
+                        hasRole('MANAGER') ||
+                        hasRole('STAFF')) && (
+                        <Link href="/staff">
+                            <DropdownMenuItem>
+                                <Store className="mr-2 h-4 w-4" />
+                                <span>POS</span>
                             </DropdownMenuItem>
                         </Link>
                     )}

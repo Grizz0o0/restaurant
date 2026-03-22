@@ -9,7 +9,13 @@ import {
     ChevronDown,
     Star,
     MessageSquare,
+    Truck,
+    CheckCircle2,
+    XCircle,
+    RotateCcw,
 } from 'lucide-react';
+import { useAuth } from '@/hooks/domain/use-auth';
+import { RoleName } from '@repo/constants';
 import { useSocket } from '@/providers/socket-provider';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
@@ -33,7 +39,6 @@ import {
 } from '@/components/ui/collapsible';
 
 const statusMap: Record<string, { label: string; color: string }> = {
-    PENDING: { label: 'Chờ xác nhận', color: 'bg-yellow-100 text-yellow-800' },
     PENDING_CONFIRMATION: {
         label: 'Chờ xác nhận',
         color: 'bg-yellow-100 text-yellow-800',
@@ -43,8 +48,24 @@ const statusMap: Record<string, { label: string; color: string }> = {
         label: 'Đang chuẩn bị',
         color: 'bg-indigo-100 text-indigo-800',
     },
-    READY: { label: 'Sẵn sàng', color: 'bg-purple-100 text-purple-800' },
+    READY_FOR_PICKUP: {
+        label: 'Sẵn sàng giao',
+        color: 'bg-purple-100 text-purple-800',
+    },
+    DELIVERING: {
+        label: 'Đang giao hàng',
+        color: 'bg-blue-100 text-blue-800',
+    },
+    DELIVERED: {
+        label: 'Đã giao hàng',
+        color: 'bg-emerald-100 text-emerald-800',
+    },
     COMPLETED: { label: 'Hoàn thành', color: 'bg-green-100 text-green-800' },
+    RETURNED: {
+        label: 'Khách trả hàng',
+        color: 'bg-orange-100 text-orange-800',
+    },
+    BOOMED: { label: 'Khách bùng hàng', color: 'bg-rose-100 text-rose-800' },
     CANCELLED: { label: 'Đã hủy', color: 'bg-red-100 text-red-800' },
 };
 
@@ -192,8 +213,118 @@ function ReviewDialog({
     );
 }
 
+// ---- Shipper Actions ----
+function ShipperActions({
+    orderId,
+    status,
+    onSuccess,
+}: {
+    orderId: string;
+    status: string;
+    onSuccess: () => void;
+}) {
+    const [verificationCode, setVerificationCode] = useState('');
+    const [isUpdating, setIsUpdating] = useState(false);
+
+    const updateStatus = trpc.order.updateStatus.useMutation({
+        onSuccess: () => {
+            toast.success('Cập nhật trạng thái thành công');
+            onSuccess();
+            setIsUpdating(false);
+            setVerificationCode('');
+        },
+        onError: (err) => {
+            toast.error(err.message);
+            setIsUpdating(false);
+        },
+    });
+
+    const handleUpdate = (newStatus: string) => {
+        if (newStatus === 'COMPLETED' && !verificationCode) {
+            toast.error('Vui lòng nhập mã xác nhận từ khách hàng');
+            return;
+        }
+        setIsUpdating(true);
+        updateStatus.mutate({
+            orderId,
+            status: newStatus,
+            verificationCode:
+                newStatus === 'COMPLETED' ? verificationCode : undefined,
+        });
+    };
+
+    if (status === 'READY_FOR_PICKUP') {
+        return (
+            <Button
+                size="sm"
+                className="gap-2 bg-blue-600 hover:bg-blue-700"
+                onClick={() => handleUpdate('DELIVERING')}
+                disabled={isUpdating}
+            >
+                <Truck className="h-4 w-4" />
+                Bắt đầu giao
+            </Button>
+        );
+    }
+
+    if (status === 'DELIVERING') {
+        return (
+            <div className="flex flex-col gap-2 p-3 bg-blue-50/50 rounded-lg border border-blue-100">
+                <div className="flex items-center gap-2">
+                    <input
+                        type="text"
+                        placeholder="Mã xác nhận (6 số)"
+                        className="flex-1 h-9 px-3 text-sm rounded-md border border-input bg-background"
+                        value={verificationCode}
+                        onChange={(e) => setVerificationCode(e.target.value)}
+                    />
+                    <Button
+                        size="sm"
+                        className="gap-2 bg-emerald-600 hover:bg-emerald-700"
+                        onClick={() => handleUpdate('COMPLETED')}
+                        disabled={isUpdating}
+                    >
+                        {isUpdating ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                            <CheckCircle2 className="h-4 w-4" />
+                        )}
+                        Giao xong
+                    </Button>
+                </div>
+                <div className="flex gap-2">
+                    <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex-1 gap-2 text-orange-600 border-orange-200 hover:bg-orange-50"
+                        onClick={() => handleUpdate('RETURNED')}
+                        disabled={isUpdating}
+                    >
+                        <RotateCcw className="h-4 w-4" />
+                        Trả hàng
+                    </Button>
+                    <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex-1 gap-2 text-rose-600 border-rose-200 hover:bg-rose-50"
+                        onClick={() => handleUpdate('BOOMED')}
+                        disabled={isUpdating}
+                    >
+                        <XCircle className="h-4 w-4" />
+                        Bùng hàng
+                    </Button>
+                </div>
+            </div>
+        );
+    }
+
+    return null;
+}
+
 // ---- Order History ----
 export function OrderHistory() {
+    const { user } = useAuth();
+    const isShipper = user?.role?.name === RoleName.Shipper;
     const [page, setPage] = useState(1);
     const {
         data: initialData,
@@ -297,9 +428,59 @@ export function OrderHistory() {
                                             },
                                         )}
                                     </p>
+                                    {(order.deliveryAddress ||
+                                        order.deliveryPhone) && (
+                                        <div className="mt-2 space-y-1 text-sm border-t pt-2 border-dashed">
+                                            {order.receiverName && (
+                                                <div className="flex items-center gap-2 text-foreground font-medium">
+                                                    <span className="text-xs text-muted-foreground">
+                                                        Người nhận:
+                                                    </span>{' '}
+                                                    {order.receiverName}
+                                                </div>
+                                            )}
+                                            {order.deliveryPhone && (
+                                                <div className="flex items-center gap-2 text-foreground">
+                                                    <span className="text-xs text-muted-foreground">
+                                                        SĐT:
+                                                    </span>{' '}
+                                                    {order.deliveryPhone}
+                                                </div>
+                                            )}
+                                            {order.deliveryAddress && (
+                                                <div className="flex items-start gap-2 text-foreground">
+                                                    <span className="text-xs text-muted-foreground mt-0.5">
+                                                        Địa chỉ:
+                                                    </span>
+                                                    <span className="flex-1">
+                                                        {order.deliveryAddress}
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                    {!isShipper &&
+                                        order.status === 'DELIVERING' &&
+                                        order.deliveryCode && (
+                                            <div className="mt-2 p-2 bg-blue-50 text-blue-700 rounded border border-blue-100 text-xs font-semibold flex items-center gap-2">
+                                                <div className="bg-blue-600 text-white px-2 py-0.5 rounded text-[10px] uppercase">
+                                                    Mã giao hàng
+                                                </div>
+                                                <span className="text-sm tracking-widest">
+                                                    {order.deliveryCode}
+                                                </span>
+                                            </div>
+                                        )}
                                 </div>
 
-                                <div className="flex items-center justify-between sm:justify-end gap-4">
+                                <div className="flex flex-col sm:flex-row items-end sm:items-center gap-4">
+                                    {isShipper && (
+                                        <ShipperActions
+                                            orderId={order.id}
+                                            status={order.status}
+                                            onSuccess={refetch}
+                                        />
+                                    )}
                                     <div className="text-right">
                                         <p className="text-sm font-medium">
                                             Tổng tiền
@@ -332,19 +513,19 @@ export function OrderHistory() {
                                             (item: any, index: number) => (
                                                 <div
                                                     key={index}
-                                                    className="flex justify-between items-center text-sm"
+                                                    className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-2 gap-2 text-sm border-b border-muted last:border-0"
                                                 >
                                                     <div className="flex items-center gap-3">
                                                         <div className="bg-muted w-8 h-8 rounded flex items-center justify-center text-xs font-medium shrink-0">
                                                             {item.quantity}x
                                                         </div>
-                                                        <span className="font-medium">
+                                                        <span className="font-medium line-clamp-2">
                                                             {item.dishName}
                                                         </span>
                                                     </div>
-                                                    <div className="flex items-center gap-3 shrink-0">
+                                                    <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto shrink-0 pl-11 sm:pl-0">
                                                         {item.price && (
-                                                            <span className="text-muted-foreground">
+                                                            <span className="text-muted-foreground font-medium">
                                                                 {formatCurrency(
                                                                     Number(
                                                                         item.price,

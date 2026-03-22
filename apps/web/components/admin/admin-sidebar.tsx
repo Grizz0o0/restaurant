@@ -102,16 +102,21 @@ const sidebarItems = [
     },
 ];
 
-export function AdminSidebar() {
+export function AdminSidebarContent({
+    onItemClick,
+}: {
+    onItemClick?: () => void;
+}) {
     const pathname = usePathname();
     const { logout } = useAuth();
 
     return (
-        <aside className="hidden w-64 flex-col border-r bg-background md:flex inset-y-0 fixed left-0 top-0 z-30 h-full">
+        <div className="flex flex-col h-full">
             <div className="flex h-16 items-center border-b px-6">
                 <Link
                     href="/"
                     className="flex items-center gap-2 font-display text-xl font-bold"
+                    onClick={onItemClick}
                 >
                     <span className="text-primary">Admin</span>Portal
                 </Link>
@@ -122,6 +127,7 @@ export function AdminSidebar() {
                         <Link
                             key={item.href}
                             href={item.href}
+                            onClick={onItemClick}
                             className={cn(
                                 'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-muted',
                                 pathname.startsWith(item.href)
@@ -139,12 +145,23 @@ export function AdminSidebar() {
                 <Button
                     variant="ghost"
                     className="w-full justify-start gap-3 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-                    onClick={() => logout()}
+                    onClick={() => {
+                        logout();
+                        onItemClick?.();
+                    }}
                 >
                     <LogOut className="h-4 w-4" />
                     Đăng xuất
                 </Button>
             </div>
+        </div>
+    );
+}
+
+export function AdminSidebar() {
+    return (
+        <aside className="hidden w-64 flex-col border-r bg-background md:flex inset-y-0 fixed left-0 top-0 z-30 h-full">
+            <AdminSidebarContent />
         </aside>
     );
 }

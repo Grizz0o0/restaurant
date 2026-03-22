@@ -12,20 +12,62 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { LogOut, User, Settings as SettingsIcon } from 'lucide-react';
+import {
+    LogOut,
+    Settings as SettingsIcon,
+    Menu as MenuIcon,
+    Store,
+    User,
+} from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
+import {
+    Sheet,
+    SheetContent,
+    SheetTitle,
+    SheetTrigger,
+} from '@/components/ui/sheet';
+import { AdminSidebarContent } from './admin-sidebar';
+import { Button } from '@/components/ui/button';
 
 export function AdminHeader() {
     const { user, logout } = useAuth();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     return (
-        <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b bg-background/95 px-6 backdrop-blur supports-backdrop-filter:bg-background/60">
+        <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b bg-background/95 px-4 md:px-6 backdrop-blur supports-backdrop-filter:bg-background/60">
             <div className="flex items-center gap-4">
+                <Sheet
+                    open={isMobileMenuOpen}
+                    onOpenChange={setIsMobileMenuOpen}
+                >
+                    <SheetTrigger asChild>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="md:hidden"
+                        >
+                            <MenuIcon className="h-5 w-5" />
+                            <span className="sr-only">Toggle Menu</span>
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="p-0 w-64">
+                        <SheetTitle className="sr-only">
+                            Menu Quản trị
+                        </SheetTitle>
+                        <AdminSidebarContent
+                            onItemClick={() => setIsMobileMenuOpen(false)}
+                        />
+                    </SheetContent>
+                </Sheet>
                 <h2 className="text-lg font-semibold tracking-tight hidden md:block">
                     Quản trị
                 </h2>
+                <h2 className="text-lg font-semibold tracking-tight md:hidden">
+                    BAMIXO
+                </h2>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
                 <NotificationBell />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -65,11 +107,26 @@ export function AdminHeader() {
                         <DropdownMenuGroup>
                             <DropdownMenuItem asChild>
                                 <Link
+                                    href="/profile"
+                                    className="cursor-pointer"
+                                >
+                                    <User className="mr-2 h-4 w-4" />
+                                    <span>Hồ sơ</span>
+                                </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link
                                     href="/admin/settings"
                                     className="cursor-pointer"
                                 >
                                     <SettingsIcon className="mr-2 h-4 w-4" />
                                     <span>Cài đặt hệ thống</span>
+                                </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/staff" className="cursor-pointer">
+                                    <Store className="mr-2 h-4 w-4" />
+                                    <span>POS</span>
                                 </Link>
                             </DropdownMenuItem>
                         </DropdownMenuGroup>

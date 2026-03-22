@@ -4,11 +4,17 @@ import { OrderHistory } from '@/components/profile/order-history';
 import { useAuth } from '@/hooks/domain/use-auth';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { useEffect, useState } from 'react';
 
 export default function OrdersPage() {
     const { user, isLoading } = useAuth();
+    const [mounted, setMounted] = useState(false);
 
-    if (isLoading) {
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted || isLoading) {
         return <div className="p-8 text-center">Đang tải...</div>;
     }
 
@@ -29,9 +35,15 @@ export default function OrdersPage() {
     return (
         <div className="space-y-6">
             <div>
-                <h3 className="text-lg font-medium">Lịch sử đơn hàng</h3>
+                <h3 className="text-lg font-medium">
+                    {user?.role?.name === 'SHIPPER'
+                        ? 'Đơn hàng cần giao'
+                        : 'Lịch sử đơn hàng'}
+                </h3>
                 <p className="text-sm text-muted-foreground">
-                    Xem lại lịch sử các đơn hàng bạn đã đặt.
+                    {user?.role?.name === 'SHIPPER'
+                        ? 'Danh sách các đơn hàng được gán cho bạn.'
+                        : 'Xem lại lịch sử các đơn hàng bạn đã đặt.'}
                 </p>
             </div>
             <Separator />

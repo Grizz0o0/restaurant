@@ -10,6 +10,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useDebounce } from '@/hooks/use-debounce';
 import {
     Card,
     CardContent,
@@ -72,11 +73,14 @@ export function RecipeManager() {
 
     const utils = trpc.useUtils();
 
+    const debouncedSearch = useDebounce(searchDish, 500);
+
     // Queries
     const { data: dishesData, isLoading: isLoadingDishes } =
         trpc.dish.list.useQuery({
             page: 1,
-            limit: 100,
+            limit: 50,
+            search: debouncedSearch || undefined,
         });
     const { data: inventoryData } = trpc.inventory.list.useQuery({
         page: 1,
@@ -93,11 +97,8 @@ export function RecipeManager() {
     const ingredients = ingredientsData?.data || [];
 
     const filteredDishes = useMemo(() => {
-        return dishes.filter((d: any) => {
-            const name = d.dishTranslations?.[0]?.name?.toLowerCase() || '';
-            return name.includes(searchDish.toLowerCase());
-        });
-    }, [dishes, searchDish]);
+        return dishes;
+    }, [dishes]);
 
     // Mutations
     const addMutation = trpc.inventoryDish.addIngredientToDish.useMutation({
@@ -200,10 +201,10 @@ export function RecipeManager() {
                 </CardHeader>
                 <CardContent className="px-0 space-y-4">
                     <div className="relative">
-                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                         <Input
                             placeholder="Tìm món ăn..."
-                            className="pl-9 h-9 border-muted bg-card/50"
+                            className="pl-9 h-10 border-muted bg-card shadow-xs focus-visible:ring-primary/20"
                             value={searchDish}
                             onChange={(e) => setSearchDish(e.target.value)}
                         />
@@ -387,7 +388,8 @@ export function RecipeManager() {
                         </div>
                     ) : (
                         <div className="rounded-xl border bg-card overflow-hidden">
-                            <Table>
+                            <div className="overflow-x-auto">
+                                <Table>
                                 <TableHeader className="bg-muted/50">
                                     <TableRow>
                                         <TableHead className="font-semibold px-4 py-3">
@@ -469,7 +471,8 @@ export function RecipeManager() {
                                         ))
                                     )}
                                 </TableBody>
-                            </Table>
+                                </Table>
+                            </div>
                         </div>
                     )}
                 </CardContent>

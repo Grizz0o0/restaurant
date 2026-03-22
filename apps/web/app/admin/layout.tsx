@@ -12,26 +12,8 @@ export default function AdminLayout({
 }: {
     children: React.ReactNode;
 }) {
-    // We protect the entire /admin hierarchy
-    // Only ADMIN or MANAGER can access.
-    // Ideally RouteGuard supports array of roles, but for now we can check inside or wrap.
-    // Since RouteGuard checks exact role if provided, we might need a wrapper or
-    // just let the RouteGuard handle checks if we update it.
-
-    // For now, let's use a custom check with the hook + a wrapper that renders children only if allowed.
-    // Or simpler: let's update RouteGuard to support multiple roles?
-    // Actually, let's keep it simple here.
-
-    const { hasRole, role } = usePermission();
-    const router = useRouter();
-
-    // If we use RouteGuard with specific role, it's one role.
-    // If we want OR logic (ADMIN or MANAGER), we do it manually or pass nothing to RouteGuard
-    // and check inside layout.
-
     return (
         <RouteGuard>
-            {/* We rely on RouteGuard for Auth check first */}
             <AdminRoleCheck>{children}</AdminRoleCheck>
         </RouteGuard>
     );

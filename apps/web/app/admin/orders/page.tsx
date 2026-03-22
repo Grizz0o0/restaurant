@@ -65,8 +65,21 @@ export default function AdminOrdersPage() {
     const orders = ordersData?.data || [];
 
     const updateStatusMutation = trpc.order.updateStatus.useMutation({
-        onSuccess: () => {
-            toast.success('Đã cập nhật trạng thái đơn hàng');
+        onSuccess: (data: any) => {
+            if (data.inventoryWarnings && data.inventoryWarnings.length > 0) {
+                toast.warning('Cập nhật thành công nhưng có cảnh báo kho:', {
+                    description: (
+                        <ul className="list-disc pl-4 mt-1 space-y-1">
+                            {data.inventoryWarnings.map((w: string, i: number) => (
+                                <li key={i}>{w}</li>
+                            ))}
+                        </ul>
+                    ),
+                    duration: 6000,
+                });
+            } else {
+                toast.success('Đã cập nhật trạng thái đơn hàng');
+            }
             utils.order.list.invalidate();
         },
         onError: (err) => {

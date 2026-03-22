@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -13,6 +13,8 @@ import {
     Search,
     UtensilsCrossed,
     X,
+    ChevronLeft,
+    ChevronRight,
 } from 'lucide-react';
 import {
     AlertDialog,
@@ -116,13 +118,26 @@ export default function AdminDishesPage() {
     const utils = trpc.useUtils();
 
     // Data Fetching
+    // Pagination and Filter State
+    const [currentPage, setCurrentPage] = useState(1);
+    const ITEMS_PER_PAGE = 12;
+
+    // Filter states
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filterCategory, setFilterCategory] = useState('all');
+    const [filterStatus, setFilterStatus] = useState('all');
+
+    // Data Fetching
     const { data: categoriesData } = trpc.category.list.useQuery({
         page: 1,
         limit: 100,
     });
     const { data: dishesData, isLoading } = trpc.dish.list.useQuery({
-        page: 1,
-        limit: 100,
+        page: currentPage,
+        limit: ITEMS_PER_PAGE,
+        search: searchQuery || undefined,
+        categoryId: filterCategory === 'all' ? undefined : filterCategory,
+        isActive: filterStatus === 'all' ? undefined : filterStatus === 'active',
     });
 
     // Fetch Languages
@@ -174,6 +189,11 @@ export default function AdminDishesPage() {
         name: 'variants',
     });
 
+    // Reset to page 1 when filters change
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchQuery, filterCategory, filterStatus]);
+
     // Auto-select first supplier if available and not set
     // Using useEffect to set it when suppliers load
     useEffect(() => {
@@ -182,7 +202,13 @@ export default function AdminDishesPage() {
             suppliers.length > 0 &&
             !editing
         ) {
-            form.setValue('supplier_id', suppliers[0].id);
+            const internalSupplier = suppliers.find(
+                (s) => s.name === 'Tự chế biến',
+            );
+            form.setValue(
+                'supplier_id',
+                internalSupplier ? internalSupplier.id : suppliers[0].id,
+            );
         }
     }, [suppliers, form, editing]);
 
@@ -235,12 +261,19 @@ export default function AdminDishesPage() {
     // Handlers
     const openCreate = () => {
         setEditing(null);
+        const internalSupplier = suppliers.find(
+            (s) => s.name === 'Tự chế biến',
+        );
         form.reset({
             name: '',
             description: '',
             price_vnd: 0,
             category_id: '',
-            supplier_id: suppliers.length > 0 ? suppliers[0].id : '',
+            supplier_id: internalSupplier
+                ? internalSupplier.id
+                : suppliers.length > 0
+                  ? suppliers[0].id
+                  : '',
             language_id: 'vi',
             image_url: '',
             is_active: true,
@@ -346,33 +379,19 @@ export default function AdminDishesPage() {
         }).format(vnd);
 
     // Filtering Logic
-    const [searchQuery, setSearchQuery] = useState('');
-    const [filterCategory, setFilterCategory] = useState<string>('all');
-    const [filterStatus, setFilterStatus] = useState<string>('all');
-
     const filteredDishes = useMemo(() => {
-        return dishes.filter((dish) => {
-            const matchName = (dish.name ?? '')
-                .toLowerCase()
-                .includes(searchQuery.toLowerCase());
-            const matchCategory =
-                filterCategory === 'all' ||
-                dish.categories?.some((c) => c.id === filterCategory);
-            const matchStatus =
-                filterStatus === 'all' ||
-                (filterStatus === 'active' ? dish.isActive : !dish.isActive);
-
-            return matchName && matchCategory && matchStatus;
-        });
-    }, [dishes, searchQuery, filterCategory, filterStatus]);
+        return dishes;
+    }, [dishes]);
 
     // Stats
     const stats = useMemo(() => {
-        const total = dishes.length;
+        const total = dishesData?.pagination.totalItems || dishes.length;
+        // Approximation for active/inactive since we don't have total active from API paginated response without extra query
+        // But for simplicity, we can use the local counts if we are on page 1 or just show total
         const active = dishes.filter((d) => d.isActive).length;
-        const inactive = total - active;
+        const inactive = dishes.filter((d) => !d.isActive).length;
         return { total, active, inactive };
-    }, [dishes]);
+    }, [dishes, dishesData?.pagination.totalItems]);
 
     return (
         <div className="flex flex-col p-6 w-full max-w-7xl mx-auto space-y-8">
@@ -421,13 +440,14 @@ export default function AdminDishesPage() {
                             </DialogHeader>
 
                             <Tabs defaultValue="basic" className="w-full">
-                                <TabsList className="grid w-full grid-cols-2">
-                                    <TabsTrigger value="basic">
+                                <TabsList className="grid w-full grid-cols-2 h-auto">
+                                    <TabsTrigger value="basic" className="py-2 text-xs sm:text-sm">
                                         Thông tin cơ bản
                                     </TabsTrigger>
                                     <TabsTrigger
                                         value="ingredients"
                                         disabled={!editing}
+                                        className="py-2 text-xs sm:text-sm"
                                     >
                                         Công thức / Nguyên liệu
                                     </TabsTrigger>
@@ -440,12 +460,12 @@ export default function AdminDishesPage() {
                                             )}
                                             className="space-y-6 pt-4"
                                         >
-                                            <div className="grid grid-cols-2 gap-4">
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 <FormField
                                                     control={form.control}
                                                     name="name"
                                                     render={({ field }) => (
-                                                        <FormItem className="col-span-2">
+                                                        <FormItem className="col-span-1 sm:col-span-2">
                                                             <FormLabel>
                                                                 Tên món
                                                             </FormLabel>
@@ -568,7 +588,7 @@ export default function AdminDishesPage() {
                                                 )}
                                             />
 
-                                            <div className="grid grid-cols-2 gap-4">
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 <FormField
                                                     control={form.control}
                                                     name="supplier_id"
@@ -1180,6 +1200,96 @@ export default function AdminDishesPage() {
                     })
                 )}
             </div>
+
+            {/* Pagination Controls */}
+            {dishesData?.pagination && dishesData.pagination.totalPages > 1 && (
+                <div className="flex items-center justify-between border-t pt-6">
+                    <div className="text-sm text-muted-foreground">
+                        Hiển thị{' '}
+                        <span className="font-medium text-foreground">
+                            {(currentPage - 1) * ITEMS_PER_PAGE + 1}
+                        </span>{' '}
+                        đến{' '}
+                        <span className="font-medium text-foreground">
+                            {Math.min(
+                                currentPage * ITEMS_PER_PAGE,
+                                dishesData.pagination.totalItems,
+                            )}
+                        </span>{' '}
+                        trong tổng số{' '}
+                        <span className="font-medium text-foreground">
+                            {dishesData.pagination.totalItems}
+                        </span>{' '}
+                        món ăn
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() =>
+                                setCurrentPage((p) => Math.max(1, p - 1))
+                            }
+                            disabled={!dishesData.pagination.hasPrev}
+                            className="gap-1"
+                        >
+                            <ChevronLeft className="h-4 w-4" />
+                            Trang trước
+                        </Button>
+                        <div className="flex items-center gap-1">
+                            {Array.from(
+                                { length: dishesData.pagination.totalPages },
+                                (_, i) => i + 1,
+                            )
+                                .filter((p) => {
+                                    // Show first, last, current, and neighbors
+                                    return (
+                                        p === 1 ||
+                                        p === dishesData.pagination.totalPages ||
+                                        Math.abs(p - currentPage) <= 1
+                                    );
+                                })
+                                .map((p, i, arr) => (
+                                    <React.Fragment key={p}>
+                                        {i > 0 && arr[i - 1] !== p - 1 && (
+                                            <span className="text-muted-foreground px-1">
+                                                ...
+                                            </span>
+                                        )}
+                                        <Button
+                                            variant={
+                                                p === currentPage
+                                                    ? 'hero'
+                                                    : 'outline'
+                                            }
+                                            size="sm"
+                                            className="w-9 h-9 p-0"
+                                            onClick={() => setCurrentPage(p)}
+                                        >
+                                            {p}
+                                        </Button>
+                                    </React.Fragment>
+                                ))}
+                        </div>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() =>
+                                setCurrentPage((p) =>
+                                    Math.min(
+                                        dishesData.pagination.totalPages,
+                                        p + 1,
+                                    ),
+                                )
+                            }
+                            disabled={!dishesData.pagination.hasNext}
+                            className="gap-1"
+                        >
+                            Trang sau
+                            <ChevronRight className="h-4 w-4" />
+                        </Button>
+                    </div>
+                </div>
+            )}
 
             {/* Toggle Active/Inactive Dialog */}
             <AlertDialog

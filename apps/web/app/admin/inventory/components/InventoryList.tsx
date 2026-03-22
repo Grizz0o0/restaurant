@@ -14,6 +14,8 @@ import {
     AlertTriangle,
     RefreshCw,
     CheckCircle2,
+    PackagePlus,
+    ArrowRightLeft,
 } from 'lucide-react';
 import {
     AlertDialog,
@@ -181,6 +183,8 @@ export function InventoryList({ restaurantId }: { restaurantId: string }) {
 
     const [open, setOpen] = useState(false);
     const [editing, setEditing] = useState<InventoryItem | null>(null);
+    const [adjusting, setAdjusting] = useState<InventoryItem | null>(null);
+    const [adjustValue, setAdjustValue] = useState<string>('');
     const [deleteId, setDeleteId] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
@@ -243,6 +247,30 @@ export function InventoryList({ restaurantId }: { restaurantId: string }) {
         }
     };
 
+    const handleAdjustSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!adjusting || !adjustValue) return;
+        const diff = Number(adjustValue);
+        if (isNaN(diff) || diff === 0) return;
+
+        // Round to 4 decimal places to avoid floating point issues
+        const newQty =
+            Math.round((Number(adjusting.quantity) + diff) * 10000) / 10000;
+        if (newQty < 0) {
+            toast.error('Số lượng tồn mới không được nhỏ hơn 0');
+            return;
+        }
+
+        updateMutation.mutate({
+            id: adjusting.id,
+            data: {
+                quantity: newQty,
+            },
+        });
+        setAdjusting(null);
+        setAdjustValue('');
+    };
+
     const confirmDelete = () => {
         if (deleteId) deleteMutation.mutate({ id: deleteId });
     };
@@ -266,16 +294,16 @@ export function InventoryList({ restaurantId }: { restaurantId: string }) {
         <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex flex-col sm:flex-row gap-3 flex-1">
-                    <div className="relative flex-1 max-w-sm">
-                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <div className="relative flex-1 max-w-md">
+                        <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                         <Input
                             placeholder="Tìm kiếm mặt hàng..."
-                            className="pl-9"
+                            className="pl-10 h-11 text-base border-muted-foreground/20 shadow-xs focus-visible:ring-primary/20"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 w-full overflow-x-auto pb-2 sm:pb-0 scrollbar-none">
                         {(['all', 'ok', 'low'] as StatusFilter[]).map((s) => (
                             <Button
                                 key={s}
@@ -285,7 +313,7 @@ export function InventoryList({ restaurantId }: { restaurantId: string }) {
                                 }
                                 onClick={() => setStatusFilter(s)}
                                 className={cn(
-                                    'gap-1.5',
+                                    'gap-1.5 whitespace-nowrap',
                                     statusFilter === s &&
                                         s === 'low' &&
                                         'bg-rose-500 hover:bg-rose-600 border-rose-500',
@@ -415,7 +443,7 @@ export function InventoryList({ restaurantId }: { restaurantId: string }) {
                                             </FormItem>
                                         )}
                                     />
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <FormField
                                             control={form.control}
                                             name="quantity"
@@ -429,6 +457,7 @@ export function InventoryList({ restaurantId }: { restaurantId: string }) {
                                                             type="number"
                                                             step="0.01"
                                                             min={0}
+                                                            disabled={!!editing}
                                                             {...field}
                                                         />
                                                     </FormControl>
@@ -628,7 +657,7 @@ export function InventoryList({ restaurantId }: { restaurantId: string }) {
                                                 <td className="p-4 text-muted-foreground">
                                                     {item.unit}
                                                 </td>
-                                                <td className="p-4 hidden md:table-cell min-w-[120px]">
+                                                <td className="p-4 hidden md:table-cell min-w-30">
                                                     <div className="space-y-1">
                                                         <div className="flex justify-between text-[10px] text-muted-foreground">
                                                             <span>
@@ -649,6 +678,19 @@ export function InventoryList({ restaurantId }: { restaurantId: string }) {
                                                 </td>
                                                 <td className="p-4 text-right">
                                                     <div className="flex justify-end gap-1">
+                                                        <Button
+                                                            size="icon"
+                                                            variant="ghost"
+                                                            className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                                                            onClick={() =>
+                                                                setAdjusting(
+                                                                    item,
+                                                                )
+                                                            }
+                                                            title="Điều chỉnh số lượng"
+                                                        >
+                                                            <PackagePlus className="h-4 w-4" />
+                                                        </Button>
                                                         <Button
                                                             size="icon"
                                                             variant="ghost"
@@ -706,6 +748,127 @@ export function InventoryList({ restaurantId }: { restaurantId: string }) {
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
+
+            {/* Adjust Stock Dialog */}
+            <Dialog
+                open={!!adjusting}
+                onOpenChange={(open) => !open && setAdjusting(null)}
+            >
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Điều chỉnh Tồn kho</DialogTitle>
+                    </DialogHeader>
+                    {adjusting && (
+                        <form
+                            onSubmit={handleAdjustSubmit}
+                            className="space-y-4 pt-4"
+                        >
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium leading-none">
+                                    Tên mặt hàng
+                                </label>
+                                <div className="font-semibold">
+                                    {adjusting.itemName}
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium leading-none">
+                                        Tồn kho hiện tại
+                                    </label>
+                                    <Input
+                                        disabled
+                                        value={`${adjusting.quantity} ${adjusting.unit}`}
+                                        className="bg-muted font-bold"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium leading-none">
+                                        Biến động (+/-)
+                                    </label>
+                                    <div className="relative">
+                                        <Input
+                                            type="number"
+                                            step="0.01"
+                                            value={adjustValue}
+                                            onChange={(e) =>
+                                                setAdjustValue(e.target.value)
+                                            }
+                                            placeholder="VD: +50 hoặc -10"
+                                            required
+                                            autoFocus
+                                            className={cn(
+                                                'font-bold pr-10',
+                                                Number(adjustValue) > 0
+                                                    ? 'text-emerald-600 focus-visible:ring-emerald-500'
+                                                    : Number(adjustValue) < 0
+                                                      ? 'text-rose-600 focus-visible:ring-rose-500'
+                                                      : '',
+                                            )}
+                                        />
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
+                                            {adjusting.unit}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {adjustValue && (
+                                <div className="p-3 bg-muted/50 rounded-lg border flex justify-between items-center text-sm">
+                                    <span className="text-muted-foreground">
+                                        Tồn kho dự kiến:
+                                    </span>
+                                    <span
+                                        className={cn(
+                                            'font-bold text-lg flex items-center gap-1',
+                                            Math.round(
+                                                (Number(adjusting.quantity) +
+                                                    Number(adjustValue)) *
+                                                    10000,
+                                            ) /
+                                                10000 <
+                                                Number(adjusting.threshold) &&
+                                                'text-rose-600',
+                                        )}
+                                    >
+                                        {Number(adjustValue) > 0 && (
+                                            <ArrowRightLeft className="w-3 h-3 text-emerald-500" />
+                                        )}
+                                        {Math.round(
+                                            (Number(adjusting.quantity) +
+                                                Number(adjustValue)) *
+                                                10000,
+                                        ) / 10000}{' '}
+                                        {adjusting.unit}
+                                    </span>
+                                </div>
+                            )}
+
+                            <div className="flex justify-end gap-2 pt-4">
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={() => setAdjusting(null)}
+                                >
+                                    Hủy
+                                </Button>
+                                <Button
+                                    type="submit"
+                                    variant="hero"
+                                    disabled={
+                                        updateMutation.isPending || !adjustValue
+                                    }
+                                >
+                                    {updateMutation.isPending && (
+                                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                    )}
+                                    Lưu thay đổi
+                                </Button>
+                            </div>
+                        </form>
+                    )}
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

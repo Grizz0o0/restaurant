@@ -422,7 +422,7 @@ export default function AdminReportsPage() {
                                             {data.topDishes.map(
                                                 (dish, index) => (
                                                     <tr
-                                                        key={dish.dishName}
+                                                        key={`${dish.dishName}-${index}`}
                                                         className="hover:bg-muted/30 transition-colors"
                                                     >
                                                         <td className="p-4 text-sm font-medium text-muted-foreground">
@@ -504,7 +504,7 @@ export default function AdminReportsPage() {
                                                 {data.topRatedDishes.map(
                                                     (dish, i) => (
                                                         <tr
-                                                            key={dish.dishName}
+                                                            key={`${dish.dishName}-${i}`}
                                                             className="hover:bg-muted/30"
                                                         >
                                                             <td className="p-3 font-medium">
@@ -583,7 +583,7 @@ export default function AdminReportsPage() {
                                                 {data.topCriticizedDishes.map(
                                                     (dish, i) => (
                                                         <tr
-                                                            key={dish.dishName}
+                                                            key={`${dish.dishName}-${i}`}
                                                             className="hover:bg-muted/30"
                                                         >
                                                             <td className="p-3 font-medium">

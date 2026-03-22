@@ -226,8 +226,8 @@ export default function AdminDashboard() {
                 ))}
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-                <Card className="col-span-4">
+            <div className="grid gap-4 grid-cols-1 lg:grid-cols-7">
+                <Card className="lg:col-span-4">
                     <CardHeader>
                         <CardTitle>Doanh thu gần đây</CardTitle>
                         <CardDescription>
@@ -238,7 +238,7 @@ export default function AdminDashboard() {
                         <RevenueChart formatCurrency={formatCurrency} />
                     </CardContent>
                 </Card>
-                <Card className="col-span-3">
+                <Card className="lg:col-span-3">
                     <CardHeader>
                         <CardTitle>Hoạt động gần đây</CardTitle>
                         <CardDescription>Các đơn hàng mới nhất</CardDescription>

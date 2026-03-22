@@ -95,9 +95,8 @@ export function AddressList() {
 
     return (
         <div className="space-y-4">
-            <div className="flex justify-between items-center">
-                <h3 className="text-lg font-medium">Sổ địa chỉ</h3>
-                <Button onClick={handleAdd} size="sm" className="gap-1">
+            <div className="flex justify-end mb-4">
+                <Button onClick={handleAdd} size="sm" className="gap-1 w-full sm:w-auto">
                     <Plus className="h-4 w-4" /> Thêm địa chỉ
                 </Button>
             </div>

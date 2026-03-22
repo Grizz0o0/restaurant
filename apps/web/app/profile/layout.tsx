@@ -13,7 +13,7 @@ export default function ProfileLayout({ children }: ProfileLayoutProps) {
     return (
         <div className="min-h-screen bg-background flex flex-col">
             <Header />
-            <main className="flex-1 container mx-auto px-4 py-20 md:py-24 animate-fade-in-up">
+            <main className="flex-1 container mx-auto px-4 py-8 lg:py-16 animate-fade-in-up">
                 <div className="space-y-6">
                     <div className="space-y-0.5">
                         <h2 className="text-2xl font-bold tracking-tight font-display">
@@ -25,7 +25,7 @@ export default function ProfileLayout({ children }: ProfileLayoutProps) {
                     </div>
                     <Separator className="my-6" />
                     <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
-                        <aside className="-mx-4 lg:mx-0 lg:w-64">
+                        <aside className="lg:w-64">
                             <ProfileSidebar />
                         </aside>
                         <div className="flex-1 lg:max-w-3xl">{children}</div>

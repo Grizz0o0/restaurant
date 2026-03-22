@@ -77,7 +77,7 @@ export default function SecurityPage() {
                         <Button
                             onClick={handleSetup}
                             disabled={setupMutation.isPending}
-                            className="w-fit"
+                            className="w-full sm:w-fit"
                         >
                             {setupMutation.isPending
                                 ? 'Đang tạo...'
@@ -88,7 +88,7 @@ export default function SecurityPage() {
                             <h5 className="text-sm font-medium mb-2">
                                 Tắt 2FA
                             </h5>
-                            <div className="flex items-end gap-2 max-w-sm">
+                            <div className="flex flex-col sm:flex-row sm:items-end gap-3 max-w-sm">
                                 <div className="grid w-full gap-1.5">
                                     <Label htmlFor="code" className="text-xs">
                                         Mã Authenticator
@@ -102,12 +102,14 @@ export default function SecurityPage() {
                                         onChange={(e) =>
                                             setVerificationCode(e.target.value)
                                         }
+                                        className="bg-background"
                                     />
                                 </div>
                                 <Button
                                     variant="destructive"
                                     onClick={handleDisable}
                                     disabled={disableMutation.isPending}
+                                    className="w-full sm:w-fit"
                                 >
                                     {disableMutation.isPending
                                         ? 'Đang tắt...'
