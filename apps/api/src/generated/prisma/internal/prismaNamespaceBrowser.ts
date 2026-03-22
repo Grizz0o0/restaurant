@@ -419,7 +419,8 @@ export const CartItemScalarFieldEnum = {
   userId: 'userId',
   channel: 'channel',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  note: 'note'
 } as const
 
 export type CartItemScalarFieldEnum = (typeof CartItemScalarFieldEnum)[keyof typeof CartItemScalarFieldEnum]
@@ -435,7 +436,8 @@ export const DishSKUSnapshotScalarFieldEnum = {
   skuId: 'skuId',
   orderId: 'orderId',
   createdAt: 'createdAt',
-  dishId: 'dishId'
+  dishId: 'dishId',
+  note: 'note'
 } as const
 
 export type DishSKUSnapshotScalarFieldEnum = (typeof DishSKUSnapshotScalarFieldEnum)[keyof typeof DishSKUSnapshotScalarFieldEnum]
@@ -460,7 +462,13 @@ export const OrderScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   guestId: 'guestId',
-  paymentStatus: 'paymentStatus'
+  paymentStatus: 'paymentStatus',
+  deliveryCode: 'deliveryCode',
+  addressId: 'addressId',
+  deliveryAddress: 'deliveryAddress',
+  deliveryPhone: 'deliveryPhone',
+  receiverName: 'receiverName',
+  shipperId: 'shipperId'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]

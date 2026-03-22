@@ -396,6 +396,7 @@ export type UserWhereInput = {
   createdVariantOptions?: Prisma.VariantOptionListRelationFilter
   deletedVariantOptions?: Prisma.VariantOptionListRelationFilter
   updatedVariantOptions?: Prisma.VariantOptionListRelationFilter
+  shipperOrders?: Prisma.OrderListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -498,6 +499,7 @@ export type UserOrderByWithRelationInput = {
   createdVariantOptions?: Prisma.VariantOptionOrderByRelationAggregateInput
   deletedVariantOptions?: Prisma.VariantOptionOrderByRelationAggregateInput
   updatedVariantOptions?: Prisma.VariantOptionOrderByRelationAggregateInput
+  shipperOrders?: Prisma.OrderOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -603,6 +605,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdVariantOptions?: Prisma.VariantOptionListRelationFilter
   deletedVariantOptions?: Prisma.VariantOptionListRelationFilter
   updatedVariantOptions?: Prisma.VariantOptionListRelationFilter
+  shipperOrders?: Prisma.OrderListRelationFilter
 }, "id" | "email" | "phoneNumber" | "totpSecret">
 
 export type UserOrderByWithAggregationInput = {
@@ -749,6 +752,7 @@ export type UserCreateInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -847,6 +851,7 @@ export type UserUncheckedCreateInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserUpdateInput = {
@@ -945,6 +950,7 @@ export type UserUpdateInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -1043,6 +1049,7 @@ export type UserUncheckedUpdateInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -2199,6 +2206,12 @@ export type UserCreateNestedOneWithoutOrdersInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
+export type UserCreateNestedOneWithoutShipperOrdersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutShipperOrdersInput, Prisma.UserUncheckedCreateWithoutShipperOrdersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutShipperOrdersInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
 export type UserUpdateOneWithoutCreatedOrdersNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedOrdersInput, Prisma.UserUncheckedCreateWithoutCreatedOrdersInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedOrdersInput
@@ -2237,6 +2250,16 @@ export type UserUpdateOneWithoutOrdersNestedInput = {
   delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOrdersInput, Prisma.UserUpdateWithoutOrdersInput>, Prisma.UserUncheckedUpdateWithoutOrdersInput>
+}
+
+export type UserUpdateOneWithoutShipperOrdersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutShipperOrdersInput, Prisma.UserUncheckedCreateWithoutShipperOrdersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutShipperOrdersInput
+  upsert?: Prisma.UserUpsertWithoutShipperOrdersInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutShipperOrdersInput, Prisma.UserUpdateWithoutShipperOrdersInput>, Prisma.UserUncheckedUpdateWithoutShipperOrdersInput>
 }
 
 export type UserCreateNestedOneWithoutReviewsInput = {
@@ -2690,6 +2713,7 @@ export type UserCreateWithoutCreatedLanguagesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedLanguagesInput = {
@@ -2787,6 +2811,7 @@ export type UserUncheckedCreateWithoutCreatedLanguagesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedLanguagesInput = {
@@ -2889,6 +2914,7 @@ export type UserCreateWithoutDeletedLanguagesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedLanguagesInput = {
@@ -2986,6 +3012,7 @@ export type UserUncheckedCreateWithoutDeletedLanguagesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedLanguagesInput = {
@@ -3088,6 +3115,7 @@ export type UserCreateWithoutUpdatedLanguagesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedLanguagesInput = {
@@ -3185,6 +3213,7 @@ export type UserUncheckedCreateWithoutUpdatedLanguagesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedLanguagesInput = {
@@ -3298,6 +3327,7 @@ export type UserUpdateWithoutCreatedLanguagesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedLanguagesInput = {
@@ -3395,6 +3425,7 @@ export type UserUncheckedUpdateWithoutCreatedLanguagesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedLanguagesInput = {
@@ -3503,6 +3534,7 @@ export type UserUpdateWithoutDeletedLanguagesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedLanguagesInput = {
@@ -3600,6 +3632,7 @@ export type UserUncheckedUpdateWithoutDeletedLanguagesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedLanguagesInput = {
@@ -3708,6 +3741,7 @@ export type UserUpdateWithoutUpdatedLanguagesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedLanguagesInput = {
@@ -3805,6 +3839,7 @@ export type UserUncheckedUpdateWithoutUpdatedLanguagesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedUsersInput = {
@@ -3902,6 +3937,7 @@ export type UserCreateWithoutCreatedUsersInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedUsersInput = {
@@ -3999,6 +4035,7 @@ export type UserUncheckedCreateWithoutCreatedUsersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedUsersInput = {
@@ -4101,6 +4138,7 @@ export type UserCreateWithoutCreatedByInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedByInput = {
@@ -4198,6 +4236,7 @@ export type UserUncheckedCreateWithoutCreatedByInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedByInput = {
@@ -4305,6 +4344,7 @@ export type UserCreateWithoutDeletedUsersInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedUsersInput = {
@@ -4402,6 +4442,7 @@ export type UserUncheckedCreateWithoutDeletedUsersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedUsersInput = {
@@ -4504,6 +4545,7 @@ export type UserCreateWithoutDeletedByInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedByInput = {
@@ -4601,6 +4643,7 @@ export type UserUncheckedCreateWithoutDeletedByInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedByInput = {
@@ -4708,6 +4751,7 @@ export type UserCreateWithoutUpdatedUsersInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedUsersInput = {
@@ -4805,6 +4849,7 @@ export type UserUncheckedCreateWithoutUpdatedUsersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedUsersInput = {
@@ -4907,6 +4952,7 @@ export type UserCreateWithoutUpdatedByInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedByInput = {
@@ -5004,6 +5050,7 @@ export type UserUncheckedCreateWithoutUpdatedByInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedByInput = {
@@ -5122,6 +5169,7 @@ export type UserUpdateWithoutCreatedUsersInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedUsersInput = {
@@ -5219,6 +5267,7 @@ export type UserUncheckedUpdateWithoutCreatedUsersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -5366,6 +5415,7 @@ export type UserUpdateWithoutDeletedUsersInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedUsersInput = {
@@ -5463,6 +5513,7 @@ export type UserUncheckedUpdateWithoutDeletedUsersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithWhereUniqueWithoutDeletedByInput = {
@@ -5587,6 +5638,7 @@ export type UserUpdateWithoutUpdatedUsersInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedUsersInput = {
@@ -5684,6 +5736,7 @@ export type UserUncheckedUpdateWithoutUpdatedUsersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithWhereUniqueWithoutUpdatedByInput = {
@@ -5797,6 +5850,7 @@ export type UserCreateWithoutCreatedAddressesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedAddressesInput = {
@@ -5894,6 +5948,7 @@ export type UserUncheckedCreateWithoutCreatedAddressesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedAddressesInput = {
@@ -5996,6 +6051,7 @@ export type UserCreateWithoutDeletedAddressesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedAddressesInput = {
@@ -6093,6 +6149,7 @@ export type UserUncheckedCreateWithoutDeletedAddressesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedAddressesInput = {
@@ -6195,6 +6252,7 @@ export type UserCreateWithoutUpdatedAddressesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedAddressesInput = {
@@ -6292,6 +6350,7 @@ export type UserUncheckedCreateWithoutUpdatedAddressesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedAddressesInput = {
@@ -6394,6 +6453,7 @@ export type UserCreateWithoutAddressesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutAddressesInput = {
@@ -6491,6 +6551,7 @@ export type UserUncheckedCreateWithoutAddressesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutAddressesInput = {
@@ -6604,6 +6665,7 @@ export type UserUpdateWithoutCreatedAddressesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedAddressesInput = {
@@ -6701,6 +6763,7 @@ export type UserUncheckedUpdateWithoutCreatedAddressesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedAddressesInput = {
@@ -6809,6 +6872,7 @@ export type UserUpdateWithoutDeletedAddressesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedAddressesInput = {
@@ -6906,6 +6970,7 @@ export type UserUncheckedUpdateWithoutDeletedAddressesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedAddressesInput = {
@@ -7014,6 +7079,7 @@ export type UserUpdateWithoutUpdatedAddressesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedAddressesInput = {
@@ -7111,6 +7177,7 @@ export type UserUncheckedUpdateWithoutUpdatedAddressesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutAddressesInput = {
@@ -7219,6 +7286,7 @@ export type UserUpdateWithoutAddressesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAddressesInput = {
@@ -7316,6 +7384,7 @@ export type UserUncheckedUpdateWithoutAddressesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedUserTranslationsInput = {
@@ -7413,6 +7482,7 @@ export type UserCreateWithoutCreatedUserTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedUserTranslationsInput = {
@@ -7510,6 +7580,7 @@ export type UserUncheckedCreateWithoutCreatedUserTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedUserTranslationsInput = {
@@ -7612,6 +7683,7 @@ export type UserCreateWithoutDeletedUserTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedUserTranslationsInput = {
@@ -7709,6 +7781,7 @@ export type UserUncheckedCreateWithoutDeletedUserTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedUserTranslationsInput = {
@@ -7811,6 +7884,7 @@ export type UserCreateWithoutUpdatedUserTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedUserTranslationsInput = {
@@ -7908,6 +7982,7 @@ export type UserUncheckedCreateWithoutUpdatedUserTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedUserTranslationsInput = {
@@ -8010,6 +8085,7 @@ export type UserCreateWithoutUserTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUserTranslationsInput = {
@@ -8107,6 +8183,7 @@ export type UserUncheckedCreateWithoutUserTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUserTranslationsInput = {
@@ -8220,6 +8297,7 @@ export type UserUpdateWithoutCreatedUserTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedUserTranslationsInput = {
@@ -8317,6 +8395,7 @@ export type UserUncheckedUpdateWithoutCreatedUserTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedUserTranslationsInput = {
@@ -8425,6 +8504,7 @@ export type UserUpdateWithoutDeletedUserTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedUserTranslationsInput = {
@@ -8522,6 +8602,7 @@ export type UserUncheckedUpdateWithoutDeletedUserTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedUserTranslationsInput = {
@@ -8630,6 +8711,7 @@ export type UserUpdateWithoutUpdatedUserTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedUserTranslationsInput = {
@@ -8727,6 +8809,7 @@ export type UserUncheckedUpdateWithoutUpdatedUserTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUserTranslationsInput = {
@@ -8835,6 +8918,7 @@ export type UserUpdateWithoutUserTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserTranslationsInput = {
@@ -8932,6 +9016,7 @@ export type UserUncheckedUpdateWithoutUserTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutInteractionsInput = {
@@ -9029,6 +9114,7 @@ export type UserCreateWithoutInteractionsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutInteractionsInput = {
@@ -9126,6 +9212,7 @@ export type UserUncheckedCreateWithoutInteractionsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutInteractionsInput = {
@@ -9239,6 +9326,7 @@ export type UserUpdateWithoutInteractionsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInteractionsInput = {
@@ -9336,6 +9424,7 @@ export type UserUncheckedUpdateWithoutInteractionsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutDevicesInput = {
@@ -9433,6 +9522,7 @@ export type UserCreateWithoutDevicesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDevicesInput = {
@@ -9530,6 +9620,7 @@ export type UserUncheckedCreateWithoutDevicesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDevicesInput = {
@@ -9643,6 +9734,7 @@ export type UserUpdateWithoutDevicesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDevicesInput = {
@@ -9740,6 +9832,7 @@ export type UserUncheckedUpdateWithoutDevicesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutRefreshTokensInput = {
@@ -9837,6 +9930,7 @@ export type UserCreateWithoutRefreshTokensInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -9934,6 +10028,7 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -10047,6 +10142,7 @@ export type UserUpdateWithoutRefreshTokensInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -10144,6 +10240,7 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedPermissionsInput = {
@@ -10241,6 +10338,7 @@ export type UserCreateWithoutCreatedPermissionsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedPermissionsInput = {
@@ -10338,6 +10436,7 @@ export type UserUncheckedCreateWithoutCreatedPermissionsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedPermissionsInput = {
@@ -10440,6 +10539,7 @@ export type UserCreateWithoutDeletedPermissionsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedPermissionsInput = {
@@ -10537,6 +10637,7 @@ export type UserUncheckedCreateWithoutDeletedPermissionsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedPermissionsInput = {
@@ -10639,6 +10740,7 @@ export type UserCreateWithoutUpdatedPermissionsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedPermissionsInput = {
@@ -10736,6 +10838,7 @@ export type UserUncheckedCreateWithoutUpdatedPermissionsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedPermissionsInput = {
@@ -10849,6 +10952,7 @@ export type UserUpdateWithoutCreatedPermissionsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedPermissionsInput = {
@@ -10946,6 +11050,7 @@ export type UserUncheckedUpdateWithoutCreatedPermissionsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedPermissionsInput = {
@@ -11054,6 +11159,7 @@ export type UserUpdateWithoutDeletedPermissionsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedPermissionsInput = {
@@ -11151,6 +11257,7 @@ export type UserUncheckedUpdateWithoutDeletedPermissionsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedPermissionsInput = {
@@ -11259,6 +11366,7 @@ export type UserUpdateWithoutUpdatedPermissionsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedPermissionsInput = {
@@ -11356,6 +11464,7 @@ export type UserUncheckedUpdateWithoutUpdatedPermissionsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedRolesInput = {
@@ -11453,6 +11562,7 @@ export type UserCreateWithoutCreatedRolesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedRolesInput = {
@@ -11550,6 +11660,7 @@ export type UserUncheckedCreateWithoutCreatedRolesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedRolesInput = {
@@ -11652,6 +11763,7 @@ export type UserCreateWithoutDeletedRolesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedRolesInput = {
@@ -11749,6 +11861,7 @@ export type UserUncheckedCreateWithoutDeletedRolesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedRolesInput = {
@@ -11851,6 +11964,7 @@ export type UserCreateWithoutUpdatedRolesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedRolesInput = {
@@ -11948,6 +12062,7 @@ export type UserUncheckedCreateWithoutUpdatedRolesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedRolesInput = {
@@ -12050,6 +12165,7 @@ export type UserCreateWithoutRoleInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutRoleInput = {
@@ -12147,6 +12263,7 @@ export type UserUncheckedCreateWithoutRoleInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutRoleInput = {
@@ -12265,6 +12382,7 @@ export type UserUpdateWithoutCreatedRolesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedRolesInput = {
@@ -12362,6 +12480,7 @@ export type UserUncheckedUpdateWithoutCreatedRolesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedRolesInput = {
@@ -12470,6 +12589,7 @@ export type UserUpdateWithoutDeletedRolesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedRolesInput = {
@@ -12567,6 +12687,7 @@ export type UserUncheckedUpdateWithoutDeletedRolesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedRolesInput = {
@@ -12675,6 +12796,7 @@ export type UserUpdateWithoutUpdatedRolesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedRolesInput = {
@@ -12772,6 +12894,7 @@ export type UserUncheckedUpdateWithoutUpdatedRolesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithWhereUniqueWithoutRoleInput = {
@@ -12885,6 +13008,7 @@ export type UserCreateWithoutCreatedDishesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedDishesInput = {
@@ -12982,6 +13106,7 @@ export type UserUncheckedCreateWithoutCreatedDishesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedDishesInput = {
@@ -13084,6 +13209,7 @@ export type UserCreateWithoutDeletedDishesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedDishesInput = {
@@ -13181,6 +13307,7 @@ export type UserUncheckedCreateWithoutDeletedDishesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedDishesInput = {
@@ -13283,6 +13410,7 @@ export type UserCreateWithoutUpdatedDishesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedDishesInput = {
@@ -13380,6 +13508,7 @@ export type UserUncheckedCreateWithoutUpdatedDishesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedDishesInput = {
@@ -13493,6 +13622,7 @@ export type UserUpdateWithoutCreatedDishesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedDishesInput = {
@@ -13590,6 +13720,7 @@ export type UserUncheckedUpdateWithoutCreatedDishesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedDishesInput = {
@@ -13698,6 +13829,7 @@ export type UserUpdateWithoutDeletedDishesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedDishesInput = {
@@ -13795,6 +13927,7 @@ export type UserUncheckedUpdateWithoutDeletedDishesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedDishesInput = {
@@ -13903,6 +14036,7 @@ export type UserUpdateWithoutUpdatedDishesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedDishesInput = {
@@ -14000,6 +14134,7 @@ export type UserUncheckedUpdateWithoutUpdatedDishesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedDishTranslationsInput = {
@@ -14097,6 +14232,7 @@ export type UserCreateWithoutCreatedDishTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedDishTranslationsInput = {
@@ -14194,6 +14330,7 @@ export type UserUncheckedCreateWithoutCreatedDishTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedDishTranslationsInput = {
@@ -14296,6 +14433,7 @@ export type UserCreateWithoutDeletedDishTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedDishTranslationsInput = {
@@ -14393,6 +14531,7 @@ export type UserUncheckedCreateWithoutDeletedDishTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedDishTranslationsInput = {
@@ -14495,6 +14634,7 @@ export type UserCreateWithoutUpdatedDishTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedDishTranslationsInput = {
@@ -14592,6 +14732,7 @@ export type UserUncheckedCreateWithoutUpdatedDishTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedDishTranslationsInput = {
@@ -14705,6 +14846,7 @@ export type UserUpdateWithoutCreatedDishTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedDishTranslationsInput = {
@@ -14802,6 +14944,7 @@ export type UserUncheckedUpdateWithoutCreatedDishTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedDishTranslationsInput = {
@@ -14910,6 +15053,7 @@ export type UserUpdateWithoutDeletedDishTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedDishTranslationsInput = {
@@ -15007,6 +15151,7 @@ export type UserUncheckedUpdateWithoutDeletedDishTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedDishTranslationsInput = {
@@ -15115,6 +15260,7 @@ export type UserUpdateWithoutUpdatedDishTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedDishTranslationsInput = {
@@ -15212,6 +15358,7 @@ export type UserUncheckedUpdateWithoutUpdatedDishTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedDishCategoriesInput = {
@@ -15309,6 +15456,7 @@ export type UserCreateWithoutCreatedDishCategoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedDishCategoriesInput = {
@@ -15406,6 +15554,7 @@ export type UserUncheckedCreateWithoutCreatedDishCategoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedDishCategoriesInput = {
@@ -15508,6 +15657,7 @@ export type UserCreateWithoutDeletedDishCategoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedDishCategoriesInput = {
@@ -15605,6 +15755,7 @@ export type UserUncheckedCreateWithoutDeletedDishCategoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedDishCategoriesInput = {
@@ -15707,6 +15858,7 @@ export type UserCreateWithoutUpdatedDishCategoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedDishCategoriesInput = {
@@ -15804,6 +15956,7 @@ export type UserUncheckedCreateWithoutUpdatedDishCategoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedDishCategoriesInput = {
@@ -15917,6 +16070,7 @@ export type UserUpdateWithoutCreatedDishCategoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedDishCategoriesInput = {
@@ -16014,6 +16168,7 @@ export type UserUncheckedUpdateWithoutCreatedDishCategoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedDishCategoriesInput = {
@@ -16122,6 +16277,7 @@ export type UserUpdateWithoutDeletedDishCategoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedDishCategoriesInput = {
@@ -16219,6 +16375,7 @@ export type UserUncheckedUpdateWithoutDeletedDishCategoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedDishCategoriesInput = {
@@ -16327,6 +16484,7 @@ export type UserUpdateWithoutUpdatedDishCategoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedDishCategoriesInput = {
@@ -16424,6 +16582,7 @@ export type UserUncheckedUpdateWithoutUpdatedDishCategoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedDishCategoryTranslationsInput = {
@@ -16521,6 +16680,7 @@ export type UserCreateWithoutCreatedDishCategoryTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedDishCategoryTranslationsInput = {
@@ -16618,6 +16778,7 @@ export type UserUncheckedCreateWithoutCreatedDishCategoryTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedDishCategoryTranslationsInput = {
@@ -16720,6 +16881,7 @@ export type UserCreateWithoutDeletedDishCategoryTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedDishCategoryTranslationsInput = {
@@ -16817,6 +16979,7 @@ export type UserUncheckedCreateWithoutDeletedDishCategoryTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedDishCategoryTranslationsInput = {
@@ -16919,6 +17082,7 @@ export type UserCreateWithoutUpdatedDishCategoryTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedDishCategoryTranslationsInput = {
@@ -17016,6 +17180,7 @@ export type UserUncheckedCreateWithoutUpdatedDishCategoryTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedDishCategoryTranslationsInput = {
@@ -17129,6 +17294,7 @@ export type UserUpdateWithoutCreatedDishCategoryTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedDishCategoryTranslationsInput = {
@@ -17226,6 +17392,7 @@ export type UserUncheckedUpdateWithoutCreatedDishCategoryTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedDishCategoryTranslationsInput = {
@@ -17334,6 +17501,7 @@ export type UserUpdateWithoutDeletedDishCategoryTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedDishCategoryTranslationsInput = {
@@ -17431,6 +17599,7 @@ export type UserUncheckedUpdateWithoutDeletedDishCategoryTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedDishCategoryTranslationsInput = {
@@ -17539,6 +17708,7 @@ export type UserUpdateWithoutUpdatedDishCategoryTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedDishCategoryTranslationsInput = {
@@ -17636,6 +17806,7 @@ export type UserUncheckedUpdateWithoutUpdatedDishCategoryTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedVariantsInput = {
@@ -17733,6 +17904,7 @@ export type UserCreateWithoutCreatedVariantsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedVariantsInput = {
@@ -17830,6 +18002,7 @@ export type UserUncheckedCreateWithoutCreatedVariantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedVariantsInput = {
@@ -17932,6 +18105,7 @@ export type UserCreateWithoutDeletedVariantsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedVariantsInput = {
@@ -18029,6 +18203,7 @@ export type UserUncheckedCreateWithoutDeletedVariantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedVariantsInput = {
@@ -18131,6 +18306,7 @@ export type UserCreateWithoutUpdatedVariantsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedVariantsInput = {
@@ -18228,6 +18404,7 @@ export type UserUncheckedCreateWithoutUpdatedVariantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedVariantsInput = {
@@ -18341,6 +18518,7 @@ export type UserUpdateWithoutCreatedVariantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedVariantsInput = {
@@ -18438,6 +18616,7 @@ export type UserUncheckedUpdateWithoutCreatedVariantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedVariantsInput = {
@@ -18546,6 +18725,7 @@ export type UserUpdateWithoutDeletedVariantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedVariantsInput = {
@@ -18643,6 +18823,7 @@ export type UserUncheckedUpdateWithoutDeletedVariantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedVariantsInput = {
@@ -18751,6 +18932,7 @@ export type UserUpdateWithoutUpdatedVariantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedVariantsInput = {
@@ -18848,6 +19030,7 @@ export type UserUncheckedUpdateWithoutUpdatedVariantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedVariantOptionsInput = {
@@ -18945,6 +19128,7 @@ export type UserCreateWithoutCreatedVariantOptionsInput = {
   updatedVariants?: Prisma.VariantCreateNestedManyWithoutUpdatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedVariantOptionsInput = {
@@ -19042,6 +19226,7 @@ export type UserUncheckedCreateWithoutCreatedVariantOptionsInput = {
   updatedVariants?: Prisma.VariantUncheckedCreateNestedManyWithoutUpdatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedVariantOptionsInput = {
@@ -19144,6 +19329,7 @@ export type UserCreateWithoutDeletedVariantOptionsInput = {
   updatedVariants?: Prisma.VariantCreateNestedManyWithoutUpdatedByInput
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedVariantOptionsInput = {
@@ -19241,6 +19427,7 @@ export type UserUncheckedCreateWithoutDeletedVariantOptionsInput = {
   updatedVariants?: Prisma.VariantUncheckedCreateNestedManyWithoutUpdatedByInput
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedVariantOptionsInput = {
@@ -19343,6 +19530,7 @@ export type UserCreateWithoutUpdatedVariantOptionsInput = {
   updatedVariants?: Prisma.VariantCreateNestedManyWithoutUpdatedByInput
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedVariantOptionsInput = {
@@ -19440,6 +19628,7 @@ export type UserUncheckedCreateWithoutUpdatedVariantOptionsInput = {
   updatedVariants?: Prisma.VariantUncheckedCreateNestedManyWithoutUpdatedByInput
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedVariantOptionsInput = {
@@ -19553,6 +19742,7 @@ export type UserUpdateWithoutCreatedVariantOptionsInput = {
   updatedVariants?: Prisma.VariantUpdateManyWithoutUpdatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedVariantOptionsInput = {
@@ -19650,6 +19840,7 @@ export type UserUncheckedUpdateWithoutCreatedVariantOptionsInput = {
   updatedVariants?: Prisma.VariantUncheckedUpdateManyWithoutUpdatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedVariantOptionsInput = {
@@ -19758,6 +19949,7 @@ export type UserUpdateWithoutDeletedVariantOptionsInput = {
   updatedVariants?: Prisma.VariantUpdateManyWithoutUpdatedByNestedInput
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedVariantOptionsInput = {
@@ -19855,6 +20047,7 @@ export type UserUncheckedUpdateWithoutDeletedVariantOptionsInput = {
   updatedVariants?: Prisma.VariantUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedVariantOptionsInput = {
@@ -19963,6 +20156,7 @@ export type UserUpdateWithoutUpdatedVariantOptionsInput = {
   updatedVariants?: Prisma.VariantUpdateManyWithoutUpdatedByNestedInput
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedVariantOptionsInput = {
@@ -20060,6 +20254,7 @@ export type UserUncheckedUpdateWithoutUpdatedVariantOptionsInput = {
   updatedVariants?: Prisma.VariantUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedSKUsInput = {
@@ -20157,6 +20352,7 @@ export type UserCreateWithoutCreatedSKUsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedSKUsInput = {
@@ -20254,6 +20450,7 @@ export type UserUncheckedCreateWithoutCreatedSKUsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedSKUsInput = {
@@ -20356,6 +20553,7 @@ export type UserCreateWithoutDeletedSKUsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedSKUsInput = {
@@ -20453,6 +20651,7 @@ export type UserUncheckedCreateWithoutDeletedSKUsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedSKUsInput = {
@@ -20555,6 +20754,7 @@ export type UserCreateWithoutUpdatedSKUsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedSKUsInput = {
@@ -20652,6 +20852,7 @@ export type UserUncheckedCreateWithoutUpdatedSKUsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedSKUsInput = {
@@ -20765,6 +20966,7 @@ export type UserUpdateWithoutCreatedSKUsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedSKUsInput = {
@@ -20862,6 +21064,7 @@ export type UserUncheckedUpdateWithoutCreatedSKUsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedSKUsInput = {
@@ -20970,6 +21173,7 @@ export type UserUpdateWithoutDeletedSKUsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedSKUsInput = {
@@ -21067,6 +21271,7 @@ export type UserUncheckedUpdateWithoutDeletedSKUsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedSKUsInput = {
@@ -21175,6 +21380,7 @@ export type UserUpdateWithoutUpdatedSKUsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedSKUsInput = {
@@ -21272,6 +21478,7 @@ export type UserUncheckedUpdateWithoutUpdatedSKUsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedSuppliersInput = {
@@ -21369,6 +21576,7 @@ export type UserCreateWithoutCreatedSuppliersInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedSuppliersInput = {
@@ -21466,6 +21674,7 @@ export type UserUncheckedCreateWithoutCreatedSuppliersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedSuppliersInput = {
@@ -21568,6 +21777,7 @@ export type UserCreateWithoutDeletedSuppliersInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedSuppliersInput = {
@@ -21665,6 +21875,7 @@ export type UserUncheckedCreateWithoutDeletedSuppliersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedSuppliersInput = {
@@ -21767,6 +21978,7 @@ export type UserCreateWithoutUpdatedSuppliersInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedSuppliersInput = {
@@ -21864,6 +22076,7 @@ export type UserUncheckedCreateWithoutUpdatedSuppliersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedSuppliersInput = {
@@ -21977,6 +22190,7 @@ export type UserUpdateWithoutCreatedSuppliersInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedSuppliersInput = {
@@ -22074,6 +22288,7 @@ export type UserUncheckedUpdateWithoutCreatedSuppliersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedSuppliersInput = {
@@ -22182,6 +22397,7 @@ export type UserUpdateWithoutDeletedSuppliersInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedSuppliersInput = {
@@ -22279,6 +22495,7 @@ export type UserUncheckedUpdateWithoutDeletedSuppliersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedSuppliersInput = {
@@ -22387,6 +22604,7 @@ export type UserUpdateWithoutUpdatedSuppliersInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedSuppliersInput = {
@@ -22484,6 +22702,7 @@ export type UserUncheckedUpdateWithoutUpdatedSuppliersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedSupplierTranslationsInput = {
@@ -22581,6 +22800,7 @@ export type UserCreateWithoutCreatedSupplierTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedSupplierTranslationsInput = {
@@ -22678,6 +22898,7 @@ export type UserUncheckedCreateWithoutCreatedSupplierTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedSupplierTranslationsInput = {
@@ -22780,6 +23001,7 @@ export type UserCreateWithoutDeletedSupplierTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedSupplierTranslationsInput = {
@@ -22877,6 +23099,7 @@ export type UserUncheckedCreateWithoutDeletedSupplierTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedSupplierTranslationsInput = {
@@ -22979,6 +23202,7 @@ export type UserCreateWithoutUpdatedSupplierTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedSupplierTranslationsInput = {
@@ -23076,6 +23300,7 @@ export type UserUncheckedCreateWithoutUpdatedSupplierTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedSupplierTranslationsInput = {
@@ -23189,6 +23414,7 @@ export type UserUpdateWithoutCreatedSupplierTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedSupplierTranslationsInput = {
@@ -23286,6 +23512,7 @@ export type UserUncheckedUpdateWithoutCreatedSupplierTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedSupplierTranslationsInput = {
@@ -23394,6 +23621,7 @@ export type UserUpdateWithoutDeletedSupplierTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedSupplierTranslationsInput = {
@@ -23491,6 +23719,7 @@ export type UserUncheckedUpdateWithoutDeletedSupplierTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedSupplierTranslationsInput = {
@@ -23599,6 +23828,7 @@ export type UserUpdateWithoutUpdatedSupplierTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedSupplierTranslationsInput = {
@@ -23696,6 +23926,7 @@ export type UserUncheckedUpdateWithoutUpdatedSupplierTranslationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCartItemsInput = {
@@ -23793,6 +24024,7 @@ export type UserCreateWithoutCartItemsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCartItemsInput = {
@@ -23890,6 +24122,7 @@ export type UserUncheckedCreateWithoutCartItemsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCartItemsInput = {
@@ -24003,6 +24236,7 @@ export type UserUpdateWithoutCartItemsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCartItemsInput = {
@@ -24100,6 +24334,7 @@ export type UserUncheckedUpdateWithoutCartItemsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedOrdersInput = {
@@ -24197,6 +24432,7 @@ export type UserCreateWithoutCreatedOrdersInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedOrdersInput = {
@@ -24294,6 +24530,7 @@ export type UserUncheckedCreateWithoutCreatedOrdersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedOrdersInput = {
@@ -24396,6 +24633,7 @@ export type UserCreateWithoutDeletedOrdersInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedOrdersInput = {
@@ -24493,6 +24731,7 @@ export type UserUncheckedCreateWithoutDeletedOrdersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedOrdersInput = {
@@ -24595,6 +24834,7 @@ export type UserCreateWithoutUpdatedOrdersInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedOrdersInput = {
@@ -24692,6 +24932,7 @@ export type UserUncheckedCreateWithoutUpdatedOrdersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedOrdersInput = {
@@ -24794,6 +25035,7 @@ export type UserCreateWithoutOrdersInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutOrdersInput = {
@@ -24891,11 +25133,213 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutOrdersInput = {
   where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutOrdersInput, Prisma.UserUncheckedCreateWithoutOrdersInput>
+}
+
+export type UserCreateWithoutShipperOrdersInput = {
+  id?: string
+  email: string
+  name: string
+  password: string
+  phoneNumber: string
+  avatar?: string | null
+  totpSecret?: string | null
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
+  status?: $Enums.UserStatus
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
+  createdDishes?: Prisma.DishCreateNestedManyWithoutCreatedByInput
+  deletedDishes?: Prisma.DishCreateNestedManyWithoutDeletedByInput
+  updatedDishes?: Prisma.DishCreateNestedManyWithoutUpdatedByInput
+  createdDishCategories?: Prisma.DishCategoryCreateNestedManyWithoutCreatedByInput
+  deletedDishCategories?: Prisma.DishCategoryCreateNestedManyWithoutDeletedByInput
+  updatedDishCategories?: Prisma.DishCategoryCreateNestedManyWithoutUpdatedByInput
+  createdDishCategoryTranslations?: Prisma.DishCategoryTranslationCreateNestedManyWithoutCreatedByInput
+  deletedDishCategoryTranslations?: Prisma.DishCategoryTranslationCreateNestedManyWithoutDeletedByInput
+  updatedDishCategoryTranslations?: Prisma.DishCategoryTranslationCreateNestedManyWithoutUpdatedByInput
+  createdDishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutCreatedByInput
+  deletedDishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutDeletedByInput
+  updatedDishTranslations?: Prisma.DishTranslationCreateNestedManyWithoutUpdatedByInput
+  createdInventories?: Prisma.InventoryCreateNestedManyWithoutCreatedByInput
+  deletedInventories?: Prisma.InventoryCreateNestedManyWithoutDeletedByInput
+  updatedInventories?: Prisma.InventoryCreateNestedManyWithoutUpdatedByInput
+  createdLanguages?: Prisma.LanguageCreateNestedManyWithoutCreatedByInput
+  deletedLanguages?: Prisma.LanguageCreateNestedManyWithoutDeletedByInput
+  updatedLanguages?: Prisma.LanguageCreateNestedManyWithoutUpdatedByInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutFromUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutToUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  createdOrders?: Prisma.OrderCreateNestedManyWithoutCreatedByInput
+  deletedOrders?: Prisma.OrderCreateNestedManyWithoutDeletedByInput
+  updatedOrders?: Prisma.OrderCreateNestedManyWithoutUpdatedByInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  createdPermissions?: Prisma.PermissionCreateNestedManyWithoutCreatedByInput
+  deletedPermissions?: Prisma.PermissionCreateNestedManyWithoutDeletedByInput
+  updatedPermissions?: Prisma.PermissionCreateNestedManyWithoutUpdatedByInput
+  createdRecommendations?: Prisma.RecommendationCreateNestedManyWithoutCreatedByInput
+  deletedRecommendations?: Prisma.RecommendationCreateNestedManyWithoutDeletedByInput
+  updatedRecommendations?: Prisma.RecommendationCreateNestedManyWithoutUpdatedByInput
+  recommendations?: Prisma.RecommendationCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  createdReservations?: Prisma.ReservationCreateNestedManyWithoutCreatedByInput
+  deletedReservations?: Prisma.ReservationCreateNestedManyWithoutDeletedByInput
+  updatedReservations?: Prisma.ReservationCreateNestedManyWithoutUpdatedByInput
+  reservations?: Prisma.ReservationCreateNestedManyWithoutUserInput
+  createdRestaurants?: Prisma.RestaurantCreateNestedManyWithoutCreatedByInput
+  deletedRestaurants?: Prisma.RestaurantCreateNestedManyWithoutDeletedByInput
+  updatedRestaurants?: Prisma.RestaurantCreateNestedManyWithoutUpdatedByInput
+  assignedRestaurants?: Prisma.RestaurantStaffCreateNestedManyWithoutUserInput
+  createdTables?: Prisma.RestaurantTableCreateNestedManyWithoutCreatedByInput
+  deletedTables?: Prisma.RestaurantTableCreateNestedManyWithoutDeletedByInput
+  updatedTables?: Prisma.RestaurantTableCreateNestedManyWithoutUpdatedByInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  createdRoles?: Prisma.RoleCreateNestedManyWithoutCreatedByInput
+  deletedRoles?: Prisma.RoleCreateNestedManyWithoutDeletedByInput
+  updatedRoles?: Prisma.RoleCreateNestedManyWithoutUpdatedByInput
+  createdSKUs?: Prisma.SKUCreateNestedManyWithoutCreatedByInput
+  deletedSKUs?: Prisma.SKUCreateNestedManyWithoutDeletedByInput
+  updatedSKUs?: Prisma.SKUCreateNestedManyWithoutUpdatedByInput
+  createdSuppliers?: Prisma.SupplierCreateNestedManyWithoutCreatedByInput
+  deletedSuppliers?: Prisma.SupplierCreateNestedManyWithoutDeletedByInput
+  updatedSuppliers?: Prisma.SupplierCreateNestedManyWithoutUpdatedByInput
+  createdSupplierTranslations?: Prisma.SupplierTranslationCreateNestedManyWithoutCreatedByInput
+  deletedSupplierTranslations?: Prisma.SupplierTranslationCreateNestedManyWithoutDeletedByInput
+  updatedSupplierTranslations?: Prisma.SupplierTranslationCreateNestedManyWithoutUpdatedByInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedUsersInput
+  createdUsers?: Prisma.UserCreateNestedManyWithoutCreatedByInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedUsersInput
+  deletedUsers?: Prisma.UserCreateNestedManyWithoutDeletedByInput
+  role: Prisma.RoleCreateNestedOneWithoutUsersInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedUsersInput
+  updatedUsers?: Prisma.UserCreateNestedManyWithoutUpdatedByInput
+  createdAddresses?: Prisma.UserAddressCreateNestedManyWithoutCreatedByInput
+  deletedAddresses?: Prisma.UserAddressCreateNestedManyWithoutDeletedByInput
+  updatedAddresses?: Prisma.UserAddressCreateNestedManyWithoutUpdatedByInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  interactions?: Prisma.UserInteractionCreateNestedManyWithoutUserInput
+  preferences?: Prisma.UserPreferenceCreateNestedManyWithoutUserInput
+  createdUserTranslations?: Prisma.UserTranslationCreateNestedManyWithoutCreatedByInput
+  deletedUserTranslations?: Prisma.UserTranslationCreateNestedManyWithoutDeletedByInput
+  updatedUserTranslations?: Prisma.UserTranslationCreateNestedManyWithoutUpdatedByInput
+  userTranslations?: Prisma.UserTranslationCreateNestedManyWithoutUserInput
+  createdVariants?: Prisma.VariantCreateNestedManyWithoutCreatedByInput
+  deletedVariants?: Prisma.VariantCreateNestedManyWithoutDeletedByInput
+  updatedVariants?: Prisma.VariantCreateNestedManyWithoutUpdatedByInput
+  createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
+  deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
+  updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+}
+
+export type UserUncheckedCreateWithoutShipperOrdersInput = {
+  id?: string
+  email: string
+  name: string
+  password: string
+  phoneNumber: string
+  avatar?: string | null
+  totpSecret?: string | null
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
+  status?: $Enums.UserStatus
+  roleId: string
+  createdById?: string | null
+  updatedById?: string | null
+  deletedById?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
+  createdDishes?: Prisma.DishUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedDishes?: Prisma.DishUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedDishes?: Prisma.DishUncheckedCreateNestedManyWithoutUpdatedByInput
+  createdDishCategories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedDishCategories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedDishCategories?: Prisma.DishCategoryUncheckedCreateNestedManyWithoutUpdatedByInput
+  createdDishCategoryTranslations?: Prisma.DishCategoryTranslationUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedDishCategoryTranslations?: Prisma.DishCategoryTranslationUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedDishCategoryTranslations?: Prisma.DishCategoryTranslationUncheckedCreateNestedManyWithoutUpdatedByInput
+  createdDishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedDishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedDishTranslations?: Prisma.DishTranslationUncheckedCreateNestedManyWithoutUpdatedByInput
+  createdInventories?: Prisma.InventoryUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedInventories?: Prisma.InventoryUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedInventories?: Prisma.InventoryUncheckedCreateNestedManyWithoutUpdatedByInput
+  createdLanguages?: Prisma.LanguageUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedLanguages?: Prisma.LanguageUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedLanguages?: Prisma.LanguageUncheckedCreateNestedManyWithoutUpdatedByInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutFromUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutToUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  createdOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutUpdatedByInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  createdPermissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedPermissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedPermissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutUpdatedByInput
+  createdRecommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedRecommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedRecommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutUpdatedByInput
+  recommendations?: Prisma.RecommendationUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  createdReservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedReservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedReservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUpdatedByInput
+  reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUserInput
+  createdRestaurants?: Prisma.RestaurantUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedRestaurants?: Prisma.RestaurantUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedRestaurants?: Prisma.RestaurantUncheckedCreateNestedManyWithoutUpdatedByInput
+  assignedRestaurants?: Prisma.RestaurantStaffUncheckedCreateNestedManyWithoutUserInput
+  createdTables?: Prisma.RestaurantTableUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedTables?: Prisma.RestaurantTableUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedTables?: Prisma.RestaurantTableUncheckedCreateNestedManyWithoutUpdatedByInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  createdRoles?: Prisma.RoleUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedRoles?: Prisma.RoleUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedRoles?: Prisma.RoleUncheckedCreateNestedManyWithoutUpdatedByInput
+  createdSKUs?: Prisma.SKUUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedSKUs?: Prisma.SKUUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedSKUs?: Prisma.SKUUncheckedCreateNestedManyWithoutUpdatedByInput
+  createdSuppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedSuppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedSuppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutUpdatedByInput
+  createdSupplierTranslations?: Prisma.SupplierTranslationUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedSupplierTranslations?: Prisma.SupplierTranslationUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedSupplierTranslations?: Prisma.SupplierTranslationUncheckedCreateNestedManyWithoutUpdatedByInput
+  createdUsers?: Prisma.UserUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedUsers?: Prisma.UserUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedUsers?: Prisma.UserUncheckedCreateNestedManyWithoutUpdatedByInput
+  createdAddresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedAddresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedAddresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUpdatedByInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  interactions?: Prisma.UserInteractionUncheckedCreateNestedManyWithoutUserInput
+  preferences?: Prisma.UserPreferenceUncheckedCreateNestedManyWithoutUserInput
+  createdUserTranslations?: Prisma.UserTranslationUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedUserTranslations?: Prisma.UserTranslationUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedUserTranslations?: Prisma.UserTranslationUncheckedCreateNestedManyWithoutUpdatedByInput
+  userTranslations?: Prisma.UserTranslationUncheckedCreateNestedManyWithoutUserInput
+  createdVariants?: Prisma.VariantUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedVariants?: Prisma.VariantUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedVariants?: Prisma.VariantUncheckedCreateNestedManyWithoutUpdatedByInput
+  createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
+  deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
+  updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+}
+
+export type UserCreateOrConnectWithoutShipperOrdersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutShipperOrdersInput, Prisma.UserUncheckedCreateWithoutShipperOrdersInput>
 }
 
 export type UserUpsertWithoutCreatedOrdersInput = {
@@ -25004,6 +25448,7 @@ export type UserUpdateWithoutCreatedOrdersInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedOrdersInput = {
@@ -25101,6 +25546,7 @@ export type UserUncheckedUpdateWithoutCreatedOrdersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedOrdersInput = {
@@ -25209,6 +25655,7 @@ export type UserUpdateWithoutDeletedOrdersInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedOrdersInput = {
@@ -25306,6 +25753,7 @@ export type UserUncheckedUpdateWithoutDeletedOrdersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedOrdersInput = {
@@ -25414,6 +25862,7 @@ export type UserUpdateWithoutUpdatedOrdersInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedOrdersInput = {
@@ -25511,6 +25960,7 @@ export type UserUncheckedUpdateWithoutUpdatedOrdersInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutOrdersInput = {
@@ -25619,6 +26069,7 @@ export type UserUpdateWithoutOrdersInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOrdersInput = {
@@ -25665,6 +26116,214 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   createdOrders?: Prisma.OrderUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedOrders?: Prisma.OrderUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedOrders?: Prisma.OrderUncheckedUpdateManyWithoutUpdatedByNestedInput
+  createdPermissions?: Prisma.PermissionUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedPermissions?: Prisma.PermissionUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedPermissions?: Prisma.PermissionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  createdRecommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedRecommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedRecommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutUpdatedByNestedInput
+  recommendations?: Prisma.RecommendationUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  createdReservations?: Prisma.ReservationUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedReservations?: Prisma.ReservationUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedReservations?: Prisma.ReservationUncheckedUpdateManyWithoutUpdatedByNestedInput
+  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUserNestedInput
+  createdRestaurants?: Prisma.RestaurantUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedRestaurants?: Prisma.RestaurantUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedRestaurants?: Prisma.RestaurantUncheckedUpdateManyWithoutUpdatedByNestedInput
+  assignedRestaurants?: Prisma.RestaurantStaffUncheckedUpdateManyWithoutUserNestedInput
+  createdTables?: Prisma.RestaurantTableUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedTables?: Prisma.RestaurantTableUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedTables?: Prisma.RestaurantTableUncheckedUpdateManyWithoutUpdatedByNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  createdRoles?: Prisma.RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedRoles?: Prisma.RoleUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedRoles?: Prisma.RoleUncheckedUpdateManyWithoutUpdatedByNestedInput
+  createdSKUs?: Prisma.SKUUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedSKUs?: Prisma.SKUUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedSKUs?: Prisma.SKUUncheckedUpdateManyWithoutUpdatedByNestedInput
+  createdSuppliers?: Prisma.SupplierUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedSuppliers?: Prisma.SupplierUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedSuppliers?: Prisma.SupplierUncheckedUpdateManyWithoutUpdatedByNestedInput
+  createdSupplierTranslations?: Prisma.SupplierTranslationUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedSupplierTranslations?: Prisma.SupplierTranslationUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedSupplierTranslations?: Prisma.SupplierTranslationUncheckedUpdateManyWithoutUpdatedByNestedInput
+  createdUsers?: Prisma.UserUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedUsers?: Prisma.UserUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedUsers?: Prisma.UserUncheckedUpdateManyWithoutUpdatedByNestedInput
+  createdAddresses?: Prisma.UserAddressUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedAddresses?: Prisma.UserAddressUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedAddresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUpdatedByNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  interactions?: Prisma.UserInteractionUncheckedUpdateManyWithoutUserNestedInput
+  preferences?: Prisma.UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
+  createdUserTranslations?: Prisma.UserTranslationUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedUserTranslations?: Prisma.UserTranslationUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedUserTranslations?: Prisma.UserTranslationUncheckedUpdateManyWithoutUpdatedByNestedInput
+  userTranslations?: Prisma.UserTranslationUncheckedUpdateManyWithoutUserNestedInput
+  createdVariants?: Prisma.VariantUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedVariants?: Prisma.VariantUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedVariants?: Prisma.VariantUncheckedUpdateManyWithoutUpdatedByNestedInput
+  createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
+}
+
+export type UserUpsertWithoutShipperOrdersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutShipperOrdersInput, Prisma.UserUncheckedUpdateWithoutShipperOrdersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutShipperOrdersInput, Prisma.UserUncheckedCreateWithoutShipperOrdersInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutShipperOrdersInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutShipperOrdersInput, Prisma.UserUncheckedUpdateWithoutShipperOrdersInput>
+}
+
+export type UserUpdateWithoutShipperOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totpSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
+  createdDishes?: Prisma.DishUpdateManyWithoutCreatedByNestedInput
+  deletedDishes?: Prisma.DishUpdateManyWithoutDeletedByNestedInput
+  updatedDishes?: Prisma.DishUpdateManyWithoutUpdatedByNestedInput
+  createdDishCategories?: Prisma.DishCategoryUpdateManyWithoutCreatedByNestedInput
+  deletedDishCategories?: Prisma.DishCategoryUpdateManyWithoutDeletedByNestedInput
+  updatedDishCategories?: Prisma.DishCategoryUpdateManyWithoutUpdatedByNestedInput
+  createdDishCategoryTranslations?: Prisma.DishCategoryTranslationUpdateManyWithoutCreatedByNestedInput
+  deletedDishCategoryTranslations?: Prisma.DishCategoryTranslationUpdateManyWithoutDeletedByNestedInput
+  updatedDishCategoryTranslations?: Prisma.DishCategoryTranslationUpdateManyWithoutUpdatedByNestedInput
+  createdDishTranslations?: Prisma.DishTranslationUpdateManyWithoutCreatedByNestedInput
+  deletedDishTranslations?: Prisma.DishTranslationUpdateManyWithoutDeletedByNestedInput
+  updatedDishTranslations?: Prisma.DishTranslationUpdateManyWithoutUpdatedByNestedInput
+  createdInventories?: Prisma.InventoryUpdateManyWithoutCreatedByNestedInput
+  deletedInventories?: Prisma.InventoryUpdateManyWithoutDeletedByNestedInput
+  updatedInventories?: Prisma.InventoryUpdateManyWithoutUpdatedByNestedInput
+  createdLanguages?: Prisma.LanguageUpdateManyWithoutCreatedByNestedInput
+  deletedLanguages?: Prisma.LanguageUpdateManyWithoutDeletedByNestedInput
+  updatedLanguages?: Prisma.LanguageUpdateManyWithoutUpdatedByNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutFromUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutToUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  createdOrders?: Prisma.OrderUpdateManyWithoutCreatedByNestedInput
+  deletedOrders?: Prisma.OrderUpdateManyWithoutDeletedByNestedInput
+  updatedOrders?: Prisma.OrderUpdateManyWithoutUpdatedByNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  createdPermissions?: Prisma.PermissionUpdateManyWithoutCreatedByNestedInput
+  deletedPermissions?: Prisma.PermissionUpdateManyWithoutDeletedByNestedInput
+  updatedPermissions?: Prisma.PermissionUpdateManyWithoutUpdatedByNestedInput
+  createdRecommendations?: Prisma.RecommendationUpdateManyWithoutCreatedByNestedInput
+  deletedRecommendations?: Prisma.RecommendationUpdateManyWithoutDeletedByNestedInput
+  updatedRecommendations?: Prisma.RecommendationUpdateManyWithoutUpdatedByNestedInput
+  recommendations?: Prisma.RecommendationUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  createdReservations?: Prisma.ReservationUpdateManyWithoutCreatedByNestedInput
+  deletedReservations?: Prisma.ReservationUpdateManyWithoutDeletedByNestedInput
+  updatedReservations?: Prisma.ReservationUpdateManyWithoutUpdatedByNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutUserNestedInput
+  createdRestaurants?: Prisma.RestaurantUpdateManyWithoutCreatedByNestedInput
+  deletedRestaurants?: Prisma.RestaurantUpdateManyWithoutDeletedByNestedInput
+  updatedRestaurants?: Prisma.RestaurantUpdateManyWithoutUpdatedByNestedInput
+  assignedRestaurants?: Prisma.RestaurantStaffUpdateManyWithoutUserNestedInput
+  createdTables?: Prisma.RestaurantTableUpdateManyWithoutCreatedByNestedInput
+  deletedTables?: Prisma.RestaurantTableUpdateManyWithoutDeletedByNestedInput
+  updatedTables?: Prisma.RestaurantTableUpdateManyWithoutUpdatedByNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  createdRoles?: Prisma.RoleUpdateManyWithoutCreatedByNestedInput
+  deletedRoles?: Prisma.RoleUpdateManyWithoutDeletedByNestedInput
+  updatedRoles?: Prisma.RoleUpdateManyWithoutUpdatedByNestedInput
+  createdSKUs?: Prisma.SKUUpdateManyWithoutCreatedByNestedInput
+  deletedSKUs?: Prisma.SKUUpdateManyWithoutDeletedByNestedInput
+  updatedSKUs?: Prisma.SKUUpdateManyWithoutUpdatedByNestedInput
+  createdSuppliers?: Prisma.SupplierUpdateManyWithoutCreatedByNestedInput
+  deletedSuppliers?: Prisma.SupplierUpdateManyWithoutDeletedByNestedInput
+  updatedSuppliers?: Prisma.SupplierUpdateManyWithoutUpdatedByNestedInput
+  createdSupplierTranslations?: Prisma.SupplierTranslationUpdateManyWithoutCreatedByNestedInput
+  deletedSupplierTranslations?: Prisma.SupplierTranslationUpdateManyWithoutDeletedByNestedInput
+  updatedSupplierTranslations?: Prisma.SupplierTranslationUpdateManyWithoutUpdatedByNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedUsersNestedInput
+  createdUsers?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedUsersNestedInput
+  deletedUsers?: Prisma.UserUpdateManyWithoutDeletedByNestedInput
+  role?: Prisma.RoleUpdateOneRequiredWithoutUsersNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedUsersNestedInput
+  updatedUsers?: Prisma.UserUpdateManyWithoutUpdatedByNestedInput
+  createdAddresses?: Prisma.UserAddressUpdateManyWithoutCreatedByNestedInput
+  deletedAddresses?: Prisma.UserAddressUpdateManyWithoutDeletedByNestedInput
+  updatedAddresses?: Prisma.UserAddressUpdateManyWithoutUpdatedByNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  interactions?: Prisma.UserInteractionUpdateManyWithoutUserNestedInput
+  preferences?: Prisma.UserPreferenceUpdateManyWithoutUserNestedInput
+  createdUserTranslations?: Prisma.UserTranslationUpdateManyWithoutCreatedByNestedInput
+  deletedUserTranslations?: Prisma.UserTranslationUpdateManyWithoutDeletedByNestedInput
+  updatedUserTranslations?: Prisma.UserTranslationUpdateManyWithoutUpdatedByNestedInput
+  userTranslations?: Prisma.UserTranslationUpdateManyWithoutUserNestedInput
+  createdVariants?: Prisma.VariantUpdateManyWithoutCreatedByNestedInput
+  deletedVariants?: Prisma.VariantUpdateManyWithoutDeletedByNestedInput
+  updatedVariants?: Prisma.VariantUpdateManyWithoutUpdatedByNestedInput
+  createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
+  deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
+  updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutShipperOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totpSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  roleId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
+  createdDishes?: Prisma.DishUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedDishes?: Prisma.DishUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedDishes?: Prisma.DishUncheckedUpdateManyWithoutUpdatedByNestedInput
+  createdDishCategories?: Prisma.DishCategoryUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedDishCategories?: Prisma.DishCategoryUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedDishCategories?: Prisma.DishCategoryUncheckedUpdateManyWithoutUpdatedByNestedInput
+  createdDishCategoryTranslations?: Prisma.DishCategoryTranslationUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedDishCategoryTranslations?: Prisma.DishCategoryTranslationUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedDishCategoryTranslations?: Prisma.DishCategoryTranslationUncheckedUpdateManyWithoutUpdatedByNestedInput
+  createdDishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedDishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedDishTranslations?: Prisma.DishTranslationUncheckedUpdateManyWithoutUpdatedByNestedInput
+  createdInventories?: Prisma.InventoryUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedInventories?: Prisma.InventoryUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedInventories?: Prisma.InventoryUncheckedUpdateManyWithoutUpdatedByNestedInput
+  createdLanguages?: Prisma.LanguageUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedLanguages?: Prisma.LanguageUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedLanguages?: Prisma.LanguageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutFromUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutToUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  createdOrders?: Prisma.OrderUncheckedUpdateManyWithoutCreatedByNestedInput
+  deletedOrders?: Prisma.OrderUncheckedUpdateManyWithoutDeletedByNestedInput
+  updatedOrders?: Prisma.OrderUncheckedUpdateManyWithoutUpdatedByNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   createdPermissions?: Prisma.PermissionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedPermissions?: Prisma.PermissionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedPermissions?: Prisma.PermissionUncheckedUpdateManyWithoutUpdatedByNestedInput
@@ -25813,6 +26472,7 @@ export type UserCreateWithoutReviewsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutReviewsInput = {
@@ -25910,6 +26570,7 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutReviewsInput = {
@@ -26023,6 +26684,7 @@ export type UserUpdateWithoutReviewsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -26120,6 +26782,7 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutSentMessagesInput = {
@@ -26217,6 +26880,7 @@ export type UserCreateWithoutSentMessagesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutSentMessagesInput = {
@@ -26314,6 +26978,7 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutSentMessagesInput = {
@@ -26416,6 +27081,7 @@ export type UserCreateWithoutReceivedMessagesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutReceivedMessagesInput = {
@@ -26513,6 +27179,7 @@ export type UserUncheckedCreateWithoutReceivedMessagesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutReceivedMessagesInput = {
@@ -26626,6 +27293,7 @@ export type UserUpdateWithoutSentMessagesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSentMessagesInput = {
@@ -26723,6 +27391,7 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutReceivedMessagesInput = {
@@ -26831,6 +27500,7 @@ export type UserUpdateWithoutReceivedMessagesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReceivedMessagesInput = {
@@ -26928,6 +27598,7 @@ export type UserUncheckedUpdateWithoutReceivedMessagesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedRestaurantsInput = {
@@ -27025,6 +27696,7 @@ export type UserCreateWithoutCreatedRestaurantsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedRestaurantsInput = {
@@ -27122,6 +27794,7 @@ export type UserUncheckedCreateWithoutCreatedRestaurantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedRestaurantsInput = {
@@ -27224,6 +27897,7 @@ export type UserCreateWithoutDeletedRestaurantsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedRestaurantsInput = {
@@ -27321,6 +27995,7 @@ export type UserUncheckedCreateWithoutDeletedRestaurantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedRestaurantsInput = {
@@ -27423,6 +28098,7 @@ export type UserCreateWithoutUpdatedRestaurantsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedRestaurantsInput = {
@@ -27520,6 +28196,7 @@ export type UserUncheckedCreateWithoutUpdatedRestaurantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedRestaurantsInput = {
@@ -27633,6 +28310,7 @@ export type UserUpdateWithoutCreatedRestaurantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedRestaurantsInput = {
@@ -27730,6 +28408,7 @@ export type UserUncheckedUpdateWithoutCreatedRestaurantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedRestaurantsInput = {
@@ -27838,6 +28517,7 @@ export type UserUpdateWithoutDeletedRestaurantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedRestaurantsInput = {
@@ -27935,6 +28615,7 @@ export type UserUncheckedUpdateWithoutDeletedRestaurantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedRestaurantsInput = {
@@ -28043,6 +28724,7 @@ export type UserUpdateWithoutUpdatedRestaurantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedRestaurantsInput = {
@@ -28140,6 +28822,7 @@ export type UserUncheckedUpdateWithoutUpdatedRestaurantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedTablesInput = {
@@ -28237,6 +28920,7 @@ export type UserCreateWithoutCreatedTablesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedTablesInput = {
@@ -28334,6 +29018,7 @@ export type UserUncheckedCreateWithoutCreatedTablesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedTablesInput = {
@@ -28436,6 +29121,7 @@ export type UserCreateWithoutDeletedTablesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedTablesInput = {
@@ -28533,6 +29219,7 @@ export type UserUncheckedCreateWithoutDeletedTablesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedTablesInput = {
@@ -28635,6 +29322,7 @@ export type UserCreateWithoutUpdatedTablesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedTablesInput = {
@@ -28732,6 +29420,7 @@ export type UserUncheckedCreateWithoutUpdatedTablesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedTablesInput = {
@@ -28845,6 +29534,7 @@ export type UserUpdateWithoutCreatedTablesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedTablesInput = {
@@ -28942,6 +29632,7 @@ export type UserUncheckedUpdateWithoutCreatedTablesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedTablesInput = {
@@ -29050,6 +29741,7 @@ export type UserUpdateWithoutDeletedTablesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedTablesInput = {
@@ -29147,6 +29839,7 @@ export type UserUncheckedUpdateWithoutDeletedTablesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedTablesInput = {
@@ -29255,6 +29948,7 @@ export type UserUpdateWithoutUpdatedTablesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedTablesInput = {
@@ -29352,6 +30046,7 @@ export type UserUncheckedUpdateWithoutUpdatedTablesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedReservationsInput = {
@@ -29449,6 +30144,7 @@ export type UserCreateWithoutCreatedReservationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedReservationsInput = {
@@ -29546,6 +30242,7 @@ export type UserUncheckedCreateWithoutCreatedReservationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedReservationsInput = {
@@ -29648,6 +30345,7 @@ export type UserCreateWithoutDeletedReservationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedReservationsInput = {
@@ -29745,6 +30443,7 @@ export type UserUncheckedCreateWithoutDeletedReservationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedReservationsInput = {
@@ -29847,6 +30546,7 @@ export type UserCreateWithoutUpdatedReservationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedReservationsInput = {
@@ -29944,6 +30644,7 @@ export type UserUncheckedCreateWithoutUpdatedReservationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedReservationsInput = {
@@ -30046,6 +30747,7 @@ export type UserCreateWithoutReservationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutReservationsInput = {
@@ -30143,6 +30845,7 @@ export type UserUncheckedCreateWithoutReservationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutReservationsInput = {
@@ -30256,6 +30959,7 @@ export type UserUpdateWithoutCreatedReservationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedReservationsInput = {
@@ -30353,6 +31057,7 @@ export type UserUncheckedUpdateWithoutCreatedReservationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedReservationsInput = {
@@ -30461,6 +31166,7 @@ export type UserUpdateWithoutDeletedReservationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedReservationsInput = {
@@ -30558,6 +31264,7 @@ export type UserUncheckedUpdateWithoutDeletedReservationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedReservationsInput = {
@@ -30666,6 +31373,7 @@ export type UserUpdateWithoutUpdatedReservationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedReservationsInput = {
@@ -30763,6 +31471,7 @@ export type UserUncheckedUpdateWithoutUpdatedReservationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutReservationsInput = {
@@ -30871,6 +31580,7 @@ export type UserUpdateWithoutReservationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReservationsInput = {
@@ -30968,6 +31678,7 @@ export type UserUncheckedUpdateWithoutReservationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedInventoriesInput = {
@@ -31065,6 +31776,7 @@ export type UserCreateWithoutCreatedInventoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedInventoriesInput = {
@@ -31162,6 +31874,7 @@ export type UserUncheckedCreateWithoutCreatedInventoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedInventoriesInput = {
@@ -31264,6 +31977,7 @@ export type UserCreateWithoutDeletedInventoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedInventoriesInput = {
@@ -31361,6 +32075,7 @@ export type UserUncheckedCreateWithoutDeletedInventoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedInventoriesInput = {
@@ -31463,6 +32178,7 @@ export type UserCreateWithoutUpdatedInventoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedInventoriesInput = {
@@ -31560,6 +32276,7 @@ export type UserUncheckedCreateWithoutUpdatedInventoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedInventoriesInput = {
@@ -31673,6 +32390,7 @@ export type UserUpdateWithoutCreatedInventoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedInventoriesInput = {
@@ -31770,6 +32488,7 @@ export type UserUncheckedUpdateWithoutCreatedInventoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedInventoriesInput = {
@@ -31878,6 +32597,7 @@ export type UserUpdateWithoutDeletedInventoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedInventoriesInput = {
@@ -31975,6 +32695,7 @@ export type UserUncheckedUpdateWithoutDeletedInventoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedInventoriesInput = {
@@ -32083,6 +32804,7 @@ export type UserUpdateWithoutUpdatedInventoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedInventoriesInput = {
@@ -32180,6 +32902,7 @@ export type UserUncheckedUpdateWithoutUpdatedInventoriesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutAssignedRestaurantsInput = {
@@ -32277,6 +33000,7 @@ export type UserCreateWithoutAssignedRestaurantsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutAssignedRestaurantsInput = {
@@ -32374,6 +33098,7 @@ export type UserUncheckedCreateWithoutAssignedRestaurantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutAssignedRestaurantsInput = {
@@ -32487,6 +33212,7 @@ export type UserUpdateWithoutAssignedRestaurantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAssignedRestaurantsInput = {
@@ -32584,6 +33310,7 @@ export type UserUncheckedUpdateWithoutAssignedRestaurantsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutPreferencesInput = {
@@ -32681,6 +33408,7 @@ export type UserCreateWithoutPreferencesInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutPreferencesInput = {
@@ -32778,6 +33506,7 @@ export type UserUncheckedCreateWithoutPreferencesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutPreferencesInput = {
@@ -32891,6 +33620,7 @@ export type UserUpdateWithoutPreferencesInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPreferencesInput = {
@@ -32988,6 +33718,7 @@ export type UserUncheckedUpdateWithoutPreferencesInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutCreatedRecommendationsInput = {
@@ -33085,6 +33816,7 @@ export type UserCreateWithoutCreatedRecommendationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCreatedRecommendationsInput = {
@@ -33182,6 +33914,7 @@ export type UserUncheckedCreateWithoutCreatedRecommendationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCreatedRecommendationsInput = {
@@ -33284,6 +34017,7 @@ export type UserCreateWithoutDeletedRecommendationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutDeletedRecommendationsInput = {
@@ -33381,6 +34115,7 @@ export type UserUncheckedCreateWithoutDeletedRecommendationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutDeletedRecommendationsInput = {
@@ -33483,6 +34218,7 @@ export type UserCreateWithoutUpdatedRecommendationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutUpdatedRecommendationsInput = {
@@ -33580,6 +34316,7 @@ export type UserUncheckedCreateWithoutUpdatedRecommendationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutUpdatedRecommendationsInput = {
@@ -33682,6 +34419,7 @@ export type UserCreateWithoutRecommendationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutRecommendationsInput = {
@@ -33779,6 +34517,7 @@ export type UserUncheckedCreateWithoutRecommendationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutRecommendationsInput = {
@@ -33892,6 +34631,7 @@ export type UserUpdateWithoutCreatedRecommendationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedRecommendationsInput = {
@@ -33989,6 +34729,7 @@ export type UserUncheckedUpdateWithoutCreatedRecommendationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutDeletedRecommendationsInput = {
@@ -34097,6 +34838,7 @@ export type UserUpdateWithoutDeletedRecommendationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedRecommendationsInput = {
@@ -34194,6 +34936,7 @@ export type UserUncheckedUpdateWithoutDeletedRecommendationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutUpdatedRecommendationsInput = {
@@ -34302,6 +35045,7 @@ export type UserUpdateWithoutUpdatedRecommendationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedRecommendationsInput = {
@@ -34399,6 +35143,7 @@ export type UserUncheckedUpdateWithoutUpdatedRecommendationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutRecommendationsInput = {
@@ -34507,6 +35252,7 @@ export type UserUpdateWithoutRecommendationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRecommendationsInput = {
@@ -34604,6 +35350,7 @@ export type UserUncheckedUpdateWithoutRecommendationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -34701,6 +35448,7 @@ export type UserCreateWithoutNotificationsInput = {
   createdVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -34798,6 +35546,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutCreatedByInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutDeletedByInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedCreateNestedManyWithoutUpdatedByInput
+  shipperOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -34911,6 +35660,7 @@ export type UserUpdateWithoutNotificationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -35008,6 +35758,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateManyCreatedByInput = {
@@ -35162,6 +35913,7 @@ export type UserUpdateWithoutCreatedByInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedByInput = {
@@ -35259,6 +36011,7 @@ export type UserUncheckedUpdateWithoutCreatedByInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutCreatedByInput = {
@@ -35375,6 +36128,7 @@ export type UserUpdateWithoutDeletedByInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletedByInput = {
@@ -35472,6 +36226,7 @@ export type UserUncheckedUpdateWithoutDeletedByInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutDeletedByInput = {
@@ -35588,6 +36343,7 @@ export type UserUpdateWithoutUpdatedByInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUpdatedByInput = {
@@ -35685,6 +36441,7 @@ export type UserUncheckedUpdateWithoutUpdatedByInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutUpdatedByInput = {
@@ -35820,6 +36577,7 @@ export type UserUpdateWithoutRoleInput = {
   createdVariantOptions?: Prisma.VariantOptionUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRoleInput = {
@@ -35917,6 +36675,7 @@ export type UserUncheckedUpdateWithoutRoleInput = {
   createdVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutCreatedByNestedInput
   deletedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutDeletedByNestedInput
   updatedVariantOptions?: Prisma.VariantOptionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  shipperOrders?: Prisma.OrderUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutRoleInput = {
@@ -36022,6 +36781,7 @@ export type UserCountOutputType = {
   createdVariantOptions: number
   deletedVariantOptions: number
   updatedVariantOptions: number
+  shipperOrders: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -36103,6 +36863,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   createdVariantOptions?: boolean | UserCountOutputTypeCountCreatedVariantOptionsArgs
   deletedVariantOptions?: boolean | UserCountOutputTypeCountDeletedVariantOptionsArgs
   updatedVariantOptions?: boolean | UserCountOutputTypeCountUpdatedVariantOptionsArgs
+  shipperOrders?: boolean | UserCountOutputTypeCountShipperOrdersArgs
 }
 
 /**
@@ -36661,6 +37422,13 @@ export type UserCountOutputTypeCountUpdatedVariantOptionsArgs<ExtArgs extends ru
   where?: Prisma.VariantOptionWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountShipperOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrderWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -36762,6 +37530,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdVariantOptions?: boolean | Prisma.User$createdVariantOptionsArgs<ExtArgs>
   deletedVariantOptions?: boolean | Prisma.User$deletedVariantOptionsArgs<ExtArgs>
   updatedVariantOptions?: boolean | Prisma.User$updatedVariantOptionsArgs<ExtArgs>
+  shipperOrders?: boolean | Prisma.User$shipperOrdersArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -36917,6 +37686,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   createdVariantOptions?: boolean | Prisma.User$createdVariantOptionsArgs<ExtArgs>
   deletedVariantOptions?: boolean | Prisma.User$deletedVariantOptionsArgs<ExtArgs>
   updatedVariantOptions?: boolean | Prisma.User$updatedVariantOptionsArgs<ExtArgs>
+  shipperOrders?: boolean | Prisma.User$shipperOrdersArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -37017,6 +37787,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     createdVariantOptions: Prisma.$VariantOptionPayload<ExtArgs>[]
     deletedVariantOptions: Prisma.$VariantOptionPayload<ExtArgs>[]
     updatedVariantOptions: Prisma.$VariantOptionPayload<ExtArgs>[]
+    shipperOrders: Prisma.$OrderPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -37512,6 +38283,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   createdVariantOptions<T extends Prisma.User$createdVariantOptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdVariantOptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VariantOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   deletedVariantOptions<T extends Prisma.User$deletedVariantOptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$deletedVariantOptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VariantOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   updatedVariantOptions<T extends Prisma.User$updatedVariantOptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$updatedVariantOptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VariantOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  shipperOrders<T extends Prisma.User$shipperOrdersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$shipperOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -39880,6 +40652,30 @@ export type User$updatedVariantOptionsArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.VariantOptionScalarFieldEnum | Prisma.VariantOptionScalarFieldEnum[]
+}
+
+/**
+ * User.shipperOrders
+ */
+export type User$shipperOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Order
+   */
+  select?: Prisma.OrderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Order
+   */
+  omit?: Prisma.OrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
+  where?: Prisma.OrderWhereInput
+  orderBy?: Prisma.OrderOrderByWithRelationInput | Prisma.OrderOrderByWithRelationInput[]
+  cursor?: Prisma.OrderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrderScalarFieldEnum | Prisma.OrderScalarFieldEnum[]
 }
 
 /**

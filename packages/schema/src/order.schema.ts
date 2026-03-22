@@ -40,6 +40,12 @@ export const OrderSchema = z.object({
     items: z.array(OrderItemSchema),
     createdAt: z.date(),
     updatedAt: z.date(),
+    deliveryCode: z.string().nullable().optional(),
+    addressId: z.string().nullable().optional(),
+    deliveryAddress: z.string().nullable().optional(),
+    deliveryPhone: z.string().nullable().optional(),
+    receiverName: z.string().nullable().optional(),
+    inventoryWarnings: z.array(z.string()).optional(),
 });
 
 export type OrderType = z.infer<typeof OrderSchema>;
@@ -68,6 +74,10 @@ export type CreateOrderFromCartType = z.infer<typeof CreateOrderFromCartSchema>;
 export const UpdateOrderStatusSchema = z.object({
     orderId: z.string(),
     status: z.string(),
+    verificationCode: z.string().optional(),
+    reason: z.string().optional(),
+    promotionId: z.string().optional(),
+    discount: z.number().optional(),
 });
 
 export type UpdateOrderStatusType = z.infer<typeof UpdateOrderStatusSchema>;
@@ -76,10 +86,11 @@ export const GetOrdersQuerySchema = z.object({
     page: z.number().default(1),
     limit: z.number().default(10),
     status: z.string().optional(),
-    tableId: z.string().optional(),
+    tableId: z.string().nullable().optional(),
     fromDate: z.date().optional(),
     toDate: z.date().optional(),
     userId: z.string().optional(),
+    shipperId: z.string().optional(),
 });
 
 export type GetOrdersQueryType = z.infer<typeof GetOrdersQuerySchema>;

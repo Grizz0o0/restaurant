@@ -5,7 +5,7 @@ import { RoleName } from '@repo/constants'
 import { Context } from '@/trpc/context'
 
 @Injectable()
-export class AdminRoleMiddleware implements TRPCMiddleware {
+export class StaffRoleMiddleware implements TRPCMiddleware {
   async use(opts: MiddlewareOptions) {
     const ctx = opts.ctx as Context
     const { next } = opts
@@ -15,8 +15,18 @@ export class AdminRoleMiddleware implements TRPCMiddleware {
       throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User not authenticated' })
     }
 
-    if (user.roleName !== RoleName.Admin) {
-      throw new TRPCError({ code: 'FORBIDDEN', message: 'Access denied: Admins only' })
+    const allowedRoles: string[] = [
+      RoleName.Admin,
+      RoleName.Manager,
+      RoleName.Staff,
+      RoleName.Shipper,
+    ]
+
+    if (!allowedRoles.includes(user.roleName)) {
+      throw new TRPCError({
+        code: 'FORBIDDEN',
+        message: 'Access denied: Staff, Managers, Admins or Shippers only',
+      })
     }
 
     return next()

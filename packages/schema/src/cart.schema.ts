@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const AddCartItemSchema = z.object({
     skuId: z.string(),
     quantity: z.number().int().positive(),
+    note: z.string().optional(),
 });
 
 export type AddCartItemType = z.infer<typeof AddCartItemSchema>;
@@ -10,6 +11,7 @@ export type AddCartItemType = z.infer<typeof AddCartItemSchema>;
 export const UpdateCartItemSchema = z.object({
     itemId: z.string(),
     quantity: z.number().int().positive(),
+    note: z.string().optional(),
 });
 
 export type UpdateCartItemType = z.infer<typeof UpdateCartItemSchema>;
@@ -24,6 +26,7 @@ export const CartItemSchema = z.object({
     id: z.string(),
     quantity: z.number(),
     skuId: z.string(),
+    note: z.string().nullish(),
     sku: z.object({
         id: z.string(),
         value: z.string(),

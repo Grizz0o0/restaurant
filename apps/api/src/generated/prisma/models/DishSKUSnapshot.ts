@@ -48,6 +48,7 @@ export type DishSKUSnapshotMinAggregateOutputType = {
   orderId: string | null
   createdAt: Date | null
   dishId: string | null
+  note: string | null
 }
 
 export type DishSKUSnapshotMaxAggregateOutputType = {
@@ -60,6 +61,7 @@ export type DishSKUSnapshotMaxAggregateOutputType = {
   orderId: string | null
   createdAt: Date | null
   dishId: string | null
+  note: string | null
 }
 
 export type DishSKUSnapshotCountAggregateOutputType = {
@@ -73,6 +75,7 @@ export type DishSKUSnapshotCountAggregateOutputType = {
   orderId: number
   createdAt: number
   dishId: number
+  note: number
   _all: number
 }
 
@@ -97,6 +100,7 @@ export type DishSKUSnapshotMinAggregateInputType = {
   orderId?: true
   createdAt?: true
   dishId?: true
+  note?: true
 }
 
 export type DishSKUSnapshotMaxAggregateInputType = {
@@ -109,6 +113,7 @@ export type DishSKUSnapshotMaxAggregateInputType = {
   orderId?: true
   createdAt?: true
   dishId?: true
+  note?: true
 }
 
 export type DishSKUSnapshotCountAggregateInputType = {
@@ -122,6 +127,7 @@ export type DishSKUSnapshotCountAggregateInputType = {
   orderId?: true
   createdAt?: true
   dishId?: true
+  note?: true
   _all?: true
 }
 
@@ -222,6 +228,7 @@ export type DishSKUSnapshotGroupByOutputType = {
   orderId: string | null
   createdAt: Date
   dishId: string | null
+  note: string | null
   _count: DishSKUSnapshotCountAggregateOutputType | null
   _avg: DishSKUSnapshotAvgAggregateOutputType | null
   _sum: DishSKUSnapshotSumAggregateOutputType | null
@@ -258,6 +265,7 @@ export type DishSKUSnapshotWhereInput = {
   orderId?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DishSKUSnapshot"> | Date | string
   dishId?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
+  note?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
   dish?: Prisma.XOR<Prisma.DishNullableScalarRelationFilter, Prisma.DishWhereInput> | null
   order?: Prisma.XOR<Prisma.OrderNullableScalarRelationFilter, Prisma.OrderWhereInput> | null
   sku?: Prisma.XOR<Prisma.SKUNullableScalarRelationFilter, Prisma.SKUWhereInput> | null
@@ -274,6 +282,7 @@ export type DishSKUSnapshotOrderByWithRelationInput = {
   orderId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   dishId?: Prisma.SortOrderInput | Prisma.SortOrder
+  note?: Prisma.SortOrderInput | Prisma.SortOrder
   dish?: Prisma.DishOrderByWithRelationInput
   order?: Prisma.OrderOrderByWithRelationInput
   sku?: Prisma.SKUOrderByWithRelationInput
@@ -293,6 +302,7 @@ export type DishSKUSnapshotWhereUniqueInput = Prisma.AtLeast<{
   orderId?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DishSKUSnapshot"> | Date | string
   dishId?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
+  note?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
   dish?: Prisma.XOR<Prisma.DishNullableScalarRelationFilter, Prisma.DishWhereInput> | null
   order?: Prisma.XOR<Prisma.OrderNullableScalarRelationFilter, Prisma.OrderWhereInput> | null
   sku?: Prisma.XOR<Prisma.SKUNullableScalarRelationFilter, Prisma.SKUWhereInput> | null
@@ -309,6 +319,7 @@ export type DishSKUSnapshotOrderByWithAggregationInput = {
   orderId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   dishId?: Prisma.SortOrderInput | Prisma.SortOrder
+  note?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.DishSKUSnapshotCountOrderByAggregateInput
   _avg?: Prisma.DishSKUSnapshotAvgOrderByAggregateInput
   _max?: Prisma.DishSKUSnapshotMaxOrderByAggregateInput
@@ -330,6 +341,7 @@ export type DishSKUSnapshotScalarWhereWithAggregatesInput = {
   orderId?: Prisma.StringNullableWithAggregatesFilter<"DishSKUSnapshot"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"DishSKUSnapshot"> | Date | string
   dishId?: Prisma.StringNullableWithAggregatesFilter<"DishSKUSnapshot"> | string | null
+  note?: Prisma.StringNullableWithAggregatesFilter<"DishSKUSnapshot"> | string | null
 }
 
 export type DishSKUSnapshotCreateInput = {
@@ -340,6 +352,7 @@ export type DishSKUSnapshotCreateInput = {
   images?: Prisma.DishSKUSnapshotCreateimagesInput | string[]
   skuValue: string
   createdAt?: Date | string
+  note?: string | null
   dish?: Prisma.DishCreateNestedOneWithoutDishSkuSnapshotsInput
   order?: Prisma.OrderCreateNestedOneWithoutItemsInput
   sku?: Prisma.SKUCreateNestedOneWithoutDishSKUSnapshotsInput
@@ -356,6 +369,7 @@ export type DishSKUSnapshotUncheckedCreateInput = {
   orderId?: string | null
   createdAt?: Date | string
   dishId?: string | null
+  note?: string | null
 }
 
 export type DishSKUSnapshotUpdateInput = {
@@ -366,6 +380,7 @@ export type DishSKUSnapshotUpdateInput = {
   images?: Prisma.DishSKUSnapshotUpdateimagesInput | string[]
   skuValue?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dish?: Prisma.DishUpdateOneWithoutDishSkuSnapshotsNestedInput
   order?: Prisma.OrderUpdateOneWithoutItemsNestedInput
   sku?: Prisma.SKUUpdateOneWithoutDishSKUSnapshotsNestedInput
@@ -382,6 +397,7 @@ export type DishSKUSnapshotUncheckedUpdateInput = {
   orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dishId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DishSKUSnapshotCreateManyInput = {
@@ -395,6 +411,7 @@ export type DishSKUSnapshotCreateManyInput = {
   orderId?: string | null
   createdAt?: Date | string
   dishId?: string | null
+  note?: string | null
 }
 
 export type DishSKUSnapshotUpdateManyMutationInput = {
@@ -405,6 +422,7 @@ export type DishSKUSnapshotUpdateManyMutationInput = {
   images?: Prisma.DishSKUSnapshotUpdateimagesInput | string[]
   skuValue?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DishSKUSnapshotUncheckedUpdateManyInput = {
@@ -418,6 +436,7 @@ export type DishSKUSnapshotUncheckedUpdateManyInput = {
   orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dishId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DishSKUSnapshotListRelationFilter = {
@@ -441,6 +460,7 @@ export type DishSKUSnapshotCountOrderByAggregateInput = {
   orderId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   dishId?: Prisma.SortOrder
+  note?: Prisma.SortOrder
 }
 
 export type DishSKUSnapshotAvgOrderByAggregateInput = {
@@ -458,6 +478,7 @@ export type DishSKUSnapshotMaxOrderByAggregateInput = {
   orderId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   dishId?: Prisma.SortOrder
+  note?: Prisma.SortOrder
 }
 
 export type DishSKUSnapshotMinOrderByAggregateInput = {
@@ -470,6 +491,7 @@ export type DishSKUSnapshotMinOrderByAggregateInput = {
   orderId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   dishId?: Prisma.SortOrder
+  note?: Prisma.SortOrder
 }
 
 export type DishSKUSnapshotSumOrderByAggregateInput = {
@@ -620,6 +642,7 @@ export type DishSKUSnapshotCreateWithoutDishInput = {
   images?: Prisma.DishSKUSnapshotCreateimagesInput | string[]
   skuValue: string
   createdAt?: Date | string
+  note?: string | null
   order?: Prisma.OrderCreateNestedOneWithoutItemsInput
   sku?: Prisma.SKUCreateNestedOneWithoutDishSKUSnapshotsInput
 }
@@ -634,6 +657,7 @@ export type DishSKUSnapshotUncheckedCreateWithoutDishInput = {
   skuId?: string | null
   orderId?: string | null
   createdAt?: Date | string
+  note?: string | null
 }
 
 export type DishSKUSnapshotCreateOrConnectWithoutDishInput = {
@@ -676,6 +700,7 @@ export type DishSKUSnapshotScalarWhereInput = {
   orderId?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DishSKUSnapshot"> | Date | string
   dishId?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
+  note?: Prisma.StringNullableFilter<"DishSKUSnapshot"> | string | null
 }
 
 export type DishSKUSnapshotCreateWithoutSkuInput = {
@@ -686,6 +711,7 @@ export type DishSKUSnapshotCreateWithoutSkuInput = {
   images?: Prisma.DishSKUSnapshotCreateimagesInput | string[]
   skuValue: string
   createdAt?: Date | string
+  note?: string | null
   dish?: Prisma.DishCreateNestedOneWithoutDishSkuSnapshotsInput
   order?: Prisma.OrderCreateNestedOneWithoutItemsInput
 }
@@ -700,6 +726,7 @@ export type DishSKUSnapshotUncheckedCreateWithoutSkuInput = {
   orderId?: string | null
   createdAt?: Date | string
   dishId?: string | null
+  note?: string | null
 }
 
 export type DishSKUSnapshotCreateOrConnectWithoutSkuInput = {
@@ -736,6 +763,7 @@ export type DishSKUSnapshotCreateWithoutOrderInput = {
   images?: Prisma.DishSKUSnapshotCreateimagesInput | string[]
   skuValue: string
   createdAt?: Date | string
+  note?: string | null
   dish?: Prisma.DishCreateNestedOneWithoutDishSkuSnapshotsInput
   sku?: Prisma.SKUCreateNestedOneWithoutDishSKUSnapshotsInput
 }
@@ -750,6 +778,7 @@ export type DishSKUSnapshotUncheckedCreateWithoutOrderInput = {
   skuId?: string | null
   createdAt?: Date | string
   dishId?: string | null
+  note?: string | null
 }
 
 export type DishSKUSnapshotCreateOrConnectWithoutOrderInput = {
@@ -788,6 +817,7 @@ export type DishSKUSnapshotCreateManyDishInput = {
   skuId?: string | null
   orderId?: string | null
   createdAt?: Date | string
+  note?: string | null
 }
 
 export type DishSKUSnapshotUpdateWithoutDishInput = {
@@ -798,6 +828,7 @@ export type DishSKUSnapshotUpdateWithoutDishInput = {
   images?: Prisma.DishSKUSnapshotUpdateimagesInput | string[]
   skuValue?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.OrderUpdateOneWithoutItemsNestedInput
   sku?: Prisma.SKUUpdateOneWithoutDishSKUSnapshotsNestedInput
 }
@@ -812,6 +843,7 @@ export type DishSKUSnapshotUncheckedUpdateWithoutDishInput = {
   skuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DishSKUSnapshotUncheckedUpdateManyWithoutDishInput = {
@@ -824,6 +856,7 @@ export type DishSKUSnapshotUncheckedUpdateManyWithoutDishInput = {
   skuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DishSKUSnapshotCreateManySkuInput = {
@@ -836,6 +869,7 @@ export type DishSKUSnapshotCreateManySkuInput = {
   orderId?: string | null
   createdAt?: Date | string
   dishId?: string | null
+  note?: string | null
 }
 
 export type DishSKUSnapshotUpdateWithoutSkuInput = {
@@ -846,6 +880,7 @@ export type DishSKUSnapshotUpdateWithoutSkuInput = {
   images?: Prisma.DishSKUSnapshotUpdateimagesInput | string[]
   skuValue?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dish?: Prisma.DishUpdateOneWithoutDishSkuSnapshotsNestedInput
   order?: Prisma.OrderUpdateOneWithoutItemsNestedInput
 }
@@ -860,6 +895,7 @@ export type DishSKUSnapshotUncheckedUpdateWithoutSkuInput = {
   orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dishId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DishSKUSnapshotUncheckedUpdateManyWithoutSkuInput = {
@@ -872,6 +908,7 @@ export type DishSKUSnapshotUncheckedUpdateManyWithoutSkuInput = {
   orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dishId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DishSKUSnapshotCreateManyOrderInput = {
@@ -884,6 +921,7 @@ export type DishSKUSnapshotCreateManyOrderInput = {
   skuId?: string | null
   createdAt?: Date | string
   dishId?: string | null
+  note?: string | null
 }
 
 export type DishSKUSnapshotUpdateWithoutOrderInput = {
@@ -894,6 +932,7 @@ export type DishSKUSnapshotUpdateWithoutOrderInput = {
   images?: Prisma.DishSKUSnapshotUpdateimagesInput | string[]
   skuValue?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dish?: Prisma.DishUpdateOneWithoutDishSkuSnapshotsNestedInput
   sku?: Prisma.SKUUpdateOneWithoutDishSKUSnapshotsNestedInput
 }
@@ -908,6 +947,7 @@ export type DishSKUSnapshotUncheckedUpdateWithoutOrderInput = {
   skuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dishId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DishSKUSnapshotUncheckedUpdateManyWithoutOrderInput = {
@@ -920,6 +960,7 @@ export type DishSKUSnapshotUncheckedUpdateManyWithoutOrderInput = {
   skuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dishId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -935,6 +976,7 @@ export type DishSKUSnapshotSelect<ExtArgs extends runtime.Types.Extensions.Inter
   orderId?: boolean
   createdAt?: boolean
   dishId?: boolean
+  note?: boolean
   dish?: boolean | Prisma.DishSKUSnapshot$dishArgs<ExtArgs>
   order?: boolean | Prisma.DishSKUSnapshot$orderArgs<ExtArgs>
   sku?: boolean | Prisma.DishSKUSnapshot$skuArgs<ExtArgs>
@@ -951,6 +993,7 @@ export type DishSKUSnapshotSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   orderId?: boolean
   createdAt?: boolean
   dishId?: boolean
+  note?: boolean
   dish?: boolean | Prisma.DishSKUSnapshot$dishArgs<ExtArgs>
   order?: boolean | Prisma.DishSKUSnapshot$orderArgs<ExtArgs>
   sku?: boolean | Prisma.DishSKUSnapshot$skuArgs<ExtArgs>
@@ -967,6 +1010,7 @@ export type DishSKUSnapshotSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   orderId?: boolean
   createdAt?: boolean
   dishId?: boolean
+  note?: boolean
   dish?: boolean | Prisma.DishSKUSnapshot$dishArgs<ExtArgs>
   order?: boolean | Prisma.DishSKUSnapshot$orderArgs<ExtArgs>
   sku?: boolean | Prisma.DishSKUSnapshot$skuArgs<ExtArgs>
@@ -983,9 +1027,10 @@ export type DishSKUSnapshotSelectScalar = {
   orderId?: boolean
   createdAt?: boolean
   dishId?: boolean
+  note?: boolean
 }
 
-export type DishSKUSnapshotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "dishName" | "price" | "quantity" | "images" | "skuValue" | "skuId" | "orderId" | "createdAt" | "dishId", ExtArgs["result"]["dishSKUSnapshot"]>
+export type DishSKUSnapshotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "dishName" | "price" | "quantity" | "images" | "skuValue" | "skuId" | "orderId" | "createdAt" | "dishId" | "note", ExtArgs["result"]["dishSKUSnapshot"]>
 export type DishSKUSnapshotInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   dish?: boolean | Prisma.DishSKUSnapshot$dishArgs<ExtArgs>
   order?: boolean | Prisma.DishSKUSnapshot$orderArgs<ExtArgs>
@@ -1020,6 +1065,7 @@ export type $DishSKUSnapshotPayload<ExtArgs extends runtime.Types.Extensions.Int
     orderId: string | null
     createdAt: Date
     dishId: string | null
+    note: string | null
   }, ExtArgs["result"]["dishSKUSnapshot"]>
   composites: {}
 }
@@ -1456,6 +1502,7 @@ export interface DishSKUSnapshotFieldRefs {
   readonly orderId: Prisma.FieldRef<"DishSKUSnapshot", 'String'>
   readonly createdAt: Prisma.FieldRef<"DishSKUSnapshot", 'DateTime'>
   readonly dishId: Prisma.FieldRef<"DishSKUSnapshot", 'String'>
+  readonly note: Prisma.FieldRef<"DishSKUSnapshot", 'String'>
 }
     
 

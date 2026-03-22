@@ -223,6 +223,23 @@ async function main() {
     },
   })
 
+  // --- SHIPPER ROLE ---
+  const shipperPerms = getPermIds([
+    'orders.list',
+    'orders.*', // To update status
+    'profile.*',
+  ])
+
+  await prisma.role.upsert({
+    where: { name: 'SHIPPER' },
+    update: { permissions: { set: [], connect: shipperPerms } },
+    create: {
+      name: 'SHIPPER',
+      description: 'Shipper role for delivery',
+      permissions: { connect: shipperPerms },
+    },
+  })
+
   console.log('✓ Roles & Permissions created/updated')
 
   // =================================================================================================
@@ -327,7 +344,42 @@ async function main() {
       status: UserStatus.ACTIVE,
     },
   })
+
+  const shipperEmail = 'shipper@example.com'
+  await prisma.user.upsert({
+    where: { email: shipperEmail },
+    update: { roleId: (await prisma.role.findUniqueOrThrow({ where: { name: 'SHIPPER' } })).id },
+    create: {
+      email: shipperEmail,
+      name: 'Nguyen Van Shipper',
+      phoneNumber: '0977777777',
+      password: hashedPassword,
+      roleId: (await prisma.role.findUniqueOrThrow({ where: { name: 'SHIPPER' } })).id,
+      status: UserStatus.ACTIVE,
+    },
+  })
   console.log('✓ Users created')
+
+  // --- ADDITIONAL CUSTOMERS ---
+  console.log('Creating 20 additional customers...')
+  const additionalCustomers = []
+  for (let i = 1; i <= 20; i++) {
+    const email = `customer${i}@example.com`
+    const user = await prisma.user.upsert({
+      where: { email },
+      update: {},
+      create: {
+        email,
+        name: `Customer ${i}`,
+        phoneNumber: `09000000${i.toString().padStart(2, '0')}`,
+        password: hashedPassword,
+        roleId: (await prisma.role.findUniqueOrThrow({ where: { name: 'CUSTOMER' } })).id,
+        status: UserStatus.ACTIVE,
+      },
+    })
+    additionalCustomers.push(user)
+  }
+  console.log('✓ 20 additional customers created')
 
   // =================================================================================================
   // 4. RESTAURANT & TABLES
@@ -417,37 +469,107 @@ async function main() {
   // =================================================================================================
   console.log('Creating suppliers...')
 
-  let supplier = await prisma.supplier.findFirst({
-    where: { name: 'Bamicha Supplies' },
-  })
+  const suppliersData = [
+    {
+      name: 'Bamicha Food & Tea',
+      contactName: 'Nguyen Van A',
+      phoneNumber: '0363290476',
+      email: 'bamicha@gmail.com',
+      website: 'https://www.bamicha.com',
+      rating: 4.5,
+      logo: 'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773914194/restaurant-app/suppliers/da0mozfserdbuwkrrkyx.png',
+      viDescription: 'Nhà cung cấp thực phẩm uy tín',
+      enDescription: 'Premium food supplier',
+    },
+    {
+      name: 'FreshFarm Supplies',
+      contactName: 'Tran Thi B',
+      phoneNumber: '0905123456',
+      email: 'contact@freshfarm.vn',
+      website: 'https://freshfarm.vn',
+      rating: 4.7,
+      logo: 'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773914135/restaurant-app/suppliers/v79djpgdpcz1rqsb6nnl.jpg',
+      viDescription: 'Nguồn rau củ quả tươi mỗi ngày',
+      enDescription: 'Daily fresh produce supplier',
+    },
+    {
+      name: 'An Phu Food Trading',
+      contactName: 'Le Van C',
+      phoneNumber: '0912345678',
+      email: 'sales@anphufood.com',
+      website: 'https://anphufood.com',
+      rating: 4.3,
+      logo: 'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773914149/restaurant-app/suppliers/ql0acsx30gpgqr1zdook.png',
+      viDescription: 'Chuyên thực phẩm khô & gia vị',
+      enDescription: 'Dry food & spices wholesaler',
+    },
+    {
+      name: 'DairyPlus Vietnam',
+      contactName: 'Pham Thi D',
+      phoneNumber: '0987654321',
+      email: 'hello@dairyplus.vn',
+      website: 'https://dairyplus.vn',
+      rating: 4.6,
+      logo: 'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773914121/restaurant-app/suppliers/audrlfexfi0efddy8rq2.png',
+      viDescription: 'Sữa & sản phẩm từ sữa chất lượng',
+      enDescription: 'Quality dairy supplier',
+    },
+    {
+      name: 'Tự chế biến',
+      contactName: 'Nhà bếp',
+      phoneNumber: '',
+      email: '',
+      website: '',
+      rating: 5.0,
+      logo: '',
+      viDescription: 'Các món ăn tự chế biến tại nhà hàng',
+      enDescription: 'Self-produced dishes by the restaurant',
+    },
+  ] as const
 
-  if (!supplier) {
-    supplier = await prisma.supplier.create({
-      data: {
-        name: 'Bamicha Supplies',
-        contactName: 'Mr. Supplier',
-        rating: 4.5,
-        logo: 'https://res.cloudinary.com/dr1dzw92r/image/upload/v1772869640/restaurant-app/suppliers/ffodnv3q1quqppas2xdq.png',
-        supplierTranslations: {
-          create: [
-            {
-              languageId: viLang.id,
-              name: 'Bamicha Supplies',
-              description: 'Nhà cung cấp thực phẩm uy tín',
-            },
-            {
-              languageId: enLang.id,
-              name: 'Bamicha Supplies',
-              description: 'Premium food supplier',
-            },
-          ],
-        },
-      },
+  const createdSupplierIds: string[] = []
+  for (const s of suppliersData) {
+    let existing = await prisma.supplier.findFirst({
+      where: { name: s.name },
     })
-    console.log('✓ Supplier created')
-  } else {
-    console.log('✓ Supplier already exists')
+
+    if (!existing) {
+      existing = await prisma.supplier.create({
+        data: {
+          name: s.name,
+          contactName: s.contactName,
+          phoneNumber: s.phoneNumber,
+          email: s.email,
+          website: s.website,
+          rating: s.rating,
+          logo: s.logo,
+          supplierTranslations: {
+            create: [
+              {
+                languageId: viLang.id,
+                name: s.name,
+                description: s.viDescription,
+              },
+              {
+                languageId: enLang.id,
+                name: s.name,
+                description: s.enDescription,
+              },
+            ],
+          },
+        },
+      })
+      console.log(`✓ Supplier created: ${s.name}`)
+    } else {
+      console.log(`✓ Supplier already exists: ${s.name}`)
+    }
+    createdSupplierIds.push(existing.id)
   }
+
+  const defaultSupplier = await prisma.supplier.findFirst({
+    where: { name: 'Tự chế biến' },
+  })
+  if (!defaultSupplier) throw new Error('Default supplier not found: Tự chế biến')
 
   // =================================================================================================
   // 6. INVENTORY
@@ -557,10 +679,12 @@ async function main() {
     })
 
     if (!existingInv) {
+      const randomSupplierId =
+        createdSupplierIds[Math.floor(Math.random() * createdSupplierIds.length)]
       const inv = await prisma.inventory.create({
         data: {
           restaurantId: restaurant.id,
-          supplierId: supplier.id,
+          supplierId: randomSupplierId,
           itemName: item.name,
           unit: item.unit,
           quantity: item.quantity,
@@ -708,7 +832,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì chả nóng', desc: 'Nhân chả thơm ngon' },
       en: { name: 'Hot Pork Roll Banh Mi', desc: 'With hot pork roll' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106492/B%C3%A1nh_m%C3%AC_gi%C3%B2_htohvy.png',
+      ],
       price: 25000,
       catId: banhMiCat.id,
       recipe: [
@@ -721,7 +847,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì pate chả nóng', desc: 'Pate béo ngậy và chả' },
       en: { name: 'Pate & Pork Roll Banh Mi', desc: 'Pate and pork roll' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106493/B%C3%A1nh_m%C3%AC_pate_ch%E1%BA%A3_esse1e.png',
+      ],
       price: 25000,
       catId: banhMiCat.id,
       recipe: [
@@ -734,7 +862,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì chả ruốc', desc: 'Chả và ruốc bông' },
       en: { name: 'Pork Roll & Floss Banh Mi', desc: 'Pork roll and meat floss' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106493/B%C3%A1nh_m%C3%AC_pate_ch%E1%BA%A3_esse1e.png',
+      ],
       price: 25000,
       catId: banhMiCat.id,
       recipe: [
@@ -747,7 +877,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì giò nóng', desc: 'Giò lụa nóng hổi' },
       en: { name: 'Hot Vietnamese Sausage Banh Mi', desc: 'Hot sausage' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106492/B%C3%A1nh_m%C3%AC_gi%C3%B2_htohvy.png',
+      ],
       price: 25000,
       catId: banhMiCat.id,
       recipe: [
@@ -774,7 +906,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì giò ruốc', desc: 'Giò và ruốc' },
       en: { name: 'Sausage & Floss Banh Mi', desc: 'Sausage and floss' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106493/B%C3%A1nh_m%C3%AC_pate_ch%E1%BA%A3_esse1e.png',
+      ],
       price: 25000,
       catId: banhMiCat.id,
       recipe: [
@@ -806,7 +940,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì pate lườn ngỗng', desc: 'Pate và lườn ngỗng' },
       en: { name: 'Pate & Goose Breast Banh Mi', desc: 'Pate and goose breast' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774107437/B%C3%A1nh_m%C3%AC_l%C6%B0%E1%BB%9Dn_ng%E1%BB%97ng_guovoe.png',
+      ],
       price: 25000,
       catId: banhMiCat.id,
       recipe: [
@@ -823,7 +959,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì lườn ruốc', desc: 'Lườn ngỗng và ruốc' },
       en: { name: 'Goose Breast & Floss Banh Mi', desc: 'Goose breast and floss' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774107437/B%C3%A1nh_m%C3%AC_l%C6%B0%E1%BB%9Dn_ng%E1%BB%97ng_guovoe.png',
+      ],
       price: 25000,
       catId: banhMiCat.id,
       recipe: [
@@ -840,7 +978,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì xá xíu', desc: 'Thịt xá xíu đậm đà' },
       en: { name: 'Char Siu Banh Mi', desc: 'BBQ pork' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106492/B%C3%A1nh_m%C3%AC_x%C3%A1_x%C3%ADu_coblfx.png',
+      ],
       price: 25000,
       catId: banhMiCat.id,
       recipe: [
@@ -857,7 +997,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì pate xá xíu', desc: 'Pate và xá xíu' },
       en: { name: 'Pate & Char Siu Banh Mi', desc: 'Pate and BBQ pork' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106492/B%C3%A1nh_m%C3%AC_x%C3%A1_x%C3%ADu_coblfx.png',
+      ],
       price: 25000,
       catId: banhMiCat.id,
       recipe: [
@@ -874,7 +1016,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì xá xíu ruốc', desc: 'Xá xíu và ruốc' },
       en: { name: 'Char Siu & Floss Banh Mi', desc: 'BBQ pork and floss' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106492/B%C3%A1nh_m%C3%AC_x%C3%A1_x%C3%ADu_coblfx.png',
+      ],
       price: 25000,
       catId: banhMiCat.id,
       recipe: [
@@ -891,7 +1035,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì nem nướng', desc: 'Nem nướng thơm lừng' },
       en: { name: 'Grilled Sausage Banh Mi', desc: 'Grilled sausage' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106491/B%C3%A1nh_m%C3%AC_ch%E1%BA%A3_n%C6%B0%E1%BB%9Bng_ru%E1%BB%91c_jru46l.png',
+      ],
       price: 25000,
       catId: banhMiCat.id,
       recipe: [
@@ -909,7 +1055,7 @@ async function main() {
       vi: { name: 'Bánh mì pate nem nướng', desc: 'Pate và nem nướng' },
       en: { name: 'Pate & Grilled Sausage Banh Mi', desc: 'Pate and grilled sausage' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770814709/restaurant-app/dishes/u2xamxvpgbxgvvml1hjw.jpg',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106492/B%C3%A1nh_m%C3%AC_x%C3%A1_x%C3%ADu_coblfx.png',
       ],
       price: 25000,
       catId: banhMiCat.id,
@@ -927,7 +1073,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì nem nướng ruốc', desc: 'Nem nướng và ruốc' },
       en: { name: 'Grilled Sausage & Floss Banh Mi', desc: 'Grilled sausage and floss' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106491/B%C3%A1nh_m%C3%AC_ch%E1%BA%A3_n%C6%B0%E1%BB%9Bng_ru%E1%BB%91c_jru46l.png',
+      ],
       price: 25000,
       catId: banhMiCat.id,
       recipe: [
@@ -944,7 +1092,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì trứng chả', desc: 'Trứng ốp và chả' },
       en: { name: 'Egg & Pork Roll Banh Mi', desc: 'Fried egg and pork roll' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106493/B%C3%A1nh_m%C3%AC_tr%E1%BB%A9ng_ch%E1%BA%A3_ohwhaz.png',
+      ],
       price: 25000,
       catId: banhMiCat.id,
       recipe: [
@@ -961,7 +1111,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì trứng giò', desc: 'Trứng ốp và giò' },
       en: { name: 'Egg & Vietnamese Ham Banh Mi', desc: 'Fried egg and Vietnamese ham' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106493/B%C3%A1nh_m%C3%AC_tr%E1%BB%A9ng_ch%E1%BA%A3_ohwhaz.png',
+      ],
       price: 25000,
       catId: banhMiCat.id,
       recipe: [
@@ -978,7 +1130,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì trứng ruốc', desc: 'Trứng và ruốc' },
       en: { name: 'Egg & Floss Banh Mi', desc: 'Fried egg and floss' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774104384/B%C3%A1nh_m%C3%AC_2_tr%E1%BB%A9ng_pobypz.png',
+      ],
       price: 20000,
       catId: banhMiCat.id,
       recipe: [
@@ -995,7 +1149,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì trứng bò khô', desc: 'Trứng và bò khô' },
       en: { name: 'Egg & Beef Jerky Banh Mi', desc: 'Egg and beef jerky' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774104384/B%C3%A1nh_m%C3%AC_2_tr%E1%BB%A9ng_pobypz.png',
+      ],
       price: 20000,
       catId: banhMiCat.id,
       recipe: [
@@ -1012,7 +1168,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì trứng xúc xích', desc: 'Trứng và xúc xích' },
       en: { name: 'Egg & Sausage Banh Mi', desc: 'Egg and sausage' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106492/B%C3%A1nh_m%C3%AC_tr%E1%BB%A9ng_x%C3%BAc_x%C3%ADch_u8jwsi.png',
+      ],
       price: 20000,
       catId: banhMiCat.id,
       recipe: [
@@ -1029,7 +1187,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì 2 trứng', desc: 'Hai trứng ốp la' },
       en: { name: 'Double Egg Banh Mi', desc: 'Two fried eggs' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774104384/B%C3%A1nh_m%C3%AC_2_tr%E1%BB%A9ng_pobypz.png',
+      ],
       price: 20000,
       catId: banhMiCat.id,
       recipe: [
@@ -1046,7 +1206,7 @@ async function main() {
       vi: { name: 'Bánh mì pate trứng', desc: 'Pate và trứng' },
       en: { name: 'Pate & Egg Banh Mi', desc: 'Pate and egg' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770814656/restaurant-app/dishes/ktg0ojt5rpq2cl1xcmlm.jpg',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106492/B%C3%A1nh_m%C3%AC_tr%E1%BB%A9ng_x%C3%BAc_x%C3%ADch_u8jwsi.png',
       ],
       price: 20000,
       catId: banhMiCat.id,
@@ -1083,7 +1243,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì xúc xích ruốc', desc: 'Xúc xích và ruốc' },
       en: { name: 'Sausage & Floss Banh Mi', desc: 'Sausage and floss' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106774/B%C3%A1nh_m%C3%AC_x%C3%BAc_x%C3%ADch_fuyfbo.png',
+      ],
       price: 20000,
       catId: banhMiCat.id,
       recipe: [
@@ -1100,7 +1262,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì xúc xích bò khô', desc: 'Xúc xích và bò khô' },
       en: { name: 'Sausage & Beef Jerky Banh Mi', desc: 'Sausage and beef jerky' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106774/B%C3%A1nh_m%C3%AC_x%C3%BAc_x%C3%ADch_fuyfbo.png',
+      ],
       price: 20000,
       catId: banhMiCat.id,
       recipe: [
@@ -1137,7 +1301,7 @@ async function main() {
       vi: { name: 'Bánh mì pate', desc: 'Sốt pate đặc biệt' },
       en: { name: 'Pate Banh Mi', desc: 'Special pate' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770810580/Screenshot_2026-02-08_203316_qkihfi.png',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106493/B%C3%A1nh_m%C3%AC_pate_ru%E1%BB%91c_qkftni.png',
       ],
       price: 15000,
       catId: banhMiCat.id,
@@ -1154,7 +1318,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì bò khô', desc: 'Nhân bò khô' },
       en: { name: 'Beef Jerky Banh Mi', desc: 'Beef jerky' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774107158/B%C3%A1nh_m%C3%AC_b%C3%B2_kh%C3%B4_pbeqyn.png',
+      ],
       price: 15000,
       catId: banhMiCat.id,
       recipe: [
@@ -1170,7 +1336,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì ruốc', desc: 'Nhân ruốc' },
       en: { name: 'Floss Banh Mi', desc: 'Meat floss' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106493/B%C3%A1nh_m%C3%AC_ru%E1%BB%91c_te5u8r.png',
+      ],
       price: 15000,
       catId: banhMiCat.id,
       recipe: [
@@ -1185,7 +1353,9 @@ async function main() {
     },
     {
       vi: { name: 'Bánh mì xúc xích', desc: 'Nhân xúc xích' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106774/B%C3%A1nh_m%C3%AC_x%C3%BAc_x%C3%ADch_fuyfbo.png',
+      ],
       en: { name: 'Sausage Banh Mi', desc: 'Sausage' },
       price: 15000,
       catId: banhMiCat.id,
@@ -1202,7 +1372,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì 1 trứng', desc: 'Một trứng ốp la' },
       en: { name: 'Single Egg Banh Mi', desc: 'One fried egg' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774104384/B%C3%A1nh_m%C3%AC_1_tr%E1%BB%A9ng_zl82wa.png',
+      ],
       price: 15000,
       catId: banhMiCat.id,
       recipe: [
@@ -1219,7 +1391,7 @@ async function main() {
       vi: { name: 'Bánh mì pate ruốc', desc: 'Pate và ruốc' },
       en: { name: 'Pate & Floss Banh Mi', desc: 'Pate and floss' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770818832/restaurant-app/dishes/oshk7lyn8unoyetvcuza.jpg',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106492/B%C3%A1nh_m%C3%AC_ru%E1%BB%91c_b%C3%B2_kh%C3%B4_sdwj8c.png',
       ],
       price: 20000,
       catId: banhMiCat.id,
@@ -1256,7 +1428,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì bơ sữa', desc: 'Ngọt ngào bơ sữa' },
       en: { name: 'Butter & Milk Banh Mi', desc: 'Butter and condensed milk' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774106493/B%C3%A1nh_m%C3%AC_b%C6%A1_elhsjp.png',
+      ],
       price: 15000,
       catId: banhMiCat.id,
       recipe: [
@@ -1267,7 +1441,9 @@ async function main() {
     },
     {
       vi: { name: 'Bánh mì thập cẩm', desc: 'Tổng hợp các loại nhân' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774104391/B%C3%A1nh_m%C3%AC_th%E1%BA%ADp_c%E1%BA%A9m_re46et.png',
+      ],
       en: { name: 'Mixed Banh Mi', desc: 'Fully loaded' },
       price: 30000,
       catId: banhMiCat.id,
@@ -1288,7 +1464,9 @@ async function main() {
     },
     {
       vi: { name: 'Bánh mì đặc biệt', desc: 'Phần nhân siêu đầy đặn' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774104384/B%C3%A1nh_m%C3%AC_%C4%91%E1%BA%B7c_bi%E1%BB%87t_ts77bu.png',
+      ],
       en: { name: 'Special Banh Mi', desc: 'Super loaded' },
       price: 40000,
       catId: banhMiCat.id,
@@ -1310,7 +1488,9 @@ async function main() {
     {
       vi: { name: 'Bánh mì không', desc: 'Bánh mì giòn tan' },
       en: { name: 'Plain Banh Mi', desc: 'Crispy baguette' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774104384/B%C3%A1nh_m%C3%AC_kh%C3%B4ng_irfkb1.png',
+      ],
       price: 5000,
       catId: banhMiCat.id,
       recipe: [{ ingredientName: 'Bánh mì (Vỏ)', quantity: 1 }],
@@ -1321,7 +1501,7 @@ async function main() {
       vi: { name: 'Xôi pate ruốc', desc: 'Xôi dẻo với pate ruốc' },
       en: { name: 'Pate & Floss Sticky Rice', desc: 'Sticky rice with pate and floss' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770819462/restaurant-app/dishes/renkkvpkgclfosrukffp.jpg',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774089188/X%C3%B4i_pate_ru%E1%BB%91c_nujdyv.png',
       ],
       price: 20000,
       catId: xoiCat.id,
@@ -1336,7 +1516,7 @@ async function main() {
       vi: { name: 'Xôi pate trứng', desc: 'Xôi pate trứng' },
       en: { name: 'Pate & Egg Sticky Rice', desc: 'Pate and egg' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770819595/restaurant-app/dishes/mlhaxymasbrgmhl3vjmb.jpg',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774089184/X%C3%B4i_pate_tr%E1%BB%A9ng_prfm4q.png',
       ],
       price: 20000,
       catId: xoiCat.id,
@@ -1351,7 +1531,7 @@ async function main() {
       vi: { name: 'Xôi pate xúc xích', desc: 'Xôi pate xúc xích' },
       en: { name: 'Pate & Sausage Sticky Rice', desc: 'Pate and sausage' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770819897/restaurant-app/dishes/tbktqmlpcicrt5lo4fmp.jpg',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774089188/X%C3%B4i_pate_x%C3%BAc_x%C3%ADch_pyg3lt.png',
       ],
       price: 20000,
       catId: xoiCat.id,
@@ -1365,7 +1545,9 @@ async function main() {
     {
       vi: { name: 'Xôi trứng xúc xích', desc: 'Xôi trứng xúc xích' },
       en: { name: 'Egg & Sausage Sticky Rice', desc: 'Egg and sausage' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774089187/X%C3%B4i_tr%E1%BB%A9ng_x%C3%BAc_x%C3%ADch_wsjjke.png',
+      ],
       price: 20000,
       catId: xoiCat.id,
       recipe: [
@@ -1378,7 +1560,9 @@ async function main() {
     {
       vi: { name: 'Xôi trứng ruốc', desc: 'Xôi trứng ruốc' },
       en: { name: 'Egg & Floss Sticky Rice', desc: 'Egg and floss' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774089187/X%C3%B4i_tr%E1%BB%A9ng_ru%E1%BB%91c_kbyhny.png',
+      ],
       price: 20000,
       catId: xoiCat.id,
       recipe: [
@@ -1391,7 +1575,9 @@ async function main() {
     {
       vi: { name: 'Xôi 2 trứng', desc: 'Xôi với 2 trứng' },
       en: { name: 'Double Egg Sticky Rice', desc: 'Sticky rice with 2 eggs' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774099302/X%C3%B4i_2_tr%E1%BB%A9ng_nmfuj8.png',
+      ],
       price: 20000,
       catId: xoiCat.id,
       recipe: [
@@ -1403,7 +1589,9 @@ async function main() {
     {
       vi: { name: 'Xôi trứng chả', desc: 'Xôi trứng chả' },
       en: { name: 'Egg & Pork Roll Sticky Rice', desc: 'Egg and pork roll' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774089186/X%C3%B4i_tr%E1%BB%A9ng_ch%E1%BA%A3_xih711.png',
+      ],
       price: 25000,
       catId: xoiCat.id,
       recipe: [
@@ -1416,7 +1604,9 @@ async function main() {
     {
       vi: { name: 'Xôi trứng giò', desc: 'Xôi trứng giò' },
       en: { name: 'Egg & Vietnamese Ham Sticky Rice', desc: 'Egg and Vietnamese ham' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774089184/X%C3%B4i_tr%E1%BB%A9ng_gi%C3%B2_yjlsqy.png',
+      ],
       price: 25000,
       catId: xoiCat.id,
       recipe: [
@@ -1429,7 +1619,9 @@ async function main() {
     {
       vi: { name: 'Xôi pate chả', desc: 'Xôi pate chả' },
       en: { name: 'Pate & Pork Roll Sticky Rice', desc: 'Pate and pork roll' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774089185/X%C3%B4i_pate_ch%E1%BA%A3_xcmmrn.png',
+      ],
       price: 25000,
       catId: xoiCat.id,
       recipe: [
@@ -1442,7 +1634,9 @@ async function main() {
     {
       vi: { name: 'Xôi pate giò', desc: 'Xôi pate giò' },
       en: { name: 'Pate & Vietnamese Ham Sticky Rice', desc: 'Pate and Vietnamese ham' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774089186/X%C3%B4i_pate_gi%C3%B2_r2wqh7.png',
+      ],
       price: 25000,
       catId: xoiCat.id,
       recipe: [
@@ -1455,7 +1649,9 @@ async function main() {
     {
       vi: { name: 'Xôi chả ruốc', desc: 'Xôi chả ruốc' },
       en: { name: 'Pork Roll & Floss Sticky Rice', desc: 'Pork roll and floss' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774089184/X%C3%B4i_ch%E1%BA%A3_ru%E1%BB%91c_qinzez.png',
+      ],
       price: 25000,
       catId: xoiCat.id,
       recipe: [
@@ -1468,7 +1664,9 @@ async function main() {
     {
       vi: { name: 'Xôi giò ruốc', desc: 'Xôi giò ruốc' },
       en: { name: 'Vietnamese Ham & Floss Sticky Rice', desc: 'Vietnamese ham and floss' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774089185/X%C3%B4i_gi%C3%B2_ru%E1%BB%91c_soamwo.png',
+      ],
       price: 25000,
       catId: xoiCat.id,
       recipe: [
@@ -1481,7 +1679,9 @@ async function main() {
     {
       vi: { name: 'Xôi thập cẩm', desc: 'Đầy đủ toping' },
       en: { name: 'Mixed Sticky Rice', desc: 'Mixed toppings' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774089184/X%C3%B4i_th%E1%BA%ADp_c%E1%BA%A9m_unlvmq.png',
+      ],
       price: 30000,
       catId: xoiCat.id,
       recipe: [
@@ -1497,7 +1697,9 @@ async function main() {
     {
       vi: { name: 'Xôi thập cẩm trứng', desc: 'Thập cẩm thêm trứng' },
       en: { name: 'Mixed Sticky Rice with Egg', desc: 'Mixed toppings with egg' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774089185/X%C3%B4i_th%E1%BA%ADp_c%E1%BA%A9m_tr%E1%BB%A9ng_lhokfj.png',
+      ],
       price: 35000,
       catId: xoiCat.id,
       recipe: [
@@ -1748,7 +1950,9 @@ async function main() {
     {
       vi: { name: 'Nem chua rán', desc: 'Nem chua rán Hà Nội' },
       en: { name: 'Fried Fermented Pork', desc: 'Fried sour pork' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773852816/Nem_chua_r%C3%A1n_srsvyw.png',
+      ],
       price: 25000,
       catId: snackCat.id,
       recipe: [
@@ -1986,9 +2190,7 @@ async function main() {
     {
       vi: { name: 'Kem Vani', desc: 'Kem vani truyền thống' },
       en: { name: 'Vanilla Ice Cream', desc: 'Classic vanilla' },
-      images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770998988/restaurant-app/dishes/brf4gpubslmgevn5xur4.jpg',
-      ],
+      images: ['https://res.cloudinary.com/dr1dzw92r/image/upload/v1774025661/Kem_vani_bqvewb.png'],
       price: 15000,
       catId: snackCat.id, // Dùng tạm snackCat
       recipe: [
@@ -1999,7 +2201,7 @@ async function main() {
       vi: { name: 'Kem Chocolate', desc: 'Kem sô-cô-la đen' },
       en: { name: 'Chocolate Ice Cream', desc: 'Dark chocolate' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770998988/restaurant-app/dishes/brf4gpubslmgevn5xur4.jpg',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774025661/kem_chocolate_ziv8xa.png',
       ],
       price: 15000,
       catId: snackCat.id,
@@ -2009,7 +2211,7 @@ async function main() {
       vi: { name: 'Kem Dâu', desc: 'Kem chua ngọt vị dâu tây' },
       en: { name: 'Strawberry Ice Cream', desc: 'Strawberry flavor' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770998988/restaurant-app/dishes/brf4gpubslmgevn5xur4.jpg',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774025661/kem_d%C3%A2u_ob6d5h.png',
       ],
       price: 15000,
       catId: snackCat.id,
@@ -2022,7 +2224,7 @@ async function main() {
       vi: { name: 'Kem Matcha', desc: 'Kem vị trà xanh' },
       en: { name: 'Matcha Ice Cream', desc: 'Matcha flavor' },
       images: [
-        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1770998988/restaurant-app/dishes/brf4gpubslmgevn5xur4.jpg',
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1774025661/kem_matcha_pttema.png',
       ],
       price: 18000,
       catId: snackCat.id,
@@ -2033,7 +2235,9 @@ async function main() {
     {
       vi: { name: 'Chè bưởi', desc: 'Chè bưởi An Giang cùi giòn, đỗ bùi' },
       en: { name: 'Pomelo Sweet Soup', desc: 'Traditional pomelo sweet soup' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773852467/Ch%C3%A8_b%C6%B0%E1%BB%9Fi_gbwtor.png',
+      ],
       price: 20000,
       catId: cheCat.id,
       recipe: [
@@ -2046,7 +2250,9 @@ async function main() {
     {
       vi: { name: 'Chè bưởi caramen', desc: 'Chè bưởi kèm bánh flan' },
       en: { name: 'Pomelo Sweet Soup with Flan', desc: 'Pomelo soup with caramel' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773852468/Ch%C3%A8_b%C6%B0%E1%BB%9Fi_caramen_iiqalr.png',
+      ],
       price: 25000,
       catId: cheCat.id,
       recipe: [
@@ -2059,7 +2265,9 @@ async function main() {
     {
       vi: { name: 'Chè thái bưởi', desc: 'Chè bưởi kết hợp sợi thái' },
       en: { name: 'Pomelo & Cendol Sweet Soup', desc: 'Pomelo soup with Thai cendol' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773852465/Ch%C3%A8_th%C3%A1i_b%C6%B0%E1%BB%9Fi_ffhkld.png',
+      ],
       price: 25000,
       catId: cheCat.id,
       recipe: [
@@ -2072,7 +2280,9 @@ async function main() {
     {
       vi: { name: 'Chè thái bưởi caramen', desc: 'Chè thái bưởi kèm caramen' },
       en: { name: 'Pomelo & Cendol with Flan', desc: 'Thai pomelo soup with flan' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773852468/Ch%C3%A8_th%C3%A1i_b%C6%B0%E1%BB%9Fi_caramen_eollrp.png',
+      ],
       price: 30000,
       catId: cheCat.id,
       recipe: [
@@ -2085,7 +2295,9 @@ async function main() {
     {
       vi: { name: 'Chè thập cẩm caramen', desc: 'Chè thập cẩm các loại topping kèm caramen' },
       en: { name: 'Mixed Sweet Soup with Flan', desc: 'Mixed soup with caramel' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773852467/Ch%C3%A8_th%E1%BA%ADp_c%E1%BA%A9m_caramen_kddnhe.png',
+      ],
       price: 30000,
       catId: cheCat.id,
       recipe: [
@@ -2099,7 +2311,9 @@ async function main() {
     {
       vi: { name: 'Chè sương sáo', desc: 'Thạch sương sáo thanh mát' },
       en: { name: 'Grass Jelly Sweet Soup', desc: 'Refreshing grass jelly' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773852468/Ch%C3%A8_s%C6%B0%C6%A1ng_s%C3%A1o_r8jf8l.png',
+      ],
       price: 15000,
       catId: cheCat.id,
       recipe: [
@@ -2111,7 +2325,9 @@ async function main() {
     {
       vi: { name: 'Chè sương sáo caramen', desc: 'Thạch sương sáo kèm caramen' },
       en: { name: 'Grass Jelly with Flan', desc: 'Grass jelly and caramel' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773852467/Ch%C3%A8_s%C6%B0%C6%A1ng_s%C3%A1o_caramen_ypvxd3.png',
+      ],
       price: 20000,
       catId: cheCat.id,
       recipe: [
@@ -2123,7 +2339,9 @@ async function main() {
     {
       vi: { name: 'Chè thạch trân châu', desc: 'Thạch và trân châu dai giòn' },
       en: { name: 'Jelly & Boba Sweet Soup', desc: 'Jelly and pearls' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773852467/Ch%C3%A8_th%E1%BA%A1ch_tr%C3%A2n_ch%C3%A2u_bbmxjp.png',
+      ],
       price: 20000,
       catId: cheCat.id,
       recipe: [
@@ -2135,7 +2353,9 @@ async function main() {
     {
       vi: { name: 'Chè thạch caramen trân châu', desc: 'Thạch trân châu kèm caramen' },
       en: { name: 'Jelly & Boba with Flan', desc: 'Jelly pearls with flan' },
-      images: [''],
+      images: [
+        'https://res.cloudinary.com/dr1dzw92r/image/upload/v1773852468/Ch%C3%A8_th%E1%BA%A1ch_caramen_tr%C3%A2n_ch%C3%A2u_thufgp.png',
+      ],
       price: 25000,
       catId: cheCat.id,
       recipe: [
@@ -2573,6 +2793,7 @@ async function main() {
         {
           name: 'Topping',
           options: [
+            { value: 'Không lấy topping', price: 0 },
             { value: 'Trân châu đen', price: 0 },
             { value: 'Trân châu trắng', price: 3000 },
             { value: 'Trân châu đường đen', price: 5000 },
@@ -2694,6 +2915,7 @@ async function main() {
         {
           name: 'Topping',
           options: [
+            { value: 'Không lấy topping', price: 0 },
             { value: 'Sương sáo', price: 0 },
             { value: 'Caramel', price: 5000 },
             { value: 'Đường đen', price: 5000 },
@@ -2754,6 +2976,7 @@ async function main() {
         {
           name: 'Topping',
           options: [
+            { value: 'Không lấy topping', price: 0 },
             { value: 'Hạt chia', price: 5000 },
             { value: 'Nha đam', price: 5000 },
             { value: 'Con cá', price: 5000 },
@@ -2947,7 +3170,7 @@ async function main() {
     const dish = await prisma.dish.create({
       data: {
         basePrice: dishData.price,
-        supplierId: supplier.id,
+        supplierId: createdSupplierIds[Math.floor(Math.random() * createdSupplierIds.length)],
         categories: { connect: { id: dishData.catId } },
         images: (dishData.images || []).filter((img) => img !== ''),
         isActive: true, // Ensuring default active
@@ -3040,45 +3263,87 @@ async function main() {
   // =================================================================================================
   console.log('Creating promotions...')
 
-  const promo1 = await prisma.promotion.findFirst({ where: { code: 'WELCOME50' } })
-  if (!promo1) {
-    const today = new Date()
-    const nextMonth = new Date(today)
-    nextMonth.setMonth(today.getMonth() + 1)
+  const today = new Date()
+  const nextMonth = new Date(today)
+  nextMonth.setMonth(today.getMonth() + 1)
 
-    await prisma.promotion.create({
-      data: {
-        code: 'WELCOME50',
-        type: 'PERCENTAGE',
-        amount: 0,
-        percentage: 50,
-        minOrderValue: 100000,
-        validFrom: today,
-        validTo: nextMonth,
-        usageLimit: 100,
-      },
-    })
-    console.log('✓ Promotion WELCOME50 created')
+  type SeedPromotion = {
+    code: string
+    type: 'PERCENTAGE' | 'FIXED'
+    amount: number
+    percentage: number
+    minOrderValue: number
+    usageLimit?: number
   }
 
-  const promo2 = await prisma.promotion.findFirst({ where: { code: 'SUMMER_SALE' } })
-  if (!promo2) {
-    const today = new Date()
-    const nextMonth = new Date(today)
-    nextMonth.setMonth(today.getMonth() + 1)
+  const promotionsData: SeedPromotion[] = [
+    {
+      code: 'WELCOME50',
+      type: 'PERCENTAGE',
+      amount: 0,
+      percentage: 50,
+      minOrderValue: 100000,
+      usageLimit: 100,
+    },
+    {
+      code: 'SUMMER_SALE',
+      type: 'FIXED',
+      amount: 20000,
+      percentage: 0,
+      minOrderValue: 50000,
+    },
+    {
+      code: 'FREESHIP30',
+      type: 'FIXED',
+      amount: 30000,
+      percentage: 0,
+      minOrderValue: 150000,
+      usageLimit: 200,
+    },
+    {
+      code: 'WEEKEND10',
+      type: 'PERCENTAGE',
+      amount: 0,
+      percentage: 10,
+      minOrderValue: 80000,
+      usageLimit: 500,
+    },
+    {
+      code: 'FLASH25',
+      type: 'PERCENTAGE',
+      amount: 0,
+      percentage: 25,
+      minOrderValue: 200000,
+      usageLimit: 50,
+    },
+    {
+      code: 'COMBO15K',
+      type: 'FIXED',
+      amount: 15000,
+      percentage: 0,
+      minOrderValue: 70000,
+      usageLimit: 300,
+    },
+  ]
+
+  for (const promo of promotionsData) {
+    const existingPromo = await prisma.promotion.findFirst({ where: { code: promo.code } })
+    if (existingPromo) continue
 
     await prisma.promotion.create({
       data: {
-        code: 'SUMMER_SALE',
-        type: 'FIXED',
-        amount: 20000,
-        percentage: 0,
+        code: promo.code,
+        type: promo.type,
+        amount: promo.amount,
+        percentage: promo.percentage,
+        minOrderValue: promo.minOrderValue,
         validFrom: today,
         validTo: nextMonth,
-        minOrderValue: 50000,
+        ...(promo.usageLimit ? { usageLimit: promo.usageLimit } : {}),
       },
     })
-    console.log('✓ Promotion SUMMER_SALE created')
+
+    console.log(`✓ Promotion ${promo.code} created`)
   }
   console.log('✓ Promotions created/checked')
 
@@ -3180,7 +3445,7 @@ async function main() {
       const dishesWithTrans = await prisma.dish.findMany({
         include: {
           dishTranslations: {
-            where: { languageId: enLang.id },
+            where: { languageId: viLang.id },
           },
           skus: {
             where: { value: 'DEFAULT' }, // Changed skuValue to value based on schema
@@ -3189,94 +3454,98 @@ async function main() {
         },
       })
 
-      // Create 20 random past orders
-      for (let i = 0; i < 20; i++) {
-        const isCompleted = Math.random() > 0.3
-        const status = isCompleted
-          ? OrderStatus.COMPLETED
-          : Math.random() > 0.5
-            ? OrderStatus.PENDING_CONFIRMATION
-            : OrderStatus.CANCELLED
+      // Create random past orders for all customers
+      const allCustomersForOrders = [clientUser, ...additionalCustomers]
+      console.log(`Creating orders for ${allCustomersForOrders.length} customers...`)
 
-        const createdAt = new Date()
-        createdAt.setDate(createdAt.getDate() - Math.floor(Math.random() * 30)) // Random last 30 days
+      for (const customer of allCustomersForOrders) {
+        // Create 1-3 orders per customer
+        const numOrders = Math.floor(Math.random() * 2) + 1
+        for (let i = 0; i < numOrders; i++) {
+          const isCompleted = Math.random() > 0.3
+          const status = isCompleted
+            ? OrderStatus.COMPLETED
+            : Math.random() > 0.5
+              ? OrderStatus.PENDING_CONFIRMATION
+              : OrderStatus.CANCELLED
 
-        // Random 1-3 items
-        const numItems = Math.floor(Math.random() * 3) + 1
-        let totalAmount = 0
-        const orderItemsData: Prisma.DishSKUSnapshotUncheckedCreateWithoutOrderInput[] = []
+          const createdAt = new Date()
+          createdAt.setMonth(createdAt.getMonth() - Math.floor(Math.random() * 3)) // Random last 3 months
+          createdAt.setDate(createdAt.getDate() - Math.floor(Math.random() * 30))
 
-        for (let j = 0; j < numItems; j++) {
-          const dish = dishesWithTrans[Math.floor(Math.random() * dishesWithTrans.length)]
-          const qty = Math.floor(Math.random() * 2) + 1
-          const price = Number(dish.basePrice) || 20000
-          const dishName = dish.dishTranslations[0]?.name || 'Unknown Dish'
-          // Use default SKU if available
-          const skuId = dish.skus[0]?.id
+          // Random 1-4 items
+          const numItems = Math.floor(Math.random() * 4) + 1
+          let totalAmount = 0
+          const orderItemsData: Prisma.DishSKUSnapshotUncheckedCreateWithoutOrderInput[] = []
 
-          totalAmount += price * qty
+          for (let j = 0; j < numItems; j++) {
+            const dish = dishesWithTrans[Math.floor(Math.random() * dishesWithTrans.length)]
+            const qty = Math.floor(Math.random() * 2) + 1
+            const price = Number(dish.basePrice) || 20000
+            const dishName = dish.dishTranslations[0]?.name || 'Unknown Dish'
+            const skuId = dish.skus[0]?.id
 
-          orderItemsData.push({
-            dishName: dishName,
-            quantity: qty,
-            price: new Prisma.Decimal(price),
-            skuValue: 'DEFAULT', // Assuming default for mock
-            skuId: skuId,
-            // Removed 'note' as it's not in DishSKUSnapshot
-          })
-        }
+            totalAmount += price * qty
 
-        const channelSelect = Math.random() > 0.5 ? Channel.WEB : Channel.POS
-        const order = await prisma.order.create({
-          data: {
-            restaurantId: restaurant.id,
-            tableId: channelSelect === Channel.POS ? table.id : null,
-            userId: clientUser.id,
-            totalAmount: new Prisma.Decimal(totalAmount),
-            status: status,
-            channel: channelSelect,
-            createdAt: createdAt,
-            updatedAt: createdAt,
-            paymentStatus: isCompleted ? PaymentStatus.PAID : PaymentStatus.PENDING,
-            items: {
-              create: orderItemsData,
-            },
-          },
-        })
+            orderItemsData.push({
+              dishName: dishName,
+              quantity: qty,
+              price: new Prisma.Decimal(price),
+              skuValue: 'DEFAULT',
+              skuId: skuId,
+            })
+          }
 
-        if (isCompleted) {
-          await prisma.paymentTransaction.create({
+          const channelSelect = Math.random() > 0.5 ? Channel.WEB : Channel.POS
+          const order = await prisma.order.create({
             data: {
-              orderId: order.id,
-              gateway: 'CASH',
-              amountIn: new Prisma.Decimal(totalAmount),
-              transactionContent: `Payment for Order ${order.id}`,
+              restaurantId: restaurant.id,
+              tableId: channelSelect === Channel.POS ? table.id : null,
+              userId: customer.id,
+              totalAmount: new Prisma.Decimal(totalAmount),
+              status: status,
+              channel: channelSelect,
+              createdAt: createdAt,
+              updatedAt: createdAt,
+              paymentStatus: isCompleted ? PaymentStatus.PAID : PaymentStatus.PENDING,
+              items: {
+                create: orderItemsData,
+              },
             },
           })
-        }
 
-        // Add review for completed orders
-        if (status === 'COMPLETED' && Math.random() > 0.6) {
-          // Pick a random dish from the order to review
-          const randomDishItem = dishesWithTrans.find(
-            (d) => d.dishTranslations[0]?.name === orderItemsData[0].dishName,
-          )
+          if (isCompleted) {
+            await prisma.paymentTransaction.create({
+              data: {
+                orderId: order.id,
+                gateway: 'CASH',
+                amountIn: new Prisma.Decimal(totalAmount),
+                transactionContent: `Payment for Order ${order.id}`,
+              },
+            })
+          }
 
-          if (randomDishItem) {
+          // Add review for completed orders
+          if (status === 'COMPLETED' && Math.random() > 0.5) {
+            const randomDish = dishesWithTrans[Math.floor(Math.random() * dishesWithTrans.length)]
             const reviewComments = [
               'Ngon quá!',
               'Chất lượng tuyệt vời!',
               'Giao hàng nhanh, đồ ăn nóng hổi.',
               'Pate hơi mặn xíu nhưng tổng thể rất ngon.',
               'Giá hợp lý, sẽ quay lại.',
+              'Món ăn rất vừa miệng, trình bày đẹp.',
+              'Sẽ giới thiệu cho bạn bè.',
             ]
             await prisma.review.create({
               data: {
-                dishId: randomDishItem.id, // Linked to a specific dish
-                userId: clientUser.id, // clientUser creates the review
+                dishId: randomDish.id,
+                userId: customer.id,
                 content: reviewComments[Math.floor(Math.random() * reviewComments.length)],
-                rating: Math.floor(Math.random() * 2) + 4, // 4 or 5 stars
-                createdAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24), // Review 1 day later
+                rating: Math.floor(Math.random() * 2) + 4,
+                createdAt: new Date(
+                  createdAt.getTime() + 1000 * 60 * 60 * (Math.floor(Math.random() * 24) + 1),
+                ),
               },
             })
           }

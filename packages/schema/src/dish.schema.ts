@@ -54,6 +54,7 @@ export const DishSchema = z.object({
             }),
         )
         .optional(),
+    isAvailable: z.boolean().optional(),
 });
 
 export type DishType = z.infer<typeof DishSchema>;

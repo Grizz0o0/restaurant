@@ -53,7 +53,7 @@ export class OrderRepo {
     const where: Prisma.OrderWhereInput = {
       deletedAt: null,
       ...(status && { status: status as OrderStatus }),
-      ...(tableId && { tableId }),
+      ...(tableId !== undefined && { tableId }),
       ...(fromDate &&
         toDate && {
           createdAt: {
@@ -62,6 +62,7 @@ export class OrderRepo {
           },
         }),
       ...(query.userId && { userId: query.userId }),
+      ...(query.shipperId && { shipperId: query.shipperId }),
     }
 
     return paginate(
@@ -77,13 +78,56 @@ export class OrderRepo {
     )
   }
 
-  async updateStatus(id: string, status: OrderStatus, updatedById?: string) {
-    return this.prisma.order.update({
+  async updateStatus(
+    id: string,
+    status: OrderStatus,
+    updatedById?: string,
+    tx?: Prisma.TransactionClient,
+    extraData?: {
+      shipperId?: string
+      deliveryCode?: string
+      verificationCode?: string
+      reason?: string
+      promotionId?: string
+      discount?: number
+    },
+  ) {
+    const client = tx || this.prisma
+    const { verificationCode, ...rest } = extraData || {}
+
+    // Map verificationCode to deliveryCode if it exists (though it should be verified in service)
+    const finalData: any = {
+      status,
+      ...(updatedById && { updatedBy: { connect: { id: updatedById } } }),
+      ...rest,
+    }
+
+    if (rest.shipperId) {
+      finalData.shipper = { connect: { id: rest.shipperId } }
+      delete finalData.shipperId
+    }
+
+    if (verificationCode && !finalData.deliveryCode) {
+      finalData.deliveryCode = verificationCode
+    }
+
+    // Prisma doesn't have 'reason' field in Order model, so we remove it
+    delete finalData.reason
+
+    return client.order.update({
       where: { id },
-      data: { status, updatedById },
+      data: finalData,
       include: {
         items: true,
       },
+    })
+  }
+
+  async findById(id: string, tx?: Prisma.TransactionClient) {
+    const client = tx || this.prisma
+    return client.order.findUnique({
+      where: { id },
+      include: { items: true },
     })
   }
 }

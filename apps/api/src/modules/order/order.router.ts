@@ -1,6 +1,6 @@
 import { Ctx, Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
 import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
-import { AdminRoleMiddleware } from '@/trpc/middlewares/admin-role.middleware'
+import { StaffRoleMiddleware } from '@/trpc/middlewares/staff-role.middleware'
 import {
   CreateOrderBodySchema,
   CreateOrderBodyType,
@@ -13,6 +13,7 @@ import {
   UpdateOrderStatusSchema,
   UpdateOrderStatusType,
 } from '@repo/schema'
+import { RoleName } from '@repo/constants'
 import { Context } from '@/trpc/context'
 import { OrderService } from './order.service'
 
@@ -39,7 +40,7 @@ export class OrderRouter {
     input: GetOrdersQuerySchema,
     output: GetOrdersResSchema,
   })
-  @UseMiddlewares(AdminRoleMiddleware) // Only Admin/Seller can list all orders (add Seller check later if needed, assume AdminRoleMiddleware covers privileged access)
+  @UseMiddlewares(StaffRoleMiddleware) // Allow Admin, Manager, and Staff to see kitchen queue/order list
   async list(@Input() input: GetOrdersQueryType) {
     return this.orderService.list(input)
   }
@@ -49,9 +50,10 @@ export class OrderRouter {
     output: GetOrdersResSchema,
   })
   async myOrders(@Input() input: GetOrdersQueryType, @Ctx() ctx: Context) {
+    const isShipper = ctx.user!.roleName === RoleName.Shipper
     return this.orderService.list({
       ...input,
-      userId: ctx.user!.userId,
+      ...(isShipper ? { shipperId: ctx.user!.userId } : { userId: ctx.user!.userId }),
     })
   }
 
@@ -72,8 +74,20 @@ export class OrderRouter {
     input: UpdateOrderStatusSchema,
     output: OrderSchema,
   })
-  @UseMiddlewares(AdminRoleMiddleware) // Only Admin/Seller can update status
+  @UseMiddlewares(StaffRoleMiddleware) // Allow Admin, Manager, and Staff to update status (e.g. mark as ready)
+  // Allows both Admin and Shipper to update status. Validation logic is inside OrderService.
   async updateStatus(@Input() input: UpdateOrderStatusType, @Ctx() ctx: Context) {
-    return this.orderService.updateStatus(input.orderId, input.status, ctx.user!.userId)
+    return this.orderService.updateStatus(
+      input.orderId,
+      input.status,
+      ctx.user!.userId,
+      ctx.user!.roleName,
+      {
+        verificationCode: input.verificationCode,
+        reason: input.reason,
+        promotionId: input.promotionId,
+        discount: input.discount,
+      },
+    )
   }
 }

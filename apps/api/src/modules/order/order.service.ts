@@ -3,7 +3,7 @@ import { OrderRepo } from './order.repo'
 import { PrismaService } from '@/shared/prisma/prisma.service'
 import { AddressRepo } from '@/modules/address/address.repo'
 
-import { TransactionReason } from 'src/generated/prisma/client'
+import { TransactionReason, Prisma } from 'src/generated/prisma/client'
 
 import { CreateOrderBodyType, GetOrdersQueryType } from '@repo/schema'
 import { DishRepo } from '@/modules/dish/dish.repo'
@@ -11,6 +11,8 @@ import { DishRepo } from '@/modules/dish/dish.repo'
 import { NotificationService } from '../notification/notification.service'
 
 import { EventEmitter2 } from '@nestjs/event-emitter'
+import { RoleName } from '@repo/constants'
+import { ForbiddenException } from '@nestjs/common'
 
 @Injectable()
 export class OrderService {
@@ -24,16 +26,238 @@ export class OrderService {
     private readonly addressRepo: AddressRepo,
   ) {}
 
-  async updateStatus(orderId: string, status: string, userId?: string) {
-    const order = await this.orderRepo.updateStatus(orderId, status as any, userId)
+  async updateStatus(
+    orderId: string,
+    status: string,
+    userId: string,
+    roleName: string,
+    extra?: {
+      verificationCode?: string
+      reason?: string
+      promotionId?: string
+      discount?: number
+    },
+  ) {
+    return this.prismaService.$transaction(async (tx) => {
+      const order = await this.orderRepo.findById(orderId, tx)
+      if (!order) throw new BadRequestException('Order not found')
 
-    this.eventEmitter.emit('order.updated', {
-      userId: order.userId, // Assuming order has userId
-      orderId: order.id,
-      status: order.status,
+      const oldStatus = order.status
+      let targetStatus = status as any
+
+      // 1. Role & Ownership Check
+      const allowedRoles = [RoleName.Admin, RoleName.Manager, RoleName.Staff, RoleName.Shipper]
+      if (!allowedRoles.includes(roleName as any)) {
+        throw new ForbiddenException('Access denied')
+      }
+
+      if (roleName === RoleName.Shipper) {
+        if (order.shipperId !== userId) {
+          throw new ForbiddenException('You are not assigned to this order')
+        }
+        // Shippers can only move to DELIVERING, DELIVERED, RETURNED, BOOMED, COMPLETED
+        const allowedShipperStatuses = [
+          'DELIVERING',
+          'DELIVERED',
+          'RETURNED',
+          'BOOMED',
+          'COMPLETED',
+        ]
+        if (!allowedShipperStatuses.includes(status)) {
+          throw new BadRequestException(`Shippers cannot update status to ${status}`)
+        }
+      }
+
+      // 2. Business Logic Validation
+      const extraData: {
+        shipperId?: string
+        deliveryCode?: string
+        verificationCode?: string
+        reason?: string
+        promotionId?: string
+        discount?: number
+      } = {
+        verificationCode: extra?.verificationCode,
+        reason: extra?.reason,
+      }
+
+      // A. Auto-assign Shipper
+      if (targetStatus === 'READY_FOR_PICKUP') {
+        const shipper = await tx.user.findFirst({
+          where: { role: { name: RoleName.Shipper }, status: 'ACTIVE' },
+        })
+        if (shipper) {
+          extraData.shipperId = shipper.id
+          this.logger.log(`Auto-assigned shipper ${shipper.name} to order ${orderId}`)
+        }
+      }
+
+      // B. Generate Delivery Code
+      if (targetStatus === 'DELIVERING') {
+        const code = Math.floor(100000 + Math.random() * 900000).toString()
+        extraData.deliveryCode = code
+        // In a real app, send this code via SMS/Email/Notification to Customer
+        this.logger.log(`Generated delivery code ${code} for order ${orderId}`)
+        await this.notificationService.send(
+          order.userId || '',
+          'Cập nhật giao hàng',
+          `Đơn hàng ${orderId} đang được giao. Mã xác nhận của bạn là: ${code}`,
+          'ORDER_UPDATE',
+          { orderId: orderId },
+        )
+      }
+
+      // C. Verify Delivery Code
+      if (
+        (targetStatus === 'DELIVERED' || targetStatus === 'COMPLETED') &&
+        roleName === RoleName.Shipper
+      ) {
+        if (!extra?.verificationCode) {
+          throw new BadRequestException('Verification code is required to complete delivery')
+        }
+        if (order.deliveryCode !== extra.verificationCode) {
+          throw new BadRequestException('Invalid verification code')
+        }
+
+        // Always move to COMPLETED when verification is successful
+        targetStatus = 'COMPLETED'
+      }
+
+      // D. Promotion logic
+      if (extra?.promotionId) {
+        extraData.promotionId = extra.promotionId
+        extraData.discount = extra.discount || 0
+
+        // Increment promotion usage
+        await tx.promotion.update({
+          where: { id: extra.promotionId },
+          data: {
+            usedCount: { increment: 1 },
+          },
+        })
+      }
+
+      const updatedOrder = await this.orderRepo.updateStatus(
+        orderId,
+        targetStatus,
+        userId,
+        tx,
+        extraData,
+      )
+
+      const isActiveStatus = (s: string) => !['PENDING_CONFIRMATION', 'CANCELLED'].includes(s)
+
+      // Inventory sync logic
+      let inventoryWarnings: string[] = []
+      if (oldStatus === 'PENDING_CONFIRMATION' && isActiveStatus(status)) {
+        inventoryWarnings = await this.syncInventory(orderId, 'DEDUCT', tx)
+      } else if (
+        isActiveStatus(oldStatus) &&
+        (status === 'CANCELLED' || status === 'RETURNED' || status === 'BOOMED')
+      ) {
+        // We might return inventory if food is still good, but usually only for non-perishables.
+        // For now, let's return for simplicity, but we could add more granular logic.
+        await this.syncInventory(orderId, 'RETURN', tx)
+      }
+
+      this.eventEmitter.emit('order.updated', {
+        userId: updatedOrder.userId,
+        orderId: updatedOrder.id,
+        status: updatedOrder.status,
+      })
+
+      return {
+        ...updatedOrder,
+        inventoryWarnings,
+      }
     })
+  }
 
-    return order
+  private async syncInventory(
+    orderId: string,
+    action: 'DEDUCT' | 'RETURN',
+    tx: Prisma.TransactionClient,
+  ): Promise<string[]> {
+    const warnings: string[] = []
+    const order = await tx.order.findUnique({
+      where: { id: orderId },
+      include: { items: true },
+    })
+    if (!order || !order.items || order.items.length === 0) return []
+
+    const dishIds = [...new Set(order.items.map((item) => item.dishId).filter(Boolean) as string[])]
+    if (dishIds.length === 0) return []
+
+    const dishes = await tx.dish.findMany({
+      where: { id: { in: dishIds } },
+      include: {
+        inventories: {
+          include: { inventory: true },
+        },
+      },
+    })
+    const dishMap = new Map(dishes.map((d) => [d.id, d]))
+
+    for (const item of order.items) {
+      if (!item.dishId) continue
+      const dish = dishMap.get(item.dishId)
+      if (!dish || !dish.inventories || dish.inventories.length === 0) continue
+
+      for (const invDish of dish.inventories) {
+        // Round to 4 decimal places to avoid floating point issues
+        const requiredQty = Math.round(Number(invDish.quantityUsed) * item.quantity * 10000) / 10000
+
+        if (action === 'DEDUCT') {
+          const currentStock = Number(invDish.inventory.quantity)
+          if (currentStock < requiredQty) {
+            warnings.push(
+              `Thiếu nguyên liệu: ${invDish.inventory.itemName}. Cần: ${requiredQty}, Có: ${currentStock}`,
+            )
+          }
+
+          await tx.inventory.update({
+            where: { id: invDish.inventoryId },
+            data: { quantity: { decrement: requiredQty } },
+          })
+
+          await tx.inventoryTransaction.create({
+            data: {
+              inventoryId: invDish.inventoryId,
+              changeQuantity: -requiredQty,
+              reason: TransactionReason.ORDER,
+              timestamp: new Date(),
+            },
+          })
+
+          const newStock = currentStock - requiredQty
+          const threshold = Number(invDish.inventory.threshold) || 0
+          if (newStock <= threshold) {
+            this.eventEmitter.emit('inventory.low_stock', {
+              inventoryId: invDish.inventoryId,
+              itemName: invDish.inventory.itemName,
+              currentStock: newStock,
+              threshold: threshold,
+              restaurantId: invDish.inventory.restaurantId,
+            })
+          }
+        } else if (action === 'RETURN') {
+          await tx.inventory.update({
+            where: { id: invDish.inventoryId },
+            data: { quantity: { increment: requiredQty } },
+          })
+
+          await tx.inventoryTransaction.create({
+            data: {
+              inventoryId: invDish.inventoryId,
+              changeQuantity: requiredQty,
+              reason: TransactionReason.ORDER,
+              timestamp: new Date(),
+            },
+          })
+        }
+      }
+    }
+    return warnings
   }
 
   async create({
@@ -78,7 +302,8 @@ export class OrderService {
       totalPrice += itemTotal
 
       // Get name from translation or fallback
-      const dishName = dish.dishTranslations?.[0]?.name || 'Unknown Dish'
+      const viTranslation = dish.dishTranslations?.find((t) => t.languageId === 'vi')
+      const dishName = viTranslation?.name || dish.dishTranslations?.[0]?.name || 'Unknown Dish'
 
       orderItems.push({
         dishId: item.dishId,
@@ -86,7 +311,8 @@ export class OrderService {
         price: price,
         quantity: item.quantity,
         images: dish.images || [],
-        skuValue: item.note || '',
+        skuValue: '', // Reset skuValue hijacking
+        note: item.note || '',
       })
     }
 
@@ -184,61 +410,9 @@ export class OrderService {
         const itemTotal = price * quantity
         subTotal += itemTotal
 
-        // Check and Deduct Stock
-        if (item.sku.dish.inventories && item.sku.dish.inventories.length > 0) {
-          for (const invDish of item.sku.dish.inventories) {
-            const requiredQty = Number(invDish.quantityUsed) * quantity
-            const currentStock = Number(invDish.inventory.quantity)
-
-            if (currentStock < requiredQty) {
-              throw new BadRequestException(
-                `Insufficient stock for ingredient: ${invDish.inventory.itemName}. Required: ${requiredQty}, Available: ${currentStock}`,
-              )
-            }
-
-            // Deduct stock
-            await tx.inventory.update({
-              where: { id: invDish.inventoryId },
-              data: { quantity: { decrement: requiredQty } },
-            })
-
-            // Log transaction
-            await tx.inventoryTransaction.create({
-              data: {
-                inventoryId: invDish.inventoryId,
-                changeQuantity: -requiredQty,
-                reason: TransactionReason.ORDER,
-                timestamp: new Date(),
-              },
-            })
-
-            // Check Low Stock logic
-            const newStock = currentStock - requiredQty
-            const threshold = Number(invDish.inventory.threshold) || 0
-
-            if (newStock <= threshold) {
-              // Determine who to notify? Typically Admin or Manager.
-              // For now, we create a system notification or emit event.
-              // Since this is inside transaction, if we want to ensure notification is created, we can create it here.
-              // Notification model likely requires userId. If we want global notification, maybe assign to admin.
-              // Or better, just emit event as previously thought, but need to be sure event handler handles it.
-              // Let's create a notification for "LOW_STOCK" type directly if schema supports it or use event.
-              // The prompt asked for "Low stock alert logic (Notifications)".
-              // I'll emit an event 'inventory.low_stock' and assume a listener handles it OR create a notification record if userId is available.
-              // But inventory alert usually goes to Staff/Manager.
-              // Let's stick to emitting event for modularity, as NotificationService might need to find all admins.
-              this.eventEmitter.emit('inventory.low_stock', {
-                inventoryId: invDish.inventoryId,
-                itemName: invDish.inventory.itemName,
-                currentStock: newStock,
-                threshold: threshold,
-                restaurantId: invDish.inventory.restaurantId,
-              })
-            }
-          }
-        }
-
-        const dishName = item.sku.dish.dishTranslations[0]?.name || 'Unknown Dish'
+        const viTranslation = item.sku.dish.dishTranslations.find((t) => t.languageId === 'vi')
+        const dishName =
+          viTranslation?.name || item.sku.dish.dishTranslations[0]?.name || 'Unknown Dish'
 
         snapshots.push({
           dishId: item.sku.dish.id,
@@ -248,6 +422,7 @@ export class OrderService {
           images: item.sku.images,
           skuValue: item.sku.value,
           skuId: item.skuId,
+          note: item.note,
         })
       }
 
@@ -305,17 +480,21 @@ export class OrderService {
 
       const order = await tx.order.create({
         data: {
-          userId: roleName === 'GUEST' ? null : userId,
+          user: roleName === 'GUEST' ? undefined : { connect: { id: userId } },
           guestId: roleName === 'GUEST' ? userId : null,
-          tableId: tableId || null,
-          restaurantId: null, // Should infer from table/user? For now null or fetch default.
+          table: tableId ? { connect: { id: tableId } } : undefined,
+          restaurant: undefined, // Changed from null to fix TypeScript error
           totalAmount: totalAmount,
           discount: discount,
-          status: 'PENDING_CONFIRMATION', // Enum
-          channel: 'WEB', // Default
-          promotionId: promotionId,
+          status: 'PENDING_CONFIRMATION',
+          channel: 'WEB',
+          promotionId: promotionId, // Scalar seems okay? Or connect?
           guestInfo: orderGuestInfo,
-          paymentMethod: paymentMethod as any, // Cast to PaymentMethod enum
+          addressId: addressId || null,
+          receiverName: orderGuestInfo?.name || null,
+          deliveryPhone: orderGuestInfo?.phoneNumber || null,
+          deliveryAddress: orderGuestInfo?.address || null,
+          paymentMethod: paymentMethod as any,
           items: {
             create: snapshots,
           },

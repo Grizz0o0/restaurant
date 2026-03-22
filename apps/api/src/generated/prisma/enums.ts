@@ -57,6 +57,7 @@ export const OrderStatus = {
   DELIVERED: 'DELIVERED',
   COMPLETED: 'COMPLETED',
   RETURNED: 'RETURNED',
+  BOOMED: 'BOOMED',
   CANCELLED: 'CANCELLED'
 } as const
 
@@ -131,6 +132,7 @@ export const StaffPosition = {
   WAITER: 'WAITER',
   CHEF: 'CHEF',
   CASHIER: 'CASHIER',
+  SHIPPER: 'SHIPPER',
   OTHER: 'OTHER'
 } as const
 

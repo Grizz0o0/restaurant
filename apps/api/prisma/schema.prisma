@@ -132,6 +132,7 @@ model User {
   createdVariantOptions           VariantOption[]           @relation("VariantOptionCreatedBy")
   deletedVariantOptions           VariantOption[]           @relation("VariantOptionDeletedBy")
   updatedVariantOptions           VariantOption[]           @relation("VariantOptionUpdatedBy")
+  shipperOrders                   Order[]                   @relation("ShipperOrders")
 
   @@index([deletedAt, email, phoneNumber])
 }
@@ -477,6 +478,7 @@ model CartItem {
   channel   Channel? @default(WEB)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  note      String?
   sku       SKU      @relation(fields: [skuId], references: [id])
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -497,6 +499,7 @@ model DishSKUSnapshot {
   dish      Dish?    @relation(fields: [dishId], references: [id])
   order     Order?   @relation(fields: [orderId], references: [id])
   sku       SKU?     @relation(fields: [skuId], references: [id])
+  note      String?
 }
 
 model Order {
@@ -519,6 +522,11 @@ model Order {
   updatedAt           DateTime             @updatedAt
   guestId             String?
   paymentStatus       PaymentStatus        @default(PENDING)
+  deliveryCode        String?              @db.VarChar(10)
+  addressId           String?
+  deliveryAddress     String?              @db.VarChar(1000)
+  deliveryPhone       String?              @db.VarChar(50)
+  receiverName        String?              @db.VarChar(500)
   items               DishSKUSnapshot[]
   createdBy           User?                @relation("OrderCreatedBy", fields: [createdById], references: [id])
   deletedBy           User?                @relation("OrderDeletedBy", fields: [deletedById], references: [id])
@@ -526,11 +534,14 @@ model Order {
   table               RestaurantTable?     @relation(fields: [tableId], references: [id])
   updatedBy           User?                @relation("OrderUpdatedBy", fields: [updatedById], references: [id])
   user                User?                @relation(fields: [userId], references: [id], onDelete: Restrict)
+  shipperId           String?
+  shipper             User?                @relation("ShipperOrders", fields: [shipperId], references: [id])
   paymentTransactions PaymentTransaction[]
   promotions          Promotion[]          @relation("OrderPromotions")
 
   @@index([deletedAt, status, createdAt])
   @@index([userId])
+  @@index([shipperId])
 }
 
 model Review {
@@ -802,6 +813,7 @@ enum OrderStatus {
   DELIVERED
   COMPLETED
   RETURNED
+  BOOMED
   CANCELLED
 }
 
@@ -855,6 +867,7 @@ enum StaffPosition {
   WAITER
   CHEF
   CASHIER
+  SHIPPER
   OTHER
 }
 

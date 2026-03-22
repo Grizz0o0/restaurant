@@ -44,6 +44,7 @@ export type CartItemMinAggregateOutputType = {
   channel: $Enums.Channel | null
   createdAt: Date | null
   updatedAt: Date | null
+  note: string | null
 }
 
 export type CartItemMaxAggregateOutputType = {
@@ -54,6 +55,7 @@ export type CartItemMaxAggregateOutputType = {
   channel: $Enums.Channel | null
   createdAt: Date | null
   updatedAt: Date | null
+  note: string | null
 }
 
 export type CartItemCountAggregateOutputType = {
@@ -64,6 +66,7 @@ export type CartItemCountAggregateOutputType = {
   channel: number
   createdAt: number
   updatedAt: number
+  note: number
   _all: number
 }
 
@@ -84,6 +87,7 @@ export type CartItemMinAggregateInputType = {
   channel?: true
   createdAt?: true
   updatedAt?: true
+  note?: true
 }
 
 export type CartItemMaxAggregateInputType = {
@@ -94,6 +98,7 @@ export type CartItemMaxAggregateInputType = {
   channel?: true
   createdAt?: true
   updatedAt?: true
+  note?: true
 }
 
 export type CartItemCountAggregateInputType = {
@@ -104,6 +109,7 @@ export type CartItemCountAggregateInputType = {
   channel?: true
   createdAt?: true
   updatedAt?: true
+  note?: true
   _all?: true
 }
 
@@ -201,6 +207,7 @@ export type CartItemGroupByOutputType = {
   channel: $Enums.Channel | null
   createdAt: Date
   updatedAt: Date
+  note: string | null
   _count: CartItemCountAggregateOutputType | null
   _avg: CartItemAvgAggregateOutputType | null
   _sum: CartItemSumAggregateOutputType | null
@@ -234,6 +241,7 @@ export type CartItemWhereInput = {
   channel?: Prisma.EnumChannelNullableFilter<"CartItem"> | $Enums.Channel | null
   createdAt?: Prisma.DateTimeFilter<"CartItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CartItem"> | Date | string
+  note?: Prisma.StringNullableFilter<"CartItem"> | string | null
   sku?: Prisma.XOR<Prisma.SKUScalarRelationFilter, Prisma.SKUWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -246,6 +254,7 @@ export type CartItemOrderByWithRelationInput = {
   channel?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  note?: Prisma.SortOrderInput | Prisma.SortOrder
   sku?: Prisma.SKUOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -261,6 +270,7 @@ export type CartItemWhereUniqueInput = Prisma.AtLeast<{
   channel?: Prisma.EnumChannelNullableFilter<"CartItem"> | $Enums.Channel | null
   createdAt?: Prisma.DateTimeFilter<"CartItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CartItem"> | Date | string
+  note?: Prisma.StringNullableFilter<"CartItem"> | string | null
   sku?: Prisma.XOR<Prisma.SKUScalarRelationFilter, Prisma.SKUWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
@@ -273,6 +283,7 @@ export type CartItemOrderByWithAggregationInput = {
   channel?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  note?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.CartItemCountOrderByAggregateInput
   _avg?: Prisma.CartItemAvgOrderByAggregateInput
   _max?: Prisma.CartItemMaxOrderByAggregateInput
@@ -291,6 +302,7 @@ export type CartItemScalarWhereWithAggregatesInput = {
   channel?: Prisma.EnumChannelNullableWithAggregatesFilter<"CartItem"> | $Enums.Channel | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CartItem"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CartItem"> | Date | string
+  note?: Prisma.StringNullableWithAggregatesFilter<"CartItem"> | string | null
 }
 
 export type CartItemCreateInput = {
@@ -299,6 +311,7 @@ export type CartItemCreateInput = {
   channel?: $Enums.Channel | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  note?: string | null
   sku: Prisma.SKUCreateNestedOneWithoutCartItemsInput
   user: Prisma.UserCreateNestedOneWithoutCartItemsInput
 }
@@ -311,6 +324,7 @@ export type CartItemUncheckedCreateInput = {
   channel?: $Enums.Channel | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  note?: string | null
 }
 
 export type CartItemUpdateInput = {
@@ -319,6 +333,7 @@ export type CartItemUpdateInput = {
   channel?: Prisma.NullableEnumChannelFieldUpdateOperationsInput | $Enums.Channel | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.SKUUpdateOneRequiredWithoutCartItemsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutCartItemsNestedInput
 }
@@ -331,6 +346,7 @@ export type CartItemUncheckedUpdateInput = {
   channel?: Prisma.NullableEnumChannelFieldUpdateOperationsInput | $Enums.Channel | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CartItemCreateManyInput = {
@@ -341,6 +357,7 @@ export type CartItemCreateManyInput = {
   channel?: $Enums.Channel | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  note?: string | null
 }
 
 export type CartItemUpdateManyMutationInput = {
@@ -349,6 +366,7 @@ export type CartItemUpdateManyMutationInput = {
   channel?: Prisma.NullableEnumChannelFieldUpdateOperationsInput | $Enums.Channel | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CartItemUncheckedUpdateManyInput = {
@@ -359,6 +377,7 @@ export type CartItemUncheckedUpdateManyInput = {
   channel?: Prisma.NullableEnumChannelFieldUpdateOperationsInput | $Enums.Channel | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CartItemListRelationFilter = {
@@ -379,6 +398,7 @@ export type CartItemCountOrderByAggregateInput = {
   channel?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  note?: Prisma.SortOrder
 }
 
 export type CartItemAvgOrderByAggregateInput = {
@@ -393,6 +413,7 @@ export type CartItemMaxOrderByAggregateInput = {
   channel?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  note?: Prisma.SortOrder
 }
 
 export type CartItemMinOrderByAggregateInput = {
@@ -403,6 +424,7 @@ export type CartItemMinOrderByAggregateInput = {
   channel?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  note?: Prisma.SortOrder
 }
 
 export type CartItemSumOrderByAggregateInput = {
@@ -503,6 +525,7 @@ export type CartItemCreateWithoutUserInput = {
   channel?: $Enums.Channel | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  note?: string | null
   sku: Prisma.SKUCreateNestedOneWithoutCartItemsInput
 }
 
@@ -513,6 +536,7 @@ export type CartItemUncheckedCreateWithoutUserInput = {
   channel?: $Enums.Channel | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  note?: string | null
 }
 
 export type CartItemCreateOrConnectWithoutUserInput = {
@@ -552,6 +576,7 @@ export type CartItemScalarWhereInput = {
   channel?: Prisma.EnumChannelNullableFilter<"CartItem"> | $Enums.Channel | null
   createdAt?: Prisma.DateTimeFilter<"CartItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CartItem"> | Date | string
+  note?: Prisma.StringNullableFilter<"CartItem"> | string | null
 }
 
 export type CartItemCreateWithoutSkuInput = {
@@ -560,6 +585,7 @@ export type CartItemCreateWithoutSkuInput = {
   channel?: $Enums.Channel | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  note?: string | null
   user: Prisma.UserCreateNestedOneWithoutCartItemsInput
 }
 
@@ -570,6 +596,7 @@ export type CartItemUncheckedCreateWithoutSkuInput = {
   channel?: $Enums.Channel | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  note?: string | null
 }
 
 export type CartItemCreateOrConnectWithoutSkuInput = {
@@ -605,6 +632,7 @@ export type CartItemCreateManyUserInput = {
   channel?: $Enums.Channel | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  note?: string | null
 }
 
 export type CartItemUpdateWithoutUserInput = {
@@ -613,6 +641,7 @@ export type CartItemUpdateWithoutUserInput = {
   channel?: Prisma.NullableEnumChannelFieldUpdateOperationsInput | $Enums.Channel | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.SKUUpdateOneRequiredWithoutCartItemsNestedInput
 }
 
@@ -623,6 +652,7 @@ export type CartItemUncheckedUpdateWithoutUserInput = {
   channel?: Prisma.NullableEnumChannelFieldUpdateOperationsInput | $Enums.Channel | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CartItemUncheckedUpdateManyWithoutUserInput = {
@@ -632,6 +662,7 @@ export type CartItemUncheckedUpdateManyWithoutUserInput = {
   channel?: Prisma.NullableEnumChannelFieldUpdateOperationsInput | $Enums.Channel | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CartItemCreateManySkuInput = {
@@ -641,6 +672,7 @@ export type CartItemCreateManySkuInput = {
   channel?: $Enums.Channel | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  note?: string | null
 }
 
 export type CartItemUpdateWithoutSkuInput = {
@@ -649,6 +681,7 @@ export type CartItemUpdateWithoutSkuInput = {
   channel?: Prisma.NullableEnumChannelFieldUpdateOperationsInput | $Enums.Channel | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutCartItemsNestedInput
 }
 
@@ -659,6 +692,7 @@ export type CartItemUncheckedUpdateWithoutSkuInput = {
   channel?: Prisma.NullableEnumChannelFieldUpdateOperationsInput | $Enums.Channel | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CartItemUncheckedUpdateManyWithoutSkuInput = {
@@ -668,6 +702,7 @@ export type CartItemUncheckedUpdateManyWithoutSkuInput = {
   channel?: Prisma.NullableEnumChannelFieldUpdateOperationsInput | $Enums.Channel | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -680,6 +715,7 @@ export type CartItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   channel?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  note?: boolean
   sku?: boolean | Prisma.SKUDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cartItem"]>
@@ -692,6 +728,7 @@ export type CartItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   channel?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  note?: boolean
   sku?: boolean | Prisma.SKUDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cartItem"]>
@@ -704,6 +741,7 @@ export type CartItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   channel?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  note?: boolean
   sku?: boolean | Prisma.SKUDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cartItem"]>
@@ -716,9 +754,10 @@ export type CartItemSelectScalar = {
   channel?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  note?: boolean
 }
 
-export type CartItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "quantity" | "skuId" | "userId" | "channel" | "createdAt" | "updatedAt", ExtArgs["result"]["cartItem"]>
+export type CartItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "quantity" | "skuId" | "userId" | "channel" | "createdAt" | "updatedAt" | "note", ExtArgs["result"]["cartItem"]>
 export type CartItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sku?: boolean | Prisma.SKUDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -746,6 +785,7 @@ export type $CartItemPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     channel: $Enums.Channel | null
     createdAt: Date
     updatedAt: Date
+    note: string | null
   }, ExtArgs["result"]["cartItem"]>
   composites: {}
 }
@@ -1178,6 +1218,7 @@ export interface CartItemFieldRefs {
   readonly channel: Prisma.FieldRef<"CartItem", 'Channel'>
   readonly createdAt: Prisma.FieldRef<"CartItem", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"CartItem", 'DateTime'>
+  readonly note: Prisma.FieldRef<"CartItem", 'String'>
 }
     
 
