@@ -21,16 +21,6 @@ export class ReservationService {
   ): Promise<boolean> {
     const endTime = dayjs(startTime).add(durationMinutes, 'minute').toDate()
 
-    // Find any reservation that overlaps with [startTime, endTime]
-    // Overlap condition: Not (EndA <= StartB or StartA >= EndB)
-    // => EndA > StartB and StartA < EndB
-
-    // We assume standard reservation duration implies the table is busy.
-    // Ideally we should store duration or endTime in DB.
-    // Since Schema doesn't have endTime/duration, we'll assume a fixed slot or check 'reservationTime' against a window.
-    // For simplicity, let's assume all reservations block the table for 2 hours (or we should have added duration to DB).
-    // Let's use 2 hours (120 mins) as standard block locally for check.
-
     const standardDuration = 120 // minutes
 
     const overlapping = await this.prisma.reservation.findFirst({
@@ -66,9 +56,6 @@ export class ReservationService {
     }
 
     if (table.capacity < data.guests) {
-      // Optional: Warning or Error? Let's check user intent. "Check table available".
-      // Capacity check is implicit in logic but strict enforcement might be annoying.
-      // Start with strict for logic.
       throw new TRPCError({
         code: 'BAD_REQUEST',
         message: `Table capacity (${table.capacity}) is less than guests (${data.guests})`,

@@ -1,4 +1,6 @@
 import { z } from 'zod';
+import { RestaurantTableSchema } from './table.schema';
+import { UserOutputSchema } from './auth.schema';
 
 export const ReservationStatusSchema = z.enum([
     'PENDING',
@@ -20,6 +22,8 @@ export const ReservationSchema = z.object({
     guestInfo: z.any().optional(), // JSON
     createdAt: z.date(),
     updatedAt: z.date(),
+    table: RestaurantTableSchema.optional(),
+    user: UserOutputSchema.omit({ password: true, totpSecret: true }).optional(),
 });
 
 export const CreateReservationBodySchema = z.object({

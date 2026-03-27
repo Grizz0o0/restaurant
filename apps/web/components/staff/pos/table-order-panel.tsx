@@ -77,13 +77,14 @@ export function TableOrderPanel({
         onError: (err) => toast.error(`Lỗi: ${err.message}`),
     });
 
-    const activeOrders = (data?.data || []).filter((order) =>
-        [
-            'PENDING_CONFIRMATION',
-            'PREPARING',
-            'READY_FOR_PICKUP',
-            'DELIVERED',
-        ].includes(order.status),
+    const activeOrders = (data?.data || []).filter(
+        (order) =>
+            [
+                'PENDING_CONFIRMATION',
+                'PREPARING',
+                'READY_FOR_PICKUP',
+                'DELIVERED',
+            ].includes(order.status) && !order.addressId,
     );
 
     const formatVnd = (amount: number) =>
@@ -147,9 +148,16 @@ export function TableOrderPanel({
                         >
                             {/* Order Header */}
                             <div className="flex items-center justify-between px-3 py-2 bg-muted/30 border-b">
-                                <span className="text-xs font-mono text-muted-foreground">
-                                    #{order.id.slice(-8).toUpperCase()}
-                                </span>
+                                <div className="flex flex-col gap-0.5">
+                                    <span className="text-[10px] font-bold text-primary uppercase">
+                                        {order.addressId
+                                            ? '🛵 Giao hàng'
+                                            : '🛍️ Mang về'}
+                                    </span>
+                                    <span className="text-xs font-mono text-muted-foreground">
+                                        #{order.id.slice(-8).toUpperCase()}
+                                    </span>
+                                </div>
                                 <span
                                     className={cn(
                                         'flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full border',
@@ -175,7 +183,9 @@ export function TableOrderPanel({
                                             {item.dishName}
                                         </span>
                                         <span className="text-muted-foreground ml-2 shrink-0">
-                                            {formatVnd(item.price * item.quantity)}
+                                            {formatVnd(
+                                                item.price * item.quantity,
+                                            )}
                                         </span>
                                     </div>
                                 ))}
@@ -187,7 +197,8 @@ export function TableOrderPanel({
                                     {formatVnd(order.totalAmount)}
                                 </span>
                                 <div className="flex gap-2">
-                                    {order.status === 'PENDING_CONFIRMATION' && (
+                                    {order.status ===
+                                        'PENDING_CONFIRMATION' && (
                                         <Button
                                             size="sm"
                                             variant="outline"

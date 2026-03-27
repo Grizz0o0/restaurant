@@ -90,7 +90,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         });
 
         socketInstance.on('connect_error', (error) => {
-            console.error('[Socket] Connection error:', error.message);
+            console.warn('[Socket] Connection error:', error.message);
             setIsConnected(false);
         });
 
@@ -104,7 +104,9 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
                 console.log('[Socket] Token refreshed, reconnecting...');
                 socketInstance.connect();
             } else {
-                console.error('[Socket] Token refresh failed. User may need to re-login.');
+                console.warn(
+                    '[Socket] Token refresh failed. User may need to re-login.',
+                );
             }
         });
 
@@ -115,7 +117,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
             socketInstance.disconnect();
             socketRef.current = null;
         };
-    // Chỉ chạy khi isAuthenticated thay đổi THẬT SỰ, không phải khi isLoading thay đổi
+        // Chỉ chạy khi isAuthenticated thay đổi THẬT SỰ, không phải khi isLoading thay đổi
     }, [isAuthenticated, isLoading]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
