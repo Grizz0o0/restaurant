@@ -70,9 +70,23 @@ export function InventoryHistory() {
                                 </TableRow>
                             ) : (
                                 transactions.map((tx: any) => {
-                                    const reason = REASON_MAP[tx.reason] || { label: tx.reason, color: '', icon: RefreshCcw };
-                                    const Icon = reason.icon;
                                     const isPositive = Number(tx.changeQuantity) > 0;
+                                    let reason = REASON_MAP[tx.reason] || {
+                                        label: tx.reason,
+                                        color: '',
+                                        icon: RefreshCcw,
+                                    };
+
+                                    // Special handling for order returns (positive change)
+                                    if (tx.reason === 'ORDER' && isPositive) {
+                                        reason = {
+                                            label: 'Hoàn kho (Đơn hàng)',
+                                            color: 'text-emerald-600 bg-emerald-50 border-emerald-200',
+                                            icon: ArrowUpRight,
+                                        };
+                                    }
+
+                                    const Icon = reason.icon;
 
                                     return (
                                         <TableRow key={tx.id} className="hover:bg-muted/30 transition-colors">
