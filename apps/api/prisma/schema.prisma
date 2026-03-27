@@ -420,6 +420,7 @@ model SKU {
   dish             Dish              @relation(fields: [dishId], references: [id], onDelete: Cascade)
   updatedBy        User?             @relation("SKUUpdatedBy", fields: [updatedById], references: [id])
   variantOptions   VariantOption[]   @relation("SKUToVariantOption")
+  inventorySkus    InventorySKU[]
 
   @@index([deletedAt, stock])
 }
@@ -680,6 +681,7 @@ model Inventory {
   supplier     Supplier?              @relation(fields: [supplierId], references: [id])
   updatedBy    User?                  @relation("InventoryUpdatedBy", fields: [updatedById], references: [id])
   dishes       InventoryDish[]
+  skus         InventorySKU[]
   transactions InventoryTransaction[]
 
   @@index([deletedAt, quantity])
@@ -694,6 +696,18 @@ model InventoryDish {
 
   @@id([inventoryId, dishId])
 }
+
+model InventorySKU {
+  id           String    @id @default(uuid())
+  inventoryId  String
+  skuId        String
+  quantityUsed Decimal   @db.Decimal(10, 2)
+  sku          SKU       @relation(fields: [skuId], references: [id], onDelete: Cascade)
+  inventory    Inventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+
+  @@unique([inventoryId, skuId])
+}
+
 
 model RestaurantStaff {
   restaurantId String

@@ -414,6 +414,7 @@ export const ModelName = {
   Reservation: 'Reservation',
   Inventory: 'Inventory',
   InventoryDish: 'InventoryDish',
+  InventorySKU: 'InventorySKU',
   RestaurantStaff: 'RestaurantStaff',
   UserPreference: 'UserPreference',
   Recommendation: 'Recommendation',
@@ -435,7 +436,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "language" | "user" | "userAddress" | "userTranslation" | "userInteraction" | "verificationCode" | "device" | "refreshToken" | "permission" | "role" | "dish" | "dishTranslation" | "dishCategory" | "dishCategoryTranslation" | "variant" | "variantOption" | "sKU" | "supplier" | "supplierTranslation" | "cartItem" | "dishSKUSnapshot" | "order" | "review" | "paymentTransaction" | "message" | "restaurant" | "restaurantTable" | "reservation" | "inventory" | "inventoryDish" | "restaurantStaff" | "userPreference" | "recommendation" | "promotion" | "inventoryTransaction" | "notification"
+    modelProps: "language" | "user" | "userAddress" | "userTranslation" | "userInteraction" | "verificationCode" | "device" | "refreshToken" | "permission" | "role" | "dish" | "dishTranslation" | "dishCategory" | "dishCategoryTranslation" | "variant" | "variantOption" | "sKU" | "supplier" | "supplierTranslation" | "cartItem" | "dishSKUSnapshot" | "order" | "review" | "paymentTransaction" | "message" | "restaurant" | "restaurantTable" | "reservation" | "inventory" | "inventoryDish" | "inventorySKU" | "restaurantStaff" | "userPreference" | "recommendation" | "promotion" | "inventoryTransaction" | "notification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2659,6 +2660,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    InventorySKU: {
+      payload: Prisma.$InventorySKUPayload<ExtArgs>
+      fields: Prisma.InventorySKUFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.InventorySKUFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventorySKUPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.InventorySKUFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventorySKUPayload>
+        }
+        findFirst: {
+          args: Prisma.InventorySKUFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventorySKUPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.InventorySKUFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventorySKUPayload>
+        }
+        findMany: {
+          args: Prisma.InventorySKUFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventorySKUPayload>[]
+        }
+        create: {
+          args: Prisma.InventorySKUCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventorySKUPayload>
+        }
+        createMany: {
+          args: Prisma.InventorySKUCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.InventorySKUCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventorySKUPayload>[]
+        }
+        delete: {
+          args: Prisma.InventorySKUDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventorySKUPayload>
+        }
+        update: {
+          args: Prisma.InventorySKUUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventorySKUPayload>
+        }
+        deleteMany: {
+          args: Prisma.InventorySKUDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.InventorySKUUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.InventorySKUUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventorySKUPayload>[]
+        }
+        upsert: {
+          args: Prisma.InventorySKUUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventorySKUPayload>
+        }
+        aggregate: {
+          args: Prisma.InventorySKUAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInventorySKU>
+        }
+        groupBy: {
+          args: Prisma.InventorySKUGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InventorySKUGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.InventorySKUCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InventorySKUCountAggregateOutputType> | number
+        }
+      }
+    }
     RestaurantStaff: {
       payload: Prisma.$RestaurantStaffPayload<ExtArgs>
       fields: Prisma.RestaurantStaffFieldRefs
@@ -3641,6 +3716,16 @@ export const InventoryDishScalarFieldEnum = {
 export type InventoryDishScalarFieldEnum = (typeof InventoryDishScalarFieldEnum)[keyof typeof InventoryDishScalarFieldEnum]
 
 
+export const InventorySKUScalarFieldEnum = {
+  id: 'id',
+  inventoryId: 'inventoryId',
+  skuId: 'skuId',
+  quantityUsed: 'quantityUsed'
+} as const
+
+export type InventorySKUScalarFieldEnum = (typeof InventorySKUScalarFieldEnum)[keyof typeof InventorySKUScalarFieldEnum]
+
+
 export const RestaurantStaffScalarFieldEnum = {
   restaurantId: 'restaurantId',
   userId: 'userId',
@@ -4188,6 +4273,7 @@ export type GlobalOmitConfig = {
   reservation?: Prisma.ReservationOmit
   inventory?: Prisma.InventoryOmit
   inventoryDish?: Prisma.InventoryDishOmit
+  inventorySKU?: Prisma.InventorySKUOmit
   restaurantStaff?: Prisma.RestaurantStaffOmit
   userPreference?: Prisma.UserPreferenceOmit
   recommendation?: Prisma.RecommendationOmit

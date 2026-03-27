@@ -96,4 +96,95 @@ export class InventoryDishService {
       },
     })
   }
+
+  async getSkuIngredients(skuId: string) {
+    return this.prisma.inventorySKU.findMany({
+      where: { skuId },
+      include: {
+        inventory: {
+          select: {
+            itemName: true,
+            unit: true,
+            quantity: true,
+          },
+        },
+      },
+    })
+  }
+
+  async upsertSkuIngredient(data: import('@repo/schema').CreateInventorySkuBodyType) {
+    const sku = await this.prisma.sKU.findUnique({
+      where: { id: data.skuId },
+    })
+    if (!sku) throw new NotFoundException('SKU not found')
+
+    const inventory = await this.prisma.inventory.findUnique({
+      where: { id: data.inventoryId },
+    })
+    if (!inventory) throw new NotFoundException('Inventory not found')
+
+    return this.prisma.inventorySKU.upsert({
+      where: {
+        inventoryId_skuId: {
+          inventoryId: data.inventoryId,
+          skuId: data.skuId,
+        },
+      },
+      update: {
+        quantityUsed: data.quantityUsed,
+      },
+      create: {
+        inventoryId: data.inventoryId,
+        skuId: data.skuId,
+        quantityUsed: data.quantityUsed,
+      },
+      include: {
+        inventory: {
+          select: {
+            itemName: true,
+            unit: true,
+            quantity: true,
+          },
+        },
+      },
+    })
+  }
+
+  async updateSkuIngredient(
+    inventoryId: string,
+    skuId: string,
+    data: import('@repo/schema').UpdateInventorySkuBodyType,
+  ) {
+    return this.prisma.inventorySKU.update({
+      where: {
+        inventoryId_skuId: {
+          inventoryId,
+          skuId,
+        },
+      },
+      data: {
+        quantityUsed: data.quantityUsed,
+      },
+      include: {
+        inventory: {
+          select: {
+            itemName: true,
+            unit: true,
+            quantity: true,
+          },
+        },
+      },
+    })
+  }
+
+  async removeSkuIngredient(inventoryId: string, skuId: string) {
+    return this.prisma.inventorySKU.delete({
+      where: {
+        inventoryId_skuId: {
+          inventoryId,
+          skuId,
+        },
+      },
+    })
+  }
 }

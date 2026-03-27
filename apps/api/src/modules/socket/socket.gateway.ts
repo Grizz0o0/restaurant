@@ -58,12 +58,10 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         const payload = await this.tokenService.verifyAccessToken(token)
         client.data[REQUEST_USER_KEY] = payload
 
-        // Join user specific room
         await client.join(`user:${payload.userId}`)
 
         this.logger.log(`Client connected: ${client.id} - User: ${payload.userId}`)
       } catch (tokenError: any) {
-        // Token hết hạn: thông báo cho client để refresh token, không disconnect ngay
         if (
           tokenError?.name === 'TokenExpiredError' ||
           tokenError?.message?.includes('expired') ||
@@ -93,12 +91,10 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
     client.emit('pong', { message: 'pong', time: new Date() })
   }
 
-  // Emit to all connected clients
   sendToAll(event: string, data: any) {
     this.server.emit(event, data)
   }
 
-  // Emit to a specific user (via room)
   sendToUser(userId: string, event: string, data: any) {
     this.server.to(`user:${userId}`).emit(event, data)
   }

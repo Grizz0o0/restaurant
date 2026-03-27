@@ -234,7 +234,7 @@ function ShipperActions({
             setVerificationCode('');
         },
         onError: (err) => {
-            toast.error(err.message);
+            toast.error('Cập nhật trạng thái thất bại');
             setIsUpdating(false);
         },
     });

@@ -15,7 +15,6 @@ export class RestaurantStaffService {
       throw new NotFoundException('Restaurant not found')
     }
 
-    // Check if user exists
     const user = await this.prisma.user.findUnique({
       where: { id: data.userId },
     })

@@ -190,9 +190,6 @@ export class PaymentService {
       throw new BadRequestException('Order not found')
     }
 
-    // Check ownership if needed, or if guest.
-    // if (order.userId !== userId && order.guestId !== userId) ...
-
     if (order.status === 'CANCELLED' || order.paymentStatus === 'PAID') {
       throw new BadRequestException('Order cannot be paid')
     }

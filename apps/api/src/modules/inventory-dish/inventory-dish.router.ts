@@ -9,6 +9,11 @@ import {
   GetDishIngredientsResSchema,
   UpdateInventoryDishBodySchema,
   UpdateInventoryDishBodyType,
+  CreateInventorySkuBodySchema,
+  CreateInventorySkuBodyType,
+  GetSkuIngredientsResSchema,
+  UpdateInventorySkuBodySchema,
+  UpdateInventorySkuBodyType,
 } from '@repo/schema'
 
 @Router({ alias: 'inventoryDish' })
@@ -63,5 +68,62 @@ export class InventoryDishRouter {
   @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
   async removeIngredientFromDish(@Input() input: { inventoryId: string; dishId: string }) {
     return this.inventoryDishService.removeIngredientFromDish(input.inventoryId, input.dishId)
+  }
+
+  @Query({
+    input: z.object({ skuId: z.string().uuid() }),
+    output: GetSkuIngredientsResSchema,
+  })
+  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
+  async getSkuIngredients(@Input('skuId') skuId: string) {
+    const data = await this.inventoryDishService.getSkuIngredients(skuId)
+    return {
+      data: data.map((item) => ({
+        ...item,
+        quantityUsed: Number(item.quantityUsed),
+        inventory: item.inventory
+          ? {
+              ...item.inventory,
+              quantity: Number(item.inventory.quantity),
+            }
+          : undefined,
+      })),
+    }
+  }
+
+  @Mutation({
+    input: CreateInventorySkuBodySchema,
+    output: z.any(),
+  })
+  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
+  async upsertSkuIngredient(@Input() input: CreateInventorySkuBodyType) {
+    return this.inventoryDishService.upsertSkuIngredient(input)
+  }
+
+  @Mutation({
+    input: z.object({
+      inventoryId: z.string().uuid(),
+      skuId: z.string().uuid(),
+      data: UpdateInventorySkuBodySchema,
+    }),
+    output: z.any(),
+  })
+  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
+  async updateSkuIngredientQuantity(
+    @Input() input: { inventoryId: string; skuId: string; data: UpdateInventorySkuBodyType },
+  ) {
+    return this.inventoryDishService.updateSkuIngredient(input.inventoryId, input.skuId, input.data)
+  }
+
+  @Mutation({
+    input: z.object({
+      inventoryId: z.string().uuid(),
+      skuId: z.string().uuid(),
+    }),
+    output: z.any(),
+  })
+  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
+  async removeSkuIngredient(@Input() input: { inventoryId: string; skuId: string }) {
+    return this.inventoryDishService.removeSkuIngredient(input.inventoryId, input.skuId)
   }
 }

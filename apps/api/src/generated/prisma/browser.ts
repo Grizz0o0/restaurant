@@ -168,6 +168,11 @@ export type Inventory = Prisma.InventoryModel
  */
 export type InventoryDish = Prisma.InventoryDishModel
 /**
+ * Model InventorySKU
+ * 
+ */
+export type InventorySKU = Prisma.InventorySKUModel
+/**
  * Model RestaurantStaff
  * 
  */

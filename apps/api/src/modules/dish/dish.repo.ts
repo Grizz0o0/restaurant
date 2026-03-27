@@ -182,13 +182,18 @@ export class DishRepo {
 
     if (deletedOptionIds.length === 0) return []
 
-    // Find SKUs that use these deleted options
+    // Find SKUs that use these deleted options AND have active orders
     const impactedSkus = await this.prisma.sKU.findMany({
       where: {
         dishId,
         variantOptions: {
           some: {
             id: { in: deletedOptionIds },
+          },
+        },
+        dishSKUSnapshots: {
+          some: {
+            orderId: { not: null },
           },
         },
       },
@@ -202,7 +207,7 @@ export class DishRepo {
     { id, data, updatedById }: { id: string; data: UpdateDishBodyType; updatedById: string },
     tx?: Prisma.TransactionClient,
   ) {
-    const { name, description, languageId, categoryIds, variants, ...dishData } = data
+    const { name, description, languageId, categoryIds, variants, skus, ...dishData } = data
     const client = tx ?? this.prisma
 
     // Basic Update
@@ -225,15 +230,13 @@ export class DishRepo {
       },
     })
 
-    // Upsert Translations logic (keep from previous)
+    // Upsert Translations logic
     if (name || description) {
-      // ... (simplified call to helper if needed or inline)
       await this.upsertDishTranslation(id, { name, description, languageId, updatedById }, client)
     }
 
     // Variants Update Logic
     if (variants) {
-      // This is complex. We need to sync the DB state with `variants` list.
       // 1. Delete removed Variants
       const inputVariantIds = variants.filter((v) => v.id).map((v) => v.id!)
       await client.variant.deleteMany({
@@ -248,13 +251,11 @@ export class DishRepo {
         let variantId = vData.id
 
         if (variantId) {
-          // Update Name
           await client.variant.update({
             where: { id: variantId },
             data: { name: vData.name, updatedById },
           })
         } else {
-          // Create
           const newVariant = await client.variant.create({
             data: {
               dishId: id,
@@ -272,8 +273,6 @@ export class DishRepo {
           },
         })
 
-        // Create missing options
-        // We need to know which ones exist to avoid duplicates or error
         const existingOptions = await client.variantOption.findMany({
           where: { variantId: variantId },
         })
@@ -291,26 +290,76 @@ export class DishRepo {
           }
         }
       }
-
-      // Note: Logic for dealing with Orphaned SKUs due to option deletion
-      // is expected to be handled by `onDelete: Cascade` in schema?
-      // Schema: `variantOptions VariantOption[]` on SKU side.
-      // `variantOption` has `skus SKU[]`.
-      // Relation is explicit many-to-many? No, implicit?
-      // Schema check:
-      // model VariantOption { skus SKU[] }
-      // model SKU { variantOptions VariantOption[] }
-      // This is implicit many-to-many.
-      // If a VariantOption is deleted, the join table entry is deleted. The SKU remains but has fewer options?
-      // Yes.
-      // The prompt says "Nếu xóa VariantOption, phải cảnh báo các SKU bị ảnh hưởng".
-      // It implies we should probably delete the SKU if it becomes invalid (e.g. 2 options required, now 1).
-      // But for now, the Repo just does the update. Validation happened before calling this.
     }
 
+    // SKUs Update Logic
+    if (skus) {
+      // Delete all existing SKUs for this dish and recreate them
+      await client.sKU.deleteMany({
+        where: { dishId: id },
+      })
+
+      // Re-fetch dish with variants to get fresh option IDs
+      const dishWithVariants = await client.dish.findUnique({
+        where: { id },
+        include: {
+          variants: {
+            include: { variantOptions: true },
+          },
+        },
+      })
+
+      if (!dishWithVariants) throw new Error('Dish not found after variant update')
+
+      for (const skuData of skus) {
+        const skuOptionIds: string[] = []
+
+        if (skuData.optionValues && skuData.optionValues.length > 0) {
+          // Match option values to their IDs based on the fresh variants structure
+          skuData.optionValues.forEach((val) => {
+            for (const variant of dishWithVariants.variants) {
+              const option = variant.variantOptions.find((o) => o.value === val)
+              if (option) {
+                skuOptionIds.push(option.id)
+                break
+              }
+            }
+          })
+        }
+
+        await client.sKU.create({
+          data: {
+            dishId: id,
+            value: skuData.value,
+            price: new Prisma.Decimal(skuData.price),
+            stock: skuData.stock,
+            images: skuData.images,
+            createdById: updatedById,
+            ...(skuOptionIds.length > 0 && {
+              variantOptions: {
+                connect: skuOptionIds.map((oid) => ({ id: oid })),
+              },
+            }),
+          },
+        })
+      }
+    }
+
+    // Refresh final state
+    const finalDish = await client.dish.findUnique({
+      where: { id },
+      include: {
+        dishTranslations: true,
+        variants: { include: { variantOptions: true } },
+        skus: { include: { variantOptions: true } },
+      },
+    })
+
+    if (!finalDish) throw new Error('Dish lost during update')
+
     return {
-      ...dish,
-      variants: dish.variants.map((v) => ({
+      ...finalDish,
+      variants: finalDish.variants.map((v) => ({
         ...v,
         options: v.variantOptions,
       })),
@@ -499,7 +548,7 @@ export class DishRepo {
       dishTranslations: true,
       categories: true,
       variants: { include: { variantOptions: true } },
-      skus: true,
+      skus: { include: { variantOptions: true } },
       inventories: {
         include: { inventory: true },
       },
@@ -541,6 +590,10 @@ export class DishRepo {
       return {
         ...dish,
         isAvailable,
+        variants: dish.variants.map((v) => ({
+          ...v,
+          options: v.variantOptions,
+        })),
       }
     })
 

@@ -81,6 +81,7 @@ export const ModelName = {
   Reservation: 'Reservation',
   Inventory: 'Inventory',
   InventoryDish: 'InventoryDish',
+  InventorySKU: 'InventorySKU',
   RestaurantStaff: 'RestaurantStaff',
   UserPreference: 'UserPreference',
   Recommendation: 'Recommendation',
@@ -602,6 +603,16 @@ export const InventoryDishScalarFieldEnum = {
 } as const
 
 export type InventoryDishScalarFieldEnum = (typeof InventoryDishScalarFieldEnum)[keyof typeof InventoryDishScalarFieldEnum]
+
+
+export const InventorySKUScalarFieldEnum = {
+  id: 'id',
+  inventoryId: 'inventoryId',
+  skuId: 'skuId',
+  quantityUsed: 'quantityUsed'
+} as const
+
+export type InventorySKUScalarFieldEnum = (typeof InventorySKUScalarFieldEnum)[keyof typeof InventorySKUScalarFieldEnum]
 
 
 export const RestaurantStaffScalarFieldEnum = {

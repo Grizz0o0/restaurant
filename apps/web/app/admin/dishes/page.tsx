@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo, useState, useEffect } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useForm, useFieldArray, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Image from 'next/image';
@@ -110,9 +110,141 @@ const dishSchema = z.object({
             }),
         )
         .optional(),
+    skus: z
+        .array(
+            z.object({
+                id: z.string().optional(),
+                value: z.string(),
+                price: z.number().min(0),
+                stock: z.number().int().min(0),
+                optionValues: z.array(z.string()),
+            }),
+        )
+        .optional(),
 });
 
 type DishFormValues = z.infer<typeof dishSchema>;
+
+function generateSkuCombinations(
+    variants: { name: string; options: { value: string }[] }[],
+) {
+    if (!variants || variants.length === 0) return [];
+
+    const groupedVariants: Record<string, string[]> = {};
+
+    variants.forEach((v) => {
+        const name = v.name.trim().toLowerCase();
+        if (!name) return;
+
+        if (!groupedVariants[name]) {
+            groupedVariants[name] = [];
+        }
+
+        const group = groupedVariants[name];
+        v.options.forEach((opt) => {
+            if (opt.value && !group.includes(opt.value)) {
+                group.push(opt.value);
+            }
+        });
+    });
+
+    const optionsList = Object.values(groupedVariants).filter(
+        (opts) => opts.length > 0,
+    );
+    if (optionsList.length === 0) return [];
+
+    function cartesianProduct(arrays: string[][]): string[][] {
+        return arrays.reduce<string[][]>(
+            (acc, curr) => {
+                const results: string[][] = [];
+                acc.forEach((a) => {
+                    curr.forEach((b) => {
+                        results.push([...a, b]);
+                    });
+                });
+                return results;
+            },
+            [[]],
+        );
+    }
+
+    const combinations = cartesianProduct(optionsList);
+
+    return combinations.map((combo) => ({
+        optionValues: combo,
+        value: `SKU-${combo.join('-').toUpperCase()}-${Date.now().toString().slice(-4)}`,
+    }));
+}
+
+function SkuSynchronizer({
+    form,
+    replaceSkus,
+    skuFields,
+}: {
+    form: any;
+    replaceSkus: (vals: any[]) => void;
+    skuFields: any[];
+}) {
+    const variants = useWatch({
+        control: form.control,
+        name: 'variants',
+    });
+    const basePrice = useWatch({
+        control: form.control,
+        name: 'price_vnd',
+    });
+
+    useEffect(() => {
+        if (variants && variants.length > 0) {
+            // Check if all variants have options before generating
+            const isValid = variants.every(
+                (v: any) => v.options && v.options.length > 0,
+            );
+            if (!isValid) return;
+
+            const combinations = generateSkuCombinations(variants as any);
+            const currentSkus = form.getValues('skus') || [];
+
+            const newSkus = combinations.map((c) => {
+                const existingSku = currentSkus.find(
+                    (s: any) =>
+                        JSON.stringify(
+                            [...(s.optionValues || [])].slice().sort(),
+                        ) ===
+                        JSON.stringify([...c.optionValues].slice().sort()),
+                );
+
+                return {
+                    id: existingSku?.id,
+                    value: existingSku?.value || c.value,
+                    price: existingSku ? existingSku.price : basePrice || 0,
+                    stock: existingSku ? existingSku.stock : 0,
+                    optionValues: c.optionValues,
+                };
+            });
+
+            // Only update if combinations changed to avoid infinite loop
+            const currentKeys = JSON.stringify(
+                currentSkus.map((s: any) =>
+                    [...(s.optionValues || [])].slice().sort(),
+                ),
+            );
+            const newKeys = JSON.stringify(
+                newSkus.map((s: any) =>
+                    [...(s.optionValues || [])].slice().sort(),
+                ),
+            );
+
+            if (currentKeys !== newKeys) {
+                replaceSkus(newSkus);
+            }
+        } else if (skuFields.length > 0) {
+            replaceSkus([]);
+        }
+    }, [variants, basePrice]);
+
+    return null;
+}
 
 export default function AdminDishesPage() {
     const utils = trpc.useUtils();
@@ -137,7 +269,8 @@ export default function AdminDishesPage() {
         limit: ITEMS_PER_PAGE,
         search: searchQuery || undefined,
         categoryId: filterCategory === 'all' ? undefined : filterCategory,
-        isActive: filterStatus === 'all' ? undefined : filterStatus === 'active',
+        isActive:
+            filterStatus === 'all' ? undefined : filterStatus === 'active',
     });
 
     // Fetch Languages
@@ -177,6 +310,7 @@ export default function AdminDishesPage() {
             image_url: '',
             is_active: true,
             variants: [],
+            skus: [],
         },
     });
 
@@ -187,6 +321,11 @@ export default function AdminDishesPage() {
     } = useFieldArray({
         control: form.control,
         name: 'variants',
+    });
+
+    const { fields: skuFields, replace: replaceSkus } = useFieldArray({
+        control: form.control,
+        name: 'skus',
     });
 
     // Reset to page 1 when filters change
@@ -318,15 +457,40 @@ export default function AdminDishesPage() {
                 dish.variants?.map((v: any) => ({
                     id: v.id,
                     name: v.name,
-                    options: v.options.map((o: any) => ({
-                        value: o.value || o,
-                    })),
+                    options: (v.options || v.variantOptions || []).map(
+                        (o: any) => ({
+                            value: o.value || o,
+                        }),
+                    ),
+                })) ?? [],
+            skus:
+                dish.skus?.map((s: any) => ({
+                    id: s.id,
+                    value: s.value,
+                    price: Number(s.price),
+                    stock: s.stock,
+                    optionValues:
+                        s.variantOptions?.map((o: any) => o.value) ?? [],
                 })) ?? [],
         });
         setOpen(true);
     };
 
     const onSubmit = (values: DishFormValues) => {
+        const variants = values.variants?.map((v) => ({
+            id: v.id,
+            name: v.name,
+            options: v.options.map((o) => o.value),
+        }));
+
+        const skus = values.skus?.map((s) => ({
+            id: s.id,
+            value: s.value,
+            price: s.price,
+            stock: s.stock,
+            optionValues: s.optionValues,
+        }));
+
         if (editing) {
             updateMutation.mutate({
                 id: editing.id,
@@ -339,6 +503,8 @@ export default function AdminDishesPage() {
                     isActive: values.is_active,
                     supplierId: values.supplier_id,
                     languageId: values.language_id,
+                    variants: variants,
+                    skus: skus,
                 },
             });
         } else {
@@ -351,6 +517,8 @@ export default function AdminDishesPage() {
                 isActive: true,
                 supplierId: values.supplier_id,
                 languageId: values.language_id,
+                variants: variants,
+                skus: skus,
             });
         }
     };
@@ -441,7 +609,10 @@ export default function AdminDishesPage() {
 
                             <Tabs defaultValue="basic" className="w-full">
                                 <TabsList className="grid w-full grid-cols-2 h-auto">
-                                    <TabsTrigger value="basic" className="py-2 text-xs sm:text-sm">
+                                    <TabsTrigger
+                                        value="basic"
+                                        className="py-2 text-xs sm:text-sm"
+                                    >
                                         Thông tin cơ bản
                                     </TabsTrigger>
                                     <TabsTrigger
@@ -892,6 +1063,210 @@ export default function AdminDishesPage() {
                                                 )}
                                             </div>
 
+                                            {/* SKU Pricing Management */}
+                                            {variantFields.length > 0 && (
+                                                <div className="space-y-4 pt-6 border-t mt-6 bg-muted/20 p-4 rounded-lg">
+                                                    <div className="flex items-center justify-between">
+                                                        <div>
+                                                            <h4 className="text-base font-semibold text-primary">
+                                                                Thiết lập giá
+                                                                theo tổ hợp
+                                                            </h4>
+                                                            <p className="text-xs text-muted-foreground mt-1">
+                                                                Hệ thống tự động
+                                                                tạo danh sách
+                                                                dựa trên các
+                                                                biến thể bên
+                                                                trên.
+                                                            </p>
+                                                        </div>
+                                                        <Button
+                                                            type="button"
+                                                            variant="outline"
+                                                            size="sm"
+                                                            className="hidden" // Hidden because we auto-sync now, but keep for fallback if needed
+                                                            onClick={() => {
+                                                                const currentVariants =
+                                                                    form.getValues(
+                                                                        'variants',
+                                                                    );
+                                                                if (
+                                                                    currentVariants &&
+                                                                    currentVariants.length >
+                                                                        0
+                                                                ) {
+                                                                    const combinations =
+                                                                        generateSkuCombinations(
+                                                                            currentVariants as any,
+                                                                        );
+                                                                    const basePrice =
+                                                                        form.getValues(
+                                                                            'price_vnd',
+                                                                        ) || 0;
+                                                                    const currentSkus =
+                                                                        form.getValues(
+                                                                            'skus',
+                                                                        ) || [];
+
+                                                                    const newSkus =
+                                                                        combinations.map(
+                                                                            (
+                                                                                c,
+                                                                            ) => {
+                                                                                const existingSku =
+                                                                                    currentSkus.find(
+                                                                                        (
+                                                                                            s,
+                                                                                        ) =>
+                                                                                            JSON.stringify(
+                                                                                                [
+                                                                                                    ...(s.optionValues ||
+                                                                                                        []),
+                                                                                                ].sort(),
+                                                                                            ) ===
+                                                                                            JSON.stringify(
+                                                                                                [
+                                                                                                    ...c.optionValues,
+                                                                                                ].sort(),
+                                                                                            ),
+                                                                                    );
+
+                                                                                return {
+                                                                                    id: existingSku?.id,
+                                                                                    value:
+                                                                                        existingSku?.value ||
+                                                                                        c.value,
+                                                                                    price: existingSku
+                                                                                        ? existingSku.price
+                                                                                        : basePrice,
+                                                                                    stock: existingSku
+                                                                                        ? existingSku.stock
+                                                                                        : 0,
+                                                                                    optionValues:
+                                                                                        c.optionValues,
+                                                                                };
+                                                                            },
+                                                                        );
+                                                                    replaceSkus(
+                                                                        newSkus,
+                                                                    );
+                                                                }
+                                                            }}
+                                                        >
+                                                            Cập nhật bảng giá
+                                                        </Button>
+                                                    </div>
+
+                                                    {/* Auto-sync side effect logic moved to a watcher */}
+                                                    <SkuSynchronizer
+                                                        form={form}
+                                                        replaceSkus={
+                                                            replaceSkus
+                                                        }
+                                                        skuFields={skuFields}
+                                                    />
+
+                                                    {skuFields.length > 0 ? (
+                                                        <div className="border rounded-md divide-y overflow-hidden bg-white shadow-sm">
+                                                            <div className="grid grid-cols-12 gap-4 p-3 bg-muted/50 font-semibold text-xs uppercase tracking-wider text-muted-foreground">
+                                                                <div className="col-span-7">
+                                                                    Tổ hợp biến
+                                                                    thể (Size,
+                                                                    Topping...)
+                                                                </div>
+                                                                <div className="col-span-5 text-right">
+                                                                    Giá bán
+                                                                    riêng (VNĐ)
+                                                                </div>
+                                                            </div>
+                                                            {skuFields.map(
+                                                                (
+                                                                    field,
+                                                                    index,
+                                                                ) => (
+                                                                    <div
+                                                                        key={
+                                                                            field.id
+                                                                        }
+                                                                        className="grid grid-cols-12 gap-4 p-3 items-center hover:bg-muted/30 transition-colors"
+                                                                    >
+                                                                        <div className="col-span-7 flex flex-wrap gap-1.5">
+                                                                            {field.optionValues.map(
+                                                                                (
+                                                                                    val,
+                                                                                    idx,
+                                                                                ) => (
+                                                                                    <Badge
+                                                                                        key={
+                                                                                            idx
+                                                                                        }
+                                                                                        variant="secondary"
+                                                                                        className="px-2 py-0.5 text-[11px] font-medium bg-blue-50 text-blue-700 border-blue-200"
+                                                                                    >
+                                                                                        {
+                                                                                            val
+                                                                                        }
+                                                                                    </Badge>
+                                                                                ),
+                                                                            )}
+                                                                        </div>
+                                                                        <div className="col-span-5">
+                                                                            <FormField
+                                                                                control={
+                                                                                    form.control
+                                                                                }
+                                                                                name={`skus.${index}.price`}
+                                                                                render={({
+                                                                                    field: skuField,
+                                                                                }) => (
+                                                                                    <FormItem>
+                                                                                        <FormControl>
+                                                                                            <div className="relative">
+                                                                                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-xs">
+                                                                                                    ₫
+                                                                                                </span>
+                                                                                                <Input
+                                                                                                    type="number"
+                                                                                                    className="h-9 pl-7 text-right font-medium focus-visible:ring-primary/30"
+                                                                                                    value={
+                                                                                                        skuField.value
+                                                                                                    }
+                                                                                                    onChange={(
+                                                                                                        e,
+                                                                                                    ) =>
+                                                                                                        skuField.onChange(
+                                                                                                            Number(
+                                                                                                                e
+                                                                                                                    .target
+                                                                                                                    .value,
+                                                                                                            ),
+                                                                                                        )
+                                                                                                    }
+                                                                                                />
+                                                                                            </div>
+                                                                                        </FormControl>
+                                                                                    </FormItem>
+                                                                                )}
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                ),
+                                                            )}
+                                                        </div>
+                                                    ) : (
+                                                        <div className="text-center py-8 border-2 border-dashed rounded-lg bg-white/50">
+                                                            <p className="text-sm text-muted-foreground">
+                                                                Vui lòng nhập
+                                                                tên biến thể và
+                                                                các tùy chọn ở
+                                                                trên để bắt đầu
+                                                                thiết lập giá.
+                                                            </p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+
                                             <div className="flex gap-3 justify-end pt-4 border-t">
                                                 <Button
                                                     type="button"
@@ -1244,7 +1619,8 @@ export default function AdminDishesPage() {
                                     // Show first, last, current, and neighbors
                                     return (
                                         p === 1 ||
-                                        p === dishesData.pagination.totalPages ||
+                                        p ===
+                                            dishesData.pagination.totalPages ||
                                         Math.abs(p - currentPage) <= 1
                                     );
                                 })

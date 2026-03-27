@@ -24,7 +24,7 @@ export class EmailService {
       'utf-8',
     )
     const logo = 'http://localhost:3000/images/logo.png'
-    const htmlContent = otpTemplate.replace('{{code}}', payload.code).replace('{{logo}}', logo)
+    otpTemplate.replace('{{code}}', payload.code).replace('{{logo}}', logo)
     return this.resend.emails.send({
       from: 'Grizz <no-reply@vuonghongky.id.vn>',
       to: [payload.email],
@@ -35,10 +35,10 @@ export class EmailService {
 
   sendNotification(to: string, subject: string, content: string) {
     return this.resend.emails.send({
-      from: 'Grizz <no-reply@vuonghongky.id.vn>', // Config sender
+      from: 'Grizz <no-reply@vuonghongky.id.vn>',
       to: [to],
       subject,
-      html: `<p>${content}</p>`, // Simple HTML for now
+      html: `<p>${content}</p>`,
     })
   }
 

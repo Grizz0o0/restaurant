@@ -73,7 +73,6 @@ export class RoleService {
     permissionIds: string[]
     updatedById: string
   }) {
-    // Check if role is protected or exists
     await this.verifyRole(roleId)
     return this.roleRepo.assignPermissions({ roleId, permissionIds, updatedById })
   }

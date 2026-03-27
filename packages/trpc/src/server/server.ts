@@ -142,6 +142,9 @@ import {
     CreateInventoryBodySchema,
     UpdateInventoryBodySchema,
     GetInventoryTransactionsQuerySchema,
+    CreateInventorySkuBodySchema,
+    UpdateInventorySkuBodySchema,
+    GetSkuIngredientsResSchema,
 } from '@repo/schema';
 
 import superjson from 'superjson';
@@ -780,6 +783,33 @@ const appRouter = t.router({
                 z.object({
                     inventoryId: z.string().uuid(),
                     dishId: z.string().uuid(),
+                }),
+            )
+            .output(MessageResSchema)
+            .mutation(notImplemented),
+        getSkuIngredients: publicProcedure
+            .input(z.object({ skuId: z.string().uuid() }))
+            .output(GetSkuIngredientsResSchema)
+            .query(notImplemented),
+        upsertSkuIngredient: publicProcedure
+            .input(CreateInventorySkuBodySchema)
+            .output(z.any())
+            .mutation(notImplemented),
+        updateSkuIngredientQuantity: publicProcedure
+            .input(
+                z.object({
+                    inventoryId: z.string().uuid(),
+                    skuId: z.string().uuid(),
+                    data: UpdateInventorySkuBodySchema,
+                }),
+            )
+            .output(z.any())
+            .mutation(notImplemented),
+        removeSkuIngredient: publicProcedure
+            .input(
+                z.object({
+                    inventoryId: z.string().uuid(),
+                    skuId: z.string().uuid(),
                 }),
             )
             .output(MessageResSchema)

@@ -37,7 +37,6 @@ export class MessageService {
       },
     })
 
-    // 3. Emit real-time event
     this.socketGateway.sendToUser(data.toUserId, 'newMessage', message)
 
     return message
@@ -75,8 +74,6 @@ export class MessageService {
       nextCursor = nextItem!.id
     }
 
-    // Mark messages as read when fetched history with the other user
-    // We only mark messages sent BY the other person TO us as read.
     await this.prisma.message.updateMany({
       where: {
         fromUserId: userId,

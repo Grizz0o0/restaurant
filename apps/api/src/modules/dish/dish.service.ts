@@ -39,29 +39,25 @@ export class DishService {
   async update(params: { id: string; data: UpdateDishBodyType; updatedById: string }) {
     const { id, data, updatedById } = params
 
+    const existingDish = await this.dishRepo.findById(id)
+    if (!existingDish) throw new NotFoundException('Dish not found')
+
+    // Auto-generate SKUs if variants exist but skus are missing (e.g. adding variants to simple dish)
+    if (data.variants && (!data.skus || data.skus.length === 0)) {
+      const combinations = generateSkuCombinations(data.variants)
+      data.skus = combinations.map((c) => ({
+        value: `SKU-${c.internalId}-${Date.now()}`,
+        price: data.basePrice ?? Number(existingDish.basePrice),
+        stock: 0,
+        optionValues: c.optionValues,
+        images: [],
+      }))
+    }
+
     // Check variant impact if variants are being updated
     if (data.variants) {
       const impactedSkus = await this.dishRepo.checkVariantDeletionImpact(id, data.variants)
       if (impactedSkus.length > 0) {
-        // We throw an error with the list of impacted SKUs so the FE can show a warning
-        // The FE should then call this API again?
-        // Ideally we need a "force" flag in the schema, but schema wasn't updated with force flag.
-        // For now, I will assume that if the user sends the request, they MIGHT know.
-        // But the prompt says "validate logic... phải cảnh báo".
-        // Implementation: The Router should have a separate procedure for checking,
-        // OR this update method throws, and FE calls a "forceUpdate" endpoint?
-
-        // Simpler: I'll throw 422 with a message.
-        // The user must assume the FE handles "checkVariantUpdateImpact" BEFORE calling update.
-        // But if they call update directly, we block it?
-        // Let's just block it.
-        // "Cannot delete variants that are in use by SKUs: [list]".
-
-        // To allow "FORCE", we would need to change schema.
-        // Since I cannot change schema repeatedly easily (user interaction),
-        // I will implement the check endpoint and assume the FE uses it.
-        // Here, I will just proceed? No, that violates "Safe".
-        // I will throw.
         throw new UnprocessableEntityException({
           message: 'Update would delete active SKUs',
           impactedSkus,

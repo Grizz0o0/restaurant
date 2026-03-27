@@ -9,6 +9,7 @@ import {
     CheckSquare,
     XCircle,
     AlertCircle,
+    RotateCcw,
 } from 'lucide-react';
 
 export type OrderStatus =
@@ -18,6 +19,8 @@ export type OrderStatus =
     | 'DELIVERING'
     | 'DELIVERED'
     | 'COMPLETED'
+    | 'RETURNED'
+    | 'BOOMED'
     | 'CANCELLED';
 
 const STATUS_CONFIG: Record<
@@ -61,6 +64,18 @@ const STATUS_CONFIG: Record<
     },
     CANCELLED: {
         label: 'Đã hủy',
+        icon: XCircle,
+        colorClass:
+            'bg-rose-100 text-rose-800 hover:bg-rose-200 border-rose-200',
+    },
+    RETURNED: {
+        label: 'Trả hàng',
+        icon: RotateCcw,
+        colorClass:
+            'bg-orange-100 text-orange-800 hover:bg-orange-200 border-orange-200',
+    },
+    BOOMED: {
+        label: 'Bùng hàng',
         icon: XCircle,
         colorClass:
             'bg-rose-100 text-rose-800 hover:bg-rose-200 border-rose-200',

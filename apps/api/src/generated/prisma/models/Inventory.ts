@@ -292,6 +292,7 @@ export type InventoryWhereInput = {
   supplier?: Prisma.XOR<Prisma.SupplierNullableScalarRelationFilter, Prisma.SupplierWhereInput> | null
   updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   dishes?: Prisma.InventoryDishListRelationFilter
+  skus?: Prisma.InventorySKUListRelationFilter
   transactions?: Prisma.InventoryTransactionListRelationFilter
 }
 
@@ -315,6 +316,7 @@ export type InventoryOrderByWithRelationInput = {
   supplier?: Prisma.SupplierOrderByWithRelationInput
   updatedBy?: Prisma.UserOrderByWithRelationInput
   dishes?: Prisma.InventoryDishOrderByRelationAggregateInput
+  skus?: Prisma.InventorySKUOrderByRelationAggregateInput
   transactions?: Prisma.InventoryTransactionOrderByRelationAggregateInput
 }
 
@@ -341,6 +343,7 @@ export type InventoryWhereUniqueInput = Prisma.AtLeast<{
   supplier?: Prisma.XOR<Prisma.SupplierNullableScalarRelationFilter, Prisma.SupplierWhereInput> | null
   updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   dishes?: Prisma.InventoryDishListRelationFilter
+  skus?: Prisma.InventorySKUListRelationFilter
   transactions?: Prisma.InventoryTransactionListRelationFilter
 }, "id">
 
@@ -399,6 +402,7 @@ export type InventoryCreateInput = {
   supplier?: Prisma.SupplierCreateNestedOneWithoutInventoriesInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedInventoriesInput
   dishes?: Prisma.InventoryDishCreateNestedManyWithoutInventoryInput
+  skus?: Prisma.InventorySKUCreateNestedManyWithoutInventoryInput
   transactions?: Prisma.InventoryTransactionCreateNestedManyWithoutInventoryInput
 }
 
@@ -417,6 +421,7 @@ export type InventoryUncheckedCreateInput = {
   updatedAt?: Date | string
   threshold?: runtime.Decimal | runtime.DecimalJsLike | number | string
   dishes?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutInventoryInput
+  skus?: Prisma.InventorySKUUncheckedCreateNestedManyWithoutInventoryInput
   transactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutInventoryInput
 }
 
@@ -435,6 +440,7 @@ export type InventoryUpdateInput = {
   supplier?: Prisma.SupplierUpdateOneWithoutInventoriesNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedInventoriesNestedInput
   dishes?: Prisma.InventoryDishUpdateManyWithoutInventoryNestedInput
+  skus?: Prisma.InventorySKUUpdateManyWithoutInventoryNestedInput
   transactions?: Prisma.InventoryTransactionUpdateManyWithoutInventoryNestedInput
 }
 
@@ -453,6 +459,7 @@ export type InventoryUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   threshold?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   dishes?: Prisma.InventoryDishUncheckedUpdateManyWithoutInventoryNestedInput
+  skus?: Prisma.InventorySKUUncheckedUpdateManyWithoutInventoryNestedInput
   transactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutInventoryNestedInput
 }
 
@@ -796,6 +803,20 @@ export type InventoryUpdateOneRequiredWithoutDishesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.InventoryUpdateToOneWithWhereWithoutDishesInput, Prisma.InventoryUpdateWithoutDishesInput>, Prisma.InventoryUncheckedUpdateWithoutDishesInput>
 }
 
+export type InventoryCreateNestedOneWithoutSkusInput = {
+  create?: Prisma.XOR<Prisma.InventoryCreateWithoutSkusInput, Prisma.InventoryUncheckedCreateWithoutSkusInput>
+  connectOrCreate?: Prisma.InventoryCreateOrConnectWithoutSkusInput
+  connect?: Prisma.InventoryWhereUniqueInput
+}
+
+export type InventoryUpdateOneRequiredWithoutSkusNestedInput = {
+  create?: Prisma.XOR<Prisma.InventoryCreateWithoutSkusInput, Prisma.InventoryUncheckedCreateWithoutSkusInput>
+  connectOrCreate?: Prisma.InventoryCreateOrConnectWithoutSkusInput
+  upsert?: Prisma.InventoryUpsertWithoutSkusInput
+  connect?: Prisma.InventoryWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.InventoryUpdateToOneWithWhereWithoutSkusInput, Prisma.InventoryUpdateWithoutSkusInput>, Prisma.InventoryUncheckedUpdateWithoutSkusInput>
+}
+
 export type InventoryCreateNestedOneWithoutTransactionsInput = {
   create?: Prisma.XOR<Prisma.InventoryCreateWithoutTransactionsInput, Prisma.InventoryUncheckedCreateWithoutTransactionsInput>
   connectOrCreate?: Prisma.InventoryCreateOrConnectWithoutTransactionsInput
@@ -824,6 +845,7 @@ export type InventoryCreateWithoutCreatedByInput = {
   supplier?: Prisma.SupplierCreateNestedOneWithoutInventoriesInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedInventoriesInput
   dishes?: Prisma.InventoryDishCreateNestedManyWithoutInventoryInput
+  skus?: Prisma.InventorySKUCreateNestedManyWithoutInventoryInput
   transactions?: Prisma.InventoryTransactionCreateNestedManyWithoutInventoryInput
 }
 
@@ -841,6 +863,7 @@ export type InventoryUncheckedCreateWithoutCreatedByInput = {
   updatedAt?: Date | string
   threshold?: runtime.Decimal | runtime.DecimalJsLike | number | string
   dishes?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutInventoryInput
+  skus?: Prisma.InventorySKUUncheckedCreateNestedManyWithoutInventoryInput
   transactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutInventoryInput
 }
 
@@ -868,6 +891,7 @@ export type InventoryCreateWithoutDeletedByInput = {
   supplier?: Prisma.SupplierCreateNestedOneWithoutInventoriesInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedInventoriesInput
   dishes?: Prisma.InventoryDishCreateNestedManyWithoutInventoryInput
+  skus?: Prisma.InventorySKUCreateNestedManyWithoutInventoryInput
   transactions?: Prisma.InventoryTransactionCreateNestedManyWithoutInventoryInput
 }
 
@@ -885,6 +909,7 @@ export type InventoryUncheckedCreateWithoutDeletedByInput = {
   updatedAt?: Date | string
   threshold?: runtime.Decimal | runtime.DecimalJsLike | number | string
   dishes?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutInventoryInput
+  skus?: Prisma.InventorySKUUncheckedCreateNestedManyWithoutInventoryInput
   transactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutInventoryInput
 }
 
@@ -912,6 +937,7 @@ export type InventoryCreateWithoutUpdatedByInput = {
   restaurant: Prisma.RestaurantCreateNestedOneWithoutInventoriesInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutInventoriesInput
   dishes?: Prisma.InventoryDishCreateNestedManyWithoutInventoryInput
+  skus?: Prisma.InventorySKUCreateNestedManyWithoutInventoryInput
   transactions?: Prisma.InventoryTransactionCreateNestedManyWithoutInventoryInput
 }
 
@@ -929,6 +955,7 @@ export type InventoryUncheckedCreateWithoutUpdatedByInput = {
   updatedAt?: Date | string
   threshold?: runtime.Decimal | runtime.DecimalJsLike | number | string
   dishes?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutInventoryInput
+  skus?: Prisma.InventorySKUUncheckedCreateNestedManyWithoutInventoryInput
   transactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutInventoryInput
 }
 
@@ -1023,6 +1050,7 @@ export type InventoryCreateWithoutSupplierInput = {
   restaurant: Prisma.RestaurantCreateNestedOneWithoutInventoriesInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedInventoriesInput
   dishes?: Prisma.InventoryDishCreateNestedManyWithoutInventoryInput
+  skus?: Prisma.InventorySKUCreateNestedManyWithoutInventoryInput
   transactions?: Prisma.InventoryTransactionCreateNestedManyWithoutInventoryInput
 }
 
@@ -1040,6 +1068,7 @@ export type InventoryUncheckedCreateWithoutSupplierInput = {
   updatedAt?: Date | string
   threshold?: runtime.Decimal | runtime.DecimalJsLike | number | string
   dishes?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutInventoryInput
+  skus?: Prisma.InventorySKUUncheckedCreateNestedManyWithoutInventoryInput
   transactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutInventoryInput
 }
 
@@ -1083,6 +1112,7 @@ export type InventoryCreateWithoutRestaurantInput = {
   supplier?: Prisma.SupplierCreateNestedOneWithoutInventoriesInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedInventoriesInput
   dishes?: Prisma.InventoryDishCreateNestedManyWithoutInventoryInput
+  skus?: Prisma.InventorySKUCreateNestedManyWithoutInventoryInput
   transactions?: Prisma.InventoryTransactionCreateNestedManyWithoutInventoryInput
 }
 
@@ -1100,6 +1130,7 @@ export type InventoryUncheckedCreateWithoutRestaurantInput = {
   updatedAt?: Date | string
   threshold?: runtime.Decimal | runtime.DecimalJsLike | number | string
   dishes?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutInventoryInput
+  skus?: Prisma.InventorySKUUncheckedCreateNestedManyWithoutInventoryInput
   transactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutInventoryInput
 }
 
@@ -1143,6 +1174,7 @@ export type InventoryCreateWithoutDishesInput = {
   restaurant: Prisma.RestaurantCreateNestedOneWithoutInventoriesInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutInventoriesInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedInventoriesInput
+  skus?: Prisma.InventorySKUCreateNestedManyWithoutInventoryInput
   transactions?: Prisma.InventoryTransactionCreateNestedManyWithoutInventoryInput
 }
 
@@ -1160,6 +1192,7 @@ export type InventoryUncheckedCreateWithoutDishesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   threshold?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  skus?: Prisma.InventorySKUUncheckedCreateNestedManyWithoutInventoryInput
   transactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutInventoryInput
 }
 
@@ -1193,6 +1226,7 @@ export type InventoryUpdateWithoutDishesInput = {
   restaurant?: Prisma.RestaurantUpdateOneRequiredWithoutInventoriesNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutInventoriesNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedInventoriesNestedInput
+  skus?: Prisma.InventorySKUUpdateManyWithoutInventoryNestedInput
   transactions?: Prisma.InventoryTransactionUpdateManyWithoutInventoryNestedInput
 }
 
@@ -1210,6 +1244,95 @@ export type InventoryUncheckedUpdateWithoutDishesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   threshold?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  skus?: Prisma.InventorySKUUncheckedUpdateManyWithoutInventoryNestedInput
+  transactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutInventoryNestedInput
+}
+
+export type InventoryCreateWithoutSkusInput = {
+  id?: string
+  itemName: string
+  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit: string
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  threshold?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedInventoriesInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedInventoriesInput
+  restaurant: Prisma.RestaurantCreateNestedOneWithoutInventoriesInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutInventoriesInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedInventoriesInput
+  dishes?: Prisma.InventoryDishCreateNestedManyWithoutInventoryInput
+  transactions?: Prisma.InventoryTransactionCreateNestedManyWithoutInventoryInput
+}
+
+export type InventoryUncheckedCreateWithoutSkusInput = {
+  id?: string
+  restaurantId: string
+  supplierId?: string | null
+  itemName: string
+  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit: string
+  createdById?: string | null
+  updatedById?: string | null
+  deletedById?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  threshold?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  dishes?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutInventoryInput
+  transactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutInventoryInput
+}
+
+export type InventoryCreateOrConnectWithoutSkusInput = {
+  where: Prisma.InventoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.InventoryCreateWithoutSkusInput, Prisma.InventoryUncheckedCreateWithoutSkusInput>
+}
+
+export type InventoryUpsertWithoutSkusInput = {
+  update: Prisma.XOR<Prisma.InventoryUpdateWithoutSkusInput, Prisma.InventoryUncheckedUpdateWithoutSkusInput>
+  create: Prisma.XOR<Prisma.InventoryCreateWithoutSkusInput, Prisma.InventoryUncheckedCreateWithoutSkusInput>
+  where?: Prisma.InventoryWhereInput
+}
+
+export type InventoryUpdateToOneWithWhereWithoutSkusInput = {
+  where?: Prisma.InventoryWhereInput
+  data: Prisma.XOR<Prisma.InventoryUpdateWithoutSkusInput, Prisma.InventoryUncheckedUpdateWithoutSkusInput>
+}
+
+export type InventoryUpdateWithoutSkusInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  itemName?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit?: Prisma.StringFieldUpdateOperationsInput | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  threshold?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedInventoriesNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedInventoriesNestedInput
+  restaurant?: Prisma.RestaurantUpdateOneRequiredWithoutInventoriesNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutInventoriesNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedInventoriesNestedInput
+  dishes?: Prisma.InventoryDishUpdateManyWithoutInventoryNestedInput
+  transactions?: Prisma.InventoryTransactionUpdateManyWithoutInventoryNestedInput
+}
+
+export type InventoryUncheckedUpdateWithoutSkusInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  restaurantId?: Prisma.StringFieldUpdateOperationsInput | string
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  itemName?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  threshold?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  dishes?: Prisma.InventoryDishUncheckedUpdateManyWithoutInventoryNestedInput
   transactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutInventoryNestedInput
 }
 
@@ -1228,6 +1351,7 @@ export type InventoryCreateWithoutTransactionsInput = {
   supplier?: Prisma.SupplierCreateNestedOneWithoutInventoriesInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedInventoriesInput
   dishes?: Prisma.InventoryDishCreateNestedManyWithoutInventoryInput
+  skus?: Prisma.InventorySKUCreateNestedManyWithoutInventoryInput
 }
 
 export type InventoryUncheckedCreateWithoutTransactionsInput = {
@@ -1245,6 +1369,7 @@ export type InventoryUncheckedCreateWithoutTransactionsInput = {
   updatedAt?: Date | string
   threshold?: runtime.Decimal | runtime.DecimalJsLike | number | string
   dishes?: Prisma.InventoryDishUncheckedCreateNestedManyWithoutInventoryInput
+  skus?: Prisma.InventorySKUUncheckedCreateNestedManyWithoutInventoryInput
 }
 
 export type InventoryCreateOrConnectWithoutTransactionsInput = {
@@ -1278,6 +1403,7 @@ export type InventoryUpdateWithoutTransactionsInput = {
   supplier?: Prisma.SupplierUpdateOneWithoutInventoriesNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedInventoriesNestedInput
   dishes?: Prisma.InventoryDishUpdateManyWithoutInventoryNestedInput
+  skus?: Prisma.InventorySKUUpdateManyWithoutInventoryNestedInput
 }
 
 export type InventoryUncheckedUpdateWithoutTransactionsInput = {
@@ -1295,6 +1421,7 @@ export type InventoryUncheckedUpdateWithoutTransactionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   threshold?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   dishes?: Prisma.InventoryDishUncheckedUpdateManyWithoutInventoryNestedInput
+  skus?: Prisma.InventorySKUUncheckedUpdateManyWithoutInventoryNestedInput
 }
 
 export type InventoryCreateManyCreatedByInput = {
@@ -1356,6 +1483,7 @@ export type InventoryUpdateWithoutCreatedByInput = {
   supplier?: Prisma.SupplierUpdateOneWithoutInventoriesNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedInventoriesNestedInput
   dishes?: Prisma.InventoryDishUpdateManyWithoutInventoryNestedInput
+  skus?: Prisma.InventorySKUUpdateManyWithoutInventoryNestedInput
   transactions?: Prisma.InventoryTransactionUpdateManyWithoutInventoryNestedInput
 }
 
@@ -1373,6 +1501,7 @@ export type InventoryUncheckedUpdateWithoutCreatedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   threshold?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   dishes?: Prisma.InventoryDishUncheckedUpdateManyWithoutInventoryNestedInput
+  skus?: Prisma.InventorySKUUncheckedUpdateManyWithoutInventoryNestedInput
   transactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutInventoryNestedInput
 }
 
@@ -1405,6 +1534,7 @@ export type InventoryUpdateWithoutDeletedByInput = {
   supplier?: Prisma.SupplierUpdateOneWithoutInventoriesNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedInventoriesNestedInput
   dishes?: Prisma.InventoryDishUpdateManyWithoutInventoryNestedInput
+  skus?: Prisma.InventorySKUUpdateManyWithoutInventoryNestedInput
   transactions?: Prisma.InventoryTransactionUpdateManyWithoutInventoryNestedInput
 }
 
@@ -1422,6 +1552,7 @@ export type InventoryUncheckedUpdateWithoutDeletedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   threshold?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   dishes?: Prisma.InventoryDishUncheckedUpdateManyWithoutInventoryNestedInput
+  skus?: Prisma.InventorySKUUncheckedUpdateManyWithoutInventoryNestedInput
   transactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutInventoryNestedInput
 }
 
@@ -1454,6 +1585,7 @@ export type InventoryUpdateWithoutUpdatedByInput = {
   restaurant?: Prisma.RestaurantUpdateOneRequiredWithoutInventoriesNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutInventoriesNestedInput
   dishes?: Prisma.InventoryDishUpdateManyWithoutInventoryNestedInput
+  skus?: Prisma.InventorySKUUpdateManyWithoutInventoryNestedInput
   transactions?: Prisma.InventoryTransactionUpdateManyWithoutInventoryNestedInput
 }
 
@@ -1471,6 +1603,7 @@ export type InventoryUncheckedUpdateWithoutUpdatedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   threshold?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   dishes?: Prisma.InventoryDishUncheckedUpdateManyWithoutInventoryNestedInput
+  skus?: Prisma.InventorySKUUncheckedUpdateManyWithoutInventoryNestedInput
   transactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutInventoryNestedInput
 }
 
@@ -1518,6 +1651,7 @@ export type InventoryUpdateWithoutSupplierInput = {
   restaurant?: Prisma.RestaurantUpdateOneRequiredWithoutInventoriesNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedInventoriesNestedInput
   dishes?: Prisma.InventoryDishUpdateManyWithoutInventoryNestedInput
+  skus?: Prisma.InventorySKUUpdateManyWithoutInventoryNestedInput
   transactions?: Prisma.InventoryTransactionUpdateManyWithoutInventoryNestedInput
 }
 
@@ -1535,6 +1669,7 @@ export type InventoryUncheckedUpdateWithoutSupplierInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   threshold?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   dishes?: Prisma.InventoryDishUncheckedUpdateManyWithoutInventoryNestedInput
+  skus?: Prisma.InventorySKUUncheckedUpdateManyWithoutInventoryNestedInput
   transactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutInventoryNestedInput
 }
 
@@ -1582,6 +1717,7 @@ export type InventoryUpdateWithoutRestaurantInput = {
   supplier?: Prisma.SupplierUpdateOneWithoutInventoriesNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedInventoriesNestedInput
   dishes?: Prisma.InventoryDishUpdateManyWithoutInventoryNestedInput
+  skus?: Prisma.InventorySKUUpdateManyWithoutInventoryNestedInput
   transactions?: Prisma.InventoryTransactionUpdateManyWithoutInventoryNestedInput
 }
 
@@ -1599,6 +1735,7 @@ export type InventoryUncheckedUpdateWithoutRestaurantInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   threshold?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   dishes?: Prisma.InventoryDishUncheckedUpdateManyWithoutInventoryNestedInput
+  skus?: Prisma.InventorySKUUncheckedUpdateManyWithoutInventoryNestedInput
   transactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutInventoryNestedInput
 }
 
@@ -1624,11 +1761,13 @@ export type InventoryUncheckedUpdateManyWithoutRestaurantInput = {
 
 export type InventoryCountOutputType = {
   dishes: number
+  skus: number
   transactions: number
 }
 
 export type InventoryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   dishes?: boolean | InventoryCountOutputTypeCountDishesArgs
+  skus?: boolean | InventoryCountOutputTypeCountSkusArgs
   transactions?: boolean | InventoryCountOutputTypeCountTransactionsArgs
 }
 
@@ -1647,6 +1786,13 @@ export type InventoryCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ex
  */
 export type InventoryCountOutputTypeCountDishesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.InventoryDishWhereInput
+}
+
+/**
+ * InventoryCountOutputType without action
+ */
+export type InventoryCountOutputTypeCountSkusArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InventorySKUWhereInput
 }
 
 /**
@@ -1677,6 +1823,7 @@ export type InventorySelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   supplier?: boolean | Prisma.Inventory$supplierArgs<ExtArgs>
   updatedBy?: boolean | Prisma.Inventory$updatedByArgs<ExtArgs>
   dishes?: boolean | Prisma.Inventory$dishesArgs<ExtArgs>
+  skus?: boolean | Prisma.Inventory$skusArgs<ExtArgs>
   transactions?: boolean | Prisma.Inventory$transactionsArgs<ExtArgs>
   _count?: boolean | Prisma.InventoryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["inventory"]>
@@ -1747,6 +1894,7 @@ export type InventoryInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   supplier?: boolean | Prisma.Inventory$supplierArgs<ExtArgs>
   updatedBy?: boolean | Prisma.Inventory$updatedByArgs<ExtArgs>
   dishes?: boolean | Prisma.Inventory$dishesArgs<ExtArgs>
+  skus?: boolean | Prisma.Inventory$skusArgs<ExtArgs>
   transactions?: boolean | Prisma.Inventory$transactionsArgs<ExtArgs>
   _count?: boolean | Prisma.InventoryCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1774,6 +1922,7 @@ export type $InventoryPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     supplier: Prisma.$SupplierPayload<ExtArgs> | null
     updatedBy: Prisma.$UserPayload<ExtArgs> | null
     dishes: Prisma.$InventoryDishPayload<ExtArgs>[]
+    skus: Prisma.$InventorySKUPayload<ExtArgs>[]
     transactions: Prisma.$InventoryTransactionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -2190,6 +2339,7 @@ export interface Prisma__InventoryClient<T, Null = never, ExtArgs extends runtim
   supplier<T extends Prisma.Inventory$supplierArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Inventory$supplierArgs<ExtArgs>>): Prisma.Prisma__SupplierClient<runtime.Types.Result.GetResult<Prisma.$SupplierPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   updatedBy<T extends Prisma.Inventory$updatedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Inventory$updatedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   dishes<T extends Prisma.Inventory$dishesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Inventory$dishesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryDishPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  skus<T extends Prisma.Inventory$skusArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Inventory$skusArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventorySKUPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transactions<T extends Prisma.Inventory$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Inventory$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2726,6 +2876,30 @@ export type Inventory$dishesArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.InventoryDishScalarFieldEnum | Prisma.InventoryDishScalarFieldEnum[]
+}
+
+/**
+ * Inventory.skus
+ */
+export type Inventory$skusArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InventorySKU
+   */
+  select?: Prisma.InventorySKUSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InventorySKU
+   */
+  omit?: Prisma.InventorySKUOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InventorySKUInclude<ExtArgs> | null
+  where?: Prisma.InventorySKUWhereInput
+  orderBy?: Prisma.InventorySKUOrderByWithRelationInput | Prisma.InventorySKUOrderByWithRelationInput[]
+  cursor?: Prisma.InventorySKUWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InventorySKUScalarFieldEnum | Prisma.InventorySKUScalarFieldEnum[]
 }
 
 /**

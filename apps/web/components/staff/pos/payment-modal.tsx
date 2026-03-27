@@ -176,7 +176,14 @@ export function PaymentModal({
             });
 
             // Mark all orders for this table as COMPLETED sequentially
+            // EXCEPT for delivery orders (they go through the shipping flow)
             for (const orderId of orderIds) {
+                const isDelivery = relevantOrders.find(o => o.id === orderId)?.addressId;
+                if (isDelivery) {
+                    console.log(`Skipping COMPLETED status for delivery order ${orderId}`);
+                    continue;
+                }
+
                 await updateStatusMutation.mutateAsync({
                     orderId,
                     status: 'COMPLETED',

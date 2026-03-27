@@ -55,7 +55,7 @@ export class OrderService {
         if (order.shipperId !== userId) {
           throw new ForbiddenException('You are not assigned to this order')
         }
-        // Shippers can only move to DELIVERING, DELIVERED, RETURNED, BOOMED, COMPLETED
+
         const allowedShipperStatuses = [
           'DELIVERING',
           'DELIVERED',
@@ -198,14 +198,56 @@ export class OrderService {
     })
     const dishMap = new Map(dishes.map((d) => [d.id, d]))
 
+    const skuIds = [...new Set(order.items.map((item) => item.skuId).filter(Boolean) as string[])]
+    const skuInventories =
+      skuIds.length > 0
+        ? await tx.inventorySKU.findMany({
+            where: { skuId: { in: skuIds } },
+            include: { inventory: true },
+          })
+        : []
+
+    const skuInventoryMap = new Map<string, typeof skuInventories>()
+    for (const inv of skuInventories) {
+      if (!skuInventoryMap.has(inv.skuId)) skuInventoryMap.set(inv.skuId, [])
+      skuInventoryMap.get(inv.skuId)!.push(inv)
+    }
+
     for (const item of order.items) {
       if (!item.dishId) continue
       const dish = dishMap.get(item.dishId)
-      if (!dish || !dish.inventories || dish.inventories.length === 0) continue
+      if (!dish) continue
 
-      for (const invDish of dish.inventories) {
+      const baseRecipes = dish.inventories || []
+      const skuRecipes = item.skuId ? skuInventoryMap.get(item.skuId) || [] : []
+
+      // Merge recipes: sku override wins
+      const finalRecipes = new Map<
+        string,
+        { inventoryId: string; quantityUsed: number; inventory: any }
+      >()
+
+      for (const base of baseRecipes) {
+        finalRecipes.set(base.inventoryId, {
+          inventoryId: base.inventoryId,
+          quantityUsed: Number(base.quantityUsed),
+          inventory: base.inventory,
+        })
+      }
+
+      for (const skuOverride of skuRecipes) {
+        finalRecipes.set(skuOverride.inventoryId, {
+          inventoryId: skuOverride.inventoryId,
+          quantityUsed: Number(skuOverride.quantityUsed),
+          inventory: skuOverride.inventory,
+        })
+      }
+
+      for (const invDish of finalRecipes.values()) {
+        if (invDish.quantityUsed <= 0) continue // Skip if overridden to 0
+
         // Round to 4 decimal places to avoid floating point issues
-        const requiredQty = Math.round(Number(invDish.quantityUsed) * item.quantity * 10000) / 10000
+        const requiredQty = Math.round(invDish.quantityUsed * item.quantity * 10000) / 10000
 
         if (action === 'DEDUCT') {
           const currentStock = Number(invDish.inventory.quantity)
@@ -476,20 +518,28 @@ export class OrderService {
       }
 
       // 4. Create Order
-      const totalAmount = subTotal - discount
+      const shippingFee = addressId && subTotal < 100000 ? 15000 : 0
+      const totalAmount = subTotal - discount + shippingFee
+
+      // Update guestInfo with shippingFee for reference
+      const finalGuestInfo = {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+        ...(orderGuestInfo as any),
+        shippingFee,
+      }
 
       const order = await tx.order.create({
         data: {
           user: roleName === 'GUEST' ? undefined : { connect: { id: userId } },
           guestId: roleName === 'GUEST' ? userId : null,
-          table: tableId ? { connect: { id: tableId } } : undefined,
+          table: tableId && !addressId ? { connect: { id: tableId } } : undefined,
           restaurant: undefined, // Changed from null to fix TypeScript error
           totalAmount: totalAmount,
           discount: discount,
           status: 'PENDING_CONFIRMATION',
           channel: 'WEB',
           promotionId: promotionId, // Scalar seems okay? Or connect?
-          guestInfo: orderGuestInfo,
+          guestInfo: finalGuestInfo,
           addressId: addressId || null,
           receiverName: orderGuestInfo?.name || null,
           deliveryPhone: orderGuestInfo?.phoneNumber || null,

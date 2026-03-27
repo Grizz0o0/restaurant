@@ -47,6 +47,8 @@ const ORDER_STATUSES = [
     { value: 'DELIVERING', label: 'Đang giao', variant: 'default' as const },
     { value: 'DELIVERED', label: 'Đã giao', variant: 'default' as const },
     { value: 'COMPLETED', label: 'Hoàn thành', variant: 'default' as const },
+    { value: 'RETURNED', label: 'Trả hàng', variant: 'outline' as const },
+    { value: 'BOOMED', label: 'Bùng hàng', variant: 'destructive' as const },
     { value: 'CANCELLED', label: 'Đã hủy', variant: 'destructive' as const },
 ];
 

@@ -32,7 +32,6 @@ export default function ProfileLayout({ children }: ProfileLayoutProps) {
                     </div>
                 </div>
             </main>
-            <Footer />
         </div>
     );
 }

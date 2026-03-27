@@ -51,7 +51,7 @@ export function KitchenQueueDrawer() {
     });
 
     const markAsReady = (order: any) => {
-        const nextStatus = order.tableId ? 'DELIVERED' : 'READY_FOR_PICKUP';
+        const nextStatus = order.addressId ? 'READY_FOR_PICKUP' : 'DELIVERED';
         updateStatusMutation.mutate({ orderId: order.id, status: nextStatus });
     };
 
@@ -117,8 +117,12 @@ export function KitchenQueueDrawer() {
                                     <div className="p-3 border-b bg-muted/30 flex justify-between items-center">
                                         <div className="flex items-center gap-3">
                                             <div className="bg-primary/10 text-primary font-bold px-3 py-1 rounded-md text-sm">
-                                                {(order as any).table?.name ||
-                                                    'Mang đi'}
+                                                {order.tableId
+                                                    ? (order as any).table
+                                                          ?.name || 'Tại bàn'
+                                                    : order.addressId
+                                                      ? 'Giao hàng'
+                                                      : 'Mang đi'}
                                             </div>
                                             <div className="text-xs text-muted-foreground font-mono">
                                                 #

@@ -21,13 +21,21 @@ const stringArray = z.preprocess(
     z.array(z.string()),
 );
 
+export const VariantOptionSchema = z.object({
+    id: z.string(),
+    value: z.string(),
+});
+
+export const VariantSchema = z.object({
+    id: z.string(),
+    name: z.string(),
+    options: z.array(VariantOptionSchema),
+});
+
 export const DishSchema = z.object({
     id: z.string(),
     basePrice: z.preprocess(toNumber, z.number()),
-    virtualPrice: z
-        .preprocess(toNumber, z.number())
-        .nullable()
-        .optional(),
+    virtualPrice: z.preprocess(toNumber, z.number()).nullable().optional(),
     supplierId: z.string(),
     images: stringArray,
     createdAt: z.coerce.date(),
@@ -54,6 +62,7 @@ export const DishSchema = z.object({
             }),
         )
         .optional(),
+    variants: z.array(VariantSchema).optional(),
     isAvailable: z.boolean().optional(),
 });
 
@@ -131,6 +140,18 @@ export const UpdateDishBodySchema = z.object({
             }),
         )
         .optional(),
+    skus: z
+        .array(
+            z.object({
+                id: z.string().optional(),
+                value: z.string(),
+                price: z.number(),
+                stock: z.number(),
+                images: z.array(z.string()).default([]),
+                optionValues: z.array(z.string()),
+            }),
+        )
+        .optional(),
 });
 
 export type UpdateDishBodyType = z.infer<typeof UpdateDishBodySchema>;
@@ -141,17 +162,6 @@ export const LinkDishCategorySchema = z.object({
 });
 
 export type LinkDishCategoryType = z.infer<typeof LinkDishCategorySchema>;
-
-export const VariantOptionSchema = z.object({
-    id: z.string(),
-    value: z.string(),
-});
-
-export const VariantSchema = z.object({
-    id: z.string(),
-    name: z.string(),
-    options: z.array(VariantOptionSchema),
-});
 
 export const SKUSchema = z.object({
     id: z.string(),
@@ -181,24 +191,28 @@ export const DishDetailResSchema = DishSchema.extend({
         .optional(),
     variants: z.array(VariantSchema).optional(),
     skus: z.array(SKUSchema).optional(),
-    reviews: z.array(
-        z.object({
-            id: z.string(),
-            content: z.string(),
-            rating: z.number(),
-            createdAt: z.coerce.date(),
-            user: z.object({
-                name: z.string(),
-                avatar: z.string().nullable().optional(),
+    reviews: z
+        .array(
+            z.object({
+                id: z.string(),
+                content: z.string(),
+                rating: z.number(),
+                createdAt: z.coerce.date(),
+                user: z.object({
+                    name: z.string(),
+                    avatar: z.string().nullable().optional(),
+                }),
             }),
-        })
-    ).optional(),
+        )
+        .optional(),
 }).nullable();
 
 export type DishDetailResType = z.infer<typeof DishDetailResSchema>;
 
 export const GetDishesResSchema = z.object({
-    data: z.array(DishSchema),
+    data: z.array(DishSchema.extend({
+        skus: z.array(SKUSchema).optional(),
+    })),
     pagination: z.object({
         totalItems: z.number(),
         totalPages: z.number(),

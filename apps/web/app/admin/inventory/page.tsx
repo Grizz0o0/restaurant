@@ -32,7 +32,6 @@ export default function AdminInventoryPage() {
 
     const { data: restaurants } = trpc.restaurant.list.useQuery(
         {},
-        { enabled: !user?.roleId },
     );
     const restaurantId = restaurants?.items?.[0]?.id || '';
 

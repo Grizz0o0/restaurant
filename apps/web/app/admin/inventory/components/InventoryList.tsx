@@ -294,7 +294,7 @@ export function InventoryList({ restaurantId }: { restaurantId: string }) {
         <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex flex-col sm:flex-row gap-3 flex-1">
-                    <div className="relative flex-1 max-w-md">
+                    <div className="relative flex-1 max-w-md min-w-50">
                         <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                         <Input
                             placeholder="Tìm kiếm mặt hàng..."
