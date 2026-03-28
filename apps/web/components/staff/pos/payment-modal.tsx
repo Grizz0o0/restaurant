@@ -80,7 +80,6 @@ export function PaymentModal({
         null,
     );
 
-    // Promotion state
     const [promoCode, setPromoCode] = useState('');
     const [appliedPromotion, setAppliedPromotion] = useState<{
         id: string;
@@ -135,7 +134,6 @@ export function PaymentModal({
         setAppliedPromotion(null);
     };
 
-    // Query to get all order items across the selected active orders
     const { data: ordersData } = trpc.order.list.useQuery(
         { page: 1, limit: 100 },
         { enabled: open && orderIds.length > 0 },
@@ -143,13 +141,12 @@ export function PaymentModal({
 
     const handleConfirmPayment = async () => {
         try {
-            // First, prep the receipt data
             const allOrders = ordersData?.data || [];
             const relevantOrders = allOrders.filter((o) =>
                 orderIds.includes(o.id),
             );
 
-            // Flatten all items from these orders
+
             const allItems: {
                 dishName: string;
                 quantity: number;
@@ -157,7 +154,7 @@ export function PaymentModal({
             }[] = [];
             relevantOrders.forEach((order) => {
                 order.items?.forEach((item) => {
-                    // Check if item already exists in receipt to merge quantities
+
                     const existingItem = allItems.find(
                         (i) =>
                             i.dishName === item.dishName &&
@@ -175,8 +172,6 @@ export function PaymentModal({
                 });
             });
 
-            // Mark all orders for this table as COMPLETED sequentially
-            // EXCEPT for delivery orders (they go through the shipping flow)
             for (const orderId of orderIds) {
                 const isDelivery = relevantOrders.find(o => o.id === orderId)?.addressId;
                 if (isDelivery) {
@@ -194,12 +189,12 @@ export function PaymentModal({
                 });
             }
 
-            // Set receipt data
+
             setReceiptData({
                 orderIds,
                 tableName,
                 items: allItems,
-                totalAmount, // This is the subtotal
+                totalAmount,
                 discount: appliedPromotion?.discountAmount || 0,
                 cashGiven: parsedCash > 0 ? parsedCash : currentTotal,
                 change: parsedCash > 0 ? change : 0,
@@ -208,7 +203,6 @@ export function PaymentModal({
 
             setIsSuccess(true);
 
-            // Print then close modal
             setTimeout(() => {
                 document.body.classList.add('printing-receipt');
                 window.print();
@@ -282,7 +276,6 @@ export function PaymentModal({
                     </div>
                 ) : (
                     <div className="p-6 space-y-5">
-                        {/* Promotion Section */}
                         <div className="space-y-2">
                             <Label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
                                 Khuyến mãi / Mã giảm giá
@@ -350,7 +343,7 @@ export function PaymentModal({
                             )}
                         </div>
 
-                        {/* Payment Method Selection */}
+
                         <div className="space-y-2">
                             <Label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
                                 Phương thức thanh toán
@@ -373,7 +366,7 @@ export function PaymentModal({
                             </div>
                         </div>
 
-                        {/* Cash Input (only for CASH) */}
+
                         {method === 'CASH' && (
                             <div className="space-y-3">
                                 <Label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
@@ -403,7 +396,7 @@ export function PaymentModal({
                                     </span>
                                 </div>
 
-                                {/* Quick Amount Buttons */}
+
                                 <div className="space-y-2">
                                     <p className="text-xs text-muted-foreground">
                                         Thêm nhanh:
@@ -448,7 +441,7 @@ export function PaymentModal({
                                     </div>
                                 </div>
 
-                                {/* Change calculation */}
+
                                 {parsedCash > 0 && (
                                     <div
                                         className={cn(
@@ -484,7 +477,6 @@ export function PaymentModal({
                             </div>
                         )}
 
-                        {/* Transfer info */}
                         {method === 'TRANSFER' && (
                             <div className="rounded-xl bg-blue-50 border-2 border-blue-200 p-4 text-center space-y-2">
                                 <QrCode className="h-10 w-10 text-blue-500 mx-auto" />
@@ -501,7 +493,6 @@ export function PaymentModal({
                             </div>
                         )}
 
-                        {/* Card info */}
                         {method === 'CARD' && (
                             <div className="rounded-xl bg-violet-50 border-2 border-violet-200 p-4 text-center space-y-2">
                                 <CreditCard className="h-10 w-10 text-violet-500 mx-auto" />
@@ -518,7 +509,6 @@ export function PaymentModal({
                             </div>
                         )}
 
-                        {/* Confirm Button */}
                         <Button
                             className="w-full py-6 text-base font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg active:scale-[0.98] transition-all"
                             disabled={
@@ -537,7 +527,6 @@ export function PaymentModal({
                 )}
             </DialogContent>
 
-            {/* Hidden Receipt Component Rendered only on Print */}
             {receiptData && <PrintReceipt {...receiptData} />}
         </Dialog>
     );

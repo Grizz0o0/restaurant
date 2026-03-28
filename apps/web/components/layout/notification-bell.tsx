@@ -20,20 +20,17 @@ export function NotificationBell() {
     const { socket } = useSocket();
     const utils = trpc.useUtils();
 
-    // Fetch notifications
     const { data: notifications = [] } =
         trpc.notification.getNotifications.useQuery(undefined, {
             enabled: !!user,
         });
 
-    // Mutation to mark as read
     const markAsReadMutation = trpc.notification.markAsRead.useMutation({
         onSuccess: () => {
             utils.notification.getNotifications.invalidate();
         },
     });
 
-    // Listen for real-time notifications
     useEffect(() => {
         if (!socket) return;
 

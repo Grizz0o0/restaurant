@@ -22,26 +22,27 @@ import {
     ResponsiveContainer,
 } from 'recharts';
 
-// --- Revenue Chart Component ---
+
 function RevenueChart({
     formatCurrency,
 }: {
     formatCurrency: (v: number) => string;
 }) {
-    // useMemo để tránh tạo Date mới mỗi render → React Query không bị re-fetch liên tục
+
     const { startDate, endDate } = useMemo(() => {
         const end = new Date();
         const start = new Date();
         start.setDate(end.getDate() - 6);
+
         return { startDate: start, endDate: end };
-    }, []); // [] = chỉ tính 1 lần khi mount
+    }, []);
 
     const { data, isLoading } = trpc.admin.getReport.useQuery({
         startDate,
         endDate,
     });
 
-    // Build a full 7-day array, filling in 0 for days with no orders
+
     const chartData = Array.from({ length: 7 }, (_, i) => {
         const d = new Date(startDate);
         d.setDate(startDate.getDate() + i);

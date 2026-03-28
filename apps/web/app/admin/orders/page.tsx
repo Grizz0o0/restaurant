@@ -58,7 +58,7 @@ export default function AdminOrdersPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
 
-    // Data Fetching
+
     const { data: ordersData, isLoading } = trpc.order.list.useQuery({
         page: 1,
         limit: 100,
@@ -93,7 +93,7 @@ export default function AdminOrdersPage() {
         updateStatusMutation.mutate({ orderId, status: newStatus });
     };
 
-    // Filtering Logic
+
     const filteredOrders = useMemo(() => {
         return orders.filter((order) => {
             const matchStatus =
@@ -105,7 +105,7 @@ export default function AdminOrdersPage() {
         });
     }, [orders, filterStatus, searchQuery]);
 
-    // Stats
+
     const stats = useMemo(() => {
         const total = orders.length;
         const pending = orders.filter(
@@ -134,7 +134,7 @@ export default function AdminOrdersPage() {
 
     return (
         <div className="flex flex-col p-6 w-full max-w-7xl mx-auto space-y-8">
-            {/* Header */}
+
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h1 className="font-display text-3xl font-bold tracking-tight text-foreground">
@@ -152,7 +152,7 @@ export default function AdminOrdersPage() {
                 </Button>
             </div>
 
-            {/* Stats Cards */}
+
             <div className="grid gap-4 sm:grid-cols-4">
                 <Card className="border-l-4 border-l-primary">
                     <CardHeader className="pb-3">
@@ -216,7 +216,7 @@ export default function AdminOrdersPage() {
                 </Card>
             </div>
 
-            {/* Filters */}
+
             <div className="flex flex-col sm:flex-row gap-3">
                 <div className="relative flex-1">
                     <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground pointer-events-none" />
@@ -242,7 +242,7 @@ export default function AdminOrdersPage() {
                 </Select>
             </div>
 
-            {/* Orders Table */}
+
             <Card>
                 <CardContent className="p-0">
                     {isLoading ? (
@@ -367,7 +367,7 @@ export default function AdminOrdersPage() {
                 </CardContent>
             </Card>
 
-            {/* Order Detail Dialog */}
+
             <Dialog
                 open={!!selectedOrder}
                 onOpenChange={(open) => !open && setSelectedOrder(null)}

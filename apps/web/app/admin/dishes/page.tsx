@@ -66,14 +66,12 @@ import {
 } from '@/components/ui/form';
 import { ImageUpload } from '@/components/ui/image-upload';
 
-// Types
 type Category = {
     id: string;
     name: string;
     slug: string;
 };
 
-// Simplified Dish type for local usage if needed, though we use auto-generated mostly
 type Dish = {
     id: string;
     category_id: string | null;
@@ -196,7 +194,6 @@ function SkuSynchronizer({
 
     useEffect(() => {
         if (variants && variants.length > 0) {
-            // Check if all variants have options before generating
             const isValid = variants.every(
                 (v: any) => v.options && v.options.length > 0,
             );
@@ -223,7 +220,6 @@ function SkuSynchronizer({
                 };
             });
 
-            // Only update if combinations changed to avoid infinite loop
             const currentKeys = JSON.stringify(
                 currentSkus.map((s: any) =>
                     [...(s.optionValues || [])].slice().sort(),
@@ -249,17 +245,13 @@ function SkuSynchronizer({
 export default function AdminDishesPage() {
     const utils = trpc.useUtils();
 
-    // Data Fetching
-    // Pagination and Filter State
     const [currentPage, setCurrentPage] = useState(1);
     const ITEMS_PER_PAGE = 12;
 
-    // Filter states
     const [searchQuery, setSearchQuery] = useState('');
     const [filterCategory, setFilterCategory] = useState('all');
     const [filterStatus, setFilterStatus] = useState('all');
 
-    // Data Fetching
     const { data: categoriesData } = trpc.category.list.useQuery({
         page: 1,
         limit: 100,
@@ -273,7 +265,6 @@ export default function AdminDishesPage() {
             filterStatus === 'all' ? undefined : filterStatus === 'active',
     });
 
-    // Fetch Languages
     const { data: languagesData } = trpc.language.list.useQuery({
         page: 1,
         limit: 100,
@@ -284,7 +275,6 @@ export default function AdminDishesPage() {
         ? languagesRaw
         : languagesRaw?.data || [];
 
-    // Fetch Suppliers via TRPC
     const { data: suppliersData } = trpc.supplier.list.useQuery({
         page: 1,
         limit: 100,
@@ -306,7 +296,7 @@ export default function AdminDishesPage() {
             price_vnd: 0,
             category_id: '',
             supplier_id: '',
-            language_id: 'vi', // Default
+            language_id: 'vi',
             image_url: '',
             is_active: true,
             variants: [],
@@ -328,12 +318,10 @@ export default function AdminDishesPage() {
         name: 'skus',
     });
 
-    // Reset to page 1 when filters change
     useEffect(() => {
         setCurrentPage(1);
     }, [searchQuery, filterCategory, filterStatus]);
 
-    // Auto-select first supplier if available and not set
     // Using useEffect to set it when suppliers load
     useEffect(() => {
         if (
@@ -361,7 +349,6 @@ export default function AdminDishesPage() {
         return map;
     }, [categories]);
 
-    // Mutations
     const createMutation = trpc.dish.create.useMutation({
         onSuccess: () => {
             toast.success('Đã tạo món ăn mới');
@@ -397,7 +384,6 @@ export default function AdminDishesPage() {
         },
     });
 
-    // Handlers
     const openCreate = () => {
         setEditing(null);
         const internalSupplier = suppliers.find(
@@ -430,9 +416,6 @@ export default function AdminDishesPage() {
             (t: any) => t.languageId === 'en',
         );
 
-        // Determine which language content we are actually displaying/editing
-        // If we have VI, great. If not, but we have EN, use EN content and set lang to EN.
-        // Fallback to flattened props (which might be ambiguous, but better than nothing)
         const displayLang = vi ? 'vi' : en ? 'en' : 'vi';
         const displayName = vi ? vi.name : en ? en.name : dish.name;
         const displayDesc = vi
@@ -446,7 +429,7 @@ export default function AdminDishesPage() {
             name: displayName,
             description: displayDesc ?? '',
             price_vnd: Number(dish.basePrice),
-            category_id: dish.categories?.[0]?.id ?? '', // Using first category for now
+            category_id: dish.categories?.[0]?.id ?? '',
             supplier_id:
                 dish.supplierId ??
                 (suppliers.length > 0 ? suppliers[0].id : ''),
@@ -546,16 +529,12 @@ export default function AdminDishesPage() {
             currency: 'VND',
         }).format(vnd);
 
-    // Filtering Logic
     const filteredDishes = useMemo(() => {
         return dishes;
     }, [dishes]);
 
-    // Stats
     const stats = useMemo(() => {
         const total = dishesData?.pagination.totalItems || dishes.length;
-        // Approximation for active/inactive since we don't have total active from API paginated response without extra query
-        // But for simplicity, we can use the local counts if we are on page 1 or just show total
         const active = dishes.filter((d) => d.isActive).length;
         const inactive = dishes.filter((d) => !d.isActive).length;
         return { total, active, inactive };
@@ -563,7 +542,6 @@ export default function AdminDishesPage() {
 
     return (
         <div className="flex flex-col p-6 w-full max-w-7xl mx-auto space-y-8">
-            {/* Header Section */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h1 className="font-display text-3xl font-bold tracking-tight text-foreground">
@@ -911,7 +889,6 @@ export default function AdminDishesPage() {
                                                 )}
                                             />
 
-                                            {/* Variants Section */}
                                             <div className="space-y-4 pt-4 border-t">
                                                 <div className="flex items-center justify-between">
                                                     <h3 className="font-semibold text-lg">
@@ -1063,7 +1040,6 @@ export default function AdminDishesPage() {
                                                 )}
                                             </div>
 
-                                            {/* SKU Pricing Management */}
                                             {variantFields.length > 0 && (
                                                 <div className="space-y-4 pt-6 border-t mt-6 bg-muted/20 p-4 rounded-lg">
                                                     <div className="flex items-center justify-between">
@@ -1084,7 +1060,7 @@ export default function AdminDishesPage() {
                                                             type="button"
                                                             variant="outline"
                                                             size="sm"
-                                                            className="hidden" // Hidden because we auto-sync now, but keep for fallback if needed
+                                                            className="hidden"
                                                             onClick={() => {
                                                                 const currentVariants =
                                                                     form.getValues(
@@ -1157,7 +1133,6 @@ export default function AdminDishesPage() {
                                                         </Button>
                                                     </div>
 
-                                                    {/* Auto-sync side effect logic moved to a watcher */}
                                                     <SkuSynchronizer
                                                         form={form}
                                                         replaceSkus={
@@ -1304,7 +1279,6 @@ export default function AdminDishesPage() {
                 </div>
             </div>
 
-            {/* Stats Cards */}
             <div className="grid gap-4 md:grid-cols-3">
                 <Card className="bg-linear-to-br from-primary/5 to-primary/10 border-primary/20 shadow-sm">
                     <CardHeader className="pb-2">
@@ -1349,7 +1323,6 @@ export default function AdminDishesPage() {
                 </Card>
             </div>
 
-            {/* Filter Toolbar */}
             <div className="flex flex-col md:flex-row gap-4 items-center bg-card p-4 rounded-xl border shadow-sm">
                 <div className="relative flex-1 w-full">
                     <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -1398,7 +1371,6 @@ export default function AdminDishesPage() {
                 </div>
             </div>
 
-            {/* Dishes Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {isLoading ? (
                     <div className="col-span-full flex justify-center py-20">
@@ -1436,52 +1408,20 @@ export default function AdminDishesPage() {
                         const imageSrc =
                             typeof rawImage === 'string' ? rawImage.trim() : '';
 
-                        const allowedRemoteHosts = new Set([
-                            'res.cloudinary.com',
-                            'api.dicebear.com',
-                            'lh3.googleusercontent.com',
-                        ]);
-
-                        const canUseNextImage = (() => {
-                            if (!imageSrc) return false;
-                            if (imageSrc.startsWith('/')) return true;
-                            try {
-                                const u = new URL(imageSrc);
-                                return (
-                                    (u.protocol === 'https:' ||
-                                        u.protocol === 'http:') &&
-                                    allowedRemoteHosts.has(u.hostname)
-                                );
-                            } catch {
-                                return false;
-                            }
-                        })();
-
                         return (
                             <div
                                 key={dish.id}
                                 className="group relative flex flex-col bg-card border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/50"
                             >
-                                {/* Image Area */}
                                 <div className="aspect-4/3 bg-muted relative overflow-hidden">
                                     {imageSrc ? (
-                                        canUseNextImage ? (
-                                            <Image
-                                                src={imageSrc}
-                                                alt={dishName}
-                                                fill
-                                                sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                                                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                            />
-                                        ) : (
-                                            // eslint-disable-next-line @next/next/no-img-element
-                                            <img
-                                                src={imageSrc}
-                                                alt={dishName}
-                                                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                                loading="lazy"
-                                            />
-                                        )
+                                        <Image
+                                            src={imageSrc}
+                                            alt={dishName}
+                                            fill
+                                            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                        />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center bg-secondary/30 text-muted-foreground">
                                             <UtensilsCrossed className="h-10 w-10 opacity-20" />
@@ -1500,7 +1440,6 @@ export default function AdminDishesPage() {
                                     </div>
                                 </div>
 
-                                {/* Content */}
                                 <div className="flex-1 p-4 flex flex-col gap-3">
                                     <div className="flex justify-between items-start gap-2">
                                         <h3 className="font-semibold text-lg line-clamp-1 group-hover:text-primary transition-colors">
@@ -1576,7 +1515,6 @@ export default function AdminDishesPage() {
                 )}
             </div>
 
-            {/* Pagination Controls */}
             {dishesData?.pagination && dishesData.pagination.totalPages > 1 && (
                 <div className="flex items-center justify-between border-t pt-6">
                     <div className="text-sm text-muted-foreground">
@@ -1616,7 +1554,6 @@ export default function AdminDishesPage() {
                                 (_, i) => i + 1,
                             )
                                 .filter((p) => {
-                                    // Show first, last, current, and neighbors
                                     return (
                                         p === 1 ||
                                         p ===

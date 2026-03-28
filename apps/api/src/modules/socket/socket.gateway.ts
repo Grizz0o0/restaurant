@@ -18,7 +18,6 @@ import envConfig from '@/shared/config'
     origin: envConfig.FRONTEND_URL,
     credentials: true,
   },
-  // Tăng timeout để tránh disconnect do network lag
   pingTimeout: 60000,
   pingInterval: 25000,
 })

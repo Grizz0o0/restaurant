@@ -57,8 +57,6 @@ export class LanguageRepo {
   }
 
   async delete(id: string, deletedById: string) {
-    // Check if language is used in translations?
-    // For now, soft delete.
     return this.prisma.extended.language.softDelete({ id })
   }
 }

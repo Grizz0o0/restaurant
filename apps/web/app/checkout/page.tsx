@@ -31,20 +31,20 @@ export default function CheckoutPage() {
         discountAmount: number;
     } | null>(null);
 
-    // Fetch Cart Data to display summary
+
     const { data: cartData, isLoading: isCartLoading } = trpc.cart.get.useQuery(
         undefined,
         { enabled: isAuthenticated },
     );
 
-    // Fetch Addresses
+
     const { data: addresses, isLoading: isAddressesLoading } =
         trpc.address.list.useQuery(
             { page: 1, limit: 50 },
             { enabled: isAuthenticated },
         );
 
-    // Auto-select default address
+
     useEffect(() => {
         if (addresses && addresses.length > 0 && !selectedAddressId) {
             const defaultAddress = addresses.find((a) => a.isDefault);
@@ -138,7 +138,7 @@ export default function CheckoutPage() {
         });
     };
 
-    // Handle redirects
+
     useEffect(() => {
         if (!isAuthLoading && !isAuthenticated) {
             router.push('/auth/login?redirect=/checkout');
@@ -184,9 +184,9 @@ export default function CheckoutPage() {
                 </h1>
 
                 <div className="grid gap-8 lg:grid-cols-3">
-                    {/* Left Column: Address & Payment */}
+
                     <div className="lg:col-span-2 space-y-6">
-                        {/* Shipping Address */}
+
                         <Card>
                             <CardHeader className="flex flex-row items-center justify-between">
                                 <CardTitle className="flex items-center gap-2">
@@ -264,7 +264,7 @@ export default function CheckoutPage() {
                             </CardContent>
                         </Card>
 
-                        {/* Payment Method */}
+
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
@@ -323,14 +323,14 @@ export default function CheckoutPage() {
                         </Card>
                     </div>
 
-                    {/* Right Column: Order Summary */}
+
                     <div className="lg:col-span-1">
                         <Card className="sticky top-24">
                             <CardHeader>
                                 <CardTitle>Đơn hàng của bạn</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-6">
-                                {/* Items List (Simplified) */}
+
                                 <div className="space-y-4 max-h-75 overflow-y-auto pr-2">
                                     {cartData.items.map((item: any) => {
                                         const dishName =
@@ -377,7 +377,7 @@ export default function CheckoutPage() {
 
                                 <Separator />
 
-                                {/* Calculations */}
+
                                 <div className="space-y-2">
                                     <div className="flex justify-between text-sm">
                                         <span className="text-muted-foreground">
@@ -415,7 +415,7 @@ export default function CheckoutPage() {
                                     </div>
                                 </div>
 
-                                {/* Promotion Code */}
+
                                 <div className="space-y-3">
                                     <Label
                                         htmlFor="promo-code"

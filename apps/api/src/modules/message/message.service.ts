@@ -46,7 +46,7 @@ export class MessageService {
     const { userId, cursor, limit } = params
 
     const messages = await this.prisma.message.findMany({
-      take: limit + 1, // Fetch one extra to determine if there's a next page
+      take: limit + 1,
       cursor: cursor ? { id: cursor } : undefined,
       where: {
         OR: [

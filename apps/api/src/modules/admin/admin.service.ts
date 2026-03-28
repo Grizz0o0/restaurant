@@ -18,7 +18,7 @@ export class AdminService {
     const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate())
     const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
 
-    // Parallelize queries for performance
+
     const [
       totalRevenue,
       todaysRevenue,
@@ -28,12 +28,12 @@ export class AdminService {
       activeDishes,
       recentOrders,
     ] = await Promise.all([
-      // 1. Total Revenue (Completed orders)
+
       this.prisma.order.aggregate({
         _sum: { totalAmount: true },
         where: { status: 'COMPLETED' },
       }),
-      // 2. Today's Revenue
+
       this.prisma.order.aggregate({
         _sum: { totalAmount: true },
         where: {
@@ -41,21 +41,21 @@ export class AdminService {
           createdAt: { gte: startOfDay, lt: endOfDay },
         },
       }),
-      // 3. Total Orders
+
       this.prisma.order.count(),
-      // 4. New Orders Today
+
       this.prisma.order.count({
         where: { createdAt: { gte: startOfDay, lt: endOfDay } },
       }),
-      // 5. Total Customers
+
       this.prisma.user.count({
         where: { role: { name: RoleName.Client } },
       }),
-      // 6. Active Dishes
+
       this.prisma.dish.count({
         where: { deletedAt: null },
       }),
-      // 7. Recent Orders
+
       this.prisma.order.findMany({
         take: 5,
         orderBy: { createdAt: 'desc' },
@@ -86,7 +86,8 @@ export class AdminService {
       activeDishes,
       recentOrders: recentOrders.map((order) => ({
         id: order.id,
-        code: order.id.slice(-6).toUpperCase(), // Simpler short code
+
+        code: order.id.slice(-6).toUpperCase(),
         user: order.user?.name || 'Guest',
         itemsSummary: order.items
           .map((i) => {
@@ -104,11 +105,11 @@ export class AdminService {
   async getReport(input: GetReportQueryType) {
     const { startDate, endDate } = input
 
-    // Adjust endDate to be inclusive (end of that day)
+
     const endOfDay = new Date(endDate)
     endOfDay.setHours(23, 59, 59, 999)
 
-    // Fetch all completed orders in the range with their items
+
     const orders = await this.prisma.order.findMany({
       where: {
         status: 'COMPLETED',
@@ -118,7 +119,7 @@ export class AdminService {
       orderBy: { createdAt: 'asc' },
     })
 
-    // Group orders by date
+
     const dailyMap = new Map<string, { revenue: number; orders: number }>()
     for (const order of orders) {
       const dateKey = order.createdAt.toISOString().split('T')[0]
@@ -134,7 +135,7 @@ export class AdminService {
       orders: val.orders,
     }))
 
-    // Aggregate top dishes
+
     const dishMap = new Map<
       string,
       { dishId?: string; dishName: string; totalQuantity: number; totalRevenue: number }
@@ -162,7 +163,7 @@ export class AdminService {
     const totalOrders = orders.length
     const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0
 
-    // Fetch review stats for dishes in this period
+
     const reviewsInPeriod = await this.prisma.review.groupBy({
       by: ['dishId'],
       where: {
@@ -172,7 +173,7 @@ export class AdminService {
       _count: { rating: true },
     })
 
-    // Get dish names for those reviews AND top dishes
+
     const reviewDishIds = reviewsInPeriod.map((r) => r.dishId)
     const topDishesIds = topDishesRaw.map((d) => d.dishId).filter(Boolean) as string[]
     const dishIds = Array.from(new Set([...reviewDishIds, ...topDishesIds]))
@@ -189,7 +190,7 @@ export class AdminService {
       },
     })
 
-    // Map data
+
     const dishReviewScores = reviewsInPeriod.map((r) => {
       const dish = dishesInfo.find((d) => d.id === r.dishId)
       return {
@@ -199,7 +200,7 @@ export class AdminService {
       }
     })
 
-    // Handle old orders missing dishId
+
     const missingDishNames = topDishesRaw.filter((d) => !d.dishId).map((d) => d.dishName)
     const fallbackMap = new Map<string, string>()
 
@@ -229,7 +230,7 @@ export class AdminService {
       }
     }
 
-    // Map top dishes names
+
     const topDishes = topDishesRaw.map((d) => {
       let finalName = d.dishName
       if (d.dishId) {
@@ -247,7 +248,7 @@ export class AdminService {
       }
     })
 
-    // Sort for top rated and top criticized
+
     const topRatedDishes = [...dishReviewScores]
       .filter((r) => r.reviewCount > 0)
       .sort((a, b) => b.avgRating - a.avgRating || b.reviewCount - a.reviewCount)

@@ -16,9 +16,9 @@ export class CloudinaryService {
         {
           folder: `restaurant-app/${folder}`,
           transformation: [
-            { width: resizeWidth, crop: 'limit' }, // Dynamic resize
-            { quality: 'auto' }, // Auto compress
-            { fetch_format: 'auto' }, // Convert to WebP/AVIF if optimal
+            { width: resizeWidth, crop: 'limit' },
+            { quality: 'auto' },
+            { fetch_format: 'auto' },
           ],
         },
         (error, result) => {

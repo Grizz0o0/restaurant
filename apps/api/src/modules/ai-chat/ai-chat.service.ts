@@ -10,7 +10,6 @@ export class AiChatService {
   ) {}
 
   async chat(message: string, history: { role: 'user' | 'model'; parts: string[] }[] = []) {
-    // 1. Fetch menu data for context
     const dishes = await this.prisma.dish.findMany({
       where: { deletedAt: null },
       include: {
@@ -38,7 +37,6 @@ export class AiChatService {
       })
       .join('\n')
 
-    // 2. Build system prompt
     const systemPrompt = `Bạn là một trợ lý ảo thông minh của nhà hàng BAMIXO Restaurant. 
       Hãy trả lời khách hàng một cách thân thiện, chuyên nghiệp và nhiệt tình bằng tiếng Việt.
 

@@ -113,23 +113,19 @@ export class RestaurantService {
   async assignStaff(data: AssignStaffBodyType) {
     const { restaurantId, userId, position } = data
 
-    // Check if user exists
+
     const user = await this.prisma.user.findUnique({ where: { id: userId } })
     if (!user) {
       throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' })
     }
 
-    // Check if restaurant exists
+
     const restaurant = await this.prisma.restaurant.findUnique({ where: { id: restaurantId } })
     if (!restaurant) {
       throw new TRPCError({ code: 'NOT_FOUND', message: 'Restaurant not found' })
     }
 
-    // Check if already assigned
-    // Composite ID might be used or check unique constraint
-    // Prisma schema: @@id([restaurantId, userId])
 
-    // We confirm if there's an existing assignment
     const existing = await this.prisma.restaurantStaff.findUnique({
       where: {
         restaurantId_userId: {

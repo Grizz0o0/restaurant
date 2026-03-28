@@ -31,14 +31,12 @@ export const MenuClient = () => {
 
     const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
-    // Fetch Categories
     const { data: categoriesData, isLoading: isLoadingCategories } =
         trpc.category.list.useQuery({
             limit: 50,
             page: 1,
         });
 
-    // Fetch Dishes
     const {
         data: dishesData,
         isLoading: isLoadingDishes,
@@ -177,7 +175,6 @@ export const MenuClient = () => {
 
     return (
         <div className="min-h-screen bg-background">
-            {/* Header */}
             <header className="bg-secondary/50 border-b border-border">
                 <div className="container mx-auto px-4 py-16">
                     <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground">
@@ -189,11 +186,9 @@ export const MenuClient = () => {
                 </div>
             </header>
 
-            {/* Filters */}
             <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border">
                 <div className="container mx-auto px-4 py-4">
                     <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-                        {/* Search */}
                         <div className="relative w-full md:w-80">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                             <Input
@@ -207,7 +202,6 @@ export const MenuClient = () => {
                             />
                         </div>
 
-                        {/* Categories */}
                         <div className="flex-1 w-full md:ml-auto max-w-full md:max-w-212 overflow-hidden">
                             <div className="flex overflow-x-auto pb-1 md:pb-0 no-scrollbar gap-x-3 md:flex-wrap md:justify-end">
                                 <Button
@@ -223,8 +217,7 @@ export const MenuClient = () => {
                                     Tất cả
                                 </Button>
                                 {isLoadingCategories
-                                    ? // Skeleton loader for categories
-                                      Array.from({ length: 12 }).map((_, i) => (
+                                    ? Array.from({ length: 12 }).map((_, i) => (
                                           <div
                                               key={i}
                                               className="h-9 min-w-25 bg-muted animate-pulse rounded-md shrink-0"
@@ -256,7 +249,6 @@ export const MenuClient = () => {
                 </div>
             </div>
 
-            {/* Menu Grid */}
             <main className="container mx-auto px-4 py-12">
                 {isLoadingDishes && !dishes.length ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

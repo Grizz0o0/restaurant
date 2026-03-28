@@ -145,16 +145,11 @@ export class DishRepo {
     })
   }
 
-  // Check which SKUs would be deleted/invalidated if we apply the new variants structure
   async checkVariantDeletionImpact(dishId: string, newVariants: UpdateDishBodyType['variants']) {
     if (!newVariants) return []
 
     const existingDish = await this.findById(dishId)
     if (!existingDish) throw new BadRequestException('Dish not found')
-
-    // Find options that are NOT present in the new structure
-    // We need to treat "Renaming" as "Same ID" if ID is provided.
-    // If ID not provided, it's new.
 
     // 1. Identify Existing Option IDs that will be KEPT
     const keptOptionIds = new Set<string>()
@@ -230,7 +225,6 @@ export class DishRepo {
       },
     })
 
-    // Upsert Translations logic
     if (name || description) {
       await this.upsertDishTranslation(id, { name, description, languageId, updatedById }, client)
     }

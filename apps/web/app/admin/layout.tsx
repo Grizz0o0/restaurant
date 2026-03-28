@@ -23,16 +23,11 @@ const AdminRoleCheck = ({ children }: { children: React.ReactNode }) => {
     const { hasRole, permissions } = usePermission();
     const router = useRouter();
 
-    // Simple check: Must be ADMIN or MANAGER
-    // In a real app we might check for a specific permission like 'view:dashboard'
     const canAccess = hasRole('ADMIN') || hasRole('MANAGER');
 
     useEffect(() => {
         if (!canAccess) {
-            // Redirect or show 403
-            // For now redirect home
             // router.push('/');
-            // Commented out to avoid loop if hook is slow, but visual protection below handles it.
         }
     }, [canAccess, router]);
 

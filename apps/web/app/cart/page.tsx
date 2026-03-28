@@ -135,7 +135,7 @@ const Cart = () => {
 
     return (
         <div className="min-h-screen bg-background">
-            {/* Header */}
+
             <header className="bg-secondary/50 border-b border-border">
                 <div className="container mx-auto px-4 py-16">
                     <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground">
@@ -147,10 +147,10 @@ const Cart = () => {
                 </div>
             </header>
 
-            {/* Cart Content */}
+
             <main className="container mx-auto px-4 py-12">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Cart Items */}
+
                     <div className="lg:col-span-2 space-y-4">
                         {cartItems.map((item: any) => {
                             // Correctly accessing nested properties based on typical Prisma include structure
@@ -251,7 +251,7 @@ const Cart = () => {
                         </Link>
                     </div>
 
-                    {/* Order Summary */}
+
                     <div className="lg:col-span-1">
                         <div className="bg-card p-6 rounded-2xl border border-border sticky top-24">
                             <h2 className="font-display text-xl font-bold text-foreground mb-6">

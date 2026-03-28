@@ -71,7 +71,7 @@ const configSchema = z.object({
   MOMO_REDIRECT_URL: z.string().url(),
   MOMO_ENDPOINT: z.string().url(),
 
-  // ===== AI =====
+  // Gemini
   GEMINI_API_KEY: z.string().min(1),
 })
 

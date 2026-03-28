@@ -95,7 +95,7 @@ export class OrderRepo {
     const client = tx || this.prisma
     const { verificationCode, ...rest } = extraData || {}
 
-    // Map verificationCode to deliveryCode if it exists (though it should be verified in service)
+    // Map verificationCode to deliveryCode if it exists
     const finalData: any = {
       status,
       ...(updatedById && { updatedBy: { connect: { id: updatedById } } }),
@@ -111,7 +111,6 @@ export class OrderRepo {
       finalData.deliveryCode = verificationCode
     }
 
-    // Prisma doesn't have 'reason' field in Order model, so we remove it
     delete finalData.reason
 
     return client.order.update({

@@ -32,7 +32,7 @@ const AboutSection = () => {
         <section id="about" className="py-20 bg-secondary">
             <div className="container mx-auto px-4">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
-                    {/* Content */}
+
                     <div className="space-y-6 animate-fade-in-up">
                         <span className="inline-block text-sm font-semibold text-primary uppercase tracking-wider">
                             Câu chuyện của chúng tôi
@@ -56,7 +56,7 @@ const AboutSection = () => {
                             </p>
                         </div>
 
-                        {/* Values */}
+
                         <div className="grid grid-cols-2 gap-4 pt-4">
                             <div className="flex items-start gap-3">
                                 <div className="w-10 h-10 rounded-full bg-herb/10 flex items-center justify-center shrink-0">
@@ -113,7 +113,7 @@ const AboutSection = () => {
                         </div>
                     </div>
 
-                    {/* Stats Grid */}
+
                     <div className="grid grid-cols-2 gap-4">
                         {stats.map((stat, index) => (
                             <div

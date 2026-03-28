@@ -20,7 +20,7 @@ export class LanguageRouter {
 
   @Query({
     input: GetLanguagesQuerySchema,
-    output: z.any(), // TODO: Define strict output schema if needed, or reuse ResponseSchema with pagination
+    output: z.any(),
   })
   @UseMiddlewares(AuthMiddleware)
   async list(@Input() input: GetLanguagesQueryType) {

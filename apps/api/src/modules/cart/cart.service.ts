@@ -80,7 +80,7 @@ export class CartService {
   async addToCart(userId: string, input: AddCartItemType) {
     const { skuId, quantity, note } = input
 
-    // Check if SKU exists
+
     const sku = await this.prisma.sKU.findUnique({
       where: { id: skuId },
     })
@@ -88,12 +88,12 @@ export class CartService {
       throw new NotFoundException('SKU not found')
     }
 
-    // Check if item already exists in cart WITH SAME NOTE
+
     const existingItem = await this.prisma.cartItem.findFirst({
       where: {
         userId,
         skuId,
-        note: note || null, // Only group items if notes match
+        note: note || null,
       },
     })
 

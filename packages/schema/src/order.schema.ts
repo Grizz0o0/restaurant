@@ -11,7 +11,7 @@ export const OrderItemSchema = z.object({
                 typeof val === 'object' && val !== null && 'toNumber' in val,
         )
         .transform((v) => v.toNumber())
-        .or(z.number()), // Decimal in DB, number in JS
+        .or(z.number()),
     quantity: z.number().int().positive(),
     images: z.array(z.string()),
     skuValue: z.string().nullable().optional(),
@@ -28,7 +28,7 @@ export const OrderSchema = z.object({
                 typeof val === 'object' && val !== null && 'toNumber' in val,
         )
         .transform((v) => v.toNumber())
-        .or(z.number()), // DB has totalAmount
+        .or(z.number()),
     discount: z
         .custom<any>(
             (val) =>
@@ -36,7 +36,7 @@ export const OrderSchema = z.object({
         )
         .transform((v) => v.toNumber())
         .or(z.number())
-        .optional(), // Added discount
+        .optional(),
     items: z.array(OrderItemSchema),
     createdAt: z.date(),
     updatedAt: z.date(),
@@ -51,7 +51,7 @@ export const OrderSchema = z.object({
 export type OrderType = z.infer<typeof OrderSchema>;
 
 export const CreateOrderBodySchema = z.object({
-    tableId: z.string().optional(), // Can be inferred from Guest Token
+    tableId: z.string().optional(),
     items: z.array(
         z.object({
             dishId: z.string(),

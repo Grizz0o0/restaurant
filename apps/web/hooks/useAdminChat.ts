@@ -13,7 +13,7 @@ export const useAdminChat = () => {
 
     const utils = trpc.useUtils();
 
-    // 1. Fetch Conversations List
+
     const { data: conversationsData, isLoading: isLoadingConversations } =
         trpc.message.getConversations.useQuery(undefined, {
             enabled: isAuthenticated && user?.role?.name === 'ADMIN',
@@ -25,7 +25,7 @@ export const useAdminChat = () => {
         [conversationsData],
     );
 
-    // 2. Fetch Selected Chat History
+
     const { data: historyData, isLoading: isLoadingHistory } =
         trpc.message.getHistory.useQuery(
             { limit: 50, userId: selectedUserId || '' },
@@ -41,7 +41,7 @@ export const useAdminChat = () => {
     useEffect(() => {
         if (historyData?.messages) {
             setMessages(historyData.messages);
-            // Invalidate conversations to clear unread counts
+
             utils.message.getConversations.invalidate();
         } else {
             setMessages([]);
@@ -57,15 +57,13 @@ export const useAdminChat = () => {
         },
     });
 
-    // 3. Socket Event Listeners
+
     useEffect(() => {
         if (!socket || !isConnected) return;
 
         const handleNewMessage = (message: Message) => {
-            // Update conversation list unread counts / latest message
-            utils.message.getConversations.invalidate();
 
-            // Append to current chat if it belongs to the selected user
+            utils.message.getConversations.invalidate();
             if (
                 selectedUserId &&
                 (message.fromUserId === selectedUserId ||
@@ -81,10 +79,7 @@ export const useAdminChat = () => {
                     return [...filtered, message];
                 });
 
-                // If the message came from the user and we have their chat open, we should implicitly read it inside the backend
-                if (message.fromUserId === selectedUserId) {
-                    // Optionally implement a trpc mutation to mark as read immediately
-                }
+
             }
         };
 
@@ -95,7 +90,7 @@ export const useAdminChat = () => {
         };
     }, [socket, isConnected, selectedUserId, utils]);
 
-    // 4. Send Message Function
+
     const sendMessage = useCallback(
         (content: string) => {
             if (!content.trim() || !user || !selectedUserId) return;

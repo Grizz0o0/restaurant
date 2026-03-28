@@ -21,7 +21,7 @@ export class ReservationService {
   ): Promise<boolean> {
     const endTime = dayjs(startTime).add(durationMinutes, 'minute').toDate()
 
-    const standardDuration = 120 // minutes
+    const standardDuration = 120
 
     const overlapping = await this.prisma.reservation.findFirst({
       where: {
@@ -49,7 +49,6 @@ export class ReservationService {
   async create(data: CreateReservationBodyType & { userId: string }) {
     const reservationTime = new Date(data.reservationTime)
 
-    // Check table existence
     const table = await this.prisma.restaurantTable.findUnique({ where: { id: data.tableId } })
     if (!table) {
       throw new TRPCError({ code: 'NOT_FOUND', message: 'Table not found' })
@@ -73,7 +72,6 @@ export class ReservationService {
       throw new TRPCError({ code: 'CONFLICT', message: 'Table is not available at this time' })
     }
 
-    // Default channel if not valid enum string? Zod handles this.
 
     return this.prisma.reservation.create({
       data: {
@@ -82,7 +80,7 @@ export class ReservationService {
         reservationTime,
         guests: data.guests,
         notes: data.notes,
-        channel: data.channel as any, // Cast to Schema Enum
+        channel: data.channel as any,
         guestInfo: data.guestInfo,
         status: 'PENDING',
       },

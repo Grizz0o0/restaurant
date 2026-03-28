@@ -21,8 +21,8 @@ export class PaymentService {
     } = envConfig
 
     const requestId = `${partnerCode}${new Date().getTime()}`
-    const momoOrderId = requestId // Use requestId as unique orderId for MoMo
-    const requestType = 'payWithMethod' // or 'captureWallet'
+    const momoOrderId = requestId
+    const requestType = 'payWithMethod'
     const extraData = ''
     const autoCapture = true
     const lang = 'vi'
@@ -65,15 +65,13 @@ export class PaymentService {
         data: {
           gateway: 'MOMO',
           amountIn: amount,
-          orderId: orderId, // Link to internal Order
+          orderId: orderId,
           transactionContent: `Momo Order: ${momoOrderId}`,
-          referenceNumber: momoOrderId, // Store MoMo OrderId here
+          referenceNumber: momoOrderId,
           body: JSON.stringify(requestBody),
         },
       })
 
-      // We need to fetch axios or use fetch. NestJS has HttpModule/axios usually.
-      // But for simplicity/speed without installing axios, let's use global fetch (Node 18+)
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
@@ -88,7 +86,7 @@ export class PaymentService {
         throw new BadRequestException(`MoMo Error: ${data.message}`)
       }
 
-      return data // Contains payUrl
+      return data
     } catch (error) {
       this.logger.error('MoMo Init Error', error)
       throw new BadRequestException('Failed to initiate MoMo payment')
@@ -98,7 +96,7 @@ export class PaymentService {
   async handleMomoCallback(body: any) {
     const {
       partnerCode,
-      orderId, // This is the MoMo OrderId (our referenceNumber)
+      orderId,
       requestId,
       amount,
       orderInfo,
@@ -114,9 +112,6 @@ export class PaymentService {
 
     const { MOMO_SECRET_KEY: secretKey, MOMO_ACCESS_KEY: accessKey } = envConfig
 
-    // Verify signature
-    // MoMo signature construction for IPN:
-    // accessKey=...&amount=...&extraData=...&message=...&orderId=...&orderInfo=...&orderType=...&partnerCode=...&payType=...&requestId=...&responseTime=...&resultCode=...&transId=...
     const rawSignature = buildRawSignature({
       accessKey,
       amount,
@@ -137,8 +132,6 @@ export class PaymentService {
 
     if (generatedSignature !== signature) {
       this.logger.error(`Invalid Signature: exp ${generatedSignature} != rec ${signature}`)
-      // return; // Or throw? MoMo expects 200/204 usually.
-      // Failing to verify signature means it might be a fake request.
       throw new BadRequestException('Invalid signature')
     }
 
@@ -153,13 +146,11 @@ export class PaymentService {
     }
 
     if (resultCode === 0) {
-      // Success
-      // Update Transaction
       await this.prisma.paymentTransaction.update({
         where: { id: transaction.id },
         data: {
-          amountOut: 0, // Fee?
-          accumulated: amount, // Just storing amount paid
+          amountOut: 0,
+          accumulated: amount,
           code: transId.toString(),
           body: JSON.stringify(body),
         },
@@ -212,23 +203,17 @@ export class PaymentService {
       MOMO_PARTNER_CODE: partnerCode,
       MOMO_ACCESS_KEY: accessKey,
       MOMO_SECRET_KEY: secretKey,
-      MOMO_ENDPOINT: endpoint, // Use same endpoint base, usually query is different path
+      MOMO_ENDPOINT: endpoint,
     } = envConfig
 
-    // MoMo Query Endpoint structure often is /v2/gateway/api/query
-    // If endpoint is https://test-payment.momo.vn/v2/gateway/api/create
-    // We need to replace 'create' with 'query'
     const queryEndpoint = endpoint.replace('/create', '/query')
 
     const requestId = `${partnerCode}${new Date().getTime()}`
-    const momoOrderId = orderId // We used orderId as MoMo orderId (or transaction.referenceNumber)
-    // Actually, in createMomoPayment we set momoOrderId = requestId (timestamp based).
-    // We saved this in PaymentTransaction.referenceNumber.
-    // So we need to find the transaction first to get the correct momoOrderId.
+    const momoOrderId = orderId
 
     const transaction = await this.prisma.paymentTransaction.findFirst({
       where: { orderId: orderId },
-      orderBy: { createdAt: 'desc' }, // Get latest attempt
+      orderBy: { createdAt: 'desc' },
     })
 
     if (!transaction || !transaction.referenceNumber) {
@@ -262,20 +247,17 @@ export class PaymentService {
 
       const data = await response.json()
 
-      // Sync status if success
       if (data.resultCode === 0) {
         if (transaction.orderId) {
           await this.prisma.order.update({
             where: { id: transaction.orderId },
-            data: { paymentStatus: 'PAID', status: 'PREPARING' }, // Adjust status as needed
+            data: { paymentStatus: 'PAID', status: 'PREPARING' },
           })
         }
-        // Update transaction
         await this.prisma.paymentTransaction.update({
           where: { id: transaction.id },
           data: {
             body: JSON.stringify(data),
-            // If we had a status field on transaction, update it too
           },
         })
       }
@@ -301,11 +283,8 @@ export class PaymentService {
 
     const refundEndpoint = endpoint.replace('/create', '/refund')
 
-    // 1. Find successful transaction to get transId/momoOrderId
     const transaction = await this.prisma.paymentTransaction.findFirst({
-      where: { orderId: orderId, amountOut: 0 }, // Filter successful payments (amountOut=0 usually means no refund yet if we usage logic, but here schema default is 0. Let's rely on status if exists or just latest.)
-      // Actually we need the one with gateway='MOMO' and some success indicator.
-      // In handleMomoCallback we updated `code` with `transId`.
+      where: { orderId: orderId, amountOut: 0 },
       orderBy: { createdAt: 'desc' },
     })
 
@@ -319,8 +298,8 @@ export class PaymentService {
     const amount = Number(order.totalAmount)
     const description = `Hoan tien don hang ${orderId}`
     const requestId = `${partnerCode}${new Date().getTime()}`
-    const orderIdRefund = `${orderId}_REFUND` // Unique ID for refund transaction
-    const transId = Number(transaction.code) // MoMo TransId
+    const orderIdRefund = `${orderId}_REFUND`
+    const transId = Number(transaction.code)
 
     const rawSignature = buildRawSignature({
       accessKey,

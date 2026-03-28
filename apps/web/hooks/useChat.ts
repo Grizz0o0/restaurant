@@ -17,7 +17,7 @@ export const useChat = (isOpen: boolean) => {
         },
     });
 
-    // Fetch admin user ID
+
     const { data: adminData } = trpc.message.getAdmin.useQuery(undefined, {
         enabled: isAuthenticated,
         refetchOnWindowFocus: false,
@@ -25,7 +25,6 @@ export const useChat = (isOpen: boolean) => {
 
     const adminId = adminData?.id;
 
-    // Fetch history using tRPC when chat opens and adminId is available
     const { data: historyData, isLoading: isLoadingHistory } =
         trpc.message.getHistory.useQuery(
             { limit: 50, userId: adminId || '' },
@@ -37,20 +36,19 @@ export const useChat = (isOpen: boolean) => {
 
     useEffect(() => {
         if (historyData?.messages) {
-            setMessages(historyData.messages); // API already returns newest last
+
+            setMessages(historyData.messages);
         }
     }, [historyData]);
 
     useEffect(() => {
         if (!socket || !isConnected || !isOpen) return;
 
-        // Listen for incoming messages
+
         socket.on('newMessage', (message: Message) => {
+
             setMessages((prev) => {
-                // Ignore optimistic messages or duplicates
                 if (prev.some((m) => m.id === message.id)) return prev;
-                // Since this might be our own message returned by the server,
-                // we might want to replace the temp message, but for simplicity we can just filter temps out
                 const filtered = prev.filter(
                     (m) =>
                         !m.id.startsWith('temp-') ||
@@ -60,7 +58,6 @@ export const useChat = (isOpen: boolean) => {
             });
         });
 
-        // Listen for message status updates (e.g. read receipts, delivered) if needed
         socket.on('messageStatusUpdate', (statusData) => {
             setMessages((prev) =>
                 prev.map((m) =>
@@ -83,13 +80,13 @@ export const useChat = (isOpen: boolean) => {
 
             const trimmedContent = content.trim();
 
-            // Send via tRPC
+
             sendMutation.mutate({
                 toUserId: adminId,
                 content: trimmedContent,
             });
 
-            // Optimistic update
+
             const tempMessage: Message = {
                 id: `temp-${Date.now()}`,
                 fromUserId: user.id,

@@ -10,16 +10,16 @@ const HeroSection = () => {
             id="home"
             className="relative min-h-screen pt-20 overflow-hidden"
         >
-            {/* Background gradient */}
+
             <div className="absolute inset-0 bg-gradient-warm dark:bg-none dark:bg-background" />
 
-            {/* Decorative elements */}
+
             <div className="absolute top-20 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-80 h-80 bg-herb/5 rounded-full blur-3xl" />
 
             <div className="container relative mx-auto px-4 pb-12 md:pb-20">
                 <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-8rem)]">
-                    {/* Content */}
+
                     <div className="space-y-8 animate-fade-in-up">
                         <div className="inline-flex items-center gap-2 bg-secondary px-4 py-2 rounded-full">
                             <Star className="w-4 h-4 text-primary fill-primary" />
@@ -56,7 +56,7 @@ const HeroSection = () => {
                             </Button>
                         </div>
 
-                        {/* Quick info */}
+
                         <div className="flex flex-wrap gap-6 pt-4">
                             <div className="flex items-center gap-2 text-muted-foreground">
                                 <Clock className="w-5 h-5 text-herb" />
@@ -74,7 +74,7 @@ const HeroSection = () => {
                         </div>
                     </div>
 
-                    {/* Hero Image */}
+
                     <div className="relative animate-fade-in">
                         <div className="relative aspect-4/3 rounded-3xl overflow-hidden shadow-elevated">
                             <Image
@@ -84,11 +84,11 @@ const HeroSection = () => {
                                 className="object-cover"
                                 priority
                             />
-                            {/* Overlay gradient */}
+
                             <div className="absolute inset-0 bg-linear-to-t from-foreground/20 to-transparent" />
                         </div>
 
-                        {/* Floating cards */}
+
                         <div className="absolute -bottom-6 -left-6 bg-card p-4 rounded-2xl shadow-card animate-float">
                             <div className="flex items-center gap-3">
                                 <div className="w-12 h-12 rounded-full bg-herb/10 flex items-center justify-center">

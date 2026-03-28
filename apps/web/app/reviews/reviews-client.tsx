@@ -33,14 +33,12 @@ export default function ReviewsClientPage() {
     const debouncedSearchQuery = useDebounce(searchQuery, 500);
     const limit = 12;
 
-    // Fetch Categories
     const { data: categoriesData, isLoading: isLoadingCategories } =
         trpc.category.list.useQuery(
             { limit: 50, page: 1 },
             { refetchOnWindowFocus: false },
         );
 
-    // Fetch reviews with search and categoryId filter
     const { data, isLoading } = trpc.review.list.useQuery(
         {
             page,
@@ -82,9 +80,7 @@ export default function ReviewsClientPage() {
 
     return (
         <div className="min-h-screen bg-background overflow-hidden">
-            {/* Premium Hero Banner */}
             <div className="relative pt-32 pb-20 bg-card border-b border-border/50 overflow-hidden">
-                {/* Decorative background elements */}
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                     <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[120px]" />
                     <div className="absolute bottom-[20%] -left-[10%] w-[40%] h-[40%] rounded-full bg-destructive/5 blur-[100px]" />
@@ -111,11 +107,9 @@ export default function ReviewsClientPage() {
                 </div>
             </div>
 
-            {/* Filters matching /menu */}
             <div className="sticky top-16 md:top-20 z-40 bg-background/95 backdrop-blur-md border-b border-border">
                 <div className="container mx-auto max-w-6xl px-4 py-4">
                     <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-                        {/* Search */}
                         <div className="relative w-full md:w-80">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                             <Input
@@ -129,7 +123,6 @@ export default function ReviewsClientPage() {
                             />
                         </div>
 
-                        {/* Categories */}
                         <div className="flex-1 md:ml-auto max-w-212 overflow-x-auto pb-1 md:pb-0 scrollbar-hide">
                             <div className="flex gap-x-3 gap-y-2 md:flex-wrap md:justify-end min-w-max md:min-w-0">
                                 <Button
@@ -145,8 +138,7 @@ export default function ReviewsClientPage() {
                                     Tất cả
                                 </Button>
                                 {isLoadingCategories
-                                    ? // Skeleton loader for categories
-                                      Array.from({ length: 6 }).map((_, i) => (
+                                    ? Array.from({ length: 6 }).map((_, i) => (
                                           <div
                                               key={i}
                                               className="h-9 min-w-20 bg-muted animate-pulse rounded-lg"
@@ -178,9 +170,7 @@ export default function ReviewsClientPage() {
                 </div>
             </div>
 
-            {/* Main Content */}
             <div className="container px-4 mx-auto max-w-6xl py-12">
-                {/* Reviews Grid */}
                 {isLoading ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {Array.from({ length: 6 }).map((_, i) => (
@@ -238,12 +228,10 @@ export default function ReviewsClientPage() {
                                             animationDelay: `${index * 50}ms`,
                                         }}
                                     >
-                                        {/* Decorative quote mark */}
                                         <div className="absolute -top-6 -right-6 text-9xl text-primary/5 font-serif leading-none select-none pointer-events-none group-hover:text-primary/10 transition-colors duration-500">
                                             &quot;
                                         </div>
 
-                                        {/* Reviewer Info & Rating */}
                                         <div className="flex items-start justify-between mb-6 relative z-10">
                                             <div className="flex items-center gap-4">
                                                 <div className="w-12 h-12 rounded-full bg-linear-to-br from-primary/20 to-primary/5 border border-primary/10 flex items-center justify-center text-primary font-display font-bold text-lg shadow-inner">
@@ -270,16 +258,13 @@ export default function ReviewsClientPage() {
                                             </div>
                                         </div>
 
-                                        {/* Content */}
                                         <div className="relative z-10 mb-8">
                                             <p className="text-foreground/90 text-[15px] leading-relaxed italic">
                                                 &quot;{review.content}&quot;
                                             </p>
                                         </div>
 
-                                        {/* Bottom Section (Dish + Reply) */}
                                         <div className="relative z-10 flex flex-col gap-6">
-                                            {/* Dish Reference Header */}
                                             <div className="pt-5 border-t border-border/60">
                                                 <div className="flex items-center gap-4">
                                                     <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 shadow-sm border border-border/50 group-hover:ring-2 ring-primary/20 transition-all duration-300">
@@ -301,7 +286,6 @@ export default function ReviewsClientPage() {
                                                 </div>
                                             </div>
 
-                                            {/* Admin Reply */}
                                             {review.adminReply && (
                                                 <div className="p-5 bg-linear-to-r from-primary/5 to-transparent rounded-2xl border-l-2 border-primary">
                                                     <div className="flex items-center gap-2.5 mb-2">

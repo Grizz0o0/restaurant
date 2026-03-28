@@ -9,7 +9,6 @@ export class SupplierService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateSupplierBodyType & { languageId?: string }) {
-    // ... existing implementation remains the same
     const { translations, ...rest } = data
 
     return this.prisma.supplier.create({
@@ -20,7 +19,7 @@ export class SupplierService {
             ? {
                 create: translations.map((t) => ({
                   languageId: t.languageId,
-                  name: rest.name, 
+                  name: rest.name,
                   description: t.description || '',
                 })),
               }
@@ -64,10 +63,6 @@ export class SupplierService {
 
   async update(id: string, data: UpdateSupplierBodyType) {
     const { translations, ...rest } = data
-
-    // For update, it is trickier with translations (update or create).
-    // Simple approach: Update main fields. Translations handling usually requires dedicated endpoints or complex logic.
-    // For this MVP, we update main fields.
 
     return this.prisma.supplier.update({
       where: { id },

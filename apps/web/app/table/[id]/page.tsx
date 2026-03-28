@@ -4,38 +4,22 @@ import { useEffect, useState, useMemo } from 'react';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { trpc } from '@/lib/trpc/client';
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardFooter,
-    CardHeader,
-} from '@/components/ui/card';
+
 import {
     Sheet,
     SheetContent,
     SheetHeader,
     SheetTitle,
     SheetTrigger,
-    SheetFooter,
-    SheetClose,
 } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
-import {
-    Loader2,
-    ShoppingCart,
-    Minus,
-    Plus,
-    UtensilsCrossed,
-    ChefHat,
-} from 'lucide-react';
+import { Loader2, Minus, Plus, UtensilsCrossed, ChefHat } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { setAuthTokens } from '@/lib/auth/cookies';
 
-// Helper to format currency
 const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('vi-VN', {
         style: 'currency',
@@ -54,7 +38,6 @@ interface CartItem {
 export default function GuestTablePage() {
     const params = useParams();
     const searchParams = useSearchParams();
-    const router = useRouter();
     const tableId = params.id as string;
     const token = searchParams.get('token');
 
@@ -62,7 +45,6 @@ export default function GuestTablePage() {
     const [cart, setCart] = useState<CartItem[]>([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
 
-    // Authentication
     const loginMutation = trpc.auth.guestLogin.useMutation({
         onSuccess: async (data) => {
             // Set cookies via API route
@@ -98,7 +80,6 @@ export default function GuestTablePage() {
         },
     });
 
-    // Data Fetching
     const {
         data: dishesData,
         refetch: refetchDishes,
@@ -106,7 +87,8 @@ export default function GuestTablePage() {
     } = trpc.dish.list.useQuery(
         {
             page: 1,
-            limit: 500, // Fetch more for scrolling
+
+            limit: 500,
         },
         {
             enabled: isLoggedIn,
@@ -119,7 +101,6 @@ export default function GuestTablePage() {
         }
     }, [token, tableId]);
 
-    // Cart Logic
     const addToCart = (dish: any) => {
         setCart((prev) => {
             const existing = prev.find((item) => item.dishId === dish.id);
@@ -137,7 +118,7 @@ export default function GuestTablePage() {
                     dishName: dish.name,
                     price: Number(dish.basePrice),
                     quantity: 1,
-                    // Use the first image if available, else undefined
+
                     image: dish.images?.[0],
                 },
             ];
@@ -211,7 +192,6 @@ export default function GuestTablePage() {
 
     return (
         <div className="min-h-screen bg-gray-50/50 pb-32">
-            {/* Header */}
             <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b shadow-xs">
                 <div className="container max-w-md mx-auto px-4 h-14 flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -227,7 +207,7 @@ export default function GuestTablePage() {
                         Bàn {tableId.slice(0, 4)}...
                     </Badge>
                 </div>
-                {/* Horizontal Category Scroll (Mock for now, can be real later) */}
+                {/* Horizontal Category Scroll */}
                 {/* <div className="border-t">
                     <ScrollArea className="w-full whitespace-nowrap">
                         <div className="flex w-max space-x-4 p-3">
@@ -242,7 +222,6 @@ export default function GuestTablePage() {
             </header>
 
             <main className="container max-w-md mx-auto p-4 space-y-6">
-                {/* Hero Banner / Promo (Optional) */}
                 <div className="bg-linear-to-r from-primary to-primary/80 rounded-2xl p-6 text-white shadow-lg shadow-primary/20">
                     <h1 className="text-2xl font-bold mb-1">
                         Xin chào thực khách!
@@ -268,7 +247,6 @@ export default function GuestTablePage() {
                                 key={dish.id}
                                 className="group bg-white rounded-xl border border-dashed hover:border-solid border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col"
                             >
-                                {/* Image Section */}
                                 <div className="aspect-4/3 relative bg-gray-100 w-full">
                                     {dish.images?.[0] ? (
                                         <>
@@ -285,7 +263,10 @@ export default function GuestTablePage() {
                                             />
                                             {dish.isAvailable === false && (
                                                 <div className="absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-[1px]">
-                                                    <Badge variant="destructive" className="shadow-lg uppercase tracking-wide px-3 py-1">
+                                                    <Badge
+                                                        variant="destructive"
+                                                        className="shadow-lg uppercase tracking-wide px-3 py-1"
+                                                    >
                                                         Tạm hết hàng
                                                     </Badge>
                                                 </div>
@@ -298,7 +279,6 @@ export default function GuestTablePage() {
                                     )}
                                 </div>
 
-                                {/* Content Section */}
                                 <div className="flex-1 p-3 flex flex-col justify-between gap-2">
                                     <div>
                                         <h3 className="font-bold text-gray-800 line-clamp-2 text-sm leading-tight h-10">
@@ -320,10 +300,13 @@ export default function GuestTablePage() {
                                             size="icon"
                                             className={cn(
                                                 'h-8 w-8 rounded-full shadow-sm shrink-0',
-                                                dish.isAvailable === false && 'opacity-50',
+                                                dish.isAvailable === false &&
+                                                    'opacity-50',
                                             )}
                                             onClick={() => addToCart(dish)}
-                                            disabled={dish.isAvailable === false}
+                                            disabled={
+                                                dish.isAvailable === false
+                                            }
                                         >
                                             <Plus className="w-4 h-4" />
                                         </Button>
@@ -335,7 +318,6 @@ export default function GuestTablePage() {
                 )}
             </main>
 
-            {/* Floating Cart Bar - Only visible when cart has items */}
             {cart.length > 0 && (
                 <div className="fixed bottom-0 left-0 right-0 p-4 z-50 pointer-events-none">
                     <div className="container max-w-md mx-auto pointer-events-auto">
@@ -387,7 +369,6 @@ export default function GuestTablePage() {
                                                     key={item.dishId}
                                                     className="flex gap-4"
                                                 >
-                                                    {/* Optional: Small Image in Cart */}
                                                     <div className="w-16 h-16 bg-gray-100 rounded-lg relative overflow-hidden shrink-0">
                                                         {item.image ? (
                                                             <Image

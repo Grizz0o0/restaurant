@@ -15,8 +15,8 @@ export const SendMessageBodySchema = z.object({
 });
 
 export const GetHistoryParamsSchema = z.object({
-    userId: z.string().uuid(), // The ID of the other person in the chat
-    cursor: z.string().optional(), // For cursor-based pagination
+    userId: z.string().uuid(),
+    cursor: z.string().optional(),
     limit: z.number().min(1).max(100).optional().default(20),
 });
 

@@ -69,7 +69,7 @@ export function PosCart() {
         onSuccess: (data) => {
             toast.success('Đã gửi order xuống bếp!');
 
-            // Set data for the kitchen slip and trigger print
+
             setSlipData({
                 orderId: data.id,
                 tableName: selectedTableName || 'Mang đi',
@@ -81,7 +81,7 @@ export function PosCart() {
                 time: new Date(),
             });
 
-            // Wait for React to render the slip, then print
+
             setTimeout(() => {
                 document.body.classList.add('printing-kitchen');
                 window.print();
@@ -127,7 +127,7 @@ export function PosCart() {
         setNoteDialog({ open: true, itemId, itemName, currentNote });
     };
 
-    // Fetch active orders for selected table (for payment)
+
     const { data: tableOrdersData } = trpc.order.list.useQuery(
         { page: 1, limit: 50, tableId: selectedTableId! },
         { enabled: !!selectedTableId },
@@ -152,7 +152,7 @@ export function PosCart() {
     return (
         <>
             <div className="flex h-full flex-col w-full bg-background shadow-[-4px_0_15px_-3px_rgba(0,0,0,0.05)] z-10 print:hidden">
-                {/* Header */}
+
                 <div className="p-3 border-b bg-primary/5 flex items-center justify-between shrink-0">
                     <div>
                         <h2 className="font-semibold text-primary text-base leading-none">
@@ -183,7 +183,7 @@ export function PosCart() {
                     )}
                 </div>
 
-                {/* Tabs (shown when table selected or for takeaway) */}
+
                 {(selectedTableId || isTakeaway) && (
                     <div className="flex border-b shrink-0">
                         <button
@@ -218,7 +218,7 @@ export function PosCart() {
                     </div>
                 )}
 
-                {/* Tab: Đơn Tại Bàn / Đơn Mang Về */}
+
                 {activeTab === 'table-orders' && (selectedTableId || isTakeaway) ? (
                     <div className="flex-1 overflow-y-auto p-3">
                         <TableOrderPanel
@@ -232,7 +232,7 @@ export function PosCart() {
                     </div>
                 ) : (
                     <>
-                        {/* Cart Items */}
+
                         <div className="flex-1 overflow-y-auto bg-muted/10 p-2 relative">
                             {cartItems.length === 0 ? (
                                 <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground opacity-50">
@@ -263,7 +263,7 @@ export function PosCart() {
                                                         )}
                                                     </p>
                                                 </div>
-                                                {/* Qty Controls */}
+
                                                 <div className="flex items-center bg-muted/50 rounded-md border shrink-0">
                                                     <Button
                                                         variant="ghost"
@@ -305,14 +305,14 @@ export function PosCart() {
                                                 </div>
                                             </div>
 
-                                            {/* Note Display */}
+
                                             {item.note && (
                                                 <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded px-2 py-1 italic">
                                                     📝 {item.note}
                                                 </p>
                                             )}
 
-                                            {/* Actions Row */}
+
                                             <div className="flex items-center justify-between border-t border-dashed pt-2">
                                                 <Button
                                                     variant="ghost"
@@ -360,7 +360,7 @@ export function PosCart() {
                             )}
                         </div>
 
-                        {/* Footer */}
+
                         <div className="border-t bg-background p-4 shrink-0 space-y-4 shadow-[0_-4px_15px_-3px_rgba(0,0,0,0.05)]">
                             <div className="space-y-1.5">
                                 <div className="flex justify-between text-sm">
@@ -425,7 +425,7 @@ export function PosCart() {
                 )}
             </div>
 
-            {/* Note Dialog */}
+
             {noteDialog && (
                 <ItemNoteDialog
                     open={noteDialog.open}
@@ -440,7 +440,7 @@ export function PosCart() {
                 />
             )}
 
-            {/* Payment Modal */}
+
             <PaymentModal
                 open={paymentOpen}
                 onOpenChange={(open) => {
@@ -457,7 +457,7 @@ export function PosCart() {
                 }}
             />
 
-            {/* Hidden Kitchen Slip Rendered on Print */}
+
             {slipData && <PrintKitchenSlip {...slipData} />}
         </>
     );

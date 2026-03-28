@@ -31,7 +31,6 @@ const MenuSection = () => {
         }
     }, [debouncedSearch, trackInteraction]);
 
-    // Fetch Categories
     const { data: categoriesData, isLoading: isLoadingCategories } =
         trpc.category.list.useQuery({
             limit: 50,
@@ -39,7 +38,6 @@ const MenuSection = () => {
         });
     const categories = categoriesData?.data || [];
 
-    // Fetch Dishes
     const { data: dishesData, isLoading: isLoadingDishes } =
         trpc.dish.list.useQuery({
             categoryId:
@@ -150,8 +148,7 @@ const MenuSection = () => {
                           ))
                         : dishes.map((dish, index) => {
                               const image =
-                                  dish.images?.[0] || '/placeholder-food.jpg'; // Fallback image
-                              // const rating = 4.8; // Placeholder rating as backend doesn't support it yet
+                                  dish.images?.[0] || '/placeholder-food.jpg';
 
                               return (
                                   <div

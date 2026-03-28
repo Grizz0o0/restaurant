@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 export interface CartItem {
-    id: string; // unique ID for the cart item (since same dish can be added multiple times with different notes)
+    id: string;
     dishId: string;
     name: string;
     price: number;
@@ -11,32 +11,32 @@ export interface CartItem {
 }
 
 interface PosState {
-    // Current Table
+
     selectedTableId: string | null;
     selectedTableName: string | null;
     isTakeaway: boolean;
 
-    // Cart
+
     cartItems: CartItem[];
 
-    // UI State
+
     selectedCategoryId: string | 'all';
     searchQuery: string;
 
-    // Actions
+
     setSelectedTable: (id: string | null, name: string | null) => void;
     setTakeaway: () => void;
     setCategory: (id: string | 'all') => void;
     setSearchQuery: (query: string) => void;
 
-    // Cart Actions
+
     addToCart: (dish: any) => void;
     updateQuantity: (id: string, delta: number) => void;
     updateNote: (id: string, note: string) => void;
     removeFromCart: (id: string) => void;
     clearCart: () => void;
 
-    // Selectors
+
     getTotalPrice: () => number;
     getTotalItems: () => number;
 }
@@ -68,13 +68,13 @@ export const usePosStore = create<PosState>((set, get) => ({
 
     addToCart: (dish) =>
         set((state) => {
-            // Check if dish already exists in cart without notes
+
             const existingItemIndex = state.cartItems.findIndex(
                 (item) => item.dishId === dish?.id && !item.note,
             );
 
             if (existingItemIndex >= 0) {
-                // Increase quantity if exists
+
                 const newCart = [...state.cartItems];
                 const item = newCart[existingItemIndex];
                 if (item) {
@@ -82,7 +82,7 @@ export const usePosStore = create<PosState>((set, get) => ({
                 }
                 return { cartItems: newCart };
             } else {
-                // Add new item
+
                 const newItem: CartItem = {
                     id: crypto.randomUUID(),
                     dishId: dish?.id,

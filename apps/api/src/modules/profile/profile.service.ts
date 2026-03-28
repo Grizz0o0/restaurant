@@ -32,7 +32,7 @@ export class ProfileService {
       where: { userId },
     })
 
-    // Return empty payload if none exists
+
     if (!preferences) {
       return { preferences: {} }
     }
@@ -41,7 +41,7 @@ export class ProfileService {
   }
 
   async updatePreferences(userId: string, updateData: UpdateUserPreferenceBodyType) {
-    // Check if preferences exist
+
     const existing = await this.prisma.userPreference.findFirst({
       where: { userId },
     })

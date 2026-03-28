@@ -69,7 +69,7 @@ const statusMap: Record<string, { label: string; color: string }> = {
     CANCELLED: { label: 'Đã hủy', color: 'bg-red-100 text-red-800' },
 };
 
-// ---- Star Picker ----
+
 function StarPicker({
     value,
     onChange,
@@ -112,7 +112,7 @@ function StarPicker({
     );
 }
 
-// ---- Review Dialog ----
+
 function ReviewDialog({
     open,
     onClose,
@@ -213,7 +213,7 @@ function ReviewDialog({
     );
 }
 
-// ---- Shipper Actions ----
+
 function ShipperActions({
     orderId,
     status,
@@ -321,7 +321,7 @@ function ShipperActions({
     return null;
 }
 
-// ---- Order History ----
+
 export function OrderHistory() {
     const { user } = useAuth();
     const isShipper = user?.role?.name === RoleName.Shipper;
@@ -339,7 +339,7 @@ export function OrderHistory() {
 
     const { socket } = useSocket();
 
-    // Fetch user's existing reviews to know which dishes were already reviewed
+
     const { data: myReviewsData } = trpc.review.myReviews.useQuery({
         page: 1,
         limit: 100,
@@ -573,7 +573,7 @@ export function OrderHistory() {
                     );
                 })}
 
-                {/* Pagination */}
+
                 {pagination && pagination.totalPages > 1 && (
                     <div className="flex justify-center gap-2 mt-4">
                         <Button
@@ -599,7 +599,7 @@ export function OrderHistory() {
                 )}
             </div>
 
-            {/* Review Dialog */}
+
             {reviewTarget && (
                 <ReviewDialog
                     open={!!reviewTarget}

@@ -7,7 +7,7 @@ export class ReviewService {
   constructor(private readonly reviewRepo: ReviewRepo) {}
 
   async create({ data, userId }: { data: CreateReviewBodyType; userId: string }) {
-    // Optional: Check if user ordered dish?
+
     return await this.reviewRepo.create({ data, userId })
   }
 

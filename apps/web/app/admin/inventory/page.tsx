@@ -21,7 +21,7 @@ import { trpc } from '@/lib/trpc/client';
 import { useAuth } from '@/hooks/domain/use-auth';
 import { cn } from '@/lib/utils';
 
-// New components
+
 import { InventoryList } from './components/InventoryList';
 import { RecipeManager } from './components/RecipeManager';
 import { InventoryHistory } from './components/InventoryHistory';
@@ -54,7 +54,7 @@ export default function AdminInventoryPage() {
 
     return (
         <div className="flex flex-col p-6 w-full max-w-7xl mx-auto space-y-8">
-            {/* Header */}
+
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h1 className="font-display text-3xl font-bold tracking-tight text-foreground">
@@ -67,7 +67,7 @@ export default function AdminInventoryPage() {
                 </div>
             </div>
 
-            {/* Stats Cards - Only show on Stock/History tabs for better UX or keep as overview */}
+
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
                 <Card className="bg-linear-to-br from-primary/5 to-primary/10 border-primary/20 shadow-sm transition-all hover:shadow-md">
                     <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
@@ -149,7 +149,7 @@ export default function AdminInventoryPage() {
                 </Card>
             </div>
 
-            {/* Low stock alert banner */}
+
             {stats.lowStock > 0 && activeTab === 'stock' && (
                 <div className="flex items-center gap-3 rounded-xl border border-amber-200 bg-amber-50/50 px-4 py-3 text-amber-800 animate-in fade-in slide-in-from-top-2 duration-300">
                     <AlertTriangle className="h-4 w-4 shrink-0" />
@@ -160,7 +160,7 @@ export default function AdminInventoryPage() {
                 </div>
             )}
 
-            {/* Main Content with Tabs */}
+
             <Tabs
                 defaultValue="stock"
                 className="w-full"

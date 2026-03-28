@@ -36,12 +36,12 @@ export function StaffHeader() {
     const [isOnline, setIsOnline] = useState(true);
 
     useEffect(() => {
-        // Update time every minute
+
         const timer = setInterval(() => {
             setCurrentTime(new Date());
         }, 60000);
 
-        // Check online status
+
         const handleOnline = () => setIsOnline(true);
         const handleOffline = () => setIsOnline(false);
 
@@ -82,10 +82,10 @@ export function StaffHeader() {
             </div>
 
             <div className="flex items-center gap-4">
-                {/* Kitchen Queue Drawer */}
+
                 <KitchenQueueDrawer />
 
-                {/* Connection Status */}
+
                 <div
                     className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${
                         isOnline

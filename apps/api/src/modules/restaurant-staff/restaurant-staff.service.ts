@@ -7,7 +7,7 @@ export class RestaurantStaffService {
   constructor(private readonly prisma: PrismaService) {}
 
   async assignStaff(restaurantId: string, data: CreateRestaurantStaffBodyType) {
-    // Check if restaurant exists
+
     const restaurant = await this.prisma.restaurant.findUnique({
       where: { id: restaurantId },
     })

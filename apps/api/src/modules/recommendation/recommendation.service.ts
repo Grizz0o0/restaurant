@@ -19,10 +19,6 @@ export class RecommendationService {
       where: { userId },
     })
 
-    // For MVPs: we query dishes that they have frequently interacted with
-    // AND generally popular dishes. In a real AI model, this would ping a python service.
-    // We'll simulate a basic collaborative filter
-
     // Step A: Find user's top interacted dish categories or dishes
     const recentInteractions = await this.prisma.userInteraction.findMany({
       where: { userId, dishId: { not: null } },

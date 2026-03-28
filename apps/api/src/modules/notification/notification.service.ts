@@ -69,7 +69,6 @@ export class NotificationService implements OnModuleInit {
     type: 'ORDER_UPDATE' | 'PROMOTION' | 'LOW_STOCK',
     data?: any,
   ) {
-    // Guard: bỏ qua nếu không có userId (ví dụ đơn hàng POS tại bàn không có user)
     if (!userId) {
       this.logger.debug(`Skipping notification (no userId) - type: ${type}, title: ${title}`)
       return
@@ -79,9 +78,9 @@ export class NotificationService implements OnModuleInit {
     const notification = await this.prisma.notification.create({
       data: {
         userId,
-        type: type, // Ensure type matches enum
+        type: type,
         content: body,
-        channel: 'APP', // Default channel for DB log
+        channel: 'APP',
       },
     })
 

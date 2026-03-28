@@ -18,11 +18,10 @@ export function KitchenQueueDrawer() {
     const [open, setOpen] = useState(false);
     const utils = trpc.useUtils();
 
-    // Fetch all active orders
     const { data: ordersData, isLoading } = trpc.order.list.useQuery(
         { page: 1, limit: 100 },
         {
-            refetchInterval: 15000, // Refresh every 15s to keep badge updated
+            refetchInterval: 15000,
         },
     );
 
@@ -30,11 +29,6 @@ export function KitchenQueueDrawer() {
         ['PENDING_CONFIRMATION', 'PREPARING'].includes(o.status),
     );
 
-    // Group items from all active orders to show a unified kitchen view
-    // A more advanced KDS would have individual item status, but since the schema
-    // currently only has status at the Order level, we will display orders that need preparing.
-
-    // Total items waiting
     const pendingItemsCount = activeOrders.reduce(
         (sum, order) => sum + (order.items?.length || 0),
         0,
@@ -65,7 +59,6 @@ export function KitchenQueueDrawer() {
                 >
                     <ChefHat className="w-4 h-4 mr-2" />
                     Chờ bếp
-                    {/* Notification Dot - only show if there are active orders */}
                     {activeOrders.length > 0 && (
                         <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>

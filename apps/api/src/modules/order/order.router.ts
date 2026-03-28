@@ -18,7 +18,7 @@ import { Context } from '@/trpc/context'
 import { OrderService } from './order.service'
 
 @Router({ alias: 'order' })
-@UseMiddlewares(AuthMiddleware) // Authentication required for all order actions
+@UseMiddlewares(AuthMiddleware)
 export class OrderRouter {
   constructor(private readonly orderService: OrderService) {}
 
@@ -26,7 +26,6 @@ export class OrderRouter {
     input: CreateOrderBodySchema,
     output: OrderSchema,
   })
-  // Guest, Waiter, Admin can create orders. AuthMiddleware validates token (which guests also have)
   async create(@Input() input: CreateOrderBodyType, @Ctx() ctx: Context) {
     return this.orderService.create({
       data: input,
@@ -74,8 +73,7 @@ export class OrderRouter {
     input: UpdateOrderStatusSchema,
     output: OrderSchema,
   })
-  @UseMiddlewares(StaffRoleMiddleware) // Allow Admin, Manager, and Staff to update status (e.g. mark as ready)
-  // Allows both Admin and Shipper to update status. Validation logic is inside OrderService.
+  @UseMiddlewares(StaffRoleMiddleware)
   async updateStatus(@Input() input: UpdateOrderStatusType, @Ctx() ctx: Context) {
     return this.orderService.updateStatus(
       input.orderId,

@@ -20,7 +20,6 @@ export class TableService {
   async create(data: CreateTableBodyType & { createdById: string }) {
     const qrCode = data.qrCode || uuidv4().split('-')[0].toUpperCase()
 
-    // Fetch default restaurant or create one
     let restaurant = await this.prismaService.restaurant.findFirst()
     if (!restaurant) {
       restaurant = await this.prismaService.restaurant.create({

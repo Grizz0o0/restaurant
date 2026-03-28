@@ -8,7 +8,7 @@ export const useAuth = () => {
     const router = useRouter();
     const utils = trpc.useUtils();
 
-    // Query current user profile
+
     const {
         data: user,
         isLoading,
@@ -18,7 +18,7 @@ export const useAuth = () => {
         refetchOnWindowFocus: false,
     });
 
-    // Login using Next.js API route
+
     const [isLoginLoading, setIsLoginLoading] = useState(false);
     const login = async (input: any) => {
         setIsLoginLoading(true);
@@ -34,7 +34,7 @@ export const useAuth = () => {
                 throw new Error(error.error?.message || 'Đăng nhập thất bại');
             }
 
-            // Invalidate profile query to fetch user data
+
             utils.profile.getProfile.invalidate();
             toast.success('Đăng nhập thành công');
             router.push('/');
@@ -46,7 +46,7 @@ export const useAuth = () => {
         }
     };
 
-    // Register using Next.js API route
+
     const [isRegisterLoading, setIsRegisterLoading] = useState(false);
     const register = async (input: any) => {
         setIsRegisterLoading(true);
@@ -62,7 +62,7 @@ export const useAuth = () => {
                 throw new Error(error.error?.message || 'Đăng ký thất bại');
             }
 
-            // Auto-login after registration
+
             utils.profile.getProfile.invalidate();
             toast.success('Đăng ký thành công');
             router.push('/');
@@ -73,7 +73,7 @@ export const useAuth = () => {
         }
     };
 
-    // Send OTP (still using TRPC)
+
     const sendOTPMutation = trpc.auth.sendOTP.useMutation({
         onSuccess: () => {
             toast.success('Mã OTP đã được gửi đến email của bạn');
@@ -83,7 +83,7 @@ export const useAuth = () => {
         },
     });
 
-    // Logout using Next.js API route
+
     const logout = async () => {
         try {
             await fetch('/api/auth/logout', { method: 'POST' });
@@ -96,7 +96,7 @@ export const useAuth = () => {
         }
     };
 
-    // Login with Google
+
     const loginWithGoogle = async () => {
         setIsLoginLoading(true);
         try {
