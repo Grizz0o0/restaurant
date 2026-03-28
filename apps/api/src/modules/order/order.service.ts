@@ -16,6 +16,8 @@ import { ForbiddenException } from '@nestjs/common'
 
 @Injectable()
 export class OrderService {
+  private readonly logger = new Logger(OrderService.name)
+
   constructor(
     private readonly orderRepo: OrderRepo,
     private readonly dishRepo: DishRepo,
@@ -96,7 +98,6 @@ export class OrderService {
       if (targetStatus === 'DELIVERING') {
         const code = Math.floor(100000 + Math.random() * 900000).toString()
         extraData.deliveryCode = code
-        // In a real app, send this code via SMS/Email/Notification to Customer
         this.logger.log(`Generated delivery code ${code} for order ${orderId}`)
         await this.notificationService.send(
           order.userId || '',
@@ -119,7 +120,6 @@ export class OrderService {
           throw new BadRequestException('Invalid verification code')
         }
 
-        // Always move to COMPLETED when verification is successful
         targetStatus = 'COMPLETED'
       }
 
@@ -149,14 +149,12 @@ export class OrderService {
 
       // Inventory sync logic
       let inventoryWarnings: string[] = []
-      if (oldStatus === 'PENDING_CONFIRMATION' && isActiveStatus(status)) {
+      if (oldStatus === 'PENDING_CONFIRMATION' && isActiveStatus(targetStatus)) {
         inventoryWarnings = await this.syncInventory(orderId, 'DEDUCT', tx)
       } else if (
         isActiveStatus(oldStatus) &&
-        (status === 'CANCELLED' || status === 'RETURNED' || status === 'BOOMED')
+        (targetStatus === 'CANCELLED' || targetStatus === 'RETURNED' || targetStatus === 'BOOMED')
       ) {
-        // We might return inventory if food is still good, but usually only for non-perishables.
-        // For now, let's return for simplicity, but we could add more granular logic.
         await this.syncInventory(orderId, 'RETURN', tx)
       }
 
@@ -244,9 +242,8 @@ export class OrderService {
       }
 
       for (const invDish of finalRecipes.values()) {
-        if (invDish.quantityUsed <= 0) continue // Skip if overridden to 0
+        if (invDish.quantityUsed <= 0) continue
 
-        // Round to 4 decimal places to avoid floating point issues
         const requiredQty = Math.round(invDish.quantityUsed * item.quantity * 10000) / 10000
 
         if (action === 'DEDUCT') {
@@ -310,10 +307,9 @@ export class OrderService {
   }: {
     data: CreateOrderBodyType
     userId: string
-    tableId?: string // From token (Guest)
+    tableId?: string
     roleName: string
   }) {
-    // If Guest, force tableId from token
     if (roleName === 'GUEST') {
       if (!tableId) throw new BadRequestException('Guest must belong to a table')
       data.tableId = tableId
@@ -322,11 +318,6 @@ export class OrderService {
     if (!data.items || data.items.length === 0) {
       throw new BadRequestException('Order must have items')
     }
-
-    // Fetch dishes to calculate price
-    // Assuming findByIds or list with filter
-    // For simplicity, fetching generic list or using Promise.all (not ideal for N items but okay for small orders)
-    // Better: add findByIds to DishRepo. Or just iterate.
 
     const dishIds = [...new Set(data.items.map((item) => item.dishId))]
     const dishes = await this.dishRepo.findByIds(dishIds)
@@ -353,7 +344,7 @@ export class OrderService {
         price: price,
         quantity: item.quantity,
         images: dish.images || [],
-        skuValue: '', // Reset skuValue hijacking
+        skuValue: '',
         note: item.note || '',
       })
     }
@@ -366,10 +357,6 @@ export class OrderService {
       items: orderItems,
     })
   }
-
-  private readonly logger = new Logger(OrderService.name)
-
-  // ... (constructor remains same)
 
   async createFromCart({
     userId,
@@ -388,7 +375,6 @@ export class OrderService {
   }) {
     this.logger.log(`Creating order from cart for user: ${userId}, role: ${roleName}`)
 
-    // If addressId is provided, fetch address details
     let orderGuestInfo = guestInfo || {}
     if (addressId) {
       const address = await this.addressRepo.findById(addressId)
@@ -403,12 +389,11 @@ export class OrderService {
       }
     }
 
-    // If Guest, force tableId from token
     if (roleName === 'GUEST') {
       if (!tableId) throw new BadRequestException('Guest must belong to a table')
     }
 
-    const validPaymentMethods = ['CASH', 'CARD', 'QR_PAY', 'BANK_TRANSFER', 'MOMO', 'OTHER'] // Matches PaymentMethod enum
+    const validPaymentMethods = ['CASH', 'CARD', 'QR_PAY', 'BANK_TRANSFER', 'MOMO', 'OTHER']
     let paymentMethod = 'CASH'
     if (guestInfo?.paymentMethod && validPaymentMethods.includes(guestInfo.paymentMethod)) {
       paymentMethod = guestInfo.paymentMethod
@@ -473,18 +458,10 @@ export class OrderService {
       let promotionId = null
 
       if (promotionCode) {
-        // We reuse PromotionService logic but need to inject it or replicate it.
-        // Since PromotionService uses `this.prisma`, we might need to be careful if we want it to verify against the DB using `tx`.
-        // PromotionService.apply is readonly (checks), so it's mostly fine to use the main instance,
-        // but if we want to lock promotion usage, we definitely need `tx`.
-        // For now, let's call PromotionService.apply. Ideally, we should refactor PromotionService to accept a prisma client or transaction.
-        // Or just re-implement check here for safety.
-
         const promotion = await tx.promotion.findUnique({ where: { code: promotionCode } })
 
         if (!promotion) throw new BadRequestException('Invalid promotion code')
 
-        // Simple validation replications
         const now = new Date()
         if (now < promotion.validFrom || now > promotion.validTo) {
           throw new BadRequestException('Promotion is expired or not yet valid')
@@ -533,12 +510,12 @@ export class OrderService {
           user: roleName === 'GUEST' ? undefined : { connect: { id: userId } },
           guestId: roleName === 'GUEST' ? userId : null,
           table: tableId && !addressId ? { connect: { id: tableId } } : undefined,
-          restaurant: undefined, // Changed from null to fix TypeScript error
+          restaurant: undefined,
           totalAmount: totalAmount,
           discount: discount,
           status: 'PENDING_CONFIRMATION',
           channel: 'WEB',
-          promotionId: promotionId, // Scalar seems okay? Or connect?
+          promotionId: promotionId,
           guestInfo: finalGuestInfo,
           addressId: addressId || null,
           receiverName: orderGuestInfo?.name || null,
