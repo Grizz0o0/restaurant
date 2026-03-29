@@ -23,12 +23,12 @@ export const metadata: Metadata = {
 };
 
 import TRPCProvider from '../lib/trpc/provider';
-import { TooltipProvider } from '@/components/ui/tooltip';
-import { ThemeProvider } from '@/components/theme-provider';
-import { SocketProvider } from '@/providers/socket-provider';
+import { TooltipProvider } from '@/shared/ui/tooltip';
+import { ThemeProvider } from '@/shared/providers/theme-provider';
+import { SocketProvider } from '@/features/chat/providers/socket-provider';
 
-import { AppShell } from '@/components/layout/app-shell';
-import { UnifiedChat } from '@/components/chat/UnifiedChat';
+import { AppShell } from '@/shared/layout/app-shell';
+import { UnifiedChat } from '@/features/chat/components/UnifiedChat';
 
 export default function RootLayout({
     children,

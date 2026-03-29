@@ -1,13 +1,18 @@
 'use client';
 
-import { useSocket } from '@/providers/socket-provider';
+import { useSocket } from '@/features/chat/providers/socket-provider';
 import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/shared/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
+
+interface TestMessage {
+    message: string;
+    time: string;
+}
 
 export default function SocketTestPage() {
     const { socket, isConnected } = useSocket();
-    const [messages, setMessages] = useState<any[]>([]);
+    const [messages, setMessages] = useState<TestMessage[]>([]);
 
     useEffect(() => {
         if (!socket) return;

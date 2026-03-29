@@ -24,6 +24,7 @@ const stringArray = z.preprocess(
 export const VariantOptionSchema = z.object({
     id: z.string(),
     value: z.string(),
+    priceModifier: z.number().default(0),
 });
 
 export const VariantSchema = z.object({

@@ -39,11 +39,12 @@ export async function POST(request: NextRequest) {
             success: true,
             message: 'Đăng nhập thành công',
         });
-    } catch (error: any) {
-        console.error('Login error:', error);
+    } catch (error: unknown) {
+        const err = error as Error & { data?: { httpStatus?: number } };
+        console.error('Login error:', err);
         return NextResponse.json(
-            { error: error.message || 'Đăng nhập thất bại' },
-            { status: error.data?.httpStatus || 500 },
+            { error: err.message || 'Đăng nhập thất bại' },
+            { status: err.data?.httpStatus || 500 },
         );
     }
 }

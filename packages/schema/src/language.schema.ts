@@ -26,12 +26,18 @@ export const GetLanguagesQuerySchema = z.object({
 
 export const GetLanguagesResSchema = z.object({
     data: z.array(LanguageResponseSchema),
-    total: z.number(),
-    page: z.number(),
-    limit: z.number(),
+    pagination: z.object({
+        totalItems: z.number(),
+        totalPages: z.number(),
+        page: z.number(),
+        limit: z.number(),
+        hasNext: z.boolean(),
+        hasPrev: z.boolean(),
+    }),
 });
 
 export type CreateLanguageBodyType = z.infer<typeof CreateLanguageBodySchema>;
 export type UpdateLanguageBodyType = z.infer<typeof UpdateLanguageBodySchema>;
 export type GetLanguagesQueryType = z.infer<typeof GetLanguagesQuerySchema>;
 export type GetLanguagesResType = z.infer<typeof GetLanguagesResSchema>;
+export type LanguageType = z.infer<typeof LanguageSchema>;

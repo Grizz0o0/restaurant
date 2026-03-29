@@ -21,7 +21,7 @@ export class DishService {
     ) {
       const combinations = generateSkuCombinations(params.variants)
       params.skus = combinations.map((c) => ({
-        value: `SKU-${c.internalId}-${Date.now()}`, // Ensure uniqueness
+        value: `SKU-${c.internalId}-${Date.now()}`,
         price: params.basePrice,
         stock: 0,
         optionValues: c.optionValues,
@@ -86,14 +86,14 @@ export class DishService {
         dish.dishTranslations?.[0]
 
       const name = translation?.name ?? ''
-      
+
       return {
         ...dish,
         name,
         description: translation?.description ?? '',
         languageId: translation?.languageId ?? 'vi',
         dishTranslations: dish.dishTranslations,
-        isAvailable: dish.isAvailable, // Explicit assignment
+        isAvailable: dish.isAvailable,
       }
     })
 

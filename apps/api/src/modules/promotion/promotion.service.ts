@@ -84,7 +84,6 @@ export class PromotionService {
         throw new BadRequestException('Percentage value missing for percentage promotion')
       }
       discountAmount = (orderValue * Number(promotion.percentage)) / 100
-      // Optional: Cap max discount if needed (not in schema yet)
     }
 
     // Ensure discount doesn't exceed order value

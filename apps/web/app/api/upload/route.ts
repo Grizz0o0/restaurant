@@ -39,10 +39,11 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(data, {
             status: response.status,
         });
-    } catch (error: any) {
-        console.error('Upload proxy error:', error);
+    } catch (error: unknown) {
+        const err = error as Error;
+        console.error('Upload proxy error:', err);
         return NextResponse.json(
-            { message: error.message || 'Internal server error' },
+            { message: err.message || 'Internal server error' },
             { status: 500 },
         );
     }

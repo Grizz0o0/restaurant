@@ -29,7 +29,6 @@ export class DynamicAuthMiddleware implements TRPCMiddleware {
     }
 
     // Get Permissions for Role
-    // TODO: Cache this!
     const roleWithPermissions = await this.prisma.role.findUnique({
       where: { id: ctx.user.roleId },
       include: { permissions: true },

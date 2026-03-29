@@ -97,19 +97,17 @@ export class AuthService {
         status: UserStatus.ACTIVE,
       } as any)
 
-
       const device = await this.authRepository.createDevice({
         userId: user.id,
         userAgent: body.userAgent,
         ip: body.ip,
       })
 
-
       const tokens = await this.generateTokens({
         userId: user.id,
         deviceId: device.id,
         roleId: user.roleId,
-        roleName: 'CLIENT', // Assuming default role name for clientRoleId
+        roleName: 'CLIENT',
       })
 
       return tokens
@@ -120,13 +118,11 @@ export class AuthService {
   }
 
   async sendOTP(body: SendOTPBodyType) {
-
     const user = await this.sharedUserRepository.findUnique({ email: body.email })
 
     if (body.type === TypeOfValidationCode.REGISTER && user) throw new EmailAlreadyExistsException()
     if (body.type === TypeOfValidationCode.FORGOT_PASSWORD && (!user || user.deletedAt))
       throw new EmailNotFoundException()
-
 
     const code = generateOTP()
     await this.authRepository.createValidationCode({
@@ -135,7 +131,6 @@ export class AuthService {
       type: body.type,
       expiresAt: addMilliseconds(new Date(), ms(envConfig.OTP_EXPIRES_IN as StringValue)),
     })
-
 
     const { error } = await this.emailService.sendOTP({
       email: body.email,
@@ -148,7 +143,6 @@ export class AuthService {
   }
 
   async login(body: LoginBodyType & { userAgent: string; ip: string }) {
-
     const user = await this.authRepository.findUniqueUserIncludeRole({ email: body.email })
     if (!user) throw new EmailNotFoundException()
 
@@ -186,7 +180,6 @@ export class AuthService {
       throw new InvalidPasswordException()
     }
 
-
     if (user.failedLoginAttempts > 0 || user.lockedAt) {
       await this.authRepository.updateUser(user.id, { failedLoginAttempts: 0, lockedAt: null })
     }
@@ -219,7 +212,6 @@ export class AuthService {
       userAgent: body.userAgent,
       ip: body.ip,
     })
-
 
     const tokens = await this.generateTokens({
       userId: user.id,
@@ -260,7 +252,6 @@ export class AuthService {
     userAgent,
   }: RefreshTokenBodyType & { ip: string; userAgent: string }) {
     try {
-
       const { userId } = await this.tokenService.verifyRefreshToken(refreshToken)
 
       const refreshTokenInDb = await this.authRepository.findUniqueRefreshTokenIncludeUserRole({
@@ -275,7 +266,6 @@ export class AuthService {
           role: { name: roleName },
         },
       } = refreshTokenInDb
-
 
       const $updateDevice = this.authRepository.updateDevice(deviceId, {
         ip,
@@ -300,7 +290,6 @@ export class AuthService {
 
   async logout(refreshToken: string) {
     try {
-
       await this.tokenService.verifyRefreshToken(refreshToken)
       // 2. Xóa refreshToken trong database
       const deleteRefreshToken = await this.authRepository.deleteRefreshToken({
@@ -319,7 +308,6 @@ export class AuthService {
   }
 
   async forgotPassword(body: ForgotPasswordBodyType) {
-
     const user = await this.sharedUserRepository.findUnique({ email: body.email })
     if (!user || user.deletedAt) throw new EmailNotFoundException()
 
@@ -337,7 +325,6 @@ export class AuthService {
       { password: hashedPassword, updatedById: user.id },
     )
 
-
     await this.authRepository.deleteManyRefreshToken({ userId: user.id })
 
     await this.authRepository.deleteVerificationCode({
@@ -352,14 +339,11 @@ export class AuthService {
   }
 
   async setupTwoFactorAuth(userId: string) {
-
     const user = await this.sharedUserRepository.findUnique({ id: userId })
     if (!user) throw new EmailNotFoundException()
     if (user.totpSecret) throw new TOTPAlreadyEnabledException()
 
-
     const { secret, uri } = this.twoFactorAuthService.generateTOTPSecret(user.email)
-
 
     await this.sharedUserRepository.update(
       { id: userId },
@@ -376,7 +360,6 @@ export class AuthService {
     if (!user) throw new EmailNotFoundException()
     if (!user.totpSecret) throw new TOTPNotEnabledException()
 
-
     if (totpCode) {
       const isValid = this.twoFactorAuthService.verifyTOTP({
         email: user.email,
@@ -386,20 +369,17 @@ export class AuthService {
 
       if (!isValid) throw new InvalidTOTPCodeException()
     } else if (code) {
-
-    await this.validateValidationCode({
+      await this.validateValidationCode({
         email: user.email,
         code,
         type: TypeOfValidationCode.DISABLE_2FA,
       })
     }
 
-
     await this.sharedUserRepository.update(
       { id: userId },
       { totpSecret: null, updatedById: userId },
     )
-
 
     return { message: 'Tắt 2FA thành công' }
   }
@@ -443,7 +423,6 @@ export class AuthService {
       { password: hashedPassword, updatedById: userId },
     )
 
-
     await this.authRepository.deleteManyRefreshToken({
       userId,
     })
@@ -451,7 +430,6 @@ export class AuthService {
     return { message: 'Đổi mật khẩu thành công' }
   }
   async guestLogin(body: { tableId: string; token: string }) {
-
     const table = await this.prisma.restaurantTable.findUnique({
       where: { id: body.tableId },
     })
