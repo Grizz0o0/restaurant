@@ -272,7 +272,7 @@ export default function ReviewsClientPage() {
                                                             alt={dishName}
                                                             fill
                                                             className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                                                        />
+                                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                                                     </div>
                                                     <div className="flex flex-col overflow-hidden">
                                                         <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">

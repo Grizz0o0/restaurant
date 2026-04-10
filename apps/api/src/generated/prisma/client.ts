@@ -208,6 +208,11 @@ export type UserPreference = Prisma.UserPreferenceModel
  */
 export type Recommendation = Prisma.RecommendationModel
 /**
+ * Model ContactMessage
+ * 
+ */
+export type ContactMessage = Prisma.ContactMessageModel
+/**
  * Model Promotion
  * 
  */

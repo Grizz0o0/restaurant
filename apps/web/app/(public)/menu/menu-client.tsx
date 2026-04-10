@@ -284,7 +284,7 @@ export const MenuClient = () => {
                                                         false &&
                                                         'grayscale opacity-80',
                                                 )}
-                                            />
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                                                 No Image

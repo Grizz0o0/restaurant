@@ -82,7 +82,7 @@ const TestimonialsSection = () => {
                                         fill
                                         className="object-cover"
                                         unoptimized
-                                    />
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-foreground">

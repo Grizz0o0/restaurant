@@ -174,7 +174,7 @@ const Cart = () => {
                                             alt={dishName}
                                             fill
                                             className="object-cover"
-                                        />
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <h3 className="font-display font-bold text-foreground truncate">

@@ -25,7 +25,8 @@ export const NotificationType = {
   ORDER_UPDATE: 'ORDER_UPDATE',
   RECOMMENDATION: 'RECOMMENDATION',
   LOW_STOCK: 'LOW_STOCK',
-  PROMOTION: 'PROMOTION'
+  PROMOTION: 'PROMOTION',
+  CONTACT: 'CONTACT'
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]

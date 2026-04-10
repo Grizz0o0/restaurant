@@ -31,19 +31,16 @@ export default function CheckoutPage() {
         discountAmount: number;
     } | null>(null);
 
-
     const { data: cartData, isLoading: isCartLoading } = trpc.cart.get.useQuery(
         undefined,
         { enabled: isAuthenticated },
     );
-
 
     const { data: addresses, isLoading: isAddressesLoading } =
         trpc.address.list.useQuery(
             { page: 1, limit: 50 },
             { enabled: isAuthenticated },
         );
-
 
     useEffect(() => {
         if (addresses && addresses.length > 0 && !selectedAddressId) {
@@ -138,7 +135,6 @@ export default function CheckoutPage() {
         });
     };
 
-
     useEffect(() => {
         if (!isAuthLoading && !isAuthenticated) {
             router.push('/auth/login?redirect=/checkout');
@@ -184,9 +180,7 @@ export default function CheckoutPage() {
                 </h1>
 
                 <div className="grid gap-8 lg:grid-cols-3">
-
                     <div className="lg:col-span-2 space-y-6">
-
                         <Card>
                             <CardHeader className="flex flex-row items-center justify-between">
                                 <CardTitle className="flex items-center gap-2">
@@ -264,7 +258,6 @@ export default function CheckoutPage() {
                             </CardContent>
                         </Card>
 
-
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
@@ -323,14 +316,12 @@ export default function CheckoutPage() {
                         </Card>
                     </div>
 
-
                     <div className="lg:col-span-1">
                         <Card className="sticky top-24">
                             <CardHeader>
                                 <CardTitle>Đơn hàng của bạn</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-6">
-
                                 <div className="space-y-4 max-h-75 overflow-y-auto pr-2">
                                     {cartData.items.map((item: any) => {
                                         const dishName =
@@ -355,7 +346,7 @@ export default function CheckoutPage() {
                                                         alt={dishName}
                                                         fill
                                                         className="object-cover"
-                                                    />
+                                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                                                 </div>
                                                 <div className="flex-1 min-w-0">
                                                     <p className="text-sm font-medium truncate">
@@ -376,7 +367,6 @@ export default function CheckoutPage() {
                                 </div>
 
                                 <Separator />
-
 
                                 <div className="space-y-2">
                                     <div className="flex justify-between text-sm">
@@ -414,7 +404,6 @@ export default function CheckoutPage() {
                                         </span>
                                     </div>
                                 </div>
-
 
                                 <div className="space-y-3">
                                     <Label

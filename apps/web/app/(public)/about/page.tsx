@@ -62,7 +62,7 @@ const About = () => {
                                     alt="Bánh Mì Sài Gòn"
                                     fill
                                     className="object-cover"
-                                />
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                             </div>
                             <div className="absolute -bottom-6 -right-6 bg-primary text-primary-foreground p-6 rounded-2xl shadow-warm hidden md:block z-10">
                                 <p className="font-display text-2xl font-bold">

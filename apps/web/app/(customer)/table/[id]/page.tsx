@@ -260,6 +260,7 @@ export default function GuestTablePage() {
                                                         ? 'group-hover:scale-110'
                                                         : 'grayscale opacity-70',
                                                 )}
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                             />
                                             {dish.isAvailable === false && (
                                                 <div className="absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-[1px]">
@@ -378,6 +379,7 @@ export default function GuestTablePage() {
                                                                 }
                                                                 fill
                                                                 className="object-cover"
+                                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                                             />
                                                         ) : (
                                                             <div className="w-full h-full flex items-center justify-center text-gray-300">

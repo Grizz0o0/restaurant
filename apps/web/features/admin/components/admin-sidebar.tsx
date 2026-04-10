@@ -100,6 +100,11 @@ const sidebarItems = [
         href: '/admin/reviews',
         icon: Star,
     },
+    {
+        title: 'Liên hệ',
+        href: '/admin/contact-messages',
+        icon: MessageSquareText,
+    },
 ];
 
 export function AdminSidebarContent({

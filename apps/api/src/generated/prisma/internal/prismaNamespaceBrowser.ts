@@ -85,6 +85,7 @@ export const ModelName = {
   RestaurantStaff: 'RestaurantStaff',
   UserPreference: 'UserPreference',
   Recommendation: 'Recommendation',
+  ContactMessage: 'ContactMessage',
   Promotion: 'Promotion',
   InventoryTransaction: 'InventoryTransaction',
   Notification: 'Notification'
@@ -651,6 +652,20 @@ export const RecommendationScalarFieldEnum = {
 } as const
 
 export type RecommendationScalarFieldEnum = (typeof RecommendationScalarFieldEnum)[keyof typeof RecommendationScalarFieldEnum]
+
+
+export const ContactMessageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  message: 'message',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ContactMessageScalarFieldEnum = (typeof ContactMessageScalarFieldEnum)[keyof typeof ContactMessageScalarFieldEnum]
 
 
 export const PromotionScalarFieldEnum = {

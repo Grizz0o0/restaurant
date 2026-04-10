@@ -418,6 +418,7 @@ export const ModelName = {
   RestaurantStaff: 'RestaurantStaff',
   UserPreference: 'UserPreference',
   Recommendation: 'Recommendation',
+  ContactMessage: 'ContactMessage',
   Promotion: 'Promotion',
   InventoryTransaction: 'InventoryTransaction',
   Notification: 'Notification'
@@ -436,7 +437,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "language" | "user" | "userAddress" | "userTranslation" | "userInteraction" | "verificationCode" | "device" | "refreshToken" | "permission" | "role" | "dish" | "dishTranslation" | "dishCategory" | "dishCategoryTranslation" | "variant" | "variantOption" | "sKU" | "supplier" | "supplierTranslation" | "cartItem" | "dishSKUSnapshot" | "order" | "review" | "paymentTransaction" | "message" | "restaurant" | "restaurantTable" | "reservation" | "inventory" | "inventoryDish" | "inventorySKU" | "restaurantStaff" | "userPreference" | "recommendation" | "promotion" | "inventoryTransaction" | "notification"
+    modelProps: "language" | "user" | "userAddress" | "userTranslation" | "userInteraction" | "verificationCode" | "device" | "refreshToken" | "permission" | "role" | "dish" | "dishTranslation" | "dishCategory" | "dishCategoryTranslation" | "variant" | "variantOption" | "sKU" | "supplier" | "supplierTranslation" | "cartItem" | "dishSKUSnapshot" | "order" | "review" | "paymentTransaction" | "message" | "restaurant" | "restaurantTable" | "reservation" | "inventory" | "inventoryDish" | "inventorySKU" | "restaurantStaff" | "userPreference" | "recommendation" | "contactMessage" | "promotion" | "inventoryTransaction" | "notification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2956,6 +2957,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ContactMessage: {
+      payload: Prisma.$ContactMessagePayload<ExtArgs>
+      fields: Prisma.ContactMessageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ContactMessageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContactMessagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ContactMessageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContactMessagePayload>
+        }
+        findFirst: {
+          args: Prisma.ContactMessageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContactMessagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ContactMessageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContactMessagePayload>
+        }
+        findMany: {
+          args: Prisma.ContactMessageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContactMessagePayload>[]
+        }
+        create: {
+          args: Prisma.ContactMessageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContactMessagePayload>
+        }
+        createMany: {
+          args: Prisma.ContactMessageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ContactMessageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContactMessagePayload>[]
+        }
+        delete: {
+          args: Prisma.ContactMessageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContactMessagePayload>
+        }
+        update: {
+          args: Prisma.ContactMessageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContactMessagePayload>
+        }
+        deleteMany: {
+          args: Prisma.ContactMessageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ContactMessageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ContactMessageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContactMessagePayload>[]
+        }
+        upsert: {
+          args: Prisma.ContactMessageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContactMessagePayload>
+        }
+        aggregate: {
+          args: Prisma.ContactMessageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateContactMessage>
+        }
+        groupBy: {
+          args: Prisma.ContactMessageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ContactMessageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ContactMessageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ContactMessageCountAggregateOutputType> | number
+        }
+      }
+    }
     Promotion: {
       payload: Prisma.$PromotionPayload<ExtArgs>
       fields: Prisma.PromotionFieldRefs
@@ -3764,6 +3839,20 @@ export const RecommendationScalarFieldEnum = {
 export type RecommendationScalarFieldEnum = (typeof RecommendationScalarFieldEnum)[keyof typeof RecommendationScalarFieldEnum]
 
 
+export const ContactMessageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  message: 'message',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ContactMessageScalarFieldEnum = (typeof ContactMessageScalarFieldEnum)[keyof typeof ContactMessageScalarFieldEnum]
+
+
 export const PromotionScalarFieldEnum = {
   id: 'id',
   code: 'code',
@@ -4277,6 +4366,7 @@ export type GlobalOmitConfig = {
   restaurantStaff?: Prisma.RestaurantStaffOmit
   userPreference?: Prisma.UserPreferenceOmit
   recommendation?: Prisma.RecommendationOmit
+  contactMessage?: Prisma.ContactMessageOmit
   promotion?: Prisma.PromotionOmit
   inventoryTransaction?: Prisma.InventoryTransactionOmit
   notification?: Prisma.NotificationOmit

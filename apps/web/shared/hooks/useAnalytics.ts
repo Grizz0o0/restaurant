@@ -4,7 +4,7 @@ import { InteractionTypeSchema } from '@repo/schema';
 import { z } from 'zod';
 
 export const useAnalytics = () => {
-    const mutation = trpc.analytics.log.useMutation({
+    const { mutate } = trpc.analytics.log.useMutation({
         onError: (err) => {
             if (process.env.NODE_ENV === 'development') {
                 console.warn('Analytics Tracking Error:', err.message);
@@ -18,13 +18,13 @@ export const useAnalytics = () => {
             dishId?: string,
             metadata?: Record<string, unknown>,
         ) => {
-            mutation.mutate({
+            mutate({
                 action,
                 dishId,
                 metadata,
             });
         },
-        [mutation],
+        [mutate],
     );
 
     return {

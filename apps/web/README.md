@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/create-next-app).
+# Restaurant Frontend Web
 
-## Getting Started
+Ứng dụng Frontend Next.js này phục vụ cả khách hàng đặt món và người quản trị hệ thống, thuộc kiến trúc monorepo sử dụng [Turborepo](https://turbo.build/repo/docs) và `pnpm`.
 
-First, run the development server:
+Dự án sử dụng cơ chế **App Router** của Next.js 14 và kết nối backend thông qua **tRPC React v11 native** để đảm bảo tích hợp type-safe end-to-end với ứng dụng `apps/api`.
+
+## 🚀 Tính năng nổi bật
+
+- **Next.js 14 App Router**: Hỗ trợ Server-Side Rendering (SSR), Server Components (RSC) tối ưu.
+- **tRPC React v11**: Cung cấp React Query hooks type-safe giúp gọi API tự động đồng bộ kết quả từ folder `packages/schema`. Không yêu cầu định nghĩa tay REST clients hay API schemas.
+- **Zod Validation**: Types xác thực đầu vào cho form được sử dụng chung từ package schema.
+- **Styles**: Tailwind CSS và class-variance-authority, kiến trúc UI shadcn/ui.
+- **State Management**: Quản lý global store tĩnh gọn nhẹ qua Zustand, và Async cache thông minh qua React Query (của tRPC).
+- **Form Management**: React Hook Form kết hợp Zod schema.
+
+## 🛠 Cài đặt & Môi trường
+
+Hãy luôn ghi nhớ chạy các lệnh `pnpm` từ thư mục gốc của toàn dự án (turborepo root) để tránh rớt `lockfile`.
+
+### 1. Cấu hình biến môi trường
+
+Trong `apps/web/`:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Hãy thiết lập đầy đủ URL kết nối Backend:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `NEXT_PUBLIC_API_URL`: Trỏ về địa chỉ server API (thường là http://localhost:3052/api).
+- Các biến môi trường Public (NEXT*PUBLIC*\*) cho cổng thanh toán / cloudinary / v.v.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load Inter, a custom Google Font.
+### 2. Khởi chạy App
 
-## Learn More
+Nếu khởi động cả cụm hệ thống:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Hoặc, khởi chạy môi trường web duy nhất để thiết kế linh kiện:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm run dev --filter web
+```
 
-## Deploy on Vercel
+Hệ thống Next.js mặc định lắng nghe ở port `3000`: Mở [http://localhost:3000](http://localhost:3000).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📂 Tổ chức thư mục
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Tuân thủ kiến trúc ghép linh kiện và feature-sliced:
+
+- `app/`: Định nghĩa URL Routing (Layout, Page, Loading, Error boundary).
+- `features/`: Chứa Domain Logic cách ly triệt để. Mỗi tính năng (như Admin, Booking, Menu) sẽ độc lập với module của riêng mình: `components/`, `hooks/`, `schemas/`, `api/`.
+- `components/ui/`: Dumb components (Nút, Form input, Dialog, Modal). Định nghĩa tái sử dụng ở cấp toàn trang web.
+- `lib/`: Nơi thiết lập tRPC Client (`trpc.ts`), `utils.ts` và các plugin core như config axios (nếu cần fallback REST).
