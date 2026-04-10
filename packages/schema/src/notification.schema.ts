@@ -15,7 +15,7 @@ export const NotificationSchema = z.object({
     id: z.string().uuid(),
     title: z.string(),
     content: z.string(),
-    type: z.enum(['ORDER_UPDATE', 'PROMOTION', 'LOW_STOCK', 'RECOMMENDATION']),
+    type: z.enum(['ORDER_UPDATE', 'PROMOTION', 'LOW_STOCK', 'RECOMMENDATION', 'CONTACT']),
     isRead: z.boolean().default(false),
     createdAt: z.date(),
     data: z.any().optional(),

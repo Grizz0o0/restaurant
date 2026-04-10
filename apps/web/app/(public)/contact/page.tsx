@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
-import { ArrowLeft, MapPin, Phone, Clock, Mail, Send } from 'lucide-react';
+import { MapPin, Phone, Clock, Mail, Send } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { Textarea } from '@/shared/ui/textarea';
 import { toast } from 'sonner';
+import { trpc } from '@/lib/trpc/client';
 
 const contactInfo = [
     {
@@ -59,22 +59,24 @@ const Contact = () => {
         phone: '',
         message: '',
     });
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const submitMutation = trpc.contact.submit.useMutation({
+        onSuccess: () => {
+            toast.success('Gửi thành công!', {
+                description:
+                    'Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.',
+            });
+            setFormData({ name: '', email: '', phone: '', message: '' });
+        },
+        onError: (err) => {
+            toast.error('Có lỗi xảy ra', {
+                description: err.message,
+            });
+        },
+    });
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setIsSubmitting(true);
-
-        // Simulate form submission
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        toast.success('Gửi thành công!', {
-            description:
-                'Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.',
-        });
-
-        setFormData({ name: '', email: '', phone: '', message: '' });
-        setIsSubmitting(false);
+        submitMutation.mutate(formData);
     };
 
     const handleChange = (
@@ -207,9 +209,9 @@ const Contact = () => {
                                     type="submit"
                                     variant="hero"
                                     className="w-full"
-                                    disabled={isSubmitting}
+                                    disabled={submitMutation.isPending}
                                 >
-                                    {isSubmitting ? (
+                                    {submitMutation.isPending ? (
                                         'Đang gửi...'
                                     ) : (
                                         <>
