@@ -1,64 +1,63 @@
-import { Ctx, Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
-import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
 import {
   CreateReservationBodySchema,
   UpdateReservationBodySchema,
-  CreateReservationBodyType,
-  UpdateReservationBodyType,
   GetReservationsQuerySchema,
-  GetReservationsQueryType,
   ReservationSchema,
   GetReservationsResSchema,
   CheckAvailabilityQuerySchema,
-  CheckAvailabilityQueryType,
 } from '@repo/schema'
-import { Context } from '@/trpc/context'
 import { ReservationService } from './reservation.service'
 import { z } from 'zod'
 
-@Router({ alias: 'reservation' })
-@UseMiddlewares(AuthMiddleware)
+@Injectable()
 export class ReservationRouter {
-  constructor(private readonly reservationService: ReservationService) {}
+  constructor(
+    private readonly trpcService: TrpcService,
+    private readonly reservationService: ReservationService,
+  ) {}
 
-  @Query({
-    input: GetReservationsQuerySchema,
-    output: GetReservationsResSchema,
-  })
-  async list(@Input() input: GetReservationsQueryType) {
-    return this.reservationService.list(input)
-  }
+  get router() {
+    const { t, protectedProcedure: prot } = this.trpcService
+    return t.router({
+      list: prot
+        .input(GetReservationsQuerySchema)
+        .output(GetReservationsResSchema)
+        .query(async ({ input }) => {
+          const result = await this.reservationService.list(input)
+          return result
+        }),
 
-  @Query({
-    input: CheckAvailabilityQuerySchema,
-    output: z.object({ available: z.boolean() }),
-  })
-  async checkAvailability(@Input() input: CheckAvailabilityQueryType) {
-    return this.reservationService.getAvailability(input)
-  }
+      checkAvailability: prot
+        .input(CheckAvailabilityQuerySchema)
+        .output(z.object({ available: z.boolean() }))
+        .query(async ({ input }) => {
+          const result = await this.reservationService.getAvailability(input)
+          return result
+        }),
 
-  @Mutation({
-    input: CreateReservationBodySchema,
-    output: ReservationSchema,
-  })
-  async create(@Input() input: CreateReservationBodyType, @Ctx() ctx: Context) {
-    return this.reservationService.create({ ...input, userId: ctx.user!.userId })
-  }
+      create: prot
+        .input(CreateReservationBodySchema)
+        .output(ReservationSchema)
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.reservationService.create({
+            ...input,
+            userId: ctx.user!.userId,
+          })
+          return result
+        }),
 
-  @Mutation({
-    input: z.object({
-      id: z.string(),
-      data: UpdateReservationBodySchema,
-    }),
-    output: ReservationSchema,
-  })
-  async update(
-    @Input() input: { id: string; data: UpdateReservationBodyType },
-    @Ctx() ctx: Context,
-  ) {
-    return this.reservationService.update(input.id, {
-      ...input.data,
-      updatedById: ctx.user!.userId,
+      update: prot
+        .input(z.object({ id: z.string(), data: UpdateReservationBodySchema }))
+        .output(ReservationSchema)
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.reservationService.update(input.id, {
+            ...input.data,
+            updatedById: ctx.user!.userId,
+          })
+          return result
+        }),
     })
   }
 }

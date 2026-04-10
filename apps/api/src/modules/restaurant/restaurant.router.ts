@@ -1,97 +1,93 @@
-import { Ctx, Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
-import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
 import {
   CreateRestaurantBodySchema,
   UpdateRestaurantBodySchema,
-  CreateRestaurantBodyType,
-  UpdateRestaurantBodyType,
   GetRestaurantsQuerySchema,
-  GetRestaurantsQueryType,
   RestaurantSchema,
   GetRestaurantsResSchema,
   AssignStaffBodySchema,
-  AssignStaffBodyType,
   RemoveStaffBodySchema,
-  RemoveStaffBodyType,
 } from '@repo/schema'
-import { Context } from '@/trpc/context'
 import { RestaurantService } from './restaurant.service'
 import { z } from 'zod'
 
-@Router({ alias: 'restaurant' })
-@UseMiddlewares(AuthMiddleware)
+@Injectable()
 export class RestaurantRouter {
-  constructor(private readonly restaurantService: RestaurantService) {}
+  constructor(
+    private readonly trpcService: TrpcService,
+    private readonly restaurantService: RestaurantService,
+  ) {}
 
-  @Query({
-    input: GetRestaurantsQuerySchema,
-    output: GetRestaurantsResSchema,
-  })
-  async list(@Input() input: GetRestaurantsQueryType) {
-    return this.restaurantService.list(input)
-  }
+  get router() {
+    const { t, protectedProcedure: prot } = this.trpcService
+    return t.router({
+      list: prot
+        .input(GetRestaurantsQuerySchema)
+        .output(GetRestaurantsResSchema)
+        .query(async ({ input }) => {
+          const result = await this.restaurantService.list(input)
+          return result
+        }),
 
-  @Query({
-    input: z.object({ id: z.string() }),
-    output: RestaurantSchema.extend({ staff: z.any().optional() }), // Relax output validation for included relations if needed
-  })
-  async detail(@Input('id') id: string) {
-    return this.restaurantService.findById(id)
-  }
+      detail: prot
+        .input(z.object({ id: z.string() }))
+        .output(RestaurantSchema.extend({ staff: z.any().optional() }))
+        .query(async ({ input }) => {
+          const result = await this.restaurantService.findById(input.id)
+          return result
+        }),
 
-  @Query({
-    output: RestaurantSchema,
-  })
-  async getMain() {
-    return this.restaurantService.getMain()
-  }
+      getMain: prot.output(RestaurantSchema).query(async () => {
+        const result = await this.restaurantService.getMain()
+        return result
+      }),
 
-  @Mutation({
-    input: CreateRestaurantBodySchema,
-    output: RestaurantSchema,
-  })
-  async create(@Input() input: CreateRestaurantBodyType, @Ctx() ctx: Context) {
-    return this.restaurantService.create({ ...input, createdById: ctx.user!.userId })
-  }
+      create: prot
+        .input(CreateRestaurantBodySchema)
+        .output(RestaurantSchema)
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.restaurantService.create({
+            ...input,
+            createdById: ctx.user!.userId,
+          })
+          return result
+        }),
 
-  @Mutation({
-    input: z.object({
-      id: z.string(),
-      data: UpdateRestaurantBodySchema,
-    }),
-    output: RestaurantSchema,
-  })
-  async update(
-    @Input() input: { id: string; data: UpdateRestaurantBodyType },
-    @Ctx() ctx: Context,
-  ) {
-    return this.restaurantService.update(input.id, {
-      ...input.data,
-      updatedById: ctx.user!.userId,
+      update: prot
+        .input(z.object({ id: z.string(), data: UpdateRestaurantBodySchema }))
+        .output(RestaurantSchema)
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.restaurantService.update(input.id, {
+            ...input.data,
+            updatedById: ctx.user!.userId,
+          })
+          return result
+        }),
+
+      delete: prot
+        .input(z.object({ id: z.string() }))
+        .output(z.any())
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.restaurantService.delete(input.id, ctx.user!.userId)
+          return result
+        }),
+
+      assignStaff: prot
+        .input(AssignStaffBodySchema)
+        .output(z.any())
+        .mutation(async ({ input }) => {
+          const result = await this.restaurantService.assignStaff(input)
+          return result
+        }),
+
+      removeStaff: prot
+        .input(RemoveStaffBodySchema)
+        .output(z.any())
+        .mutation(async ({ input }) => {
+          const result = await this.restaurantService.removeStaff(input)
+          return result
+        }),
     })
-  }
-
-  @Mutation({
-    input: z.object({ id: z.string() }),
-    output: z.any(),
-  })
-  async delete(@Input('id') id: string, @Ctx() ctx: Context) {
-    return this.restaurantService.delete(id, ctx.user!.userId)
-  }
-
-  @Mutation({
-    input: AssignStaffBodySchema,
-    output: z.any(),
-  })
-  async assignStaff(@Input() input: AssignStaffBodyType) {
-    return this.restaurantService.assignStaff(input)
-  }
-
-  @Mutation({
-    input: RemoveStaffBodySchema,
-    output: z.any(),
-  })
-  async removeStaff(@Input() input: RemoveStaffBodyType) {
-    return this.restaurantService.removeStaff(input)
   }
 }

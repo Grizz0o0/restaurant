@@ -5,6 +5,6 @@ import { ProfileRouter } from './profile.router'
 
 @Module({
   providers: [ProfileService, ProfileRepo, ProfileRouter],
-  exports: [ProfileService, ProfileRepo],
+  exports: [ProfileService, ProfileRepo, ProfileRouter],
 })
 export class ProfileModule {}

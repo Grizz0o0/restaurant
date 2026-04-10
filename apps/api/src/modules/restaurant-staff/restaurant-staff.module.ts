@@ -4,6 +4,6 @@ import { RestaurantStaffRouter } from './restaurant-staff.router'
 
 @Module({
   providers: [RestaurantStaffService, RestaurantStaffRouter],
-  exports: [RestaurantStaffService],
+  exports: [RestaurantStaffService, RestaurantStaffRouter],
 })
 export class RestaurantStaffModule {}

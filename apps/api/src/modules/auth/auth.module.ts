@@ -14,6 +14,6 @@ import envConfig from '@/shared/config'
     }),
   ],
   providers: [AuthService, AuthRouter, AuthRepository, GoogleService],
-  exports: [AuthRepository],
+  exports: [AuthRepository, AuthRouter],
 })
 export class AuthModule {}

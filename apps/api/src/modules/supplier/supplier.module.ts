@@ -6,6 +6,6 @@ import { SupplierRouter } from './supplier.router'
 @Module({
   controllers: [SupplierController],
   providers: [SupplierService, SupplierRouter],
-  exports: [SupplierService],
+  exports: [SupplierService, SupplierRouter],
 })
 export class SupplierModule {}

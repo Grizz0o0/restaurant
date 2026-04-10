@@ -1,47 +1,45 @@
-import { Input, Mutation, Query, Router, UseMiddlewares, Ctx } from 'nestjs-trpc'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
 import { NotificationService } from './notification.service'
-import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
-import {
-  SendPushNotificationSchema,
-  SendPushNotificationType,
-  NotificationSchema,
-  MarkAsReadSchema,
-  MarkAsReadType,
-} from '@repo/schema'
+import { SendPushNotificationSchema, NotificationSchema, MarkAsReadSchema } from '@repo/schema'
 import { z } from 'zod'
 
-@Router({ alias: 'notification' })
-@UseMiddlewares(AuthMiddleware)
+@Injectable()
 export class NotificationRouter {
-  constructor(private readonly notificationService: NotificationService) {}
+  constructor(
+    private readonly trpcService: TrpcService,
+    private readonly notificationService: NotificationService,
+  ) {}
 
-  @Mutation({
-    input: SendPushNotificationSchema,
-    output: SendPushNotificationSchema, // Simple echo or create response schema
-  })
-  async sendPush(@Input() input: SendPushNotificationType) {
-    await this.notificationService.send(
-      input.userId,
-      input.title,
-      input.body,
-      'PROMOTION', // Default type
-      input.data,
-    )
-    return input
-  }
+  get router() {
+    const { t, protectedProcedure: prot } = this.trpcService
+    return t.router({
+      sendPush: prot
+        .input(SendPushNotificationSchema)
+        .output(SendPushNotificationSchema)
+        .mutation(async ({ input }) => {
+          await this.notificationService.send(
+            input.userId,
+            input.title,
+            input.body,
+            'PROMOTION',
+            input.data,
+          )
+          return input
+        }),
 
-  @Query({
-    output: z.array(NotificationSchema),
-  })
-  async getNotifications(@Ctx() ctx: { user: { id: string } }) {
-    return this.notificationService.getNotifications(ctx.user.id)
-  }
+      getNotifications: prot.output(z.array(NotificationSchema)).query(async ({ ctx }) => {
+        const result = await this.notificationService.getNotifications(ctx.user!.userId)
+        return result as any
+      }),
 
-  @Mutation({
-    input: MarkAsReadSchema,
-    output: z.boolean(),
-  })
-  async markAsRead(@Input() input: MarkAsReadType, @Ctx() ctx: { user: { id: string } }) {
-    return this.notificationService.markAsRead(ctx.user.id, input.id)
+      markAsRead: prot
+        .input(MarkAsReadSchema)
+        .output(z.boolean())
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.notificationService.markAsRead(ctx.user!.userId, input.id)
+          return result
+        }),
+    })
   }
 }

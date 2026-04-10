@@ -1,16 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { TRPCError } from '@trpc/server'
-import { MiddlewareOptions, TRPCMiddleware } from 'nestjs-trpc'
 import { Context } from '@/trpc/context'
 import { PrismaService } from '@/shared/prisma'
 
 @Injectable()
-export class DynamicAuthMiddleware implements TRPCMiddleware {
+export class DynamicAuthMiddleware {
   private readonly logger = new Logger(DynamicAuthMiddleware.name)
 
   constructor(private readonly prisma: PrismaService) {}
 
-  async use(opts: MiddlewareOptions) {
+  async use(opts: { ctx: unknown; next: (opts?: any) => Promise<any>; path: string; type: string }) {
     const ctx = opts.ctx as Context
     const { next, path, type } = opts
 
@@ -24,7 +23,6 @@ export class DynamicAuthMiddleware implements TRPCMiddleware {
     const requiredPath = path
 
     if (!ctx.user) {
-      // Not logged in
       throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Not authenticated' })
     }
 

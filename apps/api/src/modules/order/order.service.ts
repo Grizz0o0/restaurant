@@ -165,10 +165,23 @@ export class OrderService {
       })
 
       return {
-        ...updatedOrder,
+        ...this.mapOrder(updatedOrder),
         inventoryWarnings,
       }
     })
+  }
+
+  private mapOrder(order: any) {
+    if (!order) return order
+    return {
+      ...order,
+      totalAmount: order.totalAmount ? Number(order.totalAmount) : 0,
+      discount: order.discount ? Number(order.discount) : 0,
+      items: order.items?.map((item: any) => ({
+        ...item,
+        price: item.price ? Number(item.price) : 0,
+      })),
+    }
   }
 
   private async syncInventory(
@@ -349,13 +362,15 @@ export class OrderService {
       })
     }
 
-    return this.orderRepo.create({
+    const order = await this.orderRepo.create({
       tableId: data.tableId || null,
       guestId: roleName === 'GUEST' ? userId : null,
       totalPrice,
       status: 'PENDING',
       items: orderItems,
     })
+
+    return this.mapOrder(order)
   }
 
   async createFromCart({
@@ -543,11 +558,15 @@ export class OrderService {
         totalAmount: totalAmount,
       })
 
-      return order
+      return this.mapOrder(order)
     })
   }
 
   async list(query: GetOrdersQueryType) {
-    return await this.orderRepo.list(query)
+    const result = await this.orderRepo.list(query)
+    return {
+      ...result,
+      data: result.data.map((order) => this.mapOrder(order)),
+    }
   }
 }

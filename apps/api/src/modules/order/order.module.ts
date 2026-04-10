@@ -14,6 +14,6 @@ import { SocketModule } from '@/modules/socket/socket.module'
   imports: [DishModule, NotificationModule, AddressModule, SocketModule],
 
   providers: [OrderService, OrderRouter, OrderRepo, OrderListener],
-  exports: [OrderService],
+  exports: [OrderService, OrderRouter],
 })
 export class OrderModule {}

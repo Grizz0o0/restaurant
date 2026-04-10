@@ -145,6 +145,9 @@ import {
     CreateInventorySkuBodySchema,
     UpdateInventorySkuBodySchema,
     GetSkuIngredientsResSchema,
+    CreateContactBodySchema,
+    GetContactsQuerySchema,
+    GetContactsResSchema,
 } from '@repo/schema';
 
 import superjson from 'superjson';
@@ -830,6 +833,21 @@ const appRouter = t.router({
         getAdmin: publicProcedure
             .output(z.object({ id: z.string() }).nullable())
             .query(notImplemented),
+    }),
+    contact: t.router({
+        submit: publicProcedure
+            .input(CreateContactBodySchema)
+            .mutation(notImplemented),
+        list: publicProcedure
+            .input(GetContactsQuerySchema)
+            .output(GetContactsResSchema)
+            .query(notImplemented),
+        markAsRead: publicProcedure
+            .input(z.object({ id: z.string().uuid() }))
+            .mutation(notImplemented),
+        delete: publicProcedure
+            .input(z.object({ id: z.string().uuid() }))
+            .mutation(notImplemented),
     }),
     analytics: t.router({
         log: publicProcedure

@@ -1,16 +1,25 @@
-import { Input, Mutation, Router } from 'nestjs-trpc'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
 import { AiChatService } from './ai-chat.service'
-import { AiChatBodySchema, AiChatBodyType, AiChatResSchema } from '@repo/schema'
+import { AiChatBodySchema, AiChatResSchema } from '@repo/schema'
 
-@Router({ alias: 'aiChat' })
+@Injectable()
 export class AiChatRouter {
-  constructor(private readonly aiChatService: AiChatService) {}
+  constructor(
+    private readonly trpcService: TrpcService,
+    private readonly aiChatService: AiChatService,
+  ) {}
 
-  @Mutation({
-    input: AiChatBodySchema,
-    output: AiChatResSchema,
-  })
-  async chat(@Input() input: AiChatBodyType) {
-    return this.aiChatService.chat(input.message, input.history)
+  get router() {
+    const { t, publicProcedure: p } = this.trpcService
+    return t.router({
+      chat: p
+        .input(AiChatBodySchema)
+        .output(AiChatResSchema)
+        .mutation(async ({ input }) => {
+          const result = await this.aiChatService.chat(input.message, input.history)
+          return result
+        }),
+    })
   }
 }

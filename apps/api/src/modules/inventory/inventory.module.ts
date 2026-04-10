@@ -6,6 +6,6 @@ import { InventoryRouter } from './inventory.router'
 @Module({
   controllers: [InventoryController],
   providers: [InventoryService, InventoryRouter],
-  exports: [InventoryService],
+  exports: [InventoryService, InventoryRouter],
 })
 export class InventoryModule {}

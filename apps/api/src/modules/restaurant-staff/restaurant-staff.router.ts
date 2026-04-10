@@ -1,68 +1,76 @@
-import { Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
-import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
-import { AdminRoleMiddleware } from '@/trpc/middlewares/admin-role.middleware'
-import { z } from 'zod'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
+import { CreateRestaurantStaffBodySchema, UpdateRestaurantStaffBodySchema } from '@repo/schema'
 import { RestaurantStaffService } from './restaurant-staff.service'
-import {
-  CreateRestaurantStaffBodySchema,
-  CreateRestaurantStaffBodyType,
-  UpdateRestaurantStaffBodySchema,
-  UpdateRestaurantStaffBodyType,
-} from '@repo/schema'
+import { z } from 'zod'
 
-@Router({ alias: 'restaurantStaff' })
+@Injectable()
 export class RestaurantStaffRouter {
-  constructor(private readonly restaurantStaffService: RestaurantStaffService) {}
+  constructor(
+    private readonly trpcService: TrpcService,
+    private readonly restaurantStaffService: RestaurantStaffService,
+  ) {}
 
-  @Query({
-    input: z.object({ restaurantId: z.string().uuid() }),
-    output: z.any(),
-  })
-  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
-  async getStaffs(@Input('restaurantId') restaurantId: string) {
-    return this.restaurantStaffService.getRestaurantStaffs(restaurantId)
-  }
+  get router() {
+    const { t, adminProcedure: admin } = this.trpcService
+    return t.router({
+      getStaffs: admin
+        .input(z.object({ restaurantId: z.string().uuid() }))
+        .output(z.any())
+        .query(async ({ input }) => {
+          const result = await this.restaurantStaffService.getRestaurantStaffs(input.restaurantId)
+          return result
+        }),
 
-  @Mutation({
-    input: z.object({
-      restaurantId: z.string().uuid(),
-      data: CreateRestaurantStaffBodySchema,
-    }),
-    output: z.any(),
-  })
-  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
-  async assignStaff(@Input() input: { restaurantId: string; data: CreateRestaurantStaffBodyType }) {
-    return this.restaurantStaffService.assignStaff(input.restaurantId, input.data)
-  }
+      assignStaff: admin
+        .input(
+          z.object({
+            restaurantId: z.string().uuid(),
+            data: CreateRestaurantStaffBodySchema,
+          }),
+        )
+        .output(z.any())
+        .mutation(async ({ input }) => {
+          const result = await this.restaurantStaffService.assignStaff(
+            input.restaurantId,
+            input.data,
+          )
+          return result
+        }),
 
-  @Mutation({
-    input: z.object({
-      restaurantId: z.string().uuid(),
-      userId: z.string().uuid(),
-      data: UpdateRestaurantStaffBodySchema,
-    }),
-    output: z.any(),
-  })
-  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
-  async updateStaffPosition(
-    @Input() input: { restaurantId: string; userId: string; data: UpdateRestaurantStaffBodyType },
-  ) {
-    return this.restaurantStaffService.updateStaffPosition(
-      input.restaurantId,
-      input.userId,
-      input.data,
-    )
-  }
+      updateStaffPosition: admin
+        .input(
+          z.object({
+            restaurantId: z.string().uuid(),
+            userId: z.string().uuid(),
+            data: UpdateRestaurantStaffBodySchema,
+          }),
+        )
+        .output(z.any())
+        .mutation(async ({ input }) => {
+          const result = await this.restaurantStaffService.updateStaffPosition(
+            input.restaurantId,
+            input.userId,
+            input.data,
+          )
+          return result
+        }),
 
-  @Mutation({
-    input: z.object({
-      restaurantId: z.string().uuid(),
-      userId: z.string().uuid(),
-    }),
-    output: z.any(),
-  })
-  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
-  async removeStaff(@Input() input: { restaurantId: string; userId: string }) {
-    return this.restaurantStaffService.removeStaff(input.restaurantId, input.userId)
+      removeStaff: admin
+        .input(
+          z.object({
+            restaurantId: z.string().uuid(),
+            userId: z.string().uuid(),
+          }),
+        )
+        .output(z.any())
+        .mutation(async ({ input }) => {
+          const result = await this.restaurantStaffService.removeStaff(
+            input.restaurantId,
+            input.userId,
+          )
+          return result
+        }),
+    })
   }
 }

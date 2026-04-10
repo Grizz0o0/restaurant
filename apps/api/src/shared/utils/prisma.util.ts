@@ -16,7 +16,7 @@ export type PaginatedResult<T> = {
 }
 
 export const paginate = async <T>(
-  model: any, // Typed as any to support generic Prisma delegates
+  model: any,
   args: any = {},
   options: PaginationOptions,
 ): Promise<PaginatedResult<T>> => {

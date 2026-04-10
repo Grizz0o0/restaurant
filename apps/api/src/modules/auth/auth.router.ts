@@ -1,12 +1,10 @@
-import { Ctx, Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
-import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
 import { AuthService } from './auth.service'
 import { GoogleService } from './google.service'
 import {
   RegisterBodySchema,
   LoginBodySchema,
-  RegisterBodyType,
-  LoginBodyType,
   RegisterResSchema,
   LoginResSchema,
   SendOTPBodySchema,
@@ -15,141 +13,127 @@ import {
   LogoutBodySchema,
   GetAuthorizationUrlResSchema,
   RefreshTokenResSchema,
-  RefreshTokenBodyType,
-  SendOTPBodyType,
-  LogoutBodyType,
-  ForgotPasswordBodyType,
   GoogleCallbackBodySchema,
-  GoogleCallbackBodyType,
   GetSessionsResSchema,
   RevokeSessionBodySchema,
-  RevokeSessionBodyType,
   RevokeAllSessionsResSchema,
   ChangePasswordBodySchema,
-  ChangePasswordBodyType,
   GuestLoginBodySchema,
-  GuestLoginBodyType,
   TwoFactorSetupResSchema,
   DisableTwoFactorAuthBodySchema,
-  DisableTwoFactorAuthBodyType,
 } from '@repo/schema'
-import { Context } from '@/trpc/context'
 
-@Router({ alias: 'auth' })
+@Injectable()
 export class AuthRouter {
   constructor(
+    private readonly trpcService: TrpcService,
     private readonly authService: AuthService,
     private readonly googleService: GoogleService,
   ) {}
 
-  @Mutation({ input: RegisterBodySchema, output: RegisterResSchema })
-  async register(@Input() input: RegisterBodyType, @Ctx() ctx: Context) {
-    const userAgent = ctx.req.headers['user-agent'] || ''
-    const ip = ctx.req.ip || ctx.req.connection?.remoteAddress || ''
+  get router() {
+    const { t, publicProcedure: pub, protectedProcedure: prot } = this.trpcService
+    return t.router({
+      register: pub
+        .input(RegisterBodySchema)
+        .output(RegisterResSchema)
+        .mutation(async ({ input, ctx }) => {
+          const userAgent = ctx.req.headers['user-agent'] || ''
+          const ip = ctx.req.ip || ctx.req.connection?.remoteAddress || ''
+          const result = await this.authService.register({ ...input, userAgent, ip })
+          return result
+        }),
 
-    return this.authService.register({
-      ...input,
-      userAgent,
-      ip,
+      login: pub
+        .input(LoginBodySchema)
+        .output(LoginResSchema)
+        .mutation(async ({ input, ctx }) => {
+          const userAgent = ctx.req.headers['user-agent'] || ''
+          const ip = ctx.req.ip || ctx.req.connection?.remoteAddress || ''
+          const result = await this.authService.login({ ...input, userAgent, ip })
+          return result
+        }),
+
+      refreshToken: pub
+        .input(RefreshTokenBodySchema)
+        .output(RefreshTokenResSchema)
+        .mutation(async ({ input, ctx }) => {
+          const userAgent = ctx.req.headers['user-agent'] || ''
+          const ip = ctx.req.ip || ctx.req.connection?.remoteAddress || ''
+          const result = await this.authService.refreshToken({ ...input, userAgent, ip })
+          return result
+        }),
+
+      sendOTP: pub.input(SendOTPBodySchema).mutation(async ({ input }) => {
+        const result = await this.authService.sendOTP(input)
+        return result
+      }),
+
+      logout: pub.input(LogoutBodySchema).mutation(async ({ input }) => {
+        const result = await this.authService.logout(input.refreshToken)
+        return result
+      }),
+
+      forgotPassword: pub.input(ForgotPasswordBodySchema).mutation(async ({ input }) => {
+        const result = await this.authService.forgotPassword(input)
+        return result
+      }),
+
+      googleUrl: pub.output(GetAuthorizationUrlResSchema).query(({ ctx }) => {
+        const userAgent = ctx.req.headers['user-agent'] || ''
+        const ip = ctx.req.ip || ctx.req.connection?.remoteAddress || ''
+        const result = this.googleService.getAuthorizationUrl({ ip, userAgent })
+        return result
+      }),
+
+      googleCallback: pub
+        .input(GoogleCallbackBodySchema)
+        .output(LoginResSchema)
+        .mutation(async ({ input }) => {
+          const result = await this.googleService.googleCallback(input)
+          return result
+        }),
+
+      getActiveSessions: prot.output(GetSessionsResSchema).query(async ({ ctx }) => {
+        const result = await this.authService.getActiveSessions(ctx.user!.userId)
+        return result
+      }),
+
+      revokeSession: prot.input(RevokeSessionBodySchema).mutation(async ({ input, ctx }) => {
+        const result = await this.authService.revokeSession(ctx.user!.userId, input.id)
+        return result
+      }),
+
+      revokeAllSessions: prot.output(RevokeAllSessionsResSchema).mutation(async ({ ctx }) => {
+        const result = await this.authService.revokeAllSessions(ctx.user!.userId)
+        return result
+      }),
+
+      changePassword: prot.input(ChangePasswordBodySchema).mutation(async ({ input, ctx }) => {
+        const result = await this.authService.changePassword(ctx.user!.userId, input)
+        return result
+      }),
+
+      guestLogin: pub
+        .input(GuestLoginBodySchema)
+        .output(LoginResSchema)
+        .mutation(async ({ input }) => {
+          const result = await this.authService.guestLogin(input)
+          return result
+        }),
+
+      setup2FA: prot.output(TwoFactorSetupResSchema).mutation(async ({ ctx }) => {
+        const result = await this.authService.setupTwoFactorAuth(ctx.user!.userId)
+        return result
+      }),
+
+      disable2FA: prot.input(DisableTwoFactorAuthBodySchema).mutation(async ({ input, ctx }) => {
+        const result = await this.authService.disableTwoFactorAuth({
+          ...input,
+          userId: ctx.user!.userId,
+        })
+        return result
+      }),
     })
-  }
-
-  @Mutation({ input: LoginBodySchema, output: LoginResSchema })
-  async login(@Input() input: LoginBodyType, @Ctx() ctx: Context) {
-    const userAgent = ctx.req.headers['user-agent'] || ''
-    const ip = ctx.req.ip || ctx.req.connection?.remoteAddress || ''
-
-    return this.authService.login({
-      ...input,
-      userAgent,
-      ip,
-    })
-  }
-
-  @Mutation({ input: RefreshTokenBodySchema, output: RefreshTokenResSchema })
-  async refreshToken(@Input() input: RefreshTokenBodyType, @Ctx() ctx: Context) {
-    const userAgent = ctx.req.headers['user-agent'] || ''
-    const ip = ctx.req.ip || ctx.req.connection?.remoteAddress || ''
-
-    return this.authService.refreshToken({
-      ...input,
-      userAgent,
-      ip,
-    })
-  }
-
-  @Mutation({ input: SendOTPBodySchema })
-  async sendOTP(@Input() input: SendOTPBodyType) {
-    return this.authService.sendOTP(input)
-  }
-
-  @Mutation({ input: LogoutBodySchema })
-  async logout(@Input() input: LogoutBodyType) {
-    return this.authService.logout(input.refreshToken)
-  }
-
-  @Mutation({ input: ForgotPasswordBodySchema })
-  async forgotPassword(@Input() input: ForgotPasswordBodyType) {
-    return this.authService.forgotPassword(input)
-  }
-
-  @Query({ output: GetAuthorizationUrlResSchema })
-  googleUrl(@Ctx() ctx: Context) {
-    const userAgent = ctx.req.headers['user-agent'] || ''
-    const ip = ctx.req.ip || ctx.req.connection?.remoteAddress || ''
-
-    return this.googleService.getAuthorizationUrl({ ip, userAgent })
-  }
-
-  @Mutation({
-    input: GoogleCallbackBodySchema,
-    output: LoginResSchema,
-  })
-  async googleCallback(@Input() input: GoogleCallbackBodyType) {
-    return this.googleService.googleCallback(input)
-  }
-
-  @Query({ output: GetSessionsResSchema })
-  @UseMiddlewares(AuthMiddleware)
-  async getActiveSessions(@Ctx() ctx: Context) {
-    return this.authService.getActiveSessions(ctx.user!.userId)
-  }
-
-  @Mutation({ input: RevokeSessionBodySchema })
-  @UseMiddlewares(AuthMiddleware)
-  async revokeSession(@Input() input: RevokeSessionBodyType, @Ctx() ctx: Context) {
-    return this.authService.revokeSession(ctx.user!.userId, input.id)
-  }
-
-  @Mutation({ output: RevokeAllSessionsResSchema })
-  @UseMiddlewares(AuthMiddleware)
-  async revokeAllSessions(@Ctx() ctx: Context) {
-    return this.authService.revokeAllSessions(ctx.user!.userId)
-  }
-
-  @Mutation({ input: ChangePasswordBodySchema })
-  @UseMiddlewares(AuthMiddleware)
-  async changePassword(@Input() input: ChangePasswordBodyType, @Ctx() ctx: Context) {
-    return this.authService.changePassword(ctx.user!.userId, input)
-  }
-
-  @Mutation({
-    input: GuestLoginBodySchema,
-    output: LoginResSchema,
-  })
-  async guestLogin(@Input() input: GuestLoginBodyType) {
-    return this.authService.guestLogin(input)
-  }
-
-  @Mutation({ output: TwoFactorSetupResSchema })
-  @UseMiddlewares(AuthMiddleware)
-  async setup2FA(@Ctx() ctx: Context) {
-    return this.authService.setupTwoFactorAuth(ctx.user!.userId)
-  }
-
-  @Mutation({ input: DisableTwoFactorAuthBodySchema })
-  @UseMiddlewares(AuthMiddleware)
-  async disable2FA(@Input() input: DisableTwoFactorAuthBodyType, @Ctx() ctx: Context) {
-    return this.authService.disableTwoFactorAuth({ ...input, userId: ctx.user!.userId })
   }
 }

@@ -6,6 +6,6 @@ import { SocketModule } from '../socket/socket.module'
 @Module({
   providers: [NotificationService, NotificationRouter],
   imports: [SocketModule],
-  exports: [NotificationService],
+  exports: [NotificationService, NotificationRouter],
 })
 export class NotificationModule {}

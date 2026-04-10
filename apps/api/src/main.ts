@@ -8,6 +8,7 @@ import { HttpAdapterHost } from '@nestjs/core'
 import { TransformInterceptor } from '@/shared/interceptors/transform.interceptor'
 import { AllExceptionsFilter } from '@/shared/filters/all-exception.filter'
 import envConfig from '@/shared/config'
+import { TrpcController } from './trpc/trpc.controller'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -20,6 +21,9 @@ async function bootstrap() {
   })
   app.useGlobalInterceptors(new LoggingInterceptor(), new TransformInterceptor())
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }))
+
+  const trpcController = app.get(TrpcController)
+  trpcController.applyMiddleware(app)
 
   const httpAdapterHost = app.get(HttpAdapterHost)
   app.useGlobalFilters(

@@ -5,6 +5,6 @@ import { PermissionRouter } from './permission.router'
 
 @Module({
   providers: [PermissionService, PermissionRepo, PermissionRouter],
-  exports: [PermissionService, PermissionRepo],
+  exports: [PermissionService, PermissionRepo, PermissionRouter],
 })
 export class PermissionModule {}

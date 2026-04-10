@@ -32,7 +32,6 @@ export class ProfileService {
       where: { userId },
     })
 
-
     if (!preferences) {
       return { preferences: {} }
     }
@@ -41,7 +40,6 @@ export class ProfileService {
   }
 
   async updatePreferences(userId: string, updateData: UpdateUserPreferenceBodyType) {
-
     const existing = await this.prisma.userPreference.findFirst({
       where: { userId },
     })

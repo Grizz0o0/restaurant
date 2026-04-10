@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import { TRPCError } from '@trpc/server'
-import { MiddlewareOptions, TRPCMiddleware } from 'nestjs-trpc'
 import { RoleName } from '@repo/constants'
 import { Context } from '@/trpc/context'
 
 @Injectable()
-export class StaffRoleMiddleware implements TRPCMiddleware {
-  async use(opts: MiddlewareOptions) {
+export class StaffRoleMiddleware {
+  async use(opts: { ctx: unknown; next: (opts?: any) => Promise<any> }) {
     const ctx = opts.ctx as Context
     const { next } = opts
     const user = ctx.user as { roleName: string } | undefined

@@ -5,6 +5,6 @@ import { DishRouter } from './dish.router'
 
 @Module({
   providers: [DishService, DishRepo, DishRouter],
-  exports: [DishService, DishRepo],
+  exports: [DishService, DishRepo, DishRouter],
 })
 export class DishModule {}

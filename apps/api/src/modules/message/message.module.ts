@@ -4,6 +4,6 @@ import { MessageRouter } from './message.router'
 
 @Module({
   providers: [MessageService, MessageRouter],
-  exports: [MessageService],
+  exports: [MessageService, MessageRouter],
 })
 export class MessageModule {}

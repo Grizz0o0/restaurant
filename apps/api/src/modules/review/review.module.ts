@@ -5,6 +5,6 @@ import { ReviewRouter } from './review.router'
 
 @Module({
   providers: [ReviewRepo, ReviewService, ReviewRouter],
-  exports: [ReviewService],
+  exports: [ReviewService, ReviewRouter],
 })
 export class ReviewModule {}

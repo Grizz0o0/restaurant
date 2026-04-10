@@ -5,6 +5,6 @@ import { TableRepo } from './table.repo'
 
 @Module({
   providers: [TableService, TableRouter, TableRepo],
-  exports: [TableService],
+  exports: [TableService, TableRouter],
 })
 export class TableModule {}

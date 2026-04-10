@@ -1,7 +1,5 @@
-import { Ctx, Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
-import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
-import { AdminRoleMiddleware } from '@/trpc/middlewares/admin-role.middleware'
-import { Context } from '@/trpc/context'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
 import {
   CreateReviewBodySchema,
   ReplyReviewBodySchema,
@@ -13,52 +11,61 @@ import { ReviewService } from './review.service'
 import { z } from 'zod'
 import { RoleName } from '@repo/constants'
 
-@Router({ alias: 'review' })
+@Injectable()
 export class ReviewRouter {
-  constructor(private readonly reviewService: ReviewService) {}
+  constructor(
+    private readonly trpcService: TrpcService,
+    private readonly reviewService: ReviewService,
+  ) {}
 
-  @Mutation({
-    input: CreateReviewBodySchema,
-    output: ReviewDetailResSchema,
-  })
-  @UseMiddlewares(AuthMiddleware)
-  async create(@Input() input: any, @Ctx() ctx: Context) {
-    return this.reviewService.create({ data: input, userId: ctx.user!.userId })
-  }
+  get router() {
+    const {
+      t,
+      publicProcedure: pub,
+      protectedProcedure: prot,
+      adminProcedure: admin,
+    } = this.trpcService
+    return t.router({
+      create: prot
+        .input(CreateReviewBodySchema)
+        .output(ReviewDetailResSchema)
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.reviewService.create({ data: input, userId: ctx.user!.userId })
+          return result
+        }),
 
-  @Query({
-    input: GetReviewsQuerySchema,
-    output: GetReviewsResSchema,
-  })
-  async list(@Input() input: any) {
-    return this.reviewService.list(input)
-  }
+      list: pub
+        .input(GetReviewsQuerySchema)
+        .output(GetReviewsResSchema)
+        .query(async ({ input }) => {
+          const result = await this.reviewService.list(input)
+          return result as any
+        }),
 
-  @Query({
-    input: GetReviewsQuerySchema,
-    output: GetReviewsResSchema,
-  })
-  @UseMiddlewares(AuthMiddleware)
-  async myReviews(@Input() input: any, @Ctx() ctx: Context) {
-    return this.reviewService.list({ ...input, userId: ctx.user!.userId })
-  }
+      myReviews: prot
+        .input(GetReviewsQuerySchema)
+        .output(GetReviewsResSchema)
+        .query(async ({ input, ctx }) => {
+          const result = await this.reviewService.list({ ...input, userId: ctx.user!.userId })
+          return result as any
+        }),
 
-  @Mutation({
-    input: z.object({ id: z.string() }),
-    output: z.any(),
-  })
-  @UseMiddlewares(AuthMiddleware)
-  async delete(@Input('id') id: string, @Ctx() ctx: Context) {
-    const isAdmin = ctx.user?.roleName === RoleName.Admin
-    return this.reviewService.delete(id, ctx.user!.userId, isAdmin)
-  }
+      delete: prot
+        .input(z.object({ id: z.string() }))
+        .output(z.any())
+        .mutation(async ({ input, ctx }) => {
+          const isAdmin = ctx.user?.roleName === RoleName.Admin
+          const result = await this.reviewService.delete(input.id, ctx.user!.userId, isAdmin)
+          return result
+        }),
 
-  @Mutation({
-    input: ReplyReviewBodySchema,
-    output: ReviewDetailResSchema,
-  })
-  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
-  async reply(@Input() input: any) {
-    return this.reviewService.reply(input)
+      reply: admin
+        .input(ReplyReviewBodySchema)
+        .output(ReviewDetailResSchema)
+        .mutation(async ({ input }) => {
+          const result = await this.reviewService.reply(input)
+          return result
+        }),
+    })
   }
 }

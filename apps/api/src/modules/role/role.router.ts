@@ -1,6 +1,5 @@
-import { Ctx, Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
-import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
-import { AdminRoleMiddleware } from '@/trpc/middlewares/admin-role.middleware'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
 import { RoleService } from './role.service'
 import {
   GetRolesQuerySchema,
@@ -9,83 +8,89 @@ import {
   GetRoleDetailResSchema,
   CreateRoleBodySchema,
   UpdateRoleBodySchema,
-  GetRolesQueryType,
-  GetRoleDetailParamsType,
-  CreateRoleBodyType,
-  UpdateRoleBodyType,
   AssignPermissionsSchema,
-  AssignPermissionsType,
 } from '@repo/schema'
+import { z } from 'zod'
 
-import { Context } from '@/trpc/context'
-import z from 'zod'
-
-@Router({ alias: 'role' })
-@UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
+@Injectable()
 export class RoleRouter {
-  constructor(private readonly roleService: RoleService) {}
+  constructor(
+    private readonly trpcService: TrpcService,
+    private readonly roleService: RoleService,
+  ) {}
 
-  @Query({
-    input: GetRolesQuerySchema,
-    output: GetRolesResSchema,
-  })
-  async list(@Input() input: GetRolesQueryType) {
-    return this.roleService.list({
-      limit: input.limit,
-      page: input.page,
-    })
-  }
+  get router() {
+    const { t, adminProcedure: p } = this.trpcService
+    return t.router({
+      list: p
+        .input(GetRolesQuerySchema)
+        .output(GetRolesResSchema)
+        .query(async ({ input }) => {
+          const result = await this.roleService.list({
+            limit: input.limit,
+            page: input.page,
+          })
+          return result as any
+        }),
 
-  @Query({
-    input: GetRoleDetailParamsSchema,
-    output: GetRoleDetailResSchema,
-  })
-  async detail(@Input() input: GetRoleDetailParamsType) {
-    return this.roleService.findById(input.roleId)
-  }
+      detail: p
+        .input(GetRoleDetailParamsSchema)
+        .output(GetRoleDetailResSchema)
+        .query(async ({ input }) => {
+          const result = await this.roleService.findById(input.roleId)
+          return result
+        }),
 
-  @Mutation({
-    input: CreateRoleBodySchema,
-    output: GetRoleDetailResSchema,
-  })
-  async create(@Input() input: CreateRoleBodyType, @Ctx() ctx: Context) {
-    return this.roleService.create({ data: input, createdById: ctx.user!.userId })
-  }
+      create: p
+        .input(CreateRoleBodySchema)
+        .output(GetRoleDetailResSchema)
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.roleService.create({
+            data: input,
+            createdById: ctx.user!.userId,
+          })
+          return result as any
+        }),
 
-  @Mutation({
-    input: z.object({
-      params: GetRoleDetailParamsSchema,
-      body: UpdateRoleBodySchema,
-    }),
-    output: GetRoleDetailResSchema,
-  })
-  async update(
-    @Input() input: { params: GetRoleDetailParamsType; body: UpdateRoleBodyType },
-    @Ctx() ctx: Context,
-  ) {
-    return this.roleService.update({
-      id: input.params.roleId,
-      data: input.body,
-      updatedById: ctx.user!.userId,
-    })
-  }
+      update: p
+        .input(
+          z.object({
+            params: GetRoleDetailParamsSchema,
+            body: UpdateRoleBodySchema,
+          }),
+        )
+        .output(GetRoleDetailResSchema)
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.roleService.update({
+            id: input.params.roleId,
+            data: input.body,
+            updatedById: ctx.user!.userId,
+          })
+          return result
+        }),
 
-  @Mutation({
-    input: GetRoleDetailParamsSchema,
-    output: z.object({ message: z.string() }),
-  })
-  async delete(@Input() input: GetRoleDetailParamsType, @Ctx() ctx: Context) {
-    return this.roleService.delete({ id: input.roleId, deletedById: ctx.user!.userId })
-  }
-  @Mutation({
-    input: AssignPermissionsSchema,
-    output: GetRoleDetailResSchema,
-  })
-  async assignPermissions(@Input() input: AssignPermissionsType, @Ctx() ctx: Context) {
-    return this.roleService.assignPermissions({
-      roleId: input.roleId,
-      permissionIds: input.permissionIds,
-      updatedById: ctx.user!.userId,
+      delete: p
+        .input(GetRoleDetailParamsSchema)
+        .output(z.object({ message: z.string() }))
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.roleService.delete({
+            id: input.roleId,
+            deletedById: ctx.user!.userId,
+          })
+          return result
+        }),
+
+      assignPermissions: p
+        .input(AssignPermissionsSchema)
+        .output(GetRoleDetailResSchema)
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.roleService.assignPermissions({
+            roleId: input.roleId,
+            permissionIds: input.permissionIds,
+            updatedById: ctx.user!.userId,
+          })
+          return result
+        }),
     })
   }
 }

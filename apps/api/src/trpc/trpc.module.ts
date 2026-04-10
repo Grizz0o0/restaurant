@@ -2,21 +2,20 @@ import { Global, Module } from '@nestjs/common'
 import { AuthMiddleware } from './middlewares/auth.middleware'
 import { AdminRoleMiddleware } from './middlewares/admin-role.middleware'
 import { StaffRoleMiddleware } from './middlewares/staff-role.middleware'
-import { AppContext } from './context'
-
 import { DynamicAuthMiddleware } from './middlewares/dynamic-auth.middleware'
+import { TrpcService } from './trpc.service'
 
 @Global()
 @Module({
   providers: [
+    TrpcService,
     AuthMiddleware,
     AdminRoleMiddleware,
     StaffRoleMiddleware,
     DynamicAuthMiddleware,
-    AppContext,
   ],
   exports: [
-    AppContext,
+    TrpcService,
     AuthMiddleware,
     AdminRoleMiddleware,
     StaffRoleMiddleware,

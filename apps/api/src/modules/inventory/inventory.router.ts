@@ -1,68 +1,71 @@
-import { Ctx, Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
-import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
-import { AdminRoleMiddleware } from '@/trpc/middlewares/admin-role.middleware'
-import { CreateInventoryBodySchema, UpdateInventoryBodySchema, GetInventoriesQuerySchema, GetInventoriesQueryType, GetInventoryTransactionsQuerySchema, GetInventoryTransactionsQueryType } from '@repo/schema'
-
-import { Context } from '@/trpc/context'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
+import {
+  CreateInventoryBodySchema,
+  UpdateInventoryBodySchema,
+  GetInventoriesQuerySchema,
+  GetInventoryTransactionsQuerySchema,
+} from '@repo/schema'
 import { InventoryService } from './inventory.service'
 import { z } from 'zod'
 
-@Router({ alias: 'inventory' })
+@Injectable()
 export class InventoryRouter {
-  constructor(private readonly inventoryService: InventoryService) {}
+  constructor(
+    private readonly trpcService: TrpcService,
+    private readonly inventoryService: InventoryService,
+  ) {}
 
-  @Query({
-    input: GetInventoriesQuerySchema,
-    output: z.any(),
-  })
-  async list(@Input() input: GetInventoriesQueryType) {
-    return this.inventoryService.findAll(input)
-  }
+  get router() {
+    const { t, publicProcedure: pub, adminProcedure: admin } = this.trpcService
+    return t.router({
+      list: pub
+        .input(GetInventoriesQuerySchema)
+        .output(z.any())
+        .query(async ({ input }) => {
+          const result = await this.inventoryService.findAll(input)
+          return result
+        }),
 
-  @Query({
-    input: z.object({ id: z.string() }),
-    output: z.any(),
-  })
-  async detail(@Input('id') id: string) {
-    return this.inventoryService.findOne(id)
-  }
+      detail: pub
+        .input(z.object({ id: z.string() }))
+        .output(z.any())
+        .query(async ({ input }) => {
+          const result = await this.inventoryService.findOne(input.id)
+          return result
+        }),
 
-  @Mutation({
-    input: CreateInventoryBodySchema,
-    output: z.any(),
-  })
-  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
-  async create(@Input() input: any) {
-    return this.inventoryService.create(input)
-  }
+      create: admin
+        .input(CreateInventoryBodySchema)
+        .output(z.any())
+        .mutation(async ({ input }) => {
+          const result = await this.inventoryService.create(input)
+          return result
+        }),
 
-  @Mutation({
-    input: z.object({
-      id: z.string(),
-      data: UpdateInventoryBodySchema,
-    }),
-    output: z.any(),
-  })
-  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
-  async update(@Input() input: { id: string; data: any }) {
-    return this.inventoryService.update(input.id, input.data)
-  }
+      update: admin
+        .input(z.object({ id: z.string(), data: UpdateInventoryBodySchema }))
+        .output(z.any())
+        .mutation(async ({ input }) => {
+          const result = await this.inventoryService.update(input.id, input.data)
+          return result
+        }),
 
-  @Mutation({
-    input: z.object({ id: z.string() }),
-    output: z.any(),
-  })
-  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
-  async delete(@Input('id') id: string) {
-    return this.inventoryService.remove(id)
-  }
+      delete: admin
+        .input(z.object({ id: z.string() }))
+        .output(z.any())
+        .mutation(async ({ input }) => {
+          const result = await this.inventoryService.remove(input.id)
+          return result
+        }),
 
-  @Query({
-    input: GetInventoryTransactionsQuerySchema,
-    output: z.any(),
-  })
-  async listTransactions(@Input() input: GetInventoryTransactionsQueryType) {
-    return this.inventoryService.findAllTransactions(input)
+      listTransactions: pub
+        .input(GetInventoryTransactionsQuerySchema)
+        .output(z.any())
+        .query(async ({ input }) => {
+          const result = await this.inventoryService.findAllTransactions(input)
+          return result
+        }),
+    })
   }
 }
-

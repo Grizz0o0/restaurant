@@ -4,6 +4,6 @@ import { InventoryDishRouter } from './inventory-dish.router'
 
 @Module({
   providers: [InventoryDishService, InventoryDishRouter],
-  exports: [InventoryDishService],
+  exports: [InventoryDishService, InventoryDishRouter],
 })
 export class InventoryDishModule {}

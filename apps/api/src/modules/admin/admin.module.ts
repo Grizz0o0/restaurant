@@ -6,6 +6,6 @@ import { AuthModule } from '@/modules/auth/auth.module'
 @Module({
   providers: [AdminService, AdminRouter],
   imports: [AuthModule],
-  exports: [AdminService],
+  exports: [AdminService, AdminRouter],
 })
 export class AdminModule {}

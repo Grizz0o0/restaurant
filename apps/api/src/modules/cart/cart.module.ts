@@ -4,6 +4,6 @@ import { CartRouter } from './cart.router'
 
 @Module({
   providers: [CartService, CartRouter],
-  exports: [CartService],
+  exports: [CartService, CartRouter],
 })
 export class CartModule {}

@@ -1,50 +1,49 @@
-import { Ctx, Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
-import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
-import { z } from 'zod'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
 import { MessageService } from './message.service'
 import {
   SendMessageBodySchema,
-  SendMessageBodyType,
   GetHistoryParamsSchema,
-  GetHistoryParamsType,
   GetHistoryResSchema,
   GetConversationsResSchema,
-  UserSchema,
 } from '@repo/schema'
-import { Context } from '@/trpc/context'
+import { z } from 'zod'
 
-@Router({ alias: 'message' })
-@UseMiddlewares(AuthMiddleware)
+@Injectable()
 export class MessageRouter {
-  constructor(private readonly messageService: MessageService) {}
+  constructor(
+    private readonly trpcService: TrpcService,
+    private readonly messageService: MessageService,
+  ) {}
 
-  @Mutation({
-    input: SendMessageBodySchema,
-    output: z.any(),
-  })
-  async send(@Input() input: SendMessageBodyType, @Ctx() ctx: Context) {
-    return this.messageService.sendMessage(ctx.user!.userId, input)
-  }
+  get router() {
+    const { t, protectedProcedure: prot } = this.trpcService
+    return t.router({
+      send: prot
+        .input(SendMessageBodySchema)
+        .output(z.any())
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.messageService.sendMessage(ctx.user!.userId, input)
+          return result
+        }),
 
-  @Query({
-    input: GetHistoryParamsSchema,
-    output: GetHistoryResSchema,
-  })
-  async getHistory(@Input() input: GetHistoryParamsType, @Ctx() ctx: Context) {
-    return this.messageService.getHistory(ctx.user!.userId, input)
-  }
+      getHistory: prot
+        .input(GetHistoryParamsSchema)
+        .output(GetHistoryResSchema)
+        .query(async ({ input, ctx }) => {
+          const result = await this.messageService.getHistory(ctx.user!.userId, input)
+          return result
+        }),
 
-  @Query({
-    output: GetConversationsResSchema,
-  })
-  async getConversations(@Ctx() ctx: Context) {
-    return this.messageService.getConversations(ctx.user!.userId)
-  }
+      getConversations: prot.output(GetConversationsResSchema).query(async ({ ctx }) => {
+        const result = await this.messageService.getConversations(ctx.user!.userId)
+        return result
+      }),
 
-  @Query({
-    output: z.object({ id: z.string() }).nullable(),
-  })
-  async getAdmin() {
-    return this.messageService.getAdmin()
+      getAdmin: prot.output(z.object({ id: z.string() }).nullable()).query(async () => {
+        const result = await this.messageService.getAdmin()
+        return result
+      }),
+    })
   }
 }

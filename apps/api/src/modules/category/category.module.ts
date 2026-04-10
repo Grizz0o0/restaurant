@@ -5,6 +5,6 @@ import { CategoryRouter } from './category.router'
 
 @Module({
   providers: [CategoryService, CategoryRepo, CategoryRouter],
-  exports: [CategoryService, CategoryRepo],
+  exports: [CategoryService, CategoryRepo, CategoryRouter],
 })
 export class CategoryModule {}

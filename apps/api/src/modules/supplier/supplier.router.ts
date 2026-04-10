@@ -1,58 +1,62 @@
-import { Ctx, Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
-import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
-import { AdminRoleMiddleware } from '@/trpc/middlewares/admin-role.middleware'
-import { CreateSupplierBodySchema, UpdateSupplierBodySchema, GetSuppliersQuerySchema, GetSuppliersQueryType } from '@repo/schema'
-import { Context } from '@/trpc/context'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
+import {
+  CreateSupplierBodySchema,
+  UpdateSupplierBodySchema,
+  GetSuppliersQuerySchema,
+} from '@repo/schema'
 import { SupplierService } from './supplier.service'
 import { z } from 'zod'
 
-@Router({ alias: 'supplier' })
+@Injectable()
 export class SupplierRouter {
-  constructor(private readonly supplierService: SupplierService) {}
+  constructor(
+    private readonly trpcService: TrpcService,
+    private readonly supplierService: SupplierService,
+  ) {}
 
-  @Query({
-    input: GetSuppliersQuerySchema,
-    output: z.any(),
-  })
-  async list(@Input() input: GetSuppliersQueryType) {
-    return this.supplierService.findAll(input)
-  }
+  get router() {
+    const { t, publicProcedure: pub, adminProcedure: admin } = this.trpcService
+    return t.router({
+      list: pub
+        .input(GetSuppliersQuerySchema)
+        .output(z.any())
+        .query(async ({ input }) => {
+          const result = await this.supplierService.findAll(input)
+          return result
+        }),
 
-  @Query({
-    input: z.object({ id: z.string() }),
-    output: z.any(),
-  })
-  async detail(@Input('id') id: string) {
-    return this.supplierService.findOne(id)
-  }
+      detail: pub
+        .input(z.object({ id: z.string() }))
+        .output(z.any())
+        .query(async ({ input }) => {
+          const result = await this.supplierService.findOne(input.id)
+          return result
+        }),
 
-  @Mutation({
-    input: CreateSupplierBodySchema,
-    output: z.any(),
-  })
-  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
-  async create(@Input() input: any) {
-    return this.supplierService.create(input)
-  }
+      create: admin
+        .input(CreateSupplierBodySchema)
+        .output(z.any())
+        .mutation(async ({ input }) => {
+          const result = await this.supplierService.create(input)
+          return result
+        }),
 
-  @Mutation({
-    input: z.object({
-      id: z.string(),
-      data: UpdateSupplierBodySchema,
-    }),
-    output: z.any(),
-  })
-  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
-  async update(@Input() input: { id: string; data: any }) {
-    return this.supplierService.update(input.id, input.data)
-  }
+      update: admin
+        .input(z.object({ id: z.string(), data: UpdateSupplierBodySchema }))
+        .output(z.any())
+        .mutation(async ({ input }) => {
+          const result = await this.supplierService.update(input.id, input.data)
+          return result
+        }),
 
-  @Mutation({
-    input: z.object({ id: z.string() }),
-    output: z.any(),
-  })
-  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
-  async delete(@Input('id') id: string) {
-    return this.supplierService.remove(id)
+      delete: admin
+        .input(z.object({ id: z.string() }))
+        .output(z.any())
+        .mutation(async ({ input }) => {
+          const result = await this.supplierService.remove(input.id)
+          return result
+        }),
+    })
   }
 }

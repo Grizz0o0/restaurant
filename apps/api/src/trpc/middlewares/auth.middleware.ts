@@ -1,18 +1,17 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { TRPCError } from '@trpc/server'
-import { MiddlewareOptions, TRPCMiddleware } from 'nestjs-trpc'
 import { TokenService } from '@/shared/services/token.service'
 import { REQUEST_USER_KEY } from '@repo/constants'
 import { AccessTokenPayload } from '@/shared/types/jwt.payload'
 import { Context } from '@/trpc/context'
 
 @Injectable()
-export class AuthMiddleware implements TRPCMiddleware {
+export class AuthMiddleware {
   private readonly logger = new Logger(AuthMiddleware.name)
 
   constructor(private readonly tokenService: TokenService) {}
 
-  async use(opts: MiddlewareOptions) {
+  async use(opts: { ctx: unknown; next: (opts?: any) => Promise<any> }) {
     const ctx = opts.ctx as Context
     const { next } = opts
     const req = ctx.req

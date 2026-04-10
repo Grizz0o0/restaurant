@@ -1,68 +1,66 @@
-import { Ctx, Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
-import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
-import { AdminRoleMiddleware } from '@/trpc/middlewares/admin-role.middleware'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
 import {
   CreateLanguageBodySchema,
   UpdateLanguageBodySchema,
   GetLanguagesQuerySchema,
   LanguageResponseSchema,
-  CreateLanguageBodyType,
-  UpdateLanguageBodyType,
-  GetLanguagesQueryType,
 } from '@repo/schema'
-import { Context } from '@/trpc/context'
 import { LanguageService } from './language.service'
 import { z } from 'zod'
 
-@Router({ alias: 'language' })
+@Injectable()
 export class LanguageRouter {
-  constructor(private readonly languageService: LanguageService) {}
+  constructor(
+    private readonly trpcService: TrpcService,
+    private readonly languageService: LanguageService,
+  ) {}
 
-  @Query({
-    input: GetLanguagesQuerySchema,
-    output: z.any(),
-  })
-  @UseMiddlewares(AuthMiddleware)
-  async list(@Input() input: GetLanguagesQueryType) {
-    return this.languageService.list(input)
-  }
+  get router() {
+    const { t, protectedProcedure: prot, adminProcedure: admin } = this.trpcService
+    return t.router({
+      list: prot
+        .input(GetLanguagesQuerySchema)
+        .output(z.any())
+        .query(async ({ input }) => {
+          const result = await this.languageService.list(input)
+          return result
+        }),
 
-  @Query({
-    input: z.object({ id: z.string() }),
-    output: LanguageResponseSchema.nullable(),
-  })
-  @UseMiddlewares(AuthMiddleware)
-  async detail(@Input('id') id: string) {
-    return this.languageService.findById(id)
-  }
+      detail: prot
+        .input(z.object({ id: z.string() }))
+        .output(LanguageResponseSchema.nullable())
+        .query(async ({ input }) => {
+          const result = await this.languageService.findById(input.id)
+          return result
+        }),
 
-  @Mutation({
-    input: CreateLanguageBodySchema,
-    output: LanguageResponseSchema,
-  })
-  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
-  async create(@Input() input: CreateLanguageBodyType, @Ctx() ctx: Context) {
-    return this.languageService.create({ ...input, createdById: ctx.user!.userId })
-  }
+      create: admin
+        .input(CreateLanguageBodySchema)
+        .output(LanguageResponseSchema)
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.languageService.create({
+            ...input,
+            createdById: ctx.user!.userId,
+          })
+          return result
+        }),
 
-  @Mutation({
-    input: z.object({
-      id: z.string(),
-      data: UpdateLanguageBodySchema,
-    }),
-    output: LanguageResponseSchema,
-  })
-  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
-  async update(@Input() input: { id: string; data: UpdateLanguageBodyType }, @Ctx() ctx: Context) {
-    return this.languageService.update(input.id, input.data, ctx.user!.userId)
-  }
+      update: admin
+        .input(z.object({ id: z.string(), data: UpdateLanguageBodySchema }))
+        .output(LanguageResponseSchema)
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.languageService.update(input.id, input.data, ctx.user!.userId)
+          return result
+        }),
 
-  @Mutation({
-    input: z.object({ id: z.string() }),
-    output: z.any(),
-  })
-  @UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
-  async delete(@Input('id') id: string, @Ctx() ctx: Context) {
-    return this.languageService.delete(id, ctx.user!.userId)
+      delete: admin
+        .input(z.object({ id: z.string() }))
+        .output(z.any())
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.languageService.delete(input.id, ctx.user!.userId)
+          return result
+        }),
+    })
   }
 }

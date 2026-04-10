@@ -1,50 +1,51 @@
-import { Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
-import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
-import { AdminRoleMiddleware } from '@/trpc/middlewares/admin-role.middleware'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
 import { AdminService } from './admin.service'
 import {
   BanUserBodySchema,
-  BanUserBodyType,
   UnbanUserBodySchema,
-  UnbanUserBodyType,
   ForceLogoutBodySchema,
-  ForceLogoutBodyType,
   GetReportQuerySchema,
-  GetReportQueryType,
   GetReportResponseSchema,
 } from '@repo/schema'
-import { RoleName } from '@repo/constants'
 
-@Router({ alias: 'admin' })
-@UseMiddlewares(AuthMiddleware, AdminRoleMiddleware)
+@Injectable()
 export class AdminRouter {
-  constructor(private readonly adminService: AdminService) {}
+  constructor(
+    private readonly trpcService: TrpcService,
+    private readonly adminService: AdminService,
+  ) {}
 
-  @Mutation({ input: BanUserBodySchema })
-  async banUser(@Input() input: BanUserBodyType) {
-    return this.adminService.banUser(input.userId)
-  }
+  get router() {
+    const { t, adminProcedure: p } = this.trpcService
+    return t.router({
+      banUser: p.input(BanUserBodySchema).mutation(async ({ input }) => {
+        const result = await this.adminService.banUser(input.userId)
+        return result
+      }),
 
-  @Mutation({ input: UnbanUserBodySchema })
-  async unbanUser(@Input() input: UnbanUserBodyType) {
-    return this.adminService.unbanUser(input.userId)
-  }
+      unbanUser: p.input(UnbanUserBodySchema).mutation(async ({ input }) => {
+        const result = await this.adminService.unbanUser(input.userId)
+        return result
+      }),
 
-  @Mutation({ input: ForceLogoutBodySchema })
-  async forceLogout(@Input() input: ForceLogoutBodyType) {
-    return this.adminService.forceLogout(input.userId)
-  }
+      forceLogout: p.input(ForceLogoutBodySchema).mutation(async ({ input }) => {
+        const result = await this.adminService.forceLogout(input.userId)
+        return result
+      }),
 
-  @Query()
-  async getStats() {
-    return this.adminService.getDashboardStats()
-  }
+      getStats: p.query(async () => {
+        const result = await this.adminService.getDashboardStats()
+        return result
+      }),
 
-  @Query({
-    input: GetReportQuerySchema,
-    output: GetReportResponseSchema,
-  })
-  async getReport(@Input() input: GetReportQueryType) {
-    return this.adminService.getReport(input)
+      getReport: p
+        .input(GetReportQuerySchema)
+        .output(GetReportResponseSchema)
+        .query(async ({ input }) => {
+          const result = await this.adminService.getReport(input)
+          return result
+        }),
+    })
   }
 }

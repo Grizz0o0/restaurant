@@ -1,91 +1,90 @@
-import { Ctx, Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
-import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
-import { StaffRoleMiddleware } from '@/trpc/middlewares/staff-role.middleware'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
 import {
   CreateOrderBodySchema,
-  CreateOrderBodyType,
   CreateOrderFromCartSchema,
-  CreateOrderFromCartType,
   GetOrdersQuerySchema,
-  GetOrdersQueryType,
   GetOrdersResSchema,
   OrderSchema,
   UpdateOrderStatusSchema,
-  UpdateOrderStatusType,
 } from '@repo/schema'
 import { RoleName } from '@repo/constants'
-import { Context } from '@/trpc/context'
 import { OrderService } from './order.service'
 
-@Router({ alias: 'order' })
-@UseMiddlewares(AuthMiddleware)
+@Injectable()
 export class OrderRouter {
-  constructor(private readonly orderService: OrderService) {}
+  constructor(
+    private readonly trpcService: TrpcService,
+    private readonly orderService: OrderService,
+  ) {}
 
-  @Mutation({
-    input: CreateOrderBodySchema,
-    output: OrderSchema,
-  })
-  async create(@Input() input: CreateOrderBodyType, @Ctx() ctx: Context) {
-    return this.orderService.create({
-      data: input,
-      userId: ctx.user!.userId,
-      tableId: ctx.user!.tableId,
-      roleName: ctx.user!.roleName,
+  get router() {
+    const { t, protectedProcedure: prot, staffProcedure: staff } = this.trpcService
+    return t.router({
+      create: prot
+        .input(CreateOrderBodySchema)
+        .output(OrderSchema)
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.orderService.create({
+            data: input,
+            userId: ctx.user!.userId,
+            tableId: ctx.user!.tableId,
+            roleName: ctx.user!.roleName,
+          })
+          return result
+        }),
+
+      list: staff
+        .input(GetOrdersQuerySchema)
+        .output(GetOrdersResSchema)
+        .query(async ({ input }) => {
+          const result = await this.orderService.list(input)
+          return result
+        }),
+
+      myOrders: prot
+        .input(GetOrdersQuerySchema)
+        .output(GetOrdersResSchema)
+        .query(async ({ input, ctx }) => {
+          const isShipper = ctx.user!.roleName === RoleName.Shipper
+          const result = await this.orderService.list({
+            ...input,
+            ...(isShipper ? { shipperId: ctx.user!.userId } : { userId: ctx.user!.userId }),
+          })
+          return result
+        }),
+
+      createFromCart: prot
+        .input(CreateOrderFromCartSchema)
+        .output(OrderSchema)
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.orderService.createFromCart({
+            ...input,
+            userId: ctx.user!.userId,
+            tableId: ctx.user!.tableId,
+            roleName: ctx.user!.roleName,
+          })
+          return result
+        }),
+
+      updateStatus: staff
+        .input(UpdateOrderStatusSchema)
+        .output(OrderSchema)
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.orderService.updateStatus(
+            input.orderId,
+            input.status,
+            ctx.user!.userId,
+            ctx.user!.roleName,
+            {
+              verificationCode: input.verificationCode,
+              reason: input.reason,
+              promotionId: input.promotionId,
+              discount: input.discount,
+            },
+          )
+          return result
+        }),
     })
-  }
-
-  @Query({
-    input: GetOrdersQuerySchema,
-    output: GetOrdersResSchema,
-  })
-  @UseMiddlewares(StaffRoleMiddleware) // Allow Admin, Manager, and Staff to see kitchen queue/order list
-  async list(@Input() input: GetOrdersQueryType) {
-    return this.orderService.list(input)
-  }
-
-  @Query({
-    input: GetOrdersQuerySchema,
-    output: GetOrdersResSchema,
-  })
-  async myOrders(@Input() input: GetOrdersQueryType, @Ctx() ctx: Context) {
-    const isShipper = ctx.user!.roleName === RoleName.Shipper
-    return this.orderService.list({
-      ...input,
-      ...(isShipper ? { shipperId: ctx.user!.userId } : { userId: ctx.user!.userId }),
-    })
-  }
-
-  @Mutation({
-    input: CreateOrderFromCartSchema,
-    output: OrderSchema,
-  })
-  async createFromCart(@Input() input: CreateOrderFromCartType, @Ctx() ctx: Context) {
-    return this.orderService.createFromCart({
-      ...input,
-      userId: ctx.user!.userId,
-      tableId: ctx.user!.tableId,
-      roleName: ctx.user!.roleName,
-    })
-  }
-
-  @Mutation({
-    input: UpdateOrderStatusSchema,
-    output: OrderSchema,
-  })
-  @UseMiddlewares(StaffRoleMiddleware)
-  async updateStatus(@Input() input: UpdateOrderStatusType, @Ctx() ctx: Context) {
-    return this.orderService.updateStatus(
-      input.orderId,
-      input.status,
-      ctx.user!.userId,
-      ctx.user!.roleName,
-      {
-        verificationCode: input.verificationCode,
-        reason: input.reason,
-        promotionId: input.promotionId,
-        discount: input.discount,
-      },
-    )
   }
 }

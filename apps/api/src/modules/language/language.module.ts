@@ -5,6 +5,6 @@ import { LanguageRouter } from './language.router'
 
 @Module({
   providers: [LanguageService, LanguageRepo, LanguageRouter],
-  exports: [LanguageService],
+  exports: [LanguageService, LanguageRouter],
 })
 export class LanguageModule {}

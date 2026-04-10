@@ -1,31 +1,34 @@
-import { Ctx, Input, Query, Router } from 'nestjs-trpc'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
 import { RecommendationService } from './recommendation.service'
-import {
-  GetRecommendationsQuerySchema,
-  GetRecommendationsQueryType,
-  RecommendationResSchema,
-} from '@repo/schema'
-import { Context } from '@/trpc/context'
+import { GetRecommendationsQuerySchema, RecommendationResSchema } from '@repo/schema'
 
-@Router({ alias: 'recommendation' })
+@Injectable()
 export class RecommendationRouter {
-  constructor(private readonly recommendationService: RecommendationService) {}
+  constructor(
+    private readonly trpcService: TrpcService,
+    private readonly recommendationService: RecommendationService,
+  ) {}
 
-  @Query({
-    input: GetRecommendationsQuerySchema,
-    output: RecommendationResSchema,
-  })
-  async getForUser(@Input() input: GetRecommendationsQueryType, @Ctx() ctx: Context) {
-    // Allows both logged in users and guests
-    const userId = ctx.user?.userId
-    return this.recommendationService.getForUser(userId, input)
-  }
+  get router() {
+    const { t, publicProcedure: p } = this.trpcService
+    return t.router({
+      getForUser: p
+        .input(GetRecommendationsQuerySchema)
+        .output(RecommendationResSchema)
+        .query(async ({ input, ctx }) => {
+          const userId = ctx.user?.userId
+          const result = await this.recommendationService.getForUser(userId, input)
+          return result
+        }),
 
-  @Query({
-    input: GetRecommendationsQuerySchema,
-    output: RecommendationResSchema,
-  })
-  async getTopSelling(@Input() input: GetRecommendationsQueryType) {
-    return this.recommendationService.getTopSelling(input)
+      getTopSelling: p
+        .input(GetRecommendationsQuerySchema)
+        .output(RecommendationResSchema)
+        .query(async ({ input }) => {
+          const result = await this.recommendationService.getTopSelling(input)
+          return result
+        }),
+    })
   }
 }

@@ -387,6 +387,14 @@ export class PaymentService {
       this.prisma.paymentTransaction.count({ where }),
     ])
 
-    return { items, total }
+    return {
+      items: items.map((item) => ({
+        ...item,
+        amountIn: item.amountIn.toNumber(),
+        amountOut: item.amountOut.toNumber(),
+        accumulated: item.accumulated.toNumber(),
+      })),
+      total,
+    }
   }
 }

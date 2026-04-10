@@ -7,6 +7,6 @@ import { AddressRouter } from './address.router'
   imports: [],
   controllers: [],
   providers: [AddressService, AddressRepo, AddressRouter],
-  exports: [AddressService, AddressRepo],
+  exports: [AddressService, AddressRepo, AddressRouter],
 })
 export class AddressModule {}

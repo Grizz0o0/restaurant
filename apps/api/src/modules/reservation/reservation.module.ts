@@ -4,6 +4,6 @@ import { ReservationRouter } from './reservation.router'
 
 @Module({
   providers: [ReservationService, ReservationRouter],
-  exports: [ReservationService],
+  exports: [ReservationService, ReservationRouter],
 })
 export class ReservationModule {}

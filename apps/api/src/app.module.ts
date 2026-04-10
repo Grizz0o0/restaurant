@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { envSchema, Env } from './env.validation'
-import { TRPCModule } from 'nestjs-trpc'
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler'
 import { APP_GUARD } from '@nestjs/core'
 import { AuthModule } from './modules/auth/auth.module'
@@ -36,12 +35,11 @@ import { ReservationModule } from './modules/reservation/reservation.module'
 import { AddressModule } from './modules/address/address.module'
 import { PaymentModule } from './modules/payment/payment.module'
 import { AiChatModule } from './modules/ai-chat/ai-chat.module'
+import { ContactModule } from './modules/contact/contact.module'
 
 import { EventEmitterModule } from '@nestjs/event-emitter'
-
-import { AppContext } from './trpc/context'
-import SuperJSON from 'superjson'
-// import * as Schema from '@repo/schema'
+import { AppRouterService } from './trpc/app-router.service'
+import { TrpcController } from './trpc/trpc.controller'
 
 @Module({
   imports: [
@@ -50,11 +48,6 @@ import SuperJSON from 'superjson'
     ConfigModule.forRoot({
       validate: (config) => envSchema.parse(config),
       isGlobal: true,
-    }),
-    TRPCModule.forRoot({
-      transformer: SuperJSON,
-      context: AppContext,
-      basePath: '/v1/api/trpc',
     }),
     AuthModule,
     AdminModule,
@@ -87,6 +80,7 @@ import SuperJSON from 'superjson'
     AddressModule,
     PaymentModule,
     AiChatModule,
+    ContactModule,
 
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
@@ -104,7 +98,8 @@ import SuperJSON from 'superjson'
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
     },
-    AppContext,
+    AppRouterService,
+    TrpcController,
   ],
 })
 export class AppModule {}

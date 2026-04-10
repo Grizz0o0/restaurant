@@ -1,48 +1,48 @@
-import { Ctx, Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
-import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
 import { ProfileService } from './profile.service'
 import {
   ProfileDetailResSchema,
   UpdateProfileBodySchema,
-  UpdateProfileBodyType,
   UserPreferenceSchema,
   UpdateUserPreferenceBodySchema,
-  UpdateUserPreferenceBodyType,
 } from '@repo/schema'
-import { Context } from '@/trpc/context'
 
-@Router({ alias: 'profile' })
-@UseMiddlewares(AuthMiddleware)
+@Injectable()
 export class ProfileRouter {
-  constructor(private readonly profileService: ProfileService) {}
+  constructor(
+    private readonly trpcService: TrpcService,
+    private readonly profileService: ProfileService,
+  ) {}
 
-  @Query({
-    output: ProfileDetailResSchema,
-  })
-  async getProfile(@Ctx() ctx: Context) {
-    return this.profileService.getProfile(ctx.user!.userId)
-  }
+  get router() {
+    const { t, protectedProcedure: prot } = this.trpcService
+    return t.router({
+      getProfile: prot.output(ProfileDetailResSchema).query(async ({ ctx }) => {
+        const result = await this.profileService.getProfile(ctx.user!.userId)
+        return result
+      }),
 
-  @Mutation({
-    input: UpdateProfileBodySchema,
-    output: ProfileDetailResSchema,
-  })
-  async updateProfile(@Input() input: UpdateProfileBodyType, @Ctx() ctx: Context) {
-    return this.profileService.updateProfile(ctx.user!.userId, input)
-  }
+      updateProfile: prot
+        .input(UpdateProfileBodySchema)
+        .output(ProfileDetailResSchema)
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.profileService.updateProfile(ctx.user!.userId, input)
+          return result
+        }),
 
-  @Query({
-    output: UserPreferenceSchema,
-  })
-  async getPreferences(@Ctx() ctx: Context) {
-    return this.profileService.getPreferences(ctx.user!.userId)
-  }
+      getPreferences: prot.output(UserPreferenceSchema).query(async ({ ctx }) => {
+        const result = await this.profileService.getPreferences(ctx.user!.userId)
+        return result as any
+      }),
 
-  @Mutation({
-    input: UpdateUserPreferenceBodySchema,
-    output: UserPreferenceSchema,
-  })
-  async updatePreferences(@Input() input: UpdateUserPreferenceBodyType, @Ctx() ctx: Context) {
-    return this.profileService.updatePreferences(ctx.user!.userId, input)
+      updatePreferences: prot
+        .input(UpdateUserPreferenceBodySchema)
+        .output(UserPreferenceSchema)
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.profileService.updatePreferences(ctx.user!.userId, input)
+          return result as any
+        }),
+    })
   }
 }

@@ -1,71 +1,67 @@
-import { Ctx, Input, Mutation, Query, Router, UseMiddlewares } from 'nestjs-trpc'
-import { AuthMiddleware } from '@/trpc/middlewares/auth.middleware'
-import { AdminRoleMiddleware } from '@/trpc/middlewares/admin-role.middleware'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
 import {
   GetTablesQuerySchema,
   GetTablesResSchema,
   CreateTableBodySchema,
   UpdateTableBodySchema,
-  CreateTableBodyType,
-  GetTablesQueryType,
-  UpdateTableBodyType,
   RestaurantTableSchema,
 } from '@repo/schema'
-import { Context } from '@/trpc/context'
 import { TableService } from './table.service'
 import { z } from 'zod'
 
-@Router({ alias: 'table' })
-@UseMiddlewares(AuthMiddleware)
+@Injectable()
 export class TableRouter {
-  constructor(private readonly tableService: TableService) {}
+  constructor(
+    private readonly trpcService: TrpcService,
+    private readonly tableService: TableService,
+  ) {}
 
-  @Query({
-    input: GetTablesQuerySchema,
-    output: GetTablesResSchema,
-  })
-  async list(@Input() input: GetTablesQueryType) {
-    return this.tableService.list(input)
-  }
+  get router() {
+    const { t, protectedProcedure: prot, adminProcedure: admin } = this.trpcService
+    return t.router({
+      list: prot
+        .input(GetTablesQuerySchema)
+        .output(GetTablesResSchema)
+        .query(async ({ input }) => {
+          const result = await this.tableService.list(input)
+          return result
+        }),
 
-  @Query({
-    input: z.object({ id: z.string() }),
-    output: RestaurantTableSchema,
-  })
-  async detail(@Input('id') id: string) {
-    return this.tableService.findById(id)
-  }
+      detail: prot
+        .input(z.object({ id: z.string() }))
+        .output(RestaurantTableSchema)
+        .query(async ({ input }) => {
+          const result = await this.tableService.findById(input.id)
+          return result
+        }),
 
-  @Mutation({
-    input: CreateTableBodySchema,
-    output: RestaurantTableSchema,
-  })
-  @UseMiddlewares(AdminRoleMiddleware)
-  async create(@Input() input: CreateTableBodyType, @Ctx() ctx: Context) {
-    return this.tableService.create({ ...input, createdById: ctx.user!.userId })
-  }
+      create: admin
+        .input(CreateTableBodySchema)
+        .output(RestaurantTableSchema)
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.tableService.create({ ...input, createdById: ctx.user!.userId })
+          return result
+        }),
 
-  @Mutation({
-    input: z.object({
-      id: z.string(),
-      data: UpdateTableBodySchema,
-    }),
-    output: RestaurantTableSchema,
-  })
-  @UseMiddlewares(AdminRoleMiddleware)
-  async update(@Input() input: { id: string; data: UpdateTableBodyType }, @Ctx() ctx: Context) {
-    return this.tableService.update(input.id, {
-      ...input.data,
-      updatedById: ctx.user!.userId,
+      update: admin
+        .input(z.object({ id: z.string(), data: UpdateTableBodySchema }))
+        .output(RestaurantTableSchema)
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.tableService.update(input.id, {
+            ...input.data,
+            updatedById: ctx.user!.userId,
+          })
+          return result
+        }),
+
+      delete: admin
+        .input(z.object({ id: z.string() }))
+        .output(z.any())
+        .mutation(async ({ input, ctx }) => {
+          const result = await this.tableService.delete(input.id, ctx.user!.userId)
+          return result
+        }),
     })
-  }
-
-  @Mutation({
-    input: z.object({ id: z.string() }),
-    output: z.any(),
-  })
-  @UseMiddlewares(AdminRoleMiddleware)
-  async delete(@Input('id') id: string, @Ctx() ctx: Context) {
-    return this.tableService.delete(id, ctx.user!.userId)
   }
 }

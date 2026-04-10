@@ -4,6 +4,6 @@ import { AnalyticsRouter } from './analytics.router'
 
 @Module({
   providers: [AnalyticsService, AnalyticsRouter],
-  exports: [AnalyticsService],
+  exports: [AnalyticsService, AnalyticsRouter],
 })
 export class AnalyticsModule {}

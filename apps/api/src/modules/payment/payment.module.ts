@@ -8,6 +8,6 @@ import { EventEmitterModule } from '@nestjs/event-emitter'
   imports: [EventEmitterModule.forRoot()],
   controllers: [PaymentController],
   providers: [PaymentService, PaymentRouter],
-  exports: [PaymentService],
+  exports: [PaymentService, PaymentRouter],
 })
 export class PaymentModule {}

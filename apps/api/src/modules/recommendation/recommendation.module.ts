@@ -4,6 +4,6 @@ import { RecommendationRouter } from './recommendation.router'
 
 @Module({
   providers: [RecommendationService, RecommendationRouter],
-  exports: [RecommendationService],
+  exports: [RecommendationService, RecommendationRouter],
 })
 export class RecommendationModule {}

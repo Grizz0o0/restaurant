@@ -4,6 +4,6 @@ import { AiChatRouter } from './ai-chat.router'
 
 @Module({
   providers: [AiChatService, AiChatRouter],
-  exports: [AiChatService],
+  exports: [AiChatService, AiChatRouter],
 })
 export class AiChatModule {}

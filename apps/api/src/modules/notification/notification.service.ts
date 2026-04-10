@@ -66,7 +66,7 @@ export class NotificationService implements OnModuleInit {
     userId: string | null | undefined,
     title: string,
     body: string,
-    type: 'ORDER_UPDATE' | 'PROMOTION' | 'LOW_STOCK',
+    type: 'ORDER_UPDATE' | 'PROMOTION' | 'LOW_STOCK' | 'CONTACT',
     data?: any,
   ) {
     if (!userId) {
@@ -314,6 +314,8 @@ export class NotificationService implements OnModuleInit {
         return 'Khuyến mãi'
       case 'LOW_STOCK':
         return 'Cảnh báo tồn kho'
+      case 'CONTACT':
+        return 'Liên hệ mới'
       case 'RECOMMENDATION':
         return 'Gợi ý món ăn'
       default:

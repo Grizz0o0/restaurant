@@ -1,34 +1,35 @@
-import { Ctx, Input, Mutation, Query, Router } from 'nestjs-trpc'
-import { z } from 'zod'
+import { Injectable } from '@nestjs/common'
+import { TrpcService } from '@/trpc/trpc.service'
 import { AnalyticsService } from './analytics.service'
-import {
-  LogInteractionBodySchema,
-  LogInteractionBodyType,
-  TopDishesQuerySchema,
-  TopDishesQueryType,
-  TopDishesResSchema,
-} from '@repo/schema'
-import { Context } from '@/trpc/context'
+import { LogInteractionBodySchema, TopDishesQuerySchema, TopDishesResSchema } from '@repo/schema'
+import { z } from 'zod'
 
-@Router({ alias: 'analytics' })
+@Injectable()
 export class AnalyticsRouter {
-  constructor(private readonly analyticsService: AnalyticsService) {}
+  constructor(
+    private readonly trpcService: TrpcService,
+    private readonly analyticsService: AnalyticsService,
+  ) {}
 
-  @Mutation({
-    input: LogInteractionBodySchema,
-    output: z.any(),
-  })
-  async log(@Input() input: LogInteractionBodyType, @Ctx() ctx: Context) {
-    // Allows both logged in users and guests
-    const userId = ctx.user?.userId
-    return this.analyticsService.logInteraction(userId, input)
-  }
+  get router() {
+    const { t, publicProcedure: p } = this.trpcService
+    return t.router({
+      log: p
+        .input(LogInteractionBodySchema)
+        .output(z.any())
+        .mutation(async ({ input, ctx }) => {
+          const userId = ctx.user?.userId
+          const result = await this.analyticsService.logInteraction(userId, input)
+          return result
+        }),
 
-  @Query({
-    input: TopDishesQuerySchema,
-    output: TopDishesResSchema,
-  })
-  async getTopDishes(@Input() input: TopDishesQueryType) {
-    return this.analyticsService.getTopDishes(input)
+      getTopDishes: p
+        .input(TopDishesQuerySchema)
+        .output(TopDishesResSchema)
+        .query(async ({ input }) => {
+          const result = await this.analyticsService.getTopDishes(input)
+          return result
+        }),
+    })
   }
 }
