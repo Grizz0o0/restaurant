@@ -9,6 +9,7 @@ import { TransformInterceptor } from '@/shared/interceptors/transform.intercepto
 import { AllExceptionsFilter } from '@/shared/filters/all-exception.filter'
 import envConfig from '@/shared/config'
 import { TrpcController } from './trpc/trpc.controller'
+import { RedisIoAdapter } from '@/shared/adapters/redis-io.adapter'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -19,6 +20,11 @@ async function bootstrap() {
     origin: envConfig.FRONTEND_URL,
     credentials: true,
   })
+
+  const redisIoAdapter = new RedisIoAdapter(app)
+  await redisIoAdapter.connectToRedis()
+  app.useWebSocketAdapter(redisIoAdapter)
+
   app.useGlobalInterceptors(new LoggingInterceptor(), new TransformInterceptor())
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }))
 
