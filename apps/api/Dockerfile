@@ -30,18 +30,21 @@ RUN corepack enable && corepack prepare pnpm@10.28.1 --activate
 
 WORKDIR /app
 
-# Copy everything from deps
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/apps/api/node_modules ./apps/api/node_modules
-COPY --from=deps /app/packages ./packages
+# Copy workspace configuration and all installed node_modules from deps stage
+COPY --from=deps /app ./
 
-# Copy source code
+# Copy source code (will not copy or overwrite node_modules thanks to .dockerignore)
 COPY . .
+
+# Build shared packages first
+RUN pnpm --filter @repo/constants build
+RUN pnpm --filter @repo/schema build
 
 # Generate Prisma client
 RUN cd apps/api && npx prisma generate
 
-# Build shared packages first, then the API
+# Build the API
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 RUN pnpm --filter api build
 
 # ============================================
@@ -66,9 +69,12 @@ COPY --from=builder /app/pnpm-workspace.yaml ./
 COPY --from=builder /app/packages ./packages
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/apps/api/node_modules ./apps/api/node_modules
+COPY --from=builder /app/apps/api/docker-entrypoint.sh ./apps/api/docker-entrypoint.sh
+RUN chmod +x ./apps/api/docker-entrypoint.sh
 
 WORKDIR /app/apps/api
 
 EXPOSE 3052
 
+ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["node", "dist/main"]

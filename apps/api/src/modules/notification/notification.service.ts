@@ -2,6 +2,7 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common'
 import * as admin from 'firebase-admin'
 import { SocketGateway } from '../socket/socket.gateway'
 import { EmailService } from '@/shared/services/email.service'
+import { MailQueueService } from '@/shared/queues/mail/mail-queue.service'
 import { PrismaService } from '@/shared/prisma/prisma.service'
 import { OnEvent } from '@nestjs/event-emitter'
 import envConfig from '@/shared/config'
@@ -27,6 +28,7 @@ export class NotificationService implements OnModuleInit {
   constructor(
     private readonly socketGateway: SocketGateway,
     private readonly emailService: EmailService,
+    private readonly mailQueueService: MailQueueService,
     private readonly prisma: PrismaService,
   ) {}
 
@@ -124,7 +126,7 @@ export class NotificationService implements OnModuleInit {
           })
 
           if (order) {
-            await this.emailService.sendOrderNotification(user.email, {
+            await this.mailQueueService.sendOrderNotification(user.email, {
               orderId: order.id,
               customerName: user.name || 'Quý khách',
               items: order.items.map((item) => ({
@@ -144,7 +146,7 @@ export class NotificationService implements OnModuleInit {
       }
 
       try {
-        await this.emailService.sendNotification(user.email, title, body)
+        await this.mailQueueService.sendNotification(user.email, title, body)
       } catch (error) {
         this.logger.error(`Failed to send notification email to ${user.email}`, error)
       }

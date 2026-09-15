@@ -41,6 +41,10 @@ export const envSchema = z.object({
 
   THROTTLE_TTL: z.coerce.number().optional().default(60000),
   THROTTLE_LIMIT: z.coerce.number().optional().default(10),
+
+  REDIS_HOST: z.string().optional().default('localhost'),
+  REDIS_PORT: z.coerce.number().optional().default(6379),
+  REDIS_PASSWORD: z.string().optional(),
 })
 
 export type Env = z.infer<typeof envSchema>

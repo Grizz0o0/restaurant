@@ -2,6 +2,10 @@ import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { envSchema, Env } from './env.validation'
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler'
+import { ThrottlerStorageRedisService } from '@nest-lab/throttler-storage-redis'
+import { RedisService } from '@/shared/services/redis.service'
+import { BullModule } from '@nestjs/bullmq'
+import { MailQueueModule } from './shared/queues/mail/mail-queue.module'
 import { APP_GUARD } from '@nestjs/core'
 import { AuthModule } from './modules/auth/auth.module'
 import { SharedModule } from '@/shared/shared.module'
@@ -85,13 +89,33 @@ import { TrpcController } from './trpc/trpc.controller'
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService<Env, true>) => [
-        {
-          ttl: config.get('THROTTLE_TTL'),
-          limit: config.get('THROTTLE_LIMIT'),
-        },
-      ],
+      useFactory: (config: ConfigService<Env, true>) => ({
+        throttlers: [
+          {
+            ttl: config.get('THROTTLE_TTL'),
+            limit: config.get('THROTTLE_LIMIT'),
+          },
+        ],
+        storage: new ThrottlerStorageRedisService({
+          host: config.get('REDIS_HOST', { infer: true }),
+          port: config.get('REDIS_PORT', { infer: true }),
+          password: config.get('REDIS_PASSWORD', { infer: true }) || undefined,
+        }),
+      }),
     }),
+
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService<Env, true>) => ({
+        connection: {
+          host: config.get('REDIS_HOST', { infer: true }),
+          port: config.get('REDIS_PORT', { infer: true }),
+          password: config.get('REDIS_PASSWORD', { infer: true }) || undefined,
+        },
+      }),
+    }),
+    MailQueueModule,
   ],
   providers: [
     {

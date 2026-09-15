@@ -4,12 +4,14 @@ import { CreateDishBodyType, UpdateDishBodyType, GetDishesQueryType } from '@rep
 
 import { PrismaService } from '@/shared/prisma'
 import { generateSkuCombinations } from './dish.util'
+import { RedisService } from '@/shared/services/redis.service'
 
 @Injectable()
 export class DishService {
   constructor(
     private readonly dishRepo: DishRepo,
     private readonly prisma: PrismaService,
+    private readonly redisService: RedisService,
   ) {}
 
   async create(params: CreateDishBodyType & { createdById: string }) {
@@ -29,7 +31,9 @@ export class DishService {
       }))
     }
 
-    return await this.dishRepo.create(params)
+    const result = await this.dishRepo.create(params)
+    await this.redisService.delByPattern('dish:*')
+    return result
   }
 
   async checkVariantUpdateImpact(id: string, variants: UpdateDishBodyType['variants']) {
@@ -65,18 +69,30 @@ export class DishService {
       }
     }
 
-    return await this.prisma.$transaction(async (tx) => {
+    const result = await this.prisma.$transaction(async (tx) => {
       return this.dishRepo.update(params, tx)
     })
+    await this.redisService.delByPattern('dish:*')
+    return result
   }
 
-  async findById(id: string) {
+  async findById(id: string): Promise<NonNullable<Awaited<ReturnType<DishRepo['findById']>>>> {
+    type DishDetail = NonNullable<Awaited<ReturnType<DishRepo['findById']>>>
+    const cacheKey = `dish:detail:${id}`
+    const cached = await this.redisService.get<DishDetail>(cacheKey)
+    if (cached) return cached
+
     const dish = await this.dishRepo.findById(id)
     if (!dish) throw new NotFoundException('Dish not found')
+    await this.redisService.set(cacheKey, dish, 600)
     return dish
   }
 
   async list(query: GetDishesQueryType) {
+    const cacheKey = `dish:list:${JSON.stringify(query)}`
+    const cached = await this.redisService.get<{ data: any[]; pagination: any }>(cacheKey)
+    if (cached) return cached
+
     const { pagination, data: dishes } = await this.dishRepo.list(query)
     const transformedDishes = dishes.map((dish) => {
       // Prioritize Vietnamese, then English, then whatever is available
@@ -97,12 +113,16 @@ export class DishService {
       }
     })
 
-    return { data: transformedDishes, pagination }
+    const result = { data: transformedDishes, pagination }
+    await this.redisService.set(cacheKey, result, 300)
+    return result
   }
 
   async delete(id: string, deletedById: string) {
     const dish = await this.dishRepo.findById(id)
     if (!dish) throw new NotFoundException('Dish not found')
-    return await this.dishRepo.delete(id, deletedById)
+    const result = await this.dishRepo.delete(id, deletedById)
+    await this.redisService.delByPattern('dish:*')
+    return result
   }
 }

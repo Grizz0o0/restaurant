@@ -1,11 +1,15 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common'
 import { PrismaService } from '@/shared/prisma/prisma.service'
+import { RedisService } from '@/shared/services/redis.service'
 import { CreatePromotionType, UpdatePromotionType, ApplyPromotionType } from '@repo/schema'
 import { PromotionType } from 'src/generated/prisma/client'
 
 @Injectable()
 export class PromotionService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly redisService: RedisService,
+  ) {}
 
   async create(createPromotionDto: CreatePromotionType) {
     const existing = await this.prisma.promotion.findUnique({
@@ -15,40 +19,57 @@ export class PromotionService {
       throw new BadRequestException('Promotion code already exists')
     }
 
-    return this.prisma.promotion.create({
+    const created = await this.prisma.promotion.create({
       data: createPromotionDto,
     })
+    await this.redisService.delByPattern('promotion:*')
+    return created
   }
 
   async findAll() {
-    return await this.prisma.promotion.findMany({
+    const cacheKey = 'promotion:all'
+    const cached = await this.redisService.get<any[]>(cacheKey)
+    if (cached) return cached
+
+    const promotions = await this.prisma.promotion.findMany({
       orderBy: { createdAt: 'desc' },
     })
+    await this.redisService.set(cacheKey, promotions, 300)
+    return promotions
   }
 
   async findOne(id: string) {
+    const cacheKey = `promotion:${id}`
+    const cached = await this.redisService.get<any>(cacheKey)
+    if (cached) return cached
+
     const promotion = await this.prisma.promotion.findUnique({
       where: { id },
     })
     if (!promotion) {
       throw new NotFoundException('Promotion not found')
     }
+    await this.redisService.set(cacheKey, promotion, 600)
     return promotion
   }
 
   async update(id: string, updatePromotionDto: UpdatePromotionType) {
     await this.findOne(id)
-    return this.prisma.promotion.update({
+    const updated = await this.prisma.promotion.update({
       where: { id },
       data: updatePromotionDto,
     })
+    await this.redisService.delByPattern('promotion:*')
+    return updated
   }
 
   async remove(id: string) {
     await this.findOne(id)
-    return this.prisma.promotion.delete({
+    const removed = await this.prisma.promotion.delete({
       where: { id },
     })
+    await this.redisService.delByPattern('promotion:*')
+    return removed
   }
 
   async apply(applyDto: ApplyPromotionType) {

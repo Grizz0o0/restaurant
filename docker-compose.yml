@@ -21,6 +21,35 @@ services:
       retries: 5
 
   # ============================================
+  # Redis In-Memory Store & Cache
+  # ============================================
+  redis:
+    image: redis:7-alpine
+    container_name: restaurant-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6380}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ============================================
+  # RedisInsight GUI
+  # ============================================
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: restaurant-redisinsight
+    restart: unless-stopped
+    ports:
+      - "5540:5540"
+    depends_on:
+      - redis
+
+  # ============================================
   # NestJS API Backend
   # ============================================
   api:
@@ -36,9 +65,16 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       # Override DATABASE_URL to use the Docker network hostname
       DATABASE_URL: postgresql://${POSTGRES_USER:-restaurant}:${POSTGRES_PASSWORD:-restaurant_password}@postgres:5432/${POSTGRES_DB:-restaurant_db}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+
+    volumes:
+      - api_uploads:/app/apps/api/uploads
 
   # ============================================
   # Next.js Web Frontend
@@ -58,3 +94,5 @@ services:
 
 volumes:
   postgres_data:
+  redis_data:
+  api_uploads:

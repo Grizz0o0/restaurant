@@ -10,6 +10,7 @@ import { SharedRoleRepository } from '@/shared/repositories/shared-role.repo'
 import { EmailService } from '@/shared/services/email.service'
 import { TwoFactorAuthService } from '@/shared/services/2fa.service'
 import { AiService } from '@/shared/services/ai.service'
+import { RedisService } from '@/shared/services/redis.service'
 
 const shareServices = [
   HashingService,
@@ -19,6 +20,7 @@ const shareServices = [
   EmailService,
   TwoFactorAuthService,
   AiService,
+  RedisService,
 ]
 
 @Global()

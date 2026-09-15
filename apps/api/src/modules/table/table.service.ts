@@ -9,12 +9,14 @@ import {
 import { v4 as uuidv4 } from 'uuid'
 import envConfig from '@/shared/config'
 import { PrismaService } from '@/shared/prisma'
+import { RedisService } from '@/shared/services/redis.service'
 
 @Injectable()
 export class TableService {
   constructor(
     private readonly tableRepo: TableRepo,
     private readonly prismaService: PrismaService,
+    private readonly redisService: RedisService,
   ) {}
 
   async create(data: CreateTableBodyType & { createdById: string }) {
@@ -31,33 +33,50 @@ export class TableService {
       })
     }
 
-    return this.tableRepo.create({
+    const created = await this.tableRepo.create({
       ...data,
       restaurantId: restaurant.id,
       qrCode,
     })
+
+    await this.redisService.delByPattern('table:*')
+    return created
   }
 
   async update(id: string, data: UpdateTableBodyType & { updatedById: string }) {
     await this.findById(id)
-    return this.tableRepo.update(id, data)
+    const updated = await this.tableRepo.update(id, data)
+    await this.redisService.delByPattern('table:*')
+    return updated
   }
 
   async delete(id: string, deletedById: string) {
     await this.findById(id)
-    return this.tableRepo.delete(id, deletedById)
+    const deleted = await this.tableRepo.delete(id, deletedById)
+    await this.redisService.delByPattern('table:*')
+    return deleted
   }
 
   async findById(id: string) {
+    const cacheKey = `table:${id}`
+    const cached = await this.redisService.get<any>(cacheKey)
+    if (cached) return cached
+
     const table = await this.tableRepo.findById(id)
     if (!table) throw new NotFoundException('Table not found')
 
     const qrCodeUrl = `${envConfig.FRONTEND_URL}/table/${table.id}?token=${(table as any).qrCode}`
+    const result = { ...table, qrCodeUrl }
 
-    return { ...table, qrCodeUrl }
+    await this.redisService.set(cacheKey, result, 600)
+    return result
   }
 
   async list(query: GetTablesQueryType) {
+    const cacheKey = `table:list:${JSON.stringify(query)}`
+    const cached = await this.redisService.get<{ data: any[]; pagination: any }>(cacheKey)
+    if (cached) return cached
+
     const { data: tables, pagination } = await this.tableRepo.list(query)
 
     const tablesWithQr = tables.map((table: RestaurantTableType) => ({
@@ -65,6 +84,8 @@ export class TableService {
       qrCodeUrl: `${envConfig.FRONTEND_URL || 'http://localhost:3000'}/table/${table.id}?token=${(table as any).qrCode}`,
     }))
 
-    return { data: tablesWithQr, pagination }
+    const result = { data: tablesWithQr, pagination }
+    await this.redisService.set(cacheKey, result, 300)
+    return result
   }
 }
