@@ -20,7 +20,7 @@
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "lint:duplicates": "tsx ../../scripts/check-duplicate-imports.ts",
-    "test": "jest",
+    "test": "jest --runInBand",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
@@ -121,17 +121,30 @@
     "moduleFileExtensions": [
       "js",
       "json",
-      "ts"
+      "ts",
+      "tsx"
     ],
     "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
+      "^.+\\.(t|j)sx?$": [
+        "ts-jest",
+        {
+          "isolatedModules": true
+        }
+      ]
     },
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/$1",
+      "^src/(.*)$": "<rootDir>/$1",
+      "^emails/(.*)$": "<rootDir>/../emails/$1",
+      "^uuid$": "<rootDir>/../test/__mocks__/uuid.js",
+      "^@nestjs/bullmq$": "<rootDir>/../test/__mocks__/bullmq.js"
+    }
   }
 }

@@ -45,6 +45,8 @@ import { EventEmitterModule } from '@nestjs/event-emitter'
 import { AppRouterService } from './trpc/app-router.service'
 import { TrpcController } from './trpc/trpc.controller'
 
+import { HealthController } from './modules/health/health.controller'
+
 @Module({
   imports: [
     SharedModule,
@@ -117,6 +119,7 @@ import { TrpcController } from './trpc/trpc.controller'
     }),
     MailQueueModule,
   ],
+  controllers: [HealthController],
   providers: [
     {
       provide: APP_GUARD,

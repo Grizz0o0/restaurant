@@ -146,6 +146,12 @@ export class PaymentService {
     }
 
     if (resultCode === 0) {
+      // Idempotency check: nếu giao dịch này đã được xử lý thành công trước đó thì bỏ qua
+      if (transaction.code === transId.toString() && transaction.order?.paymentStatus === 'PAID') {
+        this.logger.log(`MoMo transaction ${transId} already processed (idempotent skipped)`)
+        return
+      }
+
       await this.prisma.paymentTransaction.update({
         where: { id: transaction.id },
         data: {
